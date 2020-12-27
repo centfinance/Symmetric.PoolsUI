@@ -11,15 +11,14 @@
           style="padding-top: 2px;"
         >
           <img
-            src="~/@/assets/logo.svg"
+            src="~/@/assets/cent-logo-white.svg"
             class="mr-2 v-align-middle"
-            width="32"
             height="32"
           />
           <span
-            class="d-inline-block text-white"
-            style="letter-spacing: 1px; font-size: 16px;"
-            v-text="'Balancer'"
+            class="text-white"
+            style="letter-spacing: 1px; font-size: 24px;"
+            v-text="'pools'"
           />
         </router-link>
       </div>

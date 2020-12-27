@@ -98,7 +98,11 @@ export default {
     padding: 10px 22px 12px;
 
     &.active {
-      background: $blue-900;
+      background: linear-gradient(
+        270deg,
+        rgba(49, 255, 216, 1) 0%,
+        rgba(221, 61, 255, 1) 100%
+      );
       border-left: 3px solid $blue;
       padding-left: 19px;
     }

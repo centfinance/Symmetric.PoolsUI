@@ -172,8 +172,8 @@ a {
 }
 
 .panel-background {
-  background-color: $panel-background;
-}
+  background-color: black;
+  box-shadow: $box-shadow;
 
 .link-text {
   color: $link-text;

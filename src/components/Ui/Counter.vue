@@ -22,7 +22,8 @@
 .router-link-exact-active,
 .active {
   .Counter {
-    background-color: $blue;
+    background-color: $info;
+    color: white;
   }
 }
 </style>

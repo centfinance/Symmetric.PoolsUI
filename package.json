@@ -1,7 +1,7 @@
 {
   "name": "pool-management-vue",
   "version": "0.1.0",
-  "repository": "balancer-labs/pool-management-vue",
+  "repository": "centfinance/Cent.XDAI.Dex_PoolsUI",
   "license": "GPL-3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
