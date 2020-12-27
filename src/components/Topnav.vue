@@ -13,7 +13,7 @@
           <img
             src="~/@/assets/cent-logo-white.svg"
             class="mr-2 v-align-middle"
-            height="32"
+            height="32" style="margin-bottom:6px;"
           />
           <span
             class="text-white"
