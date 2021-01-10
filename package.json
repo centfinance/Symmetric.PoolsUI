@@ -1,7 +1,7 @@
 {
-  "name": "pool-management-vue",
+  "name": "cent.eth.dex_poolsui",
   "version": "0.1.0",
-  "repository": "centfinance/Cent.XDAI.Dex_PoolsUI",
+  "repository": "centfinance/Cent.ETH.Dex_PoolsUI",
   "license": "GPL-3.0",
   "scripts": {
     "serve": "vue-cli-service serve",

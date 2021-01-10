@@ -11,7 +11,7 @@
           style="padding-top: 2px;"
         >
           <img
-            src="~/@/assets/cent-logo-white.svg"
+            src="~/@/assets/logo.svg"
             class="mr-2 v-align-middle"
             height="32" style="margin-bottom:6px;"
           />

@@ -4,17 +4,17 @@
   "defaultPrecision": 2,
   "rpcUrl": "https://kovan.infura.io/v3/03f1a9a53dee4bd5a7d3dde58ce26442",
   "wsUrl": "wss://kovan.infura.io/ws/v3/03f1a9a53dee4bd5a7d3dde58ce26442",
-  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-kovan",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-kovan",
   "explorer": "https://kovan.etherscan.io",
-  "exchangeUrl": "https://kovan.balancer.exchange",
+  "exchangeUrl": "https://swap.cent.finance",
   "addresses": {
-    "bFactory": "0x8f7F78080219d4066A8036ccD30D588B416a40DB",
-    "bActions": "0xeACBe91fE3F8eF6086027AEC0127De982205b1Aa",
-    "dsProxyRegistry": "0x130767E0cf05469CF11Fa3fcf270dfC1f52b9072",
-    "proxy": "0x2641f150669739986CDa3ED6860DeD44BC3Cda5d",
+    "bFactory": "0x56be9D40676e470F48E22e49D6D4A522D2aDa19D",
+    "bActions": "0x25Ee0D6A0D6C3a0C6E155DDB76e726a60df11E4E",
+    "dsProxyRegistry": "0x3E5374D835Ce79B990A37f13022776C3172664C2",
+    "proxy": "0x7c37bAbB8219209A44DA6cF842Ae8E1C10ac5A7D",
     "crpFactory": "0x53265f0e014995363AE54DAd7059c018BaDbcD74",
     "weth": "0xd0A1E359811322d97991E03f863a0C30C2cF029C",
-    "multicall": "0x2cc8688C5f75E365aaEEb4ea8D6a480405A48D2A"
+    "multicall": "0xa1A5Ed38406f12681B9F010717b51573Dff97a3c"
   },
   "connectors": {
     "injected": {
