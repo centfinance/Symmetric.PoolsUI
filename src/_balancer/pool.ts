@@ -1,5 +1,5 @@
 import merge from 'lodash/merge';
-import pools from '@balancer-labs/assets/data/pools.json';
+import pools from '@centfinance/cent.dex_assets/data/pools.json';
 import { getAddress, isAddress } from '@ethersproject/address';
 import { multicall, subgraphRequest } from './utils';
 import provider from '@/helpers/provider';
