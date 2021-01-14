@@ -25,6 +25,14 @@ npm run build
 npm run lint
 ```
 
+### Supported Networks
+```
+Ethereum main network
+Kovan
+XDAI
+POA
+```
+
 ## License
 
 [GPL-3.0](LICENSE).
