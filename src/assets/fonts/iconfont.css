@@ -33,6 +33,12 @@ i[class^="icon-"]:before, i[class*=" icon-"]:before {
 .icon-check:before {
     content: "\f105";
 }
+.icon-checkbox-off:before {
+    content: "\f106";
+}
+.icon-checkbox-on:before {
+    content: "\f107";
+}
 .icon-close:before {
     content: "\f106";
 }

@@ -174,6 +174,7 @@ a {
 .panel-background {
   background-color: black;
   box-shadow: $box-shadow;
+}
 
 .link-text {
   color: $link-text;
@@ -220,5 +221,4 @@ input {
     background-color: $input-hover-border;
     color: white;
   }
-}
 }

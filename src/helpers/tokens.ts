@@ -253,6 +253,9 @@ export const equivalentSets = {
         '0x54b909745294bf82d36845ee69c1daaddbe14978' // DUSD?
       ],
       [
+        '0x8ceea13266b6D303237bF50De44c97F59Bb2a469' // CENT?
+      ],
+      [
         '0xafbbb0875bb95c4983253effe4e0fffe1c544633' // GUSD
       ],
       [
