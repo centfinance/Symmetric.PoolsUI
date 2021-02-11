@@ -4,9 +4,9 @@
   "defaultPrecision": 2,
   "rpcUrl": "https://cloudflare-eth.com",
   "wsUrl": "wss://mainnet.infura.io/ws/v3/03f1a9a53dee4bd5a7d3dde58ce26442",
-  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-beta",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-homestead",
   "explorer": "https://etherscan.io",
-  "exchangeUrl": "https://swap.cent.finance",
+  "exchangeUrl": "https://exchange.cent.finance",
   "addresses": {
     "bFactory": "0x9424B1412450D0f8Fc2255FAf6046b98213B76Bd",
     "bActions": "0x2FCc6f96418764439f8Dc26aF559Ed5CdDAeefaC",
@@ -35,7 +35,7 @@
       "name": "Portis",
       "options": {
         "network": "mainnet",
-        "dappId": "3f1c3cfc-7dd5-4e8a-aa03-71ff7396d9fe"
+        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
       }
     },
     "walletlink": {

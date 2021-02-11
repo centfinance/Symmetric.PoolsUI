@@ -1,0 +1,60 @@
+{
+  "network": "sokol",
+  "chainId": 77,
+  "defaultPrecision": 2,
+  "rpcUrl": "https://sokol.poa.network",
+  "wsUrl": "wss://sokol.poa.network/wss ",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-sokol",
+  "explorer": "https://blockscout.com/poa/sokol",
+  "exchangeUrl": "https://exchange-sokol.cent.finance",
+  "addresses": {
+    "bFactory": "0x3B4261a0A617a01ff7994bD15896ab1d384baABF",
+    "bActions": "0x924bd0B67d12Dd164546069d14c39c118888fd93",
+    "dsProxyRegistry": "0x83566f1ad652BAd8853C4116ACcCcb86548b764f",
+    "proxy": "0xBA959dCdEadD9c668d9e89aE414b2A59fcFCCd10",
+    "crpFactory": "0x53265f0e014995363AE54DAd7059c018BaDbcD74",
+    "weth": "0xB7c91068aC96051573465E43603600C0684a7002",
+    "multicall": "0xD89ab91c7ad31bf488CB78CD7459B347Aca48E43"
+  },
+  "connectors": {
+    "injected": {
+      "id": "injected",
+      "name": "MetaMask"
+    },
+    "walletconnect": {
+      "id": "walletconnect",
+      "name": "WalletConnect",
+      "options": {
+        "rpc": {
+          "77": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
+        }
+      }
+    },
+    "portis": {
+      "id": "portis",
+      "name": "Portis",
+      "options": {
+        "network": "sokol",
+        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
+      }
+    },
+    "walletlink": {
+      "id": "walletlink",
+      "name": "Coinbase",
+      "options": {
+        "appName": "Pool management - Cent",
+        "darkMode": true,
+        "chainId": 77,
+        "ethJsonrpcUrl": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
+      }
+    },
+    "fortmatic": {
+      "id": "fortmatic",
+      "name": "Fortmatic",
+      "options": {
+        "apiKey": "pk_live_9CE8FD92E54684ED"
+      }
+    }
+  }
+}
+

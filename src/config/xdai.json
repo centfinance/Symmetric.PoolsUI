@@ -1,0 +1,60 @@
+{
+  "network": "xdai",
+  "chainId": 100,
+  "defaultPrecision": 2,
+  "rpcUrl": "https://spring-hidden-river.xdai.quiknode.pro/92df310bb7f5c38db174697344e5be533a420d34/",
+  "wsUrl": "wss://spring-hidden-river.xdai.quiknode.pro/92df310bb7f5c38db174697344e5be533a420d34/",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
+  "explorer": "https://blockscout.com/poa/xdai",
+  "exchangeUrl": "https://exchange-xdai.cent.finance",
+  "addresses": {
+    "bFactory": "0xD21B8c3F9F3b2487F65e199fB1ea1753412d16A8",
+    "bActions": "0x79378FFCbD94a5cd5819Cef1C64345d772D2A373",
+    "dsProxyRegistry": "0x00f7E5709945f0Be82571438F82892E62Fc6957d",
+    "proxy": "0x9Bbe634928ea183e101029279f36926DB084944e",
+    "crpFactory": "0x28088C64341cbE7Bf90B04786cDBfd1f650d34CC",
+    "weth": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+    "multicall": "0xd7878b0a038198B2E112D21E43853F0ed01F7E67"
+  },
+  "connectors": {
+    "injected": {
+      "id": "injected",
+      "name": "MetaMask"
+    },
+    "walletconnect": {
+      "id": "walletconnect",
+      "name": "WalletConnect",
+      "options": {
+        "rpc": {
+          "100": "https://eth-xdai.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
+        }
+      }
+    },
+    "portis": {
+      "id": "portis",
+      "name": "Portis",
+      "options": {
+        "network": "xdai",
+        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
+      }
+    },
+    "walletlink": {
+      "id": "walletlink",
+      "name": "Coinbase",
+      "options": {
+        "appName": "Pool management - Cent",
+        "darkMode": true,
+        "chainId": 100,
+        "ethJsonrpcUrl": "https://eth-xdai.alchemyapi.io/v2/C467LJc7Aa761LLxlcxXvhIG9HzDTtKw"
+      }
+    },
+    "fortmatic": {
+      "id": "fortmatic",
+      "name": "Fortmatic",
+      "options": {
+        "apiKey": "pk_live_9CE8FD92E54684ED"
+      }
+    }
+  }
+}
+

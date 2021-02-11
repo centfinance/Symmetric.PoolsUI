@@ -40,13 +40,16 @@ export async function subgraphRequest(url, query) {
 }
 
 export function getTokenLogoUrl(address: string): string | null {
+  let trustwalletId: string | null = null;
   if (address === 'ether') {
-    address = config.addresses.weth;
+    trustwalletId = '';
+  } else {
+    const checksum = getAddress(address);
+    const token = config.tokens[checksum];
+    if (token && token.hasIcon) {
+      trustwalletId = getAddress(token.ethAddress);
+    }
   }
-  address = getAddress(address);
-  const metadata = config.tokens[address];
-  if (!metadata) {
-    return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${address}/logo.png`;
-  }
-  return metadata.logoUrl;
+  if (!trustwalletId) return null;
+  return `https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/${trustwalletId}/logo.png`;
 }

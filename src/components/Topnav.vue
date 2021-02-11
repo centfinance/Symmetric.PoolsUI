@@ -13,12 +13,11 @@
           <img
             src="~/@/assets/logo.svg"
             class="mr-2 v-align-middle"
-            height="32" style="margin-bottom:6px;"
+            height="32" style="margin-bottom:9px;"
           />
           <span
-            class="text-white"
-            style="letter-spacing: 1px; font-size: 24px;"
-            v-text="'pools'"
+            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #dc3bf9;"
+            v-text='"("+config.network+")"'
           />
         </router-link>
       </div>
