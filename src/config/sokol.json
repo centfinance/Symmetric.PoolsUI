@@ -42,7 +42,7 @@
       "id": "walletlink",
       "name": "Coinbase",
       "options": {
-        "appName": "Pool management - Cent",
+        "appName": "Pool management - Symmetric",
         "darkMode": true,
         "chainId": 77,
         "ethJsonrpcUrl": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"

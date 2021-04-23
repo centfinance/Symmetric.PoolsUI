@@ -10,10 +10,9 @@
           class="d-inline-block text-blue d-flex"
           style="padding-top: 2px;"
         >
-          <img
-            src="~/@/assets/logo.svg"
-            class="mr-2 v-align-middle"
-            height="32" style="margin-bottom:9px;"
+          <span
+            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FFFFFF;"
+            v-text='"Symmetric "'
           />
           <span
             style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #dc3bf9;"

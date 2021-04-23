@@ -3,7 +3,7 @@
 
 </div>
 
-<h1 align=center><code>Cent Liquidity Pools</code></h1>
+<h1 align=center><code>Symmetric Liquidity Pools</code></h1>
 
 ## Project setup
 ```
@@ -32,7 +32,6 @@ Kovan
 XDAI
 POA
 Catalyst (coming soon)
-Cent public network (coming soon)
 ```
 
 ## License

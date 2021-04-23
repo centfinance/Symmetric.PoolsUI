@@ -42,7 +42,7 @@
       "id": "walletlink",
       "name": "Coinbase",
       "options": {
-        "appName": "Pool management - Balancer",
+        "appName": "Pool management - Symmetric",
         "darkMode": true,
         "chainId": 1,
         "ethJsonrpcUrl": "https://cloudflare-eth.com"
