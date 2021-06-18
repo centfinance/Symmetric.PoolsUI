@@ -11,11 +11,11 @@
           style="padding-top: 2px;"
         >
           <span
-            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FFFFFF;"
+            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FB6706;"
             v-text='"Symmetric "'
           />
           <span
-            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #dc3bf9;"
+            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #ffffff;"
             v-text='"("+config.network+")"'
           />
         </router-link>
