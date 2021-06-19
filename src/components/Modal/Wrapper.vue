@@ -48,11 +48,20 @@
           />
           {{ symbols.tokenOut }}
         </UiButton>
-        <div
-          v-text="$t('ethBuffer')"
-          class="text-yellow text-center mt-3"
-          v-if="!etherLeft"
-        />
+        <div v-if="balance.address !== 'xdai'">
+          <div
+            v-text="$t('xdaiBuffer')"
+            class="text-yellow text-center mt-3"
+            v-if="!etherLeft"
+          />
+          <div v-if="balance.address === 'xdai'">
+            <div
+              v-text="$t('xdaiBuffer')"
+              class="text-yellow text-center mt-3"
+              v-if="!etherLeft"
+            />
+          </div>
+        </div>
       </div>
       <template slot="footer">
         <div class="col-6 float-left pr-2">
@@ -102,18 +111,34 @@ export default {
   },
   computed: {
     title() {
-      return this.currentSide === 2 ? 'wrapWethToEth' : 'wrapEthToWeth';
+      if (process.env.VUE_APP_NETWORK === 'xdai')
+        return this.currentSide === 2 ? 'wrapWxdaiToXdai' : 'wrapXdaiToWxdai';
+      else return this.currentSide === 2 ? 'wrapWethToEth' : 'wrapEthToWeth';
     },
     symbols() {
-      return {
-        tokenIn: this.currentSide === 2 ? 'WETH' : 'ETH',
-        tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH'
-      };
+      if (process.env.VUE_APP_NETWORK === 'xdai')
+        return {
+          tokenIn: this.currentSide === 2 ? 'WXDAI' : 'XDAI',
+          tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI'
+        };
+      else {
+        return {
+          tokenIn: this.currentSide === 2 ? 'WETH' : 'ETH',
+          tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH'
+        };
+      }
     },
     balance() {
-      let balance = this.web3.balances['ether'] || '0';
-      if (this.currentSide === 2)
-        balance = this.web3.balances[this.config.addresses.weth] || '0';
+      let balance = 0;
+      if (process.env.VUE_APP_NETWORK === 'xdai') {
+        balance = this.web3.balances['xdai'] || '0';
+        if (this.currentSide === 2)
+          balance = this.web3.balances[this.config.addresses.wxdai] || '0';
+      } else {
+        balance = this.web3.balances['ether'] || '0';
+        if (this.currentSide === 2)
+          balance = this.web3.balances[this.config.addresses.weth] || '0';
+      }
       return normalizeBalance(balance, 18);
     },
     isValid() {

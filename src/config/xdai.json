@@ -2,19 +2,19 @@
   "network": "xdai",
   "chainId": 100,
   "defaultPrecision": 2,
-  "rpcUrl": "https://spring-hidden-river.xdai.quiknode.pro/92df310bb7f5c38db174697344e5be533a420d34/",
-  "wsUrl": "wss://spring-hidden-river.xdai.quiknode.pro/92df310bb7f5c38db174697344e5be533a420d34/",
+  "rpcUrl": "https://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/",
+  "wsUrl": "wss://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
   "explorer": "https://blockscout.com/poa/xdai",
-  "exchangeUrl": "https://exchange-xdai.cent.finance",
+  "exchangeUrl": "https://xdai.symmetric.exchange/",
   "addresses": {
-    "bFactory": "0xD21B8c3F9F3b2487F65e199fB1ea1753412d16A8",
-    "bActions": "0x79378FFCbD94a5cd5819Cef1C64345d772D2A373",
-    "dsProxyRegistry": "0x00f7E5709945f0Be82571438F82892E62Fc6957d",
-    "proxy": "0x9Bbe634928ea183e101029279f36926DB084944e",
+    "bFactory": "0x9B4214FD41cD24347A25122AC7bb6B479BED72Ac",
+    "bActions": "0x88602D7ef1a3026daF96729938d6184cDAbbED95",
+    "dsProxyRegistry": "0x46AD1cB076f43126B9a89FdC06f3C8FdF3EEe6e5",
+    "proxy": "0x48Cf5264bCfd23e411f4Eae7B950F7b95ba0079f",
     "crpFactory": "0x28088C64341cbE7Bf90B04786cDBfd1f650d34CC",
-    "weth": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
-    "multicall": "0xd7878b0a038198B2E112D21E43853F0ed01F7E67"
+    "wxdai": "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+    "multicall": "0xb24898396f9E1D515CED0575A01BaC4d0735BF15"
   },
   "connectors": {
     "injected": {
@@ -26,7 +26,7 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "100": "https://eth-xdai.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
+          "100": "https://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/"
         }
       }
     },

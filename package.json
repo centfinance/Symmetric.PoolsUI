@@ -1,7 +1,7 @@
 {
-  "name": "cent.dex_poolsui",
+  "name": "symmetric.poolsui",
   "version": "0.1.0",
-  "repository": "centfinance/Cent.Dex_PoolsUI",
+  "repository": "centfinance/Symmetric.PoolsUI",
   "license": "GPL-3.0",
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -13,7 +13,7 @@
     "generate-icons": "icon-font-generator src/assets/fonts/icons/*.svg -o src/assets/fonts --name iconfont --html false"
   },
   "dependencies": {
-    "@centfinance/cent.dex_assets": "github:centfinance/cent.dex_assets#master",
+    "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#master",
     "@ethersproject/abi": "^5.0.1",
     "@ethersproject/address": "^5.0.1",
     "@ethersproject/constants": "^5.0.1",
