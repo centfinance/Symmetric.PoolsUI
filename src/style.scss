@@ -66,7 +66,7 @@ a {
   .shell {
     @extend .border-0;
     @extend .border-md;
-    background-color: $panel-background;
+    background-color: $panel-border;
     padding-left: 0 !important;
     padding-right: 0 !important;
     max-width: 810px;
@@ -172,7 +172,7 @@ a {
 }
 
 .panel-background {
-  background-color: black;
+  background-color:#3E4E59;
   box-shadow: $box-shadow;
 }
 
