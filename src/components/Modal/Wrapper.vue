@@ -48,19 +48,17 @@
           />
           {{ symbols.tokenOut }}
         </UiButton>
-        <div v-if="balance.address !== 'xdai'">
+        <div
+          v-text="$t('xdaiBuffer')"
+          class="text-yellow text-center mt-3"
+          v-if="!etherLeft && balance.address !== 'xdai'"
+        />
+        <div v-if="balance.address === 'xdai'">
           <div
             v-text="$t('xdaiBuffer')"
             class="text-yellow text-center mt-3"
-            v-if="!etherLeft"
+            v-if="!etherLeft && balance.address === 'xdai'"
           />
-          <div v-if="balance.address === 'xdai'">
-            <div
-              v-text="$t('xdaiBuffer')"
-              class="text-yellow text-center mt-3"
-              v-if="!etherLeft"
-            />
-          </div>
         </div>
       </div>
       <template slot="footer">
