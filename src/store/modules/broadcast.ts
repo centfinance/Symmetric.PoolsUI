@@ -853,23 +853,43 @@ const actions = {
   wrap: async ({ commit, dispatch }, amount) => {
     commit('WRAP_ETH_REQUEST');
     try {
-      const params = [
-        'Weth',
-        config.addresses.weth,
-        'deposit',
-        [],
-        { value: toWei(amount).toString() }
-      ];
-      await dispatch('processTransaction', {
-        params,
-        title: 'Wrap ETH to WETH'
-      });
-      await dispatch('getBalances');
-      setGoal('KFAFBADQ');
-      dispatch('notify', [
-        'green',
-        `You've successfully wrapped ${amount} ether`
-      ]);
+      if (config.network === 'xdai') {
+        const params = [
+          'wxdai',
+          config.addresses.wxdai,
+          'deposit',
+          [],
+          { value: toWei(amount).toString() }
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Wrap XDAI to WXDAI'
+        });
+        await dispatch('getBalances');
+        setGoal('KFAFBADQ');
+        dispatch('notify', [
+          'green',
+          `You've successfully wrapped ${amount} xdai`
+        ]);
+      } else {
+        const params = [
+          'Weth',
+          config.addresses.weth,
+          'deposit',
+          [],
+          { value: toWei(amount).toString() }
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Wrap ETH to WETH'
+        });
+        await dispatch('getBalances');
+        setGoal('KFAFBADQ');
+        dispatch('notify', [
+          'green',
+          `You've successfully wrapped ${amount} ether`
+        ]);
+      }
       commit('WRAP_ETH_SUCCESS');
     } catch (e) {
       if (!e || isTxReverted(e)) return e;
@@ -880,23 +900,43 @@ const actions = {
   unwrap: async ({ commit, dispatch }, amount) => {
     commit('UNWRAP_ETH_REQUEST');
     try {
-      const params = [
-        'Weth',
-        config.addresses.weth,
-        'withdraw',
-        [toWei(amount).toString()],
-        {}
-      ];
-      await dispatch('processTransaction', {
-        params,
-        title: 'Unwrap WETH to ETH'
-      });
-      await dispatch('getBalances');
-      setGoal('XSBEFNTT');
-      dispatch('notify', [
-        'green',
-        `You've successfully unwrapped ${amount} ether`
-      ]);
+      if (config.network === 'xdai') {
+        const params = [
+          'wxdai',
+          config.addresses.wxdai,
+          'withdraw',
+          [toWei(amount).toString()],
+          {}
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Unwrap WXDAI to XDAI'
+        });
+        await dispatch('getBalances');
+        setGoal('XSBEFNTT');
+        dispatch('notify', [
+          'green',
+          `You've successfully unwrapped ${amount} xdai`
+        ]);
+      } else {
+        const params = [
+          'Weth',
+          config.addresses.weth,
+          'withdraw',
+          [toWei(amount).toString()],
+          {}
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Unwrap WETH to ETH'
+        });
+        await dispatch('getBalances');
+        setGoal('XSBEFNTT');
+        dispatch('notify', [
+          'green',
+          `You've successfully unwrapped ${amount} ether`
+        ]);
+      }
       commit('UNWRAP_ETH_SUCCESS');
     } catch (e) {
       if (!e || isTxReverted(e)) return e;

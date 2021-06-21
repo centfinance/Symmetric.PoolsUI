@@ -197,9 +197,10 @@ function getAnotherToken(tokens, selectedTokens) {
   const tokenAddresses = Object.keys(tokens);
   for (const tokenAddress of tokenAddresses) {
     const token = tokens[tokenAddress];
-    if (token.symbol === 'ETH') {
+    if (token.symbol === 'XDAI' && process.env.VUE_APP_NETWORK === 'xdai')
       continue;
-    }
+    else if (token.symbol === 'ETH' && process.env.VUE_APP_NETWORK !== 'xdai')
+      continue;
     if (!selectedTokens.includes(token.address)) {
       return token.address;
     }
@@ -232,10 +233,18 @@ export default {
     };
   },
   created() {
-    const dai = getTokenBySymbol('DAI').address;
-    const usdc = getTokenBySymbol('USDC').address;
-    this.tokens = [dai, usdc];
-    Vue.set(this.weights, dai, '30');
+    let usdc;
+    if (process.env.VUE_APP_NETWORK === 'xdai') {
+      const stake = getTokenBySymbol('STAKE').address;
+      usdc = getTokenBySymbol('USDC').address;
+      this.tokens = [stake, usdc];
+      Vue.set(this.weights, stake, '30');
+    } else {
+      const dai = getTokenBySymbol('DAI').address;
+      usdc = getTokenBySymbol('USDC').address;
+      this.tokens = [dai, usdc];
+      Vue.set(this.weights, dai, '30');
+    }
     Vue.set(this.weights, usdc, '20');
     this.loading = false;
   },

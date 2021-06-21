@@ -44,6 +44,25 @@
               Wrap to WETH
             </UiButton>
           </div>
+          <div v-if="balance.address !== 'xdai'" class="flex-auto">
+            <UiButton
+              v-if="balance.address === config.addresses.wxdai"
+              @click="[(modalWrapperOpen = true), (side = 2)]"
+              type="button"
+              class="button-primary button-sm ml-2"
+            >
+              Unwrap to XDAI
+            </UiButton>
+          </div>
+          <div v-else class="flex-auto">
+            <UiButton
+              @click="[(modalWrapperOpen = true), (side = 1)]"
+              type="button"
+              class="button-primary button-sm ml-2"
+            >
+              Wrap to WXDAI
+            </UiButton>
+          </div>
         </div>
         <div class="column">
           <div>
@@ -76,6 +95,44 @@ export default {
   },
   computed: {
     balances() {
+      if (process.env.VUE_APP_NETWORK === 'xdai')
+      {
+        const balances = Object.entries(this.web3.balances)
+        .filter(
+          ([address]) => address !== 'xdai' && this.web3.tokenMetadata[address]
+        )
+        .map(([address, denormBalance]) => {
+          const price = this.price.values[address];
+          const balance = formatUnits(
+            denormBalance,
+            this.web3.tokenMetadata[address].decimals
+          );
+          return {
+            address,
+            name: this.web3.tokenMetadata[address].name,
+            symbol: this.web3.tokenMetadata[address].symbol,
+            price,
+            balance,
+            value: balance * price
+          };
+        })
+        .filter(({ value }) => value > 0.001);
+      const xdaiPrice = this.price.values[this.config.addresses.wxdai];
+      const xdaiBalance = formatUnits(this.web3.balances['xdai'] || 0, 18);
+      return [
+        {
+          address: 'xdai',
+          name: 'XDAI',
+          symbol: 'XDAI',
+          price: xdaiPrice,
+          balance: xdaiBalance,
+          value: xdaiPrice * xdaiBalance
+        },
+        ...balances
+      ]
+      }
+      else
+      {
       const balances = Object.entries(this.web3.balances)
         .filter(
           ([address]) => address !== 'ether' && this.web3.tokenMetadata[address]
@@ -109,6 +166,7 @@ export default {
         },
         ...balances
       ];
+      }
     },
     balancesTotalValue() {
       return this.balances.reduce((a, b) => a + b.value, 0);
