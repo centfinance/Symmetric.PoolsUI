@@ -29,31 +29,6 @@
           "77": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
         }
       }
-    },
-    "portis": {
-      "id": "portis",
-      "name": "Portis",
-      "options": {
-        "network": "sokol",
-        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
-      }
-    },
-    "walletlink": {
-      "id": "walletlink",
-      "name": "Coinbase",
-      "options": {
-        "appName": "Pool management - Symmetric",
-        "darkMode": true,
-        "chainId": 77,
-        "ethJsonrpcUrl": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
-      }
-    },
-    "fortmatic": {
-      "id": "fortmatic",
-      "name": "Fortmatic",
-      "options": {
-        "apiKey": "pk_live_9CE8FD92E54684ED"
-      }
     }
   }
 }
