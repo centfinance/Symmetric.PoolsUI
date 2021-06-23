@@ -29,32 +29,6 @@
           "100": "https://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/"
         }
       }
-    },
-    "portis": {
-      "id": "portis",
-      "name": "Portis",
-      "options": {
-        "network": "xdai",
-        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
-      }
-    },
-    "walletlink": {
-      "id": "walletlink",
-      "name": "Coinbase",
-      "options": {
-        "appName": "Pool management - Symmetric",
-        "darkMode": true,
-        "chainId": 100,
-        "ethJsonrpcUrl": "https://eth-xdai.alchemyapi.io/v2/C467LJc7Aa761LLxlcxXvhIG9HzDTtKw"
-      }
-    },
-    "fortmatic": {
-      "id": "fortmatic",
-      "name": "Fortmatic",
-      "options": {
-        "apiKey": "pk_live_9CE8FD92E54684ED"
-      }
     }
   }
 }
-

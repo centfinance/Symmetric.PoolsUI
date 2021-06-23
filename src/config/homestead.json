@@ -29,31 +29,6 @@
           "1": "https://cloudflare-eth.com"
         }
       }
-    },
-    "portis": {
-      "id": "portis",
-      "name": "Portis",
-      "options": {
-        "network": "mainnet",
-        "dappId": "12eef8d9-e4ff-4c01-8a7c-32534fca3826"
-      }
-    },
-    "walletlink": {
-      "id": "walletlink",
-      "name": "Coinbase",
-      "options": {
-        "appName": "Pool management - Symmetric",
-        "darkMode": true,
-        "chainId": 1,
-        "ethJsonrpcUrl": "https://cloudflare-eth.com"
-      }
-    },
-    "fortmatic": {
-      "id": "fortmatic",
-      "name": "Fortmatic",
-      "options": {
-        "apiKey": "pk_live_9CE8FD92E54684ED"
-      }
     }
   }
 }
