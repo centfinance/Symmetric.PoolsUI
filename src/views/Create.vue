@@ -235,10 +235,10 @@ export default {
   created() {
     let usdc;
     if (process.env.VUE_APP_NETWORK === 'xdai') {
-      const wxdai = getTokenBySymbol('WXDAI').address;
+      const weth = getTokenBySymbol('WETH').address;
       usdc = getTokenBySymbol('USDC').address;
-      this.tokens = [wxdai, usdc];
-      Vue.set(this.weights, wxdai, '30');
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
     } else {
       const dai = getTokenBySymbol('DAI').address;
       usdc = getTokenBySymbol('USDC').address;
