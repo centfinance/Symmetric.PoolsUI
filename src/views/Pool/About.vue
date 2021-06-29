@@ -98,7 +98,7 @@
       />
       <h5>
         <a
-          :href="_etherscanLink(bPool.metadata.controller, 'token')"
+          :href="_etherscanLink(bPool.metadata.controller, 'address')"
           target="_blank"
           class="text-white"
         >
@@ -140,7 +140,7 @@
         <div v-text="$t('bptAsset')" class="mb-2" />
         <h5>
           <a
-            :href="_etherscanLink(bPool.address, 'token')"
+            :href="_etherscanLink(bPool.address, 'address')"
             target="_blank"
             class="text-white"
           >

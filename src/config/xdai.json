@@ -2,10 +2,10 @@
   "network": "xdai",
   "chainId": 100,
   "defaultPrecision": 2,
-  "rpcUrl": "https://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/",
-  "wsUrl": "wss://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/",
+  "rpcUrl": "https://spring-hidden-river.xdai.quiknode.pro/ff85d990a61f2508241932c33fe37f5fe2027902/",
+  "wsUrl": "wss://spring-hidden-river.xdai.quiknode.pro/ff85d990a61f2508241932c33fe37f5fe2027902/",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
-  "explorer": "https://blockscout.com/poa/xdai",
+  "explorer": "https://blockscout.com/xdai/mainnet",
   "exchangeUrl": "https://xdai.symmetric.exchange/",
   "addresses": {
     "bFactory": "0x9B4214FD41cD24347A25122AC7bb6B479BED72Ac",
@@ -26,7 +26,7 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "100": "https://spring-hidden-river.xdai.quiknode.pro/88f97e7a33eb64be79ba32f5470092b0048be8f4/"
+          "100": "https://spring-hidden-river.xdai.quiknode.pro/ff85d990a61f2508241932c33fe37f5fe2027902/"
         }
       }
     }
