@@ -1,24 +1,36 @@
 <template>
   <nav id="topnav" class="border-bottom position-fixed width-full">
-    <div class="d-flex flex-items-center px-5" style="height: 78px;">
+    <div
+      class="d-flex flex-items-center px-5"
+      style="height: 96px;padding-left:15px !important"
+    >
       <div class="flex-auto d-flex flex-items-center">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
           <Icon name="menu" size="28" class="mr-3" />
         </a>
+        <!-- <router-link class="brand" :to="'/'">
+          <img class="logo" src="@/assets/symmetricIcon.svg">
+          <div class="title">Symmetric</div>
+          <br />
+        </router-link>
+        <span class="network"> xDai</span> -->
         <router-link
           :to="{ name: 'home' }"
-          class="d-inline-block text-blue d-flex"
+          class="d-flex"
           style="padding-top: 2px;"
         >
-          <span
+          <img class="logo" src="@/assets/symmetricIcon.svg" />
+          <span class="title">Symmetric </span>
+          <!-- <span
             style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FB6706;"
-            v-text='"Symmetric "'
-          />
-          <span
+            v-text="'Symmetric '"
+          /> -->
+          <!-- <span
             style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #ffffff;"
-            v-text='"("+config.network+")"'
-          />
+            v-text="'(' + config.network + ')'"
+          /> -->
         </router-link>
+        <span class="network"> {{ config.network }} </span>
       </div>
       <div :key="web3.account">
         <UiButton
@@ -120,7 +132,28 @@ export default {
 
 <style scoped lang="scss">
 @import '../vars';
-
+.border-bottom {
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.15);
+}
+.network {
+  color: #48a9a6 !important;
+  font-size: 12px;
+  font-weight: 200;
+  align-self: flex-end;
+}
+.brand {
+  margin-left: 20px;
+  display: flex;
+  align-items: center;
+}
+.title {
+  margin-left: 2px;
+  align-self: center;
+  letter-spacing: 1px;
+  font-size: 24px;
+  font-weight: 500;
+  color: white !important;
+}
 #topnav {
   z-index: 10;
   background-color: $panel-background;
