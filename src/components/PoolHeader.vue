@@ -19,20 +19,20 @@
       <a :href="_etherscanLink(pool.getBptAddress(), 'address')" target="_blank">
         <span
           v-if="pool.config.name || pool.metadata.name"
-          v-text="_shorten(pool.config.name || pool.metadata.name, 24)"
+          v-text="_shorten(pool.config.name || 'View pool on Etherscan', 24)"
         />
         <span v-else>
           {{ $t('pool') }} {{ _shortenAddress(pool.address) }}
         </span>
         <span
-          v-if="pool.config.symbol || pool.metadata.symbol"
-          v-text="`(${_shorten(pool.config.symbol || pool.metadata.symbol)})`"
+          v-if="pool.config.symbol"
+          v-text="`(${_shorten(pool.config.symbol)})`"
           class="ml-1"
         />
         <Icon name="external-link" size="16" class="ml-1 mr-2" />
       </a>
       <UiLabel v-if="!pool.metadata.finalized" v-text="pool.getTypeStr()" />
-      <h3 v-text="_num(pool.getBptPrice(), 'usd-long')" />
+      <h3 v-text="pool.getTypeStr()" />
     </div>
   </div>
 </template>

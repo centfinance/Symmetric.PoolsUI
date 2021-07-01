@@ -31,6 +31,9 @@
           /> -->
         </router-link>
         <span class="network"> {{ config.network }} </span>
+        <div class="ml-6 !important" style="color:#fb6706;">
+          Symmetric is currently in open public testing. During this testing period, no SYMM reward tokens will be distributed
+        </div>
       </div>
       <div :key="web3.account">
         <UiButton
