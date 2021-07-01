@@ -59,6 +59,7 @@ export default {
     margin: 0 auto;
     width: 100%;
     max-height: 90%;
+    overflow-y: auto !important;
 
     @media (max-width: 767px) {
       width: 100% !important;
