@@ -1,10 +1,9 @@
 <template>
   <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
-    <h4 :topic="metamask" class="m-4 mb-0 text-center">
-      How to Set-up MetaMask for Symmetric
+    <h4  class="m-4 mb-0 text-center">
+      How to Set-up MetaMask for Symmetric {{ this.currentTopic }}
     </h4>
     <div
-      :topic="metamask"
       style="font-weight: 300;"
       class="m-4 mb-0 p-4 border rounded-2 text-white"
     >
@@ -148,12 +147,22 @@
         </div>
       </div>
     </div>
-    <h4 :topic="balance" class="m-4 mb-0 text-center">
-      How to bring your coins xDai
+    <!-- <h4 v-if="this.currentTopic == 'balance'" class="m-4 mb-0 text-center">
+      Can't see your coins? No problem {{ this.currentTopic }}
     </h4>
-    <div>
-      Help for bringin coins to xDai
-      </div>
+
+    <div v-if="this.currentTopic == 'balance'">
+      As Symmetric is running on xDai and if you have your coins/tokens visible
+      on Ethereum then you need to bring them over to xDai network. Benefits of
+      xDai is low transaction cost so that you don't have to think about high
+      gas prices like on Ethereum. Steps to bring your coins onto Symmetric is
+      available at:
+      <a
+        href="https://docs.tokenbridge.net/eth-xdai-amb-bridge/multi-token-extension/ui-to-transfer-tokens/transfer-erc20"
+        >Omnibridge</a
+      >
+    </div> -->
+    {{ this.currentTopic }}
   </UiModal>
 </template>
 
@@ -163,12 +172,18 @@ import pkg from '@/../package.json';
 const commitSha = process.env.VUE_APP_COMMIT_SHA;
 
 export default {
-  props: ['open', 'topic'],
+  props: {
+    open: Boolean,
+    topic: String
+  },
   data() {
     return {
       pkg,
       commitSha
     };
+  },
+  currentTopic() {
+    return this.topic;
   }
 };
 </script>

@@ -9,7 +9,7 @@
         </a>
       </div>
       <UiButton class="button-yello px-5" @click="modalOpen.help = true">
-        <Icon name="help" class="ml-n2 mr-1 v-align-middle" />
+        <Icon name="info" class="ml-n2 mr-1 v-align-middle " />
         Help
       </UiButton>
       <div class="text-right">
@@ -83,8 +83,7 @@
         @close="modalWrapperOpen = false"
         :side="side"
       />
-      <ModalHelp
-        :topic="balance"
+      <ModalHelpBalance
         :open="modalOpen.help"
         @close="modalOpen.help = false"
       />
