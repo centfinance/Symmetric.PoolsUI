@@ -51,7 +51,15 @@
         </UiButton>
         <UiButton
           v-if="$auth.isAuthenticated && wrongNetwork"
-          class="button-red"
+          class="button-yello px-5"
+          @click="modalOpen.help = true"
+        >
+          <Icon name="info" class="ml-n2 mr-1 v-align-middle" />
+          Help
+        </UiButton>
+        <UiButton
+          v-if="$auth.isAuthenticated && wrongNetwork"
+          class="button-red shake-horizontal"
         >
           <Icon name="warning" class="ml-n2 mr-1 v-align-middle" />
           {{ $t('wrongNetwork') }}
@@ -88,6 +96,11 @@
         @close="modalOpen.account = false"
         @login="handleLogin"
       />
+      <ModalHelpConnect
+        :topic="metamask"
+        :open="modalOpen.help"
+        @close="modalOpen.help = false"
+      />
       <ModalActivity
         :open="modalOpen.activity"
         @close="modalOpen.activity = false"
@@ -106,7 +119,8 @@ export default {
       loading: false,
       modalOpen: {
         account: false,
-        activity: false
+        activity: false,
+        help: false
       }
     };
   },
