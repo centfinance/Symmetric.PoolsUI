@@ -234,9 +234,20 @@ export default {
   },
   created() {
     let usdc;
-    if (process.env.VUE_APP_NETWORK === 'xdai') {
-      const weth = getTokenBySymbol('WETH').address;
+    if (
+      process.env.VUE_APP_NETWORK === 'xdai' ||
+      process.env.VUE_APP_NETWORK === 'sokol'
+    ) {
+      const weth = getTokenBySymbol('WXDAI').address;
       usdc = getTokenBySymbol('USDC').address;
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
+    } else if (
+      process.env.VUE_APP_NETWORK === 'celo' ||
+      process.env.VUE_APP_NETWORK === 'alfajores'
+    ) {
+      const weth = getTokenBySymbol('CELO').address;
+      usdc = getTokenBySymbol('cUSD').address;
       this.tokens = [weth, usdc];
       Vue.set(this.weights, weth, '30');
     } else {

@@ -853,7 +853,7 @@ const actions = {
   wrap: async ({ commit, dispatch }, amount) => {
     commit('WRAP_ETH_REQUEST');
     try {
-      if (config.network === 'xdai') {
+      if (config.network === 'xdai' || config.network === 'sokol') {
         const params = [
           'wxdai',
           config.addresses.wxdai,
@@ -871,7 +871,7 @@ const actions = {
           'green',
           `You've successfully wrapped ${amount} xdai`
         ]);
-      } else {
+      } else if (config.network === 'ethereum' || config.network === 'kovan') {
         const params = [
           'Weth',
           config.addresses.weth,
@@ -900,7 +900,7 @@ const actions = {
   unwrap: async ({ commit, dispatch }, amount) => {
     commit('UNWRAP_ETH_REQUEST');
     try {
-      if (config.network === 'xdai') {
+      if (config.network === 'xdai' || config.network === 'sokol') {
         const params = [
           'wxdai',
           config.addresses.wxdai,
@@ -918,7 +918,7 @@ const actions = {
           'green',
           `You've successfully unwrapped ${amount} xdai`
         ]);
-      } else {
+      } else if (config.network === 'ethereum' || config.network === 'kovan') {
         const params = [
           'Weth',
           config.addresses.weth,

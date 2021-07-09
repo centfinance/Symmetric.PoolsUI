@@ -1,0 +1,35 @@
+{
+  "network": "celo",
+  "chainId": 42220,
+  "defaultPrecision": 2,
+  "rpcUrl": "https://forno.celo.org",
+  "wsUrl": "wss://forno.celo.org/ws",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-celo",
+  "explorer": "https://explorer.celo.org",
+  "exchangeUrl": "https://celo.symmetric.exchange/",
+  "addresses": {
+    "bFactory": "0x6C2e59C3cCB1d81c0eC9Fb9d4d6a3CC3488Fd71c",
+    "bActions": "0xBe04ae09b9e41b8828b8866280bF882b42576b4e",
+    "dsProxyRegistry": "0xbC46037Ac210f9Ca1c2803a74e455d251D966BD7",
+    "proxy": "0x7EbE42906a5F1DD96E47E7152102A6aA0A0d2459",
+    "crpFactory": "0xF880b3F352C8D95918a28aA5EDF05Cf8869409E4",
+    "celo": "0x471EcE3750Da237f93B8E339c536989b8978a438",
+    "multicall": "0xB3cb9Ec46bEDB9A85b79fBf52339de238a8e7f3e"
+  },
+  "connectors": {
+    "injected": {
+      "id": "injected",
+      "name": "MetaMask"
+    },
+    "walletconnect": {
+      "id": "walletconnect",
+      "name": "WalletConnect",
+      "options": {
+        "rpc": {
+          "42220": "https://celo-mainnet--rpc.datahub.figment.io/apikey/156ef461796cafbed135cb33f419b312/"
+        }
+      }
+    }
+  }
+}
+

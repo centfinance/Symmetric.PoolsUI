@@ -292,10 +292,12 @@ const actions = {
     const calls = [];
     const testToken = new Interface(abi.TestToken);
     let tokensToFetch;
-    if (config.network === 'xdai')
+    if (config.network === 'xdai' || config.network === 'sokol')
       tokensToFetch = tokens
         ? tokens
         : Object.keys(state.balances).filter(token => token !== 'xdai');
+    else if (config.network === 'celo' || config.network === 'alfajores')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else
       tokensToFetch = tokens
         ? tokens
@@ -342,10 +344,12 @@ const actions = {
     const testToken = new Interface(abi.TestToken);
 
     let tokensToFetch;
-    if (config.network === 'xdai')
+    if (config.network === 'xdai' || config.network === 'sokol')
       tokensToFetch = tokens
         ? tokens
         : Object.keys(state.balances).filter(token => token !== 'xdai');
+    else if (config.network === 'celo' || config.network === 'alfajores')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else
       tokensToFetch = tokens
         ? tokens
@@ -357,52 +361,81 @@ const actions = {
     promises.push(multi.aggregate(calls));
     promises.push(multi.getEthBalance(address));
     const balances: any = {};
-    if (config.network === 'xdai') {
-      try {
-        // @ts-ignore
-        const [[, response], ethBalance] = await Promise.all(promises);
-        // @ts-ignore
-        balances.xdai = ethBalance.toString();
-        let i = 0;
-        response.forEach(value => {
-          if (tokensToFetch && tokensToFetch[i]) {
-            const balanceNumber = testToken.decodeFunctionResult(
-              'balanceOf',
-              value
-            );
-            balances[tokensToFetch[i]] = balanceNumber.toString();
-          }
-          i++;
-        });
-        commit('GET_BALANCES_SUCCESS', balances);
-        return balances;
-      } catch (e) {
-        commit('GET_BALANCES_FAILURE', e);
-        return Promise.reject();
-      }
-    } else
-      try {
-        // @ts-ignore
-        const [[, response], ethBalance] = await Promise.all(promises);
-        // @ts-ignore
-        balances.ether = ethBalance.toString();
-        let i = 0;
-        response.forEach(value => {
-          if (tokensToFetch && tokensToFetch[i]) {
-            const balanceNumber = testToken.decodeFunctionResult(
-              'balanceOf',
-              value
-            );
-            balances[tokensToFetch[i]] = balanceNumber.toString();
-          }
-          i++;
-        });
-        commit('GET_BALANCES_SUCCESS', balances);
-        return balances;
-      } catch (e) {
-        commit('GET_BALANCES_FAILURE', e);
-        return Promise.reject();
-      }
+
+    switch (config.network) {
+      case 'xdai':
+      case 'sokol':
+        try {
+          // @ts-ignore
+          const [[, response], ethBalance] = await Promise.all(promises);
+          // @ts-ignore
+          balances.xdai = ethBalance.toString();
+          let i = 0;
+          response.forEach(value => {
+            if (tokensToFetch && tokensToFetch[i]) {
+              const balanceNumber = testToken.decodeFunctionResult(
+                'balanceOf',
+                value
+              );
+              balances[tokensToFetch[i]] = balanceNumber.toString();
+            }
+            i++;
+          });
+          commit('GET_BALANCES_SUCCESS', balances);
+          return balances;
+        } catch (e) {
+          commit('GET_BALANCES_FAILURE', e);
+          return Promise.reject();
+        }
+      case 'celo':
+      case 'alfajores':
+        try {
+          // @ts-ignore
+          const [[, response], ethBalance] = await Promise.all(promises);
+          // @ts-ignore
+          balances.celo = ethBalance.toString();
+          let i = 0;
+          response.forEach(value => {
+            if (tokensToFetch && tokensToFetch[i]) {
+              const balanceNumber = testToken.decodeFunctionResult(
+                'balanceOf',
+                value
+              );
+              balances[tokensToFetch[i]] = balanceNumber.toString();
+            }
+            i++;
+          });
+          commit('GET_BALANCES_SUCCESS', balances);
+          return balances;
+        } catch (e) {
+          commit('GET_BALANCES_FAILURE', e);
+          return Promise.reject();
+        }
+      case 'ethereum':
+      default:
+        try {
+          // @ts-ignore
+          const [[, response], ethBalance] = await Promise.all(promises);
+          // @ts-ignore
+          balances.ether = ethBalance.toString();
+          let i = 0;
+          response.forEach(value => {
+            if (tokensToFetch && tokensToFetch[i]) {
+              const balanceNumber = testToken.decodeFunctionResult(
+                'balanceOf',
+                value
+              );
+              balances[tokensToFetch[i]] = balanceNumber.toString();
+            }
+            i++;
+          });
+          commit('GET_BALANCES_SUCCESS', balances);
+          return balances;
+        } catch (e) {
+          commit('GET_BALANCES_FAILURE', e);
+          return Promise.reject();
+        }
+    }
   },
   getAllowances: async ({ commit }, tokens) => {
     commit('GET_ALLOWANCES_REQUEST');

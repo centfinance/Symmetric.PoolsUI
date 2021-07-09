@@ -9,7 +9,7 @@
         </a>
       </div>
       <UiButton class="button-yello px-5" @click="modalOpen.help = true">
-        <Icon name="info" class="ml-n2 mr-1 v-align-middle " />
+        <Icon name="info" class="ml-n2 mr-1 v-align-middle" />
         Help
       </UiButton>
       <div class="text-right">
@@ -106,7 +106,10 @@ export default {
   },
   computed: {
     balances() {
-      if (process.env.VUE_APP_NETWORK === 'xdai') {
+      if (
+        process.env.VUE_APP_NETWORK === 'xdai' ||
+        process.env.VUE_APP_NETWORK === 'sokol'
+      ) {
         const balances = Object.entries(this.web3.balances)
           .filter(
             ([address]) =>
@@ -141,6 +144,32 @@ export default {
           },
           ...balances
         ];
+      } else if (
+        process.env.VUE_APP_NETWORK === 'celo' ||
+        process.env.VUE_APP_NETWORK === 'alfajores'
+      ) {
+        const balances = Object.entries(this.web3.balances)
+          .filter(
+            ([address]) =>
+              address !== 'celo' && this.web3.tokenMetadata[address]
+          )
+          .map(([address, denormBalance]) => {
+            const price = this.price.values[address];
+            const balance = formatUnits(
+              denormBalance,
+              this.web3.tokenMetadata[address].decimals
+            );
+            return {
+              address,
+              name: this.web3.tokenMetadata[address].name,
+              symbol: this.web3.tokenMetadata[address].symbol,
+              price,
+              balance,
+              value: balance * price
+            };
+          })
+          .filter(({ value }) => value > 0.001);
+        return [...balances];
       } else {
         const balances = Object.entries(this.web3.balances)
           .filter(

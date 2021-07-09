@@ -846,9 +846,9 @@
     lodash "^4.17.19"
     to-fast-properties "^2.0.0"
 
-"@centfinance/cent.dex_assets@github:centfinance/cent.dex_assets#master":
+"@centfinance/cent.dex_assets@github:centfinance/symmetric.assets#master":
   version "1.0.0"
-  resolved "https://codeload.github.com/centfinance/cent.dex_assets/tar.gz/3052ad41bc51b352419b3807247fcb4e50486d62"
+  resolved "https://codeload.github.com/centfinance/symmetric.assets/tar.gz/2f979562475541bb595b4617e775b3943534fe5c"
 
 "@ethersproject/abi@^5.0.1", "@ethersproject/abi@^5.0.10":
   version "5.0.10"

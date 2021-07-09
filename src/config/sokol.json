@@ -13,7 +13,7 @@
     "dsProxyRegistry": "0x83566f1ad652BAd8853C4116ACcCcb86548b764f",
     "proxy": "0xBA959dCdEadD9c668d9e89aE414b2A59fcFCCd10",
     "crpFactory": "0x53265f0e014995363AE54DAd7059c018BaDbcD74",
-    "weth": "0xB7c91068aC96051573465E43603600C0684a7002",
+    "wxdai": "0x705581f5830Cfd11715020543f5309ADEBdbd074",
     "multicall": "0xD89ab91c7ad31bf488CB78CD7459B347Aca48E43"
   },
   "connectors": {
