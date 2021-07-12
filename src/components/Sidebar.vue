@@ -37,11 +37,21 @@
             </a>
           </li>
           <li>
+            <a href="https://symmetric.finance">
+              Home
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
         </ul>
       </div>
       <div class="d-block m-4">
+        <span
+          >Current Network: <span class="text-white">{{ config.network }}</span>
+        </span>
+
         <a
           v-if="commitSha"
           :href="`https://github.com/${pkg.repository}/tree/${commitSha}`"
@@ -103,7 +113,7 @@ export default {
       //   rgba(49, 255, 216, 1) 0%,
       //   rgba(221, 61, 255, 1) 100%
       // );
-      background-color: #3E4E59;
+      background-color: #3e4e59;
       border-left: 3px solid $blue;
       padding-left: 19px;
     }

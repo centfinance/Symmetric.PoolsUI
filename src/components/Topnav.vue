@@ -26,11 +26,10 @@
             v-text="'Symmetric '"
           /> -->
           <!-- <span
-            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #ffffff;"
-            v-text="'(' + config.network + ')'"
+            style="letter-spacing: 1px; font-size: 14px; font-weight: 600; color: #ffffff;"
+            v-text="' on ' + config.network "
           /> -->
         </router-link>
-        <span class="network"> {{ config.network }} </span>
         <div class="ml-6 !important" style="color:#fb6706;">
           Symmetric is currently in open public testing. During this testing period, no SYMM reward tokens will be distributed
         </div>
