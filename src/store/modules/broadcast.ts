@@ -853,7 +853,7 @@ const actions = {
   wrap: async ({ commit, dispatch }, amount) => {
     commit('WRAP_ETH_REQUEST');
     try {
-      if (config.network === 'xdai' || config.network === 'sokol') {
+      if (config.network === 'xdai') {
         const params = [
           'wxdai',
           config.addresses.wxdai,
@@ -870,6 +870,24 @@ const actions = {
         dispatch('notify', [
           'green',
           `You've successfully wrapped ${amount} xdai`
+        ]);
+      } else if (config.network === 'sokol') {
+        const params = [
+          'wspoa',
+          config.addresses.wspoa,
+          'deposit',
+          [],
+          { value: toWei(amount).toString() }
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Wrap SPOA to WSPOA'
+        });
+        await dispatch('getBalances');
+        setGoal('KFAFBADQ');
+        dispatch('notify', [
+          'green',
+          `You've successfully wrapped ${amount} spoa`
         ]);
       } else if (config.network === 'ethereum' || config.network === 'kovan') {
         const params = [
@@ -900,7 +918,7 @@ const actions = {
   unwrap: async ({ commit, dispatch }, amount) => {
     commit('UNWRAP_ETH_REQUEST');
     try {
-      if (config.network === 'xdai' || config.network === 'sokol') {
+      if (config.network === 'xdai') {
         const params = [
           'wxdai',
           config.addresses.wxdai,
@@ -917,6 +935,24 @@ const actions = {
         dispatch('notify', [
           'green',
           `You've successfully unwrapped ${amount} xdai`
+        ]);
+      } else if (config.network === 'sokol') {
+        const params = [
+          'wspoa',
+          config.addresses.wspoa,
+          'withdraw',
+          [toWei(amount).toString()],
+          {}
+        ];
+        await dispatch('processTransaction', {
+          params,
+          title: 'Unwrap WSPOA to SPOA'
+        });
+        await dispatch('getBalances');
+        setGoal('XSBEFNTT');
+        dispatch('notify', [
+          'green',
+          `You've successfully unwrapped ${amount} spoa`
         ]);
       } else if (config.network === 'ethereum' || config.network === 'kovan') {
         const params = [

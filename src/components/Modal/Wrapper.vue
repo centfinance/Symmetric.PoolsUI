@@ -109,15 +109,22 @@ export default {
   },
   computed: {
     title() {
-      if (process.env.VUE_APP_NETWORK === 'xdai' || process.env.VUE_APP_NETWORK === 'sokol')
+      if (process.env.VUE_APP_NETWORK === 'xdai')
         return this.currentSide === 2 ? 'wrapWxdaiToXdai' : 'Wrap xDai to wxDai';
+      else if (process.env.VUE_APP_NETWORK === 'sokol')
+        return this.currentSide === 2 ? 'wrapWspoaToSpoa' : 'Wrap Spoa to Wspoa';
       else return this.currentSide === 2 ? 'wrapWethToEth' : 'Wrap Eth to wEth';
     },
     symbols() {
-      if (process.env.VUE_APP_NETWORK === 'xdai' || process.env.VUE_APP_NETWORK === 'sokol')
+      if (process.env.VUE_APP_NETWORK === 'xdai')
         return {
           tokenIn: this.currentSide === 2 ? 'WXDAI' : 'XDAI',
           tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI'
+        };
+      else if (process.env.VUE_APP_NETWORK === 'sokol')
+        return {
+          tokenIn: this.currentSide === 2 ? 'WSPOA' : 'SPOA',
+          tokenOut: this.currentSide === 2 ? 'SPOA' : 'WSPOA'
         };
       else {
         return {
@@ -128,10 +135,14 @@ export default {
     },
     balance() {
       let balance = 0;
-      if (process.env.VUE_APP_NETWORK === 'xdai' || process.env.VUE_APP_NETWORK === 'sokol') {
+      if (process.env.VUE_APP_NETWORK === 'xdai') {
         balance = this.web3.balances['xdai'] || '0';
         if (this.currentSide === 2)
           balance = this.web3.balances[this.config.addresses.wxdai] || '0';
+      } else if (process.env.VUE_APP_NETWORK === 'sokol') {
+        balance = this.web3.balances['spoa'] || '0';
+        if (this.currentSide === 2)
+          balance = this.web3.balances[this.config.addresses.wspoa] || '0';
       } else if (process.env.VUE_APP_NETWORK === 'ethereum' || process.env.VUE_APP_NETWORK === 'kovan') {
         balance = this.web3.balances['ether'] || '0';
         if (this.currentSide === 2)

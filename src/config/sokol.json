@@ -9,12 +9,12 @@
   "exchangeUrl": "https://exchange-sokol.cent.finance",
   "addresses": {
     "bFactory": "0x3B4261a0A617a01ff7994bD15896ab1d384baABF",
-    "bActions": "0x924bd0B67d12Dd164546069d14c39c118888fd93",
-    "dsProxyRegistry": "0x83566f1ad652BAd8853C4116ACcCcb86548b764f",
-    "proxy": "0xBA959dCdEadD9c668d9e89aE414b2A59fcFCCd10",
-    "crpFactory": "0x53265f0e014995363AE54DAd7059c018BaDbcD74",
-    "wxdai": "0x705581f5830Cfd11715020543f5309ADEBdbd074",
-    "multicall": "0xD89ab91c7ad31bf488CB78CD7459B347Aca48E43"
+    "bActions": "0x2d9837C9ca00aB3A784fBfa6280539BA57Ab0233",
+    "dsProxyRegistry": "0x6e741a0bc8499FBa85E6889690FA040Fcc5fdaD8",
+    "proxy": "0xeE73082412592AFc86403B13946a963023237521",
+    "crpFactory": "0x1CcFa6Ac3fEE7F93b22423Db6ee3F21A2AE2ad14",
+    "wspoa": "0xc655c6D80ac92d75fBF4F40e95280aEb855B1E87",
+    "multicall": "0xabbFE3C66D9ee256E1F1d218BA997fc7229103c9"
   },
   "connectors": {
     "injected": {

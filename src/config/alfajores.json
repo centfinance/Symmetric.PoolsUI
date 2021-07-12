@@ -8,13 +8,13 @@
   "explorer": "https://alfajores-blockscout.celo-testnet.org",
   "exchangeUrl": "https://alfajores.symmetric.exchange/",
   "addresses": {
-    "bFactory": "0x959a2861aE8f6c2Fa831D32495c6FD5f2ACff932",
-    "bActions": "0x4BDC0ff12F8923D5a09fFA801c09C6AfA0A13152",
-    "dsProxyRegistry": "0x9fCCCf24B17FDff3A1853012D659Ac8b80D3cD16",
-    "proxy": "0xF5De7AfeEBA1E4453E0a910857a695a081F9d48A",
+    "bFactory": "0x07Fa70d4560663E64b44a217AD40a926Dc5BdA5c",
+    "bActions": "0x05d52ee5455FDe856f7932B3ec58060484201cD6",
+    "dsProxyRegistry": "0xfbeDC68326cFbdF468e5375BF157266046519bC9",
+    "proxy": "0xa11622f082d0a8De2D80AfE7480297F8fB559A88",
     "crpFactory": "0x18E383528e5110a61044621d0A37C67C5fCB0588",
-    "celo": "",
-    "multicall": "0x6112de027BE9667468758262139Bd087c7AbE730"
+    "celo": "0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9",
+    "multicall": "0xCdcf5034D7CAF7aFDFbf7095f7398b93f719DE6E"
   },
   "connectors": {
     "injected": {

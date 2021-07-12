@@ -67,6 +67,25 @@
               Wrap to WXDAI
             </UiButton>
           </div>
+          <div v-if="balance.address !== 'spoa'" class="flex-auto">
+            <UiButton
+              v-if="balance.address === config.addresses.wspoa"
+              @click="[(modalWrapperOpen = true), (side = 2)]"
+              type="button"
+              class="button-primary button-sm ml-2"
+            >
+              Unwrap to SPOA
+            </UiButton>
+          </div>
+          <div v-else class="flex-auto">
+            <UiButton
+              @click="[(modalWrapperOpen = true), (side = 1)]"
+              type="button"
+              class="button-primary button-sm ml-2"
+            >
+              Wrap to WSPOA
+            </UiButton>
+          </div>
         </div>
         <div class="column">
           <div>
@@ -107,8 +126,7 @@ export default {
   computed: {
     balances() {
       if (
-        process.env.VUE_APP_NETWORK === 'xdai' ||
-        process.env.VUE_APP_NETWORK === 'sokol'
+        process.env.VUE_APP_NETWORK === 'xdai'
       ) {
         const balances = Object.entries(this.web3.balances)
           .filter(
@@ -141,6 +159,43 @@ export default {
             price: xdaiPrice,
             balance: xdaiBalance,
             value: xdaiPrice * xdaiBalance
+          },
+          ...balances
+        ];
+      } else if (
+        process.env.VUE_APP_NETWORK === 'sokol'
+      ) {
+        const balances = Object.entries(this.web3.balances)
+          .filter(
+            ([address]) =>
+              address !== 'spoa' && this.web3.tokenMetadata[address]
+          )
+          .map(([address, denormBalance]) => {
+            const price = this.price.values[address];
+            const balance = formatUnits(
+              denormBalance,
+              this.web3.tokenMetadata[address].decimals
+            );
+            return {
+              address,
+              name: this.web3.tokenMetadata[address].name,
+              symbol: this.web3.tokenMetadata[address].symbol,
+              price,
+              balance,
+              value: balance * price
+            };
+          })
+          .filter(({ value }) => value > 0.001);
+        const spoaPrice = this.price.values[this.config.addresses.wspoa];
+        const spoaBalance = formatUnits(this.web3.balances['spoa'] || 0, 18);
+        return [
+          {
+            address: 'spoa',
+            name: 'SPOA',
+            symbol: 'SPOA',
+            price: spoaPrice,
+            balance: spoaBalance,
+            value: spoaPrice * spoaBalance
           },
           ...balances
         ];

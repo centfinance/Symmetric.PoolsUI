@@ -199,7 +199,9 @@ function getAnotherToken(tokens, selectedTokens) {
     const token = tokens[tokenAddress];
     if (token.symbol === 'XDAI' && process.env.VUE_APP_NETWORK === 'xdai')
       continue;
-    else if (token.symbol === 'ETH' && process.env.VUE_APP_NETWORK !== 'xdai')
+    if (token.symbol === 'SPOA' && process.env.VUE_APP_NETWORK === 'sokol')
+      continue;
+    else if (token.symbol === 'ETH' && process.env.VUE_APP_NETWORK !== 'ethereum')
       continue;
     if (!selectedTokens.includes(token.address)) {
       return token.address;
@@ -235,10 +237,15 @@ export default {
   created() {
     let usdc;
     if (
-      process.env.VUE_APP_NETWORK === 'xdai' ||
-      process.env.VUE_APP_NETWORK === 'sokol'
+      process.env.VUE_APP_NETWORK === 'xdai'
     ) {
       const weth = getTokenBySymbol('WXDAI').address;
+      usdc = getTokenBySymbol('USDC').address;
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
+    } else if (process.env.VUE_APP_NETWORK === 'sokol'
+    ) {
+      const weth = getTokenBySymbol('WSPOA').address;
       usdc = getTokenBySymbol('USDC').address;
       this.tokens = [weth, usdc];
       Vue.set(this.weights, weth, '30');

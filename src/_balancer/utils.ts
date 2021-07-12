@@ -42,7 +42,7 @@ export async function subgraphRequest(url, query) {
 
 export function getTokenLogoUrl(address: string): string | null {
   let trustwalletId: string | null = null;
-  if (address === 'xdai' || address == 'ether') {
+  if (address === 'xdai' || address == 'ether' || address == 'spoa' || address == 'celo') {
     trustwalletId = '';
   } else {
     const checksum = getAddress(address);
