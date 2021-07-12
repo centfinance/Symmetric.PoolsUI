@@ -1,0 +1,35 @@
+{
+  "network": "alfajores",
+  "chainId": 44787,
+  "defaultPrecision": 2,
+  "rpcUrl": "https://alfajores-forno.celo-testnet.org",
+  "wsUrl": "wss://alfajores-forno.celo-testnet.org/ws",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-alfajores",
+  "explorer": "https://alfajores-blockscout.celo-testnet.org",
+  "exchangeUrl": "https://alfajores.symmetric.exchange/",
+  "addresses": {
+    "bFactory": "0x959a2861aE8f6c2Fa831D32495c6FD5f2ACff932",
+    "bActions": "0x4BDC0ff12F8923D5a09fFA801c09C6AfA0A13152",
+    "dsProxyRegistry": "0x9fCCCf24B17FDff3A1853012D659Ac8b80D3cD16",
+    "proxy": "0xF5De7AfeEBA1E4453E0a910857a695a081F9d48A",
+    "crpFactory": "0x18E383528e5110a61044621d0A37C67C5fCB0588",
+    "celo": "",
+    "multicall": "0x6112de027BE9667468758262139Bd087c7AbE730"
+  },
+  "connectors": {
+    "injected": {
+      "id": "injected",
+      "name": "MetaMask"
+    },
+    "walletconnect": {
+      "id": "walletconnect",
+      "name": "WalletConnect",
+      "options": {
+        "rpc": {
+          "44787": "https://alfajores-forno.celo-testnet.org"
+        }
+      }
+    }
+  }
+}
+

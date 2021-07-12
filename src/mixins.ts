@@ -32,7 +32,8 @@ export default {
       return `${config.explorer}/${type}/${str}`;
     },
     _ticker(address: string): string {
-      if (config.network === 'xdai' && address === 'ether') return 'XDAI';
+      if (config.network === 'xdai' && address === 'xdai') return 'XDAI';
+      else if (config.network === 'sokol' && address === 'xdai') return 'XDAI';
       else if (address === 'ether') return 'ETH';
       const token = config.tokens[address];
       return token ? token.symbol : this._shortenAddress(address);
