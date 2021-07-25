@@ -37,6 +37,10 @@ export default {
     tokenLogoUrl() {
       if (this.custom)
         return `https://raw.githubusercontent.com/centfinance/cent.dex_assets/master/assets/${this.address.toLowerCase()}.png`;
+      if (this.address == 'xdai')
+        return `https://raw.githubusercontent.com/centfinance/assets/master/blockchains/xdai/assets/0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d/logo.png`;
+      if (this.address == 'celo' || this.address == 'spoa')
+        return `https://raw.githubusercontent.com/centfinance/assets/master/blockchains/celo/assets/0x471EcE3750Da237f93B8E339c536989b8978a438/logo.png`;
       return getTokenLogoUrl(this.address);
     }
   },
