@@ -2,7 +2,7 @@
   <nav id="topnav" class="border-bottom position-fixed width-full">
     <div
       class="d-flex flex-items-center px-5"
-      style="height: 96px;padding-left:15px !important"
+      style="height: 66px;padding-left:2px !important"
     >
       <div class="flex-auto d-flex flex-items-center">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
@@ -20,7 +20,7 @@
           style="padding-top: 2px;"
         >
           <img class="logo" src="@/assets/symmetricIcon.svg" />
-          <span class="title">Symmetric </span>
+          <span class="title">SYMMETRIC </span>
           <!-- <span
             style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FB6706;"
             v-text="'Symmetric '"
@@ -30,9 +30,6 @@
             v-text="' on ' + config.network "
           /> -->
         </router-link>
-        <div class="ml-6 !important" style="color:#fb6706;">
-          Symmetric is currently in open public testing. During this testing period, no SYMM reward tokens will be distributed
-        </div>
       </div>
       <div :key="web3.account">
         <UiButton
@@ -89,6 +86,9 @@
         </UiButton>
       </div>
     </div>
+    <div class="ml-6 !important" style="color:white; text-align: center;">
+          Caution: Investments carry risk. Only add liquidity that you can afford to lose.
+        </div>
     <portal to="modal">
       <ModalAccount
         :open="modalOpen.account"

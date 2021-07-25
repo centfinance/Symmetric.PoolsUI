@@ -6,7 +6,7 @@
   "wsUrl": "wss://sokol.poa.network/wss ",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-sokol",
   "explorer": "https://blockscout.com/poa/sokol",
-  "exchangeUrl": "https://exchange-sokol.cent.finance",
+  "exchangeUrl": "https://sokol.symmetric.exchange",
   "addresses": {
     "bFactory": "0x3B4261a0A617a01ff7994bD15896ab1d384baABF",
     "bActions": "0x2d9837C9ca00aB3A784fBfa6280539BA57Ab0233",
@@ -32,4 +32,3 @@
     }
   }
 }
-

@@ -37,8 +37,14 @@
             </a>
           </li>
           <li>
-            <a href="https://symmetric.finance">
+            <a href="https://symmetric.finance" target="_blank">
               Home
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
+            <a href="https://docs.symmetric.exchange" target="_blank">
+              Docs
               <Icon name="external-link" class="ml-1" />
             </a>
           </li>
