@@ -21,19 +21,19 @@
         </div>
       </div>
     </div>
+    <div v-text="_num(poolLiquidity, 'usd-long')" class="column" />
     <UiNum
-      :value="pool.swapFee"
+      :value="pool.apy"
       format="percent"
       class="column hide-sm hide-md"
     />
-    <div v-text="_num(poolLiquidity, 'usd')" class="column" />
     <div
-      v-text="_num(myLiquidity, 'usd')"
+      v-text="_num(myLiquidity, 'usd-long')"
       format="currency"
       class="column hide-sm hide-md hide-lg"
     />
     <div
-      v-text="_num(pool.lastSwapVolume, 'usd')"
+      v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
       class="column hide-sm hide-md hide-lg"
     />
