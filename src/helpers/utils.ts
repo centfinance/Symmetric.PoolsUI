@@ -141,6 +141,8 @@ export function formatPool(pool) {
       ? parseFloat(pool.swaps[0].poolTotalSwapVolume)
       : 0;
   pool.lastSwapVolume = parseFloat(pool.totalSwapVolume) - poolTotalSwapVolume;
+  pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
+  pool.apy = 100 / pool.liquidity * ( pool.feesCollected * 365 / 100);
   return pool;
 }
 
