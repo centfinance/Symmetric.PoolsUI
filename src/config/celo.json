@@ -2,7 +2,7 @@
   "network": "celo",
   "chainId": 42220,
   "defaultPrecision": 2,
-  "rpcUrl": "https://forno.celo.org",
+  "rpcUrl": "https://celo-mainnet--rpc.datahub.figment.io/apikey/156ef461796cafbed135cb33f419b312/",
   "wsUrl": "wss://forno.celo.org/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-celo",
   "explorer": "https://explorer.celo.org",
@@ -26,7 +26,7 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "42220": "https://celo-mainnet--rpc.datahub.figment.io/apikey/156ef461796cafbed135cb33f419b312/"
+          "42220": "https://forno.celo.org"
         }
       }
     }

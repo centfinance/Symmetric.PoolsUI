@@ -27,6 +27,11 @@
       format="percent"
       class="column hide-sm hide-md"
     />
+    <UiNum
+      :value="pool.rewardApy"
+      format="percent"
+      class="column hide-sm hide-md"
+    />
     <div
       v-text="_num(myLiquidity, 'usd-long')"
       format="currency"

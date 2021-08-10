@@ -49,6 +49,18 @@
             </a>
           </li>
           <li>
+            <a href="https://celo-pools.symmetric.exchange">
+              Celo
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
+            <a href="https://xdai-pools.symmetric.exchange">
+              xDai
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
         </ul>
