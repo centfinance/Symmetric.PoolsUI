@@ -2,7 +2,7 @@
   "network": "celo",
   "chainId": 42220,
   "defaultPrecision": 2,
-  "rpcUrl": "https://celo-mainnet--rpc.datahub.figment.io/apikey/156ef461796cafbed135cb33f419b312/",
+  "rpcUrl": "https://forno.celo.org",
   "wsUrl": "wss://forno.celo.org/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-celo",
   "explorer": "https://explorer.celo.org",
@@ -21,13 +21,18 @@
       "id": "injected",
       "name": "MetaMask"
     },
+    "celo": {
+      "id": "celo",
+      "name": "Celo Extension Wallet"
+    },
     "walletconnect": {
       "id": "walletconnect",
       "name": "WalletConnect",
       "options": {
         "rpc": {
           "42220": "https://forno.celo.org"
-        }
+        },
+        "chainId": 42220
       }
     }
   }

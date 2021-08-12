@@ -232,32 +232,45 @@ export async function formatPool(pool) {
   });
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
-  const adjustedPoolLiquidityPercent = new BigNumber(100).div(totalAdjustedLiquidity).times(adjustedPoolLiquidity).div(100);
-
-    
-
+  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(totalAdjustedLiquidity);
   // We get all tokens in the exchange so we can filter out the SYMM coin which is our reward token and its price
   let SYMMprice = 6;
-  let annualCoinReward = 216000;
+  let weeklyCoinReward = 4154;
   if (config.network === "celo")
   {
     SYMMprice = data.SYMMPrice;
-    annualCoinReward = annualCoinReward / 100* (100 - data.xdaiPercent);
+    weeklyCoinReward = weeklyCoinReward / 100 * (100 - data.xdaiPercent);
   }
   else if (config.network === "xdai")
   {
     const allTokens = await getTokens();
     SYMMprice = allTokens['0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84'];
-    annualCoinReward = annualCoinReward / 100 * data.xdaiPercent;
+    weeklyCoinReward =  weeklyCoinReward / 100 * data.xdaiPercent;
   }
-  const ardjustedPoolTokenPayout = new BigNumber(annualCoinReward).times(adjustedPoolLiquidityPercent);
+  const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(adjustedPoolLiquidityPercent);
 
-  const adjustedPoolValue = ardjustedPoolTokenPayout.times(SYMMprice);
+  const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(SYMMprice);
   const totalAdjustedPoolValue = totalAdjustedLiquidity.times(SYMMprice);
   
-  // The final reward APY
-  pool.rewardApy = new BigNumber(100).div(totalAdjustedPoolValue).times(adjustedPoolValue).div(100);
+  // APR is the adjusted weekly payout to pool (earning) divided by total adjusted liquidity times 52 weeks to get an APR
+  const APR = adjustedPoolWeeklyPayoutValue.div(totalAdjustedPoolValue).times(52);
+
+  /*
+  const principal = totalAdjustedPoolValue;
+  const time = 1;
+  const rate = APR;
+  const n = 52;
+
+  const compoundInterest = (p, t, r, n) => {
+    const amount = p * (Math.pow((1 + (r / n)), (n * t)));
+    const interest = amount - p;
+    return interest;
+  };
   
+  pool.rewardApy = principal.plus(compoundInterest(principal, time, rate, n)).div(principal);
+  */
+  pool.rewardApy = APR;
+
   return pool;
 }
 

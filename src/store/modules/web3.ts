@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getInstance } from '@snapshot-labs/lock/plugins/vue';
+import { getInstance } from '../../connectors/plugins/vue';
 import { Web3Provider } from '@ethersproject/providers';
 import { Contract } from '@ethersproject/contracts';
 import { AddressZero } from '@ethersproject/constants';
@@ -253,6 +253,9 @@ const actions = {
           }
         });
       }
+
+      console.error("1");
+      console.error(auth.provider);
       const [network, accounts] = await Promise.all([
         auth.web3.getNetwork(),
         auth.web3.listAccounts()

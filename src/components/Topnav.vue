@@ -95,11 +95,6 @@
         @close="modalOpen.account = false"
         @login="handleLogin"
       />
-      <ModalHelpConnect
-        :topic="metamask"
-        :open="modalOpen.help"
-        @close="modalOpen.help = false"
-      />
       <ModalActivity
         :open="modalOpen.activity"
         @close="modalOpen.activity = false"
