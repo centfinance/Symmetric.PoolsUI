@@ -216,7 +216,6 @@ export async function formatPool(pool) {
   // Calculate adjusted pool liquidity
   const adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(combinedAdjustmentFactor);
 
-  let totalLiquidity = new BigNumber(0);
   let totalAdjustedLiquidity = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
@@ -226,7 +225,6 @@ export async function formatPool(pool) {
     const thisPoolFactors = getFactors(thispool.swapFee, thispool.tokens, thispool.tokensList, pool.totalWeight, config.chainId);
     const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor).times(thisPoolFactors.ratioFactor).times(thisPoolFactors.wrapFactor);
     const poolLiquidity = new BigNumber(thispool.liquidity);
-    totalLiquidity = totalLiquidity.plus(poolLiquidity);
     thisAdjustedPoolLiquidity = poolLiquidity.times(thisCombinedAdjustmentFactor);
     totalAdjustedLiquidity = totalAdjustedLiquidity.plus(thisAdjustedPoolLiquidity);
   });
@@ -250,10 +248,7 @@ export async function formatPool(pool) {
   const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(adjustedPoolLiquidityPercent);
 
   const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(SYMMprice);
-  const totalAdjustedPoolValue = totalAdjustedLiquidity.times(SYMMprice);
-  
-  // APR is the adjusted weekly payout to pool (earning) divided by total adjusted liquidity times 52 weeks to get an APR
-  const APR = adjustedPoolWeeklyPayoutValue.div(totalAdjustedPoolValue).times(52);
+  const APR = adjustedPoolWeeklyPayoutValue.div(pool.liquidity).times(52);
 
   /*
   const principal = totalAdjustedPoolValue;

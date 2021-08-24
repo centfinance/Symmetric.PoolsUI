@@ -67,7 +67,7 @@
       </div>
       <div class="d-block m-4">
         <span
-          >Current Network: <span class="text-white">{{ config.network }}</span>
+          >Network: <span class="text-white">{{ config.network }}</span>
         </span>
 
         <a
@@ -111,8 +111,8 @@ export default {
   position: fixed;
   background-color: $panel-background;
   margin-top: 79px;
-  width: 264px;
-  left: -264px;
+  width: 164px;
+  left: -164px;
   transition: left 0.2s;
 
   @media (min-width: $width-xl) {

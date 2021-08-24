@@ -254,8 +254,6 @@ const actions = {
         });
       }
 
-      console.error("1");
-      console.error(auth.provider);
       const [network, accounts] = await Promise.all([
         auth.web3.getNetwork(),
         auth.web3.listAccounts()
