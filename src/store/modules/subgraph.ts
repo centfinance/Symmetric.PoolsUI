@@ -120,7 +120,11 @@ const actions = {
     commit('GET_POOLS_REQUEST');
     try {
       let { pools } = await request('getPools', query);
-      pools = pools.map(pool => formatPool(pool));
+
+      pools = await Promise.all(pools.map(async (pool): Promise<object> => {
+        return await formatPool(pool);
+      }));
+
       commit('GET_POOLS_SUCCESS');
       return pools;
     } catch (e) {

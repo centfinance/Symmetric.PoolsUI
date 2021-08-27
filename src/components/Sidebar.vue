@@ -49,13 +49,25 @@
             </a>
           </li>
           <li>
+            <a href="https://celo-pools.symmetric.exchange">
+              Celo
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
+            <a href="https://xdai-pools.symmetric.exchange">
+              xDai
+              <Icon name="external-link" class="ml-1" />
+            </a>
+          </li>
+          <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
         </ul>
       </div>
       <div class="d-block m-4">
         <span
-          >Current Network: <span class="text-white">{{ config.network }}</span>
+          >Network: <span class="text-white">{{ config.network }}</span>
         </span>
 
         <a
@@ -99,8 +111,8 @@ export default {
   position: fixed;
   background-color: $panel-background;
   margin-top: 79px;
-  width: 264px;
-  left: -264px;
+  width: 164px;
+  left: -164px;
   transition: left 0.2s;
 
   @media (min-width: $width-xl) {

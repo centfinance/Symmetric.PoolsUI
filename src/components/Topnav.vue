@@ -48,10 +48,10 @@
         <UiButton
           v-if="$auth.isAuthenticated && wrongNetwork"
           class="button-yello px-5"
-          @click="modalOpen.help = true"
+          @click="switchNetwork"
         >
           <Icon name="info" class="ml-n2 mr-1 v-align-middle" />
-          Help
+          {{ $t('switchNetwork') }}
         </UiButton>
         <UiButton
           v-if="$auth.isAuthenticated && wrongNetwork"
@@ -95,11 +95,6 @@
         @close="modalOpen.account = false"
         @login="handleLogin"
       />
-      <ModalHelpConnect
-        :topic="metamask"
-        :open="modalOpen.help"
-        @close="modalOpen.help = false"
-      />
       <ModalActivity
         :open="modalOpen.activity"
         @close="modalOpen.activity = false"
@@ -118,8 +113,7 @@ export default {
       loading: false,
       modalOpen: {
         account: false,
-        activity: false,
-        help: false
+        activity: false
       }
     };
   },
@@ -141,7 +135,93 @@ export default {
       this.loading = true;
       await this.login(connector);
       this.loading = false;
-    }
+    },
+
+    async switchNetwork() {
+            if (!window.ethereum) {
+                console.error('No injected wallet found.');
+                return;
+            }
+            switch (this.config.network) {
+            case "xdai":
+                window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            'chainId': '0x64',
+                            'chainName': 'xDai',
+                            'rpcUrls': ['https://rpc.xdaichain.com'],
+                            'nativeCurrency': {
+                                'name': 'xDai Chain xDai',
+                                'symbol': 'xDai',
+                                'decimals': 18,
+                            },
+                            'blockExplorerUrls': ['https://blockscout.com/poa/xdai'],
+                        },
+                    ],
+                    id: 1,
+                }, console.log);
+                break;
+            case "celo":
+                window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            'chainId': '0xa4ec',
+                            'chainName': 'Celo',
+                            'rpcUrls': ['https://forno.celo.org'],
+                            'nativeCurrency': {
+                                'name': 'Celo',
+                                'symbol': 'CELO',
+                                'decimals': 18,
+                            },
+                            'blockExplorerUrls': ['https://explorer.celo.org'],
+                        },
+                    ],
+                    id: 1,
+                }, console.log);
+                break;
+            case "alfajores":
+                window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            'chainId': '0xaef3',
+                            'chainName': 'Celo (Alfajores Testnet)',
+                            'rpcUrls': ['https://alfajores-forno.celo-testnet.org'],
+                            'nativeCurrency': {
+                                'name': 'Celo',
+                                'symbol': 'CELO',
+                                'decimals': 18,
+                            },
+                            'blockExplorerUrls': ['https://alfajores-blockscout.celo-testnet.org'],
+                        },
+                    ],
+                    id: 1,
+                }, console.log);
+                break;
+            case "sokol":
+                window.ethereum.request({
+                    method: 'wallet_addEthereumChain',
+                    params: [
+                        {
+                            'chainId': '0x4d',
+                            'chainName': 'Sokol Testnet',
+                            'rpcUrls': ['https://sokol.poa.network'],
+                            'nativeCurrency': {
+                                'name': 'SPOA',
+                                'symbol': 'SPOA',
+                                'decimals': 18,
+                            },
+                            'blockExplorerUrls': ['https://blockscout.com/poa/sokol'],
+                        },
+                    ],
+                    id: 1,
+                }, console.log);
+                break;
+            }
+        }
+
   }
 };
 </script>

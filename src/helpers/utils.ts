@@ -7,6 +7,10 @@ import { Wallet } from '@ethersproject/wallet';
 import BigNumber from '@/helpers/bignumber';
 import config from '@/config';
 import i18n from '@/i18n';
+import { getFactors } from '@/helpers/miningFactors';
+import { request } from '@/helpers/subgraph';
+
+import {default as data} from '../../rewards.json';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -119,7 +123,61 @@ export function isLocked(
   return amount.gt(tokenAllowance[spender]);
 }
 
-export function formatPool(pool) {
+async function getTokens () {
+  try {
+    let { tokenPrices } = await request('getTokenPrices');
+    tokenPrices = Object.fromEntries(
+      tokenPrices
+        .sort((a, b) => b.poolLiquidity - a.poolLiquidity)
+        .map(tokenPrice => [
+          getAddress(tokenPrice.id),
+          parseFloat(tokenPrice.price)
+        ])
+    );
+    return tokenPrices;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+async function getPools(payload) {
+  const {
+    first = ITEMS_PER_PAGE,
+    page = 1,
+    orderBy = 'liquidity',
+    orderDirection = 'desc',
+    where = {}
+  } = payload;
+  const skip = (page - 1) * first;
+  const ts = Math.round(new Date().getTime() / 1000);
+  const tsYesterday = ts - 24 * 3600;
+  where.tokensList_not = [];
+  const query = {
+    pools: {
+      __args: {
+        where,
+        first,
+        skip,
+        orderBy,
+        orderDirection
+      },
+      swaps: {
+        __args: {
+          where: {
+            timestamp_lt: tsYesterday
+          }
+        }
+      }
+    }
+  };
+  try {
+    return request('getPools', query);
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+export async function formatPool(pool) {
   let colorIndex = 0;
   pool.tokens = pool.tokens.map(token => {
     token.checksum = getAddress(token.address);
@@ -143,7 +201,77 @@ export function formatPool(pool) {
   pool.lastSwapVolume = parseFloat(pool.totalSwapVolume) - poolTotalSwapVolume;
   pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
   pool.apy = 100 / pool.liquidity * ( pool.feesCollected * 365 / 100);
+
+  const query = {
+    where: {
+      finalized: true,
+      liquidity_gt: 0
+    }
+  };
+
+  // Get factors
+  const factors = getFactors(pool.swapFee, pool.tokens, pool.tokensList, pool.totalWeight, config.chainId);
+  const combinedAdjustmentFactor = new BigNumber(factors.feeFactor).times(factors.ratioFactor).times(factors.wrapFactor);
+  
+  // Calculate adjusted pool liquidity
+  const adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(combinedAdjustmentFactor);
+
+  let totalAdjustedLiquidity = new BigNumber(0);
+  let thisAdjustedPoolLiquidity = new BigNumber(0);
+
+  // Get all the pools and loop throught them to calculate the total liquidity and total adjusted liquidity
+  const pools = await getPools(query);
+  pools.pools.forEach(thispool => {
+    const thisPoolFactors = getFactors(thispool.swapFee, thispool.tokens, thispool.tokensList, pool.totalWeight, config.chainId);
+    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor).times(thisPoolFactors.ratioFactor).times(thisPoolFactors.wrapFactor);
+    const poolLiquidity = new BigNumber(thispool.liquidity);
+    thisAdjustedPoolLiquidity = poolLiquidity.times(thisCombinedAdjustmentFactor);
+    totalAdjustedLiquidity = totalAdjustedLiquidity.plus(thisAdjustedPoolLiquidity);
+  });
+
+  // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
+  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(totalAdjustedLiquidity);
+  // We get all tokens in the exchange so we can filter out the SYMM coin which is our reward token and its price
+  let SYMMprice = 6;
+  let weeklyCoinReward = 4154;
+  if (config.network === "celo")
+  {
+    SYMMprice = data.SYMMPrice;
+    weeklyCoinReward = weeklyCoinReward / 100 * (100 - data.xdaiPercent);
+  }
+  else if (config.network === "xdai")
+  {
+    const allTokens = await getTokens();
+    SYMMprice = allTokens['0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84'];
+    weeklyCoinReward =  weeklyCoinReward / 100 * data.xdaiPercent;
+  }
+  const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(adjustedPoolLiquidityPercent);
+
+  const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(SYMMprice);
+  const APR = adjustedPoolWeeklyPayoutValue.div(pool.liquidity).times(52);
+
+  /*
+  const principal = totalAdjustedPoolValue;
+  const time = 1;
+  const rate = APR;
+  const n = 52;
+
+  const compoundInterest = (p, t, r, n) => {
+    const amount = p * (Math.pow((1 + (r / n)), (n * t)));
+    const interest = amount - p;
+    return interest;
+  };
+  
+  pool.rewardApy = principal.plus(compoundInterest(principal, time, rate, n)).div(principal);
+  */
+  pool.rewardApy = APR;
+
   return pool;
+}
+
+export async function formatPools(pools) {
+  pools = pools.map(pool => formatPool(pool));
+  return pools;
 }
 
 export async function getMarketChartFromCoinGecko(address) {

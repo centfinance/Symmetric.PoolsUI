@@ -14,15 +14,9 @@
         />
         <div v-text="$t('assets')" class="flex-auto text-left" />
         <div v-text="$t('marketCap')" class="column" />
-        <div v-text="$t('apy')" class="column hide-sm hide-md hide-lg" />&nbsp; 
-        <span
-          :class="'tooltipped tooltipped-n wrapper'"
-          :aria-label="
-          $t('apyTip')
-        "
-        >
-          <Icon name="info" size="16" />
-        </span>
+        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="column hide-sm hide-md" />&nbsp; 
+        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />&nbsp;
         <div
           v-text="$t('myLiquidity')"
           class="column hide-sm hide-md hide-lg"

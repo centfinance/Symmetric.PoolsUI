@@ -222,7 +222,7 @@ export default {
   },
   computed: {
     factors() {
-      return getFactors(this.bPool, this.config.chainId);
+      return getFactors(this.bPool.metadata.swapFee, this.bPool.metadata.tokens, this.bPool.metadata.tokensList, this.bPool.metadata.totalWeight, this.config.chainId);
     },
     rights() {
       return filterObj(this.bPool.metadata.rights, right => right[1]);

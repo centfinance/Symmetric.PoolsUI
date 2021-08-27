@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import { getInstance } from '@snapshot-labs/lock/plugins/vue';
+import { getInstance } from '../../connectors/plugins/vue';
 import { lsGet, lsRemove, lsSet } from '@/helpers/localStorage';
 import { sendTransaction } from '@/helpers/web3';
 import provider from '@/helpers/provider';

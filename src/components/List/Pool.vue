@@ -7,7 +7,7 @@
       <Pie :tokens="pool.tokens" class="mr-3" size="34" />
     </div>
     <div class="flex-auto text-left">
-      <div class="d-flex flex-wrap" style="max-width: 340px;">
+      <div class="d-flex flex-wrap" style="max-width: 205px;">
         <div
           v-for="token in pool.tokens"
           :key="token.address"
@@ -23,7 +23,17 @@
     </div>
     <div v-text="_num(poolLiquidity, 'usd-long')" class="column" />
     <UiNum
+      :value="pool.swapFee"
+      format="percent"
+      class="column hide-sm hide-md"
+    />
+    <UiNum
       :value="pool.apy"
+      format="percent"
+      class="column hide-sm hide-md"
+    />
+    <UiNum
+      :value="pool.rewardApy"
       format="percent"
       class="column hide-sm hide-md"
     />

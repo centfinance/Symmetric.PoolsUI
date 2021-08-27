@@ -21,13 +21,18 @@
       "id": "injected",
       "name": "MetaMask"
     },
+    "celo": {
+      "id": "celo",
+      "name": "Celo Extension Wallet"
+    },
     "walletconnect": {
       "id": "walletconnect",
       "name": "WalletConnect",
       "options": {
         "rpc": {
           "44787": "https://alfajores-forno.celo-testnet.org"
-        }
+        },
+        "chainId": 44787
       }
     }
   }

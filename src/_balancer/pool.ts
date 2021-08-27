@@ -170,7 +170,7 @@ export default class Pool {
         config.subgraphUrl,
         merge(queries['getPool'], query)
       );
-      return formatPool(response.pool);
+      return await formatPool(response.pool);
     } catch (e) {
       console.error(e);
     }
