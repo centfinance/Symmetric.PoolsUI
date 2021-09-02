@@ -5,6 +5,7 @@
   "rpcUrl": "https://alfajores-forno.celo-testnet.org",
   "wsUrl": "wss://alfajores-forno.celo-testnet.org/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-alfajores",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
   "explorer": "https://alfajores-blockscout.celo-testnet.org",
   "exchangeUrl": "https://alfajores.symmetric.exchange/",
   "addresses": {
