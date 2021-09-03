@@ -284,18 +284,19 @@ export async function formatPool(pool) {
       thisAdjustedPoolLiquidity
     );
   });
-console.log(`totalAdjustedLiquidity: ${totalAdjustedLiquidity}`);
-console.log(`totalAdjustedLiquidityXDAI: ${totalAdjustedLiquidityXDAI}`);
-const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(totalAdjustedLiquidityXDAI);
-console.log(`totalLiquidityOnBoth: ${totalLiquidityOnBoth}`);
-const xDaiPercent = totalAdjustedLiquidityXDAI.times(100).div(totalLiquidityOnBoth).toNumber();
-console.log(`xDaiPercent: ${xDaiPercent}`);
+  const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(
+    totalAdjustedLiquidityXDAI
+  );
+  const xDaiPercent = totalAdjustedLiquidityXDAI
+    .times(100)
+    .div(totalLiquidityOnBoth)
+    .toNumber();
   console.log(`adjustedPoolLiquidityPercent: ${adjustedPoolLiquidityPercent}`);
   const SYMMprice = await getSYMMPriceXDAI(); // fetch Price for SYMM on xDAI
   console.log(`SYMMPRICE: ${SYMMprice}`);
   let weeklyCoinReward = 4154;
   if (config.network === 'celo') {
-    weeklyCoinReward = (weeklyCoinReward / 100) * (100 - xDaiPercent); // Need to calculate this also
+    weeklyCoinReward = (weeklyCoinReward / 100) * (100 - xDaiPercent);
   } else if (config.network === 'xdai') {
     weeklyCoinReward = (weeklyCoinReward / 100) * data.xdaiPercent;
   }
