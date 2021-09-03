@@ -8,9 +8,12 @@ import BigNumber from '@/helpers/bignumber';
 import config from '@/config';
 import i18n from '@/i18n';
 import { getFactors } from '@/helpers/miningFactors';
-import { request } from '@/helpers/subgraph';
+// import { request } from '@/helpers/subgraph';
+import merge from 'lodash/merge';
+import queries from '@/helpers/queries.json';
+import { subgraphRequest } from '@/_balancer/utils';
 
-import {default as data} from '../../rewards.json';
+import { default as data } from '../../rewards.json';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -123,24 +126,21 @@ export function isLocked(
   return amount.gt(tokenAllowance[spender]);
 }
 
-async function getTokens () {
+async function getSYMMPriceXDAI() {
   try {
-    let { tokenPrices } = await request('getTokenPrices');
-    tokenPrices = Object.fromEntries(
-      tokenPrices
-        .sort((a, b) => b.poolLiquidity - a.poolLiquidity)
-        .map(tokenPrice => [
-          getAddress(tokenPrice.id),
-          parseFloat(tokenPrice.price)
-        ])
+    const response = await subgraphRequest(
+      config.subgraphUrlXDAI,
+      queries['getSYMMPriceOnXDAI']
     );
-    return tokenPrices;
+    console.log(
+      `fetching SYMM Price: ${JSON.stringify(response.tokenPrices[0].price)}`
+    );
+    return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
   }
 }
-
-async function getPools(payload) {
+async function getPools(payload, isXdai?) {
   const {
     first = ITEMS_PER_PAGE,
     page = 1,
@@ -171,7 +171,11 @@ async function getPools(payload) {
     }
   };
   try {
-    return request('getPools', query);
+    // return request('getPools', query);
+    return await subgraphRequest(
+      isXdai ? config.subgraphUrlXDAI : config.subgraphUrl,
+      merge(queries['getPools'], query)
+    );
   } catch (e) {
     console.error(e);
   }
@@ -200,7 +204,7 @@ export async function formatPool(pool) {
       : 0;
   pool.lastSwapVolume = parseFloat(pool.totalSwapVolume) - poolTotalSwapVolume;
   pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
-  pool.apy = 100 / pool.liquidity * ( pool.feesCollected * 365 / 100);
+  pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
   const query = {
     where: {
@@ -210,44 +214,99 @@ export async function formatPool(pool) {
   };
 
   // Get factors
-  const factors = getFactors(pool.swapFee, pool.tokens, pool.tokensList, pool.totalWeight, config.chainId);
-  const combinedAdjustmentFactor = new BigNumber(factors.feeFactor).times(factors.ratioFactor).times(factors.wrapFactor);
-  
+  const factors = getFactors(
+    pool.swapFee,
+    pool.tokens,
+    pool.tokensList,
+    pool.totalWeight,
+    config.chainId
+  );
+  const combinedAdjustmentFactor = new BigNumber(factors.feeFactor)
+    .times(factors.ratioFactor)
+    .times(factors.wrapFactor);
+
   // Calculate adjusted pool liquidity
-  const adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(combinedAdjustmentFactor);
+  const adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(
+    combinedAdjustmentFactor
+  );
 
   let totalAdjustedLiquidity = new BigNumber(0);
+  let totalAdjustedLiquidityXDAI = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
   // Get all the pools and loop throught them to calculate the total liquidity and total adjusted liquidity
-  const pools = await getPools(query);
+  let pools = await getPools(query);
   pools.pools.forEach(thispool => {
-    const thisPoolFactors = getFactors(thispool.swapFee, thispool.tokens, thispool.tokensList, pool.totalWeight, config.chainId);
-    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor).times(thisPoolFactors.ratioFactor).times(thisPoolFactors.wrapFactor);
+    const thisPoolFactors = getFactors(
+      thispool.swapFee,
+      thispool.tokens,
+      thispool.tokensList,
+      pool.totalWeight,
+      config.chainId
+    );
+    const thisCombinedAdjustmentFactor = new BigNumber(
+      thisPoolFactors.feeFactor
+    )
+      .times(thisPoolFactors.ratioFactor)
+      .times(thisPoolFactors.wrapFactor);
     const poolLiquidity = new BigNumber(thispool.liquidity);
-    thisAdjustedPoolLiquidity = poolLiquidity.times(thisCombinedAdjustmentFactor);
-    totalAdjustedLiquidity = totalAdjustedLiquidity.plus(thisAdjustedPoolLiquidity);
+    thisAdjustedPoolLiquidity = poolLiquidity.times(
+      thisCombinedAdjustmentFactor
+    );
+    totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
+      thisAdjustedPoolLiquidity
+    );
   });
-
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
-  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(totalAdjustedLiquidity);
-  // We get all tokens in the exchange so we can filter out the SYMM coin which is our reward token and its price
-  let SYMMprice = 6;
+  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
+    totalAdjustedLiquidity
+  );
+  // getXDAI Liquidity Now
+  pools = await getPools(query, 1);
+  pools.pools.forEach(thispool => {
+    const thisPoolFactors = getFactors(
+      thispool.swapFee,
+      thispool.tokens,
+      thispool.tokensList,
+      pool.totalWeight,
+      config.chainId
+    );
+    const thisCombinedAdjustmentFactor = new BigNumber(
+      thisPoolFactors.feeFactor
+    )
+      .times(thisPoolFactors.ratioFactor)
+      .times(thisPoolFactors.wrapFactor);
+    const poolLiquidity = new BigNumber(thispool.liquidity);
+    thisAdjustedPoolLiquidity = poolLiquidity.times(
+      thisCombinedAdjustmentFactor
+    );
+    totalAdjustedLiquidityXDAI = totalAdjustedLiquidityXDAI.plus(
+      thisAdjustedPoolLiquidity
+    );
+  });
+  const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(
+    totalAdjustedLiquidityXDAI
+  );
+  const xDaiPercent = totalAdjustedLiquidityXDAI
+    .times(100)
+    .div(totalLiquidityOnBoth)
+    .toNumber();
+  console.log(`adjustedPoolLiquidityPercent: ${adjustedPoolLiquidityPercent}`);
+  const SYMMprice = await getSYMMPriceXDAI(); // fetch Price for SYMM on xDAI
+  console.log(`SYMMPRICE: ${SYMMprice}`);
   let weeklyCoinReward = 4154;
-  if (config.network === "celo")
-  {
-    SYMMprice = data.SYMMPrice;
-    weeklyCoinReward = weeklyCoinReward / 100 * (100 - data.xdaiPercent);
+  if (config.network === 'celo') {
+    weeklyCoinReward = (weeklyCoinReward / 100) * (100 - xDaiPercent);
+  } else if (config.network === 'xdai') {
+    weeklyCoinReward = (weeklyCoinReward / 100) * data.xdaiPercent;
   }
-  else if (config.network === "xdai")
-  {
-    const allTokens = await getTokens();
-    SYMMprice = allTokens['0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84'];
-    weeklyCoinReward =  weeklyCoinReward / 100 * data.xdaiPercent;
-  }
-  const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(adjustedPoolLiquidityPercent);
+  const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(
+    adjustedPoolLiquidityPercent
+  );
 
-  const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(SYMMprice);
+  const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(
+    SYMMprice
+  );
   const APR = adjustedPoolWeeklyPayoutValue.div(pool.liquidity).times(52);
 
   /*
