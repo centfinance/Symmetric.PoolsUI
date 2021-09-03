@@ -6,6 +6,31 @@
     <Container v-if="title" class="d-flex flex-items-center px-4 px-md-0 mb-3">
       <h3 class="flex-auto" v-text="title" />
     </Container>
+    <!-- <b-card-group deck> -->
+    <vue-justified-layout
+      :items="pools"
+      v-slot="{ item }"
+      :options="{
+        forceAspectRatio: 1,
+        boxSpacing: 25
+      }"
+    >
+    {{ item.liquidity }}
+      {{ item.id }}
+      {{ item.swapFee }}
+      {{ item.tokens }}
+      <!-- <b-card
+          :key="i"
+          :pool="pool"
+          :bg-variant="grey"
+          text-variant="white"
+          style="width: 5rem; height: 150px; border: solid red 1px; margin:10px"
+          class="text-center"
+        >
+          <b-card-text>{{ pool.id }} Width comes here</b-card-text>
+        </b-card> -->
+    </vue-justified-layout>
+    <!-- </b-card-group> -->
     <UiTable>
       <UiTableTh>
         <div
@@ -15,8 +40,10 @@
         <div v-text="$t('assets')" class="flex-auto text-left" />
         <div v-text="$t('marketCap')" class="column" />
         <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
-        <div v-text="$t('apy')" class="column hide-sm hide-md" />&nbsp; 
-        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />&nbsp;
+        <div v-text="$t('apy')" class="column hide-sm hide-md" />
+        &nbsp;
+        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
+        &nbsp;
         <div
           v-text="$t('myLiquidity')"
           class="column hide-sm hide-md hide-lg"
@@ -95,3 +122,18 @@ export default {
   }
 };
 </script>
+<style scoped>
+.justified-container {
+  background-color: rgb(156, 94, 94);
+  width: 100%;
+}
+
+.justified-item {
+  background-color: #26a69a;
+  border: 1px orange;
+  /* nth-child(odd)
+    background-color: #26a69a;
+  &:nth-child(even)
+    background-color: #81c784; */
+}
+</style>

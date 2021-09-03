@@ -10,12 +10,18 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import mixins from '@/mixins';
+import { BootstrapVue } from 'bootstrap-vue';
+import { CardPlugin } from 'bootstrap-vue';
+import VueJustifiedLayout from 'vue-justified-layout';
 import i18n from '@/i18n';
 import '@/auth';
 import '@/style.scss';
 import '@/helpers/fathom';
 
 Vue.use(infiniteScroll);
+Vue.use(BootstrapVue);
+Vue.use(CardPlugin);
+Vue.use(VueJustifiedLayout);
 Vue.use(PortalVue);
 
 const requireComponent = require.context('@/components', true, /[\w-]+\.vue$/);
