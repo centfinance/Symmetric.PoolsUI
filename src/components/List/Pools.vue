@@ -35,7 +35,10 @@
                   />:
                   <span v-text="_num(getLiquidity(item), 'usd-long')" />
                   <div class="grouptext margin-top10">
-                    <span v-text="$t('swapFee')" class="row text-white-normal" />
+                    <span
+                      v-text="$t('swapFee')"
+                      class="row text-white-normal"
+                    />
                     <span
                       >: <UiNum :value="item.swapFee" format="percent"
                     /></span>
@@ -116,19 +119,25 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div v-text="$t('poolAddress')" />
-        <div v-text="$t('assets')" class="flex-auto text-left" />
-        <div v-text="$t('marketCap')" class="column" />
-        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
-        <div v-text="$t('apy')" class="column hide-sm hide-md" />
+        <div class="text-white" v-text="$t('poolAddress')" />
+        <div v-text="$t('assets')" class="text-white flex-auto text-left" />
+        <div v-text="$t('marketCap')" class="text-white column" />
+        <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
         &nbsp;
-        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
+        <div
+          v-text="$t('rewardApy')"
+          class="text-white column-sm hide-sm hide-md"
+        />
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
-          class="column hide-sm hide-md hide-lg"
+          class="text-white column hide-sm hide-md hide-lg"
         />
-        <div v-text="$t('volume24')" class="column hide-sm hide-md hide-lg" />
+        <div
+          v-text="$t('volume24')"
+          class="text-white column hide-sm hide-md hide-lg"
+        />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
@@ -279,23 +288,23 @@ export default {
 #contact-details {
   grid-area: contact;
 }
+.border {
+  border: 1px solid #5b8470 !important;
+}
 #comment-box {
   grid-area: comments;
-  justify-content: center;
+  justify-self: center;
 }
 .myForm button {
   grid-area: button;
   border: 0;
-  background: #566B79;
-  color: #0A1E2A;
+  background: #5b8470;
+  color: white;
 }
 .text-white-normal {
-  color:white;
-}
-.highlight-card {
-  color:turquoise
+  color: white;
 }
 .highlight-card:hover {
-  background-color: #0A1E2A;
+  background-color: #0a1e2a;
 }
 </style>
