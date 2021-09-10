@@ -129,18 +129,17 @@ export function isLocked(
 async function getSYMMPriceXDAI() {
   try {
     const response = await subgraphRequest(
-      config.subgraphUrlXDAI,
+      process.env.VUE_APP_NETWORK === 'xdai'
+        ? config.subgraphUrl
+        : config.subgraphUrlXDAI,
       queries['getSYMMPriceOnXDAI']
-    );
-    console.log(
-      `fetching SYMM Price: ${JSON.stringify(response.tokenPrices[0].price)}`
     );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
   }
 }
-async function getPools(payload, isXdai?) {
+async function getPools(payload, isCurrentNetwork?) {
   const {
     first = ITEMS_PER_PAGE,
     page = 1,
@@ -171,11 +170,17 @@ async function getPools(payload, isXdai?) {
     }
   };
   try {
-    // return request('getPools', query);
-    return await subgraphRequest(
-      isXdai ? config.subgraphUrlXDAI : config.subgraphUrl,
-      merge(queries['getPools'], query)
-    );
+    if (config.network === 'xdai') {
+      return await subgraphRequest(
+        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlCELO,
+        merge(queries['getPools'], query)
+      );
+    } else {
+      return await subgraphRequest(
+        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlXDAI,
+        merge(queries['getPools'], query)
+      );
+    }
   } catch (e) {
     console.error(e);
   }
@@ -231,7 +236,7 @@ export async function formatPool(pool) {
   );
 
   let totalAdjustedLiquidity = new BigNumber(0);
-  let totalAdjustedLiquidityXDAI = new BigNumber(0);
+  let totalAdjustedLiquidityCurrentNetwork = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
   // Get all the pools and loop throught them to calculate the total liquidity and total adjusted liquidity
@@ -257,11 +262,7 @@ export async function formatPool(pool) {
       thisAdjustedPoolLiquidity
     );
   });
-  // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
-  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
-    totalAdjustedLiquidity
-  );
-  // getXDAI Liquidity Now
+  // for current network
   pools = await getPools(query, 1);
   pools.pools.forEach(thispool => {
     const thisPoolFactors = getFactors(
@@ -280,26 +281,27 @@ export async function formatPool(pool) {
     thisAdjustedPoolLiquidity = poolLiquidity.times(
       thisCombinedAdjustmentFactor
     );
-    totalAdjustedLiquidityXDAI = totalAdjustedLiquidityXDAI.plus(
+    totalAdjustedLiquidityCurrentNetwork = totalAdjustedLiquidityCurrentNetwork.plus(
       thisAdjustedPoolLiquidity
     );
   });
-  const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(
-    totalAdjustedLiquidityXDAI
+
+  // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
+  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
+    totalAdjustedLiquidityCurrentNetwork
   );
-  const xDaiPercent = totalAdjustedLiquidityXDAI
+  const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(
+    totalAdjustedLiquidityCurrentNetwork
+  );
+  const currentNetworkPercent = totalAdjustedLiquidityCurrentNetwork
     .times(100)
     .div(totalLiquidityOnBoth)
     .toNumber();
-  console.log(`adjustedPoolLiquidityPercent: ${adjustedPoolLiquidityPercent}`);
   const SYMMprice = await getSYMMPriceXDAI(); // fetch Price for SYMM on xDAI
   console.log(`SYMMPRICE: ${SYMMprice}`);
   let weeklyCoinReward = 4154;
-  if (config.network === 'celo') {
-    weeklyCoinReward = (weeklyCoinReward / 100) * (100 - xDaiPercent);
-  } else if (config.network === 'xdai') {
-    weeklyCoinReward = (weeklyCoinReward / 100) * data.xdaiPercent;
-  }
+  weeklyCoinReward = (weeklyCoinReward / 100) * currentNetworkPercent;
+
   const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(
     adjustedPoolLiquidityPercent
   );
