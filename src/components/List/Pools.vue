@@ -65,29 +65,25 @@
                   </div> -->
                 </div>
                 <div id="comment-box">
-                  <Pie :tokens="item.tokens" class="mr-3" size="60" />
-                  <div
-                    v-for="token in item.tokens"
-                    :key="token.address"
-                    :class="
-                      token.symbol.length > 14 && 'tooltipped tooltipped-n'
-                    "
-                    :aria-label="token.symbol"
-                    class="d-flex flex-items-center mr-2"
-                  >
-                    <Icon
-                      name="bullet"
-                      size="12"
-                      :style="`color: ${token.color}`"
-                    />
-                    {{ _num(token.weightPercent / 100, 'percent-short') }}
-                    {{ _shorten(token.symbol, 14) }}
-                  </div>
+                  <ul :key="token.address" v-for="token in item.tokens">
+                    <li style="font-size:9px;">
+                      <Icon
+                        name="bullet"
+                        size="12"
+                        :style="`color: ${token.color}`"
+                      />
+                      {{ _num(token.weightPercent / 100, 'percent-short') }}
+                      {{ _shorten(token.symbol, 4) }}
+                    </li>
+                    </ul>
+                    <hr style="width:100%;  opacity: 0" />
+                  <Pie :tokens="item.tokens" style="left:30%; position:relative; float:left" size="55" />
+                  <!-- <div class="container"> -->
+                  <!-- </div> -->
                 </div>
                 <UiButton class="button-primary">
                   Add Liquidity
                 </UiButton>
-                <!-- <button class="button button-primary">Add Liquidity</button> -->
                 <div class="grouptext">
                   <span
                     v-text="$t('myLiquidity')"
@@ -167,12 +163,15 @@
 import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
+import { chunk } from 'chunk';
 
 export default {
   props: ['query', 'title'],
+  computed: {},
   data() {
     return {
       loading: false,
+      cols: 2,
       showCard: this.$cookie.get('cardView') === 'true' ? true : false,
       page: 0,
       pools: [],
@@ -203,6 +202,20 @@ export default {
     }
   },
   methods: {
+    getColumns(numberTokens) {
+      // const items = [numberTokens];
+      // const columns = [];
+      // const mid = Math.ceil(numberTokens.length / this.cols);
+      // console.log(`MID: ${mid}`);
+      // for (let col = 0; col < this.cols; col++) {
+      //   columns.push(numberTokens.slice(col * mid, col * mid + mid));
+      // }
+      // console.log(columns[0]);
+      // return columns[0];
+      console.log(numberTokens);
+      console.log(chunk(numberTokens, 2));
+      return chunk(numberTokens, 2);
+    },
     switchView(val) {
       this.$cookie.delete('cardView');
       this.$cookie.set('cardView', val.value, 5);
@@ -250,7 +263,7 @@ export default {
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 }
 .margin-top10 {
   margin-top: 5px;
@@ -261,7 +274,7 @@ export default {
     'comments contact'
     '... button';
   grid-template-rows: 9.5em 3em;
-  grid-template-columns: 8em 1fr;
+  grid-template-columns: 10.5em 1fr;
   grid-gap: 0.2em;
   background: linear-gradient(
     178deg,
@@ -289,12 +302,22 @@ export default {
   grid-area: contact;
 }
 .border {
-  border: 1px solid #5b8470 !important;
+  border: 1px solid #566b79 !important;
 }
 #comment-box {
   grid-area: comments;
-  justify-self: center;
+  width: 100%;
 }
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+li {
+    float: left;
+    word-spacing: 2px;
+  }
 .myForm button {
   grid-area: button;
   border: 0;
@@ -303,8 +326,24 @@ export default {
 }
 .text-white-normal {
   color: white;
+  font-weight: 480;
+  font-size: 12px;
 }
 .highlight-card:hover {
   background-color: #0a1e2a;
+}
+.container {
+  display: flex;
+  border: 0px solid;
+}
+.col {
+  margin: 0px;
+  border: 0px solid;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.item-container {
+  border: 1px solid;
 }
 </style>
