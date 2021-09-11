@@ -75,9 +75,13 @@
                       {{ _num(token.weightPercent / 100, 'percent-short') }}
                       {{ _shorten(token.symbol, 4) }}
                     </li>
-                    </ul>
-                    <hr style="width:100%;  opacity: 0" />
-                  <Pie :tokens="item.tokens" style="left:30%; position:relative; float:left" size="55" />
+                  </ul>
+                  <hr style="width:100%;  opacity: 0" />
+                  <Pie
+                    :tokens="item.tokens"
+                    style="left:30%; position:relative; float:left"
+                    size="55"
+                  />
                   <!-- <div class="container"> -->
                   <!-- </div> -->
                 </div>
@@ -315,9 +319,9 @@ ul {
   float: left;
 }
 li {
-    float: left;
-    word-spacing: 2px;
-  }
+  float: left;
+  word-spacing: 2px;
+}
 .myForm button {
   grid-area: button;
   border: 0;
