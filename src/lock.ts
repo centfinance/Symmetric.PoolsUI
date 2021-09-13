@@ -11,6 +11,9 @@ export default class Lock {
 
   getConnector(key: string): Connector {
     const options = this.options[key];
+    if(options === undefined) {
+      return new this.connectors['walletconnect'](options);
+    }
     return new this.connectors[key](options);
   }
 }

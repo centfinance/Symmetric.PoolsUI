@@ -10,12 +10,16 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import mixins from '@/mixins';
+import ToggleButton from 'vue-js-toggle-button';
+const VueCookie = require('vue-cookie');
 import i18n from '@/i18n';
 import '@/auth';
 import '@/style.scss';
 import '@/helpers/fathom';
 
 Vue.use(infiniteScroll);
+Vue.use(ToggleButton);
+Vue.use(VueCookie);
 Vue.use(PortalVue);
 
 const requireComponent = require.context('@/components', true, /[\w-]+\.vue$/);

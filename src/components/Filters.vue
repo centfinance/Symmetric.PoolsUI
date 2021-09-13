@@ -4,8 +4,15 @@
       :value="type"
       :options="poolTypes"
       @select="selectType"
+      style="background-color: #3C525F"
       class="mb-4"
-    />
+    />&nbsp;
+    <UiButton style="background-color: #5B8470;" class="button-primary">
+      <a :href="config.exchangeUrl" class="text-white" target="_blank">
+        {{ $t('swap') }}
+        <Icon name="external-link" class="ml-1" />
+      </a>
+    </UiButton>
     <div class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right">
       <div v-text="$t('filterByAsset')" class="pb-1" />
       <div v-for="(token, i) in tokens" :key="i" class="topic ml-2">

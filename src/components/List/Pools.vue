@@ -1,27 +1,143 @@
 <template>
   <div>
     <div class="text-right ">
-      {{ $t('rewardMessage') }}
+      {{ $t('rewardMessage') }} |
+      <span class="hide-sm hide-md text-white"
+        >Current View:
+        <toggle-button
+          @change="switchView"
+          :value="showCard"
+          :width="70"
+          :color="{ checked: '#FB6706', unchecked: '#FB6706' }"
+          :switch-color="{ checked: '#123123', unchecked: '#535b5c5b' }"
+          :labels="{ checked: 'Cards', unchecked: 'Table' }"
+      /></span>
     </div>
     <Container v-if="title" class="d-flex flex-items-center px-4 px-md-0 mb-3">
       <h3 class="flex-auto" v-text="title" />
     </Container>
-    <UiTable>
+    <!-- infinite scroll -->
+    <div
+      v-infinite-scroll="loadMore"
+      class="justified-container"
+      infinite-scroll-distance="10"
+      v-if="showCard"
+    >
+      <div v-if="pools.length > 0">
+        <div class="cards">
+          <div class="card" v-for="item in pools" :key="item.id">
+            <div class="border highlight-card anim-fade-in rounded-1">
+              <a :href="'#/pool/' + item.id" class="myForm">
+                <div id="contact-details">
+                  <span
+                    v-text="$t('marketCap')"
+                    class="text-right text-white-normal"
+                  />:
+                  <span v-text="_num(getLiquidity(item), 'usd-long')" />
+                  <div class="grouptext margin-top10">
+                    <span
+                      v-text="$t('swapFee')"
+                      class="row text-white-normal"
+                    />
+                    <span
+                      >: <UiNum :value="item.swapFee" format="percent"
+                    /></span>
+                  </div>
+                  <div class="grouptext margin-top10">
+                    <span v-text="$t('apy')" class="text-white-normal" />:
+                    <UiNum :value="item.apy" format="percent" class="column" />
+                  </div>
+                  <div class="grouptext margin-top10">
+                    <span v-text="$t('rewardApy')" class="text-white-normal" />:
+                    <UiNum :value="item.rewardApy" format="percent" />
+                  </div>
+                  <div class="grouptext margin-top10">
+                    <span v-text="$t('volume24')" class="text-white-normal" />:
+                    <span
+                      v-text="_num(item.lastSwapVolume, 'usd-long')"
+                      format="currency"
+                      class=""
+                    />
+                  </div>
+
+                  <!-- <div style="margin-top: 10px;" class="grouptext">
+                    {{ _shortenAddress(item.id) }}
+                  </div> -->
+                </div>
+                <div id="comment-box">
+                  <ul :key="token.address" v-for="token in item.tokens">
+                    <li style="font-size:9px;">
+                      <Icon
+                        name="bullet"
+                        size="12"
+                        :style="`color: ${token.color}`"
+                      />
+                      {{ _num(token.weightPercent / 100, 'percent-short') }}
+                      {{ _shorten(token.symbol, 4) }}
+                    </li>
+                  </ul>
+                  <hr style="width:100%;  opacity: 0" />
+                  <Pie
+                    :tokens="item.tokens"
+                    style="left:30%; position:relative; float:left"
+                    size="55"
+                  />
+                  <!-- <div class="container"> -->
+                  <!-- </div> -->
+                </div>
+                <UiButton class="button-primary">
+                  Add Liquidity
+                </UiButton>
+                <div class="grouptext">
+                  <span
+                    v-text="$t('myLiquidity')"
+                    class="text-white-normal text-left"
+                  />:
+                  <span
+                    v-text="_num(myLiquidity(item), 'usd-long')"
+                    format="currency"
+                  />
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ListLoading
+        v-if="loading"
+        :classes="[
+          'column-sm text-left hide-sm hide-md hide-lg',
+          'flex-auto text-left',
+          'column hide-sm hide-md',
+          'column',
+          'column hide-sm hide-md hide-lg',
+          'column hide-sm hide-md hide-lg'
+        ]"
+        :height="29"
+      />
+    </div>
+    <!-- infinite scroll ends -->
+    <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
+        <div class="text-white" v-text="$t('poolAddress')" />
+        <div v-text="$t('assets')" class="text-white flex-auto text-left" />
+        <div v-text="$t('marketCap')" class="text-white column" />
+        <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
+        &nbsp;
         <div
-          v-text="$t('poolAddress')"
-          class="column-sm text-left hide-sm hide-md hide-lg"
+          v-text="$t('rewardApy')"
+          class="text-white column-sm hide-sm hide-md"
         />
-        <div v-text="$t('assets')" class="flex-auto text-left" />
-        <div v-text="$t('marketCap')" class="column" />
-        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
-        <div v-text="$t('apy')" class="column hide-sm hide-md" />&nbsp; 
-        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />&nbsp;
+        &nbsp;
         <div
           v-text="$t('myLiquidity')"
-          class="column hide-sm hide-md hide-lg"
+          class="text-white column hide-sm hide-md hide-lg"
         />
-        <div v-text="$t('volume24')" class="column hide-sm hide-md hide-lg" />
+        <div
+          v-text="$t('volume24')"
+          class="text-white column hide-sm hide-md hide-lg"
+        />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
@@ -50,16 +166,26 @@
 <script>
 import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
+import { getPoolLiquidity } from '@/helpers/price';
+import { chunk } from 'chunk';
 
 export default {
   props: ['query', 'title'],
+  computed: {},
   data() {
     return {
       loading: false,
+      cols: 2,
+      showCard: this.$cookie.get('cardView') === 'true' ? true : false,
       page: 0,
       pools: [],
       filters: formatFilters(this.$route.query)
     };
+  },
+  mounted() {
+    console.log(`showCard: ${this.showCard} - ${this.$cookie.get('cardView')}`);
+    this.showCard = this.$cookie.get('cardView') === 'true' ? true : false;
+    console.log(`showCard: ${this.showCard} - ${this.$cookie.get('cardView')}`);
   },
   watch: {
     query() {
@@ -80,6 +206,34 @@ export default {
     }
   },
   methods: {
+    getColumns(numberTokens) {
+      // const items = [numberTokens];
+      // const columns = [];
+      // const mid = Math.ceil(numberTokens.length / this.cols);
+      // console.log(`MID: ${mid}`);
+      // for (let col = 0; col < this.cols; col++) {
+      //   columns.push(numberTokens.slice(col * mid, col * mid + mid));
+      // }
+      // console.log(columns[0]);
+      // return columns[0];
+      console.log(numberTokens);
+      console.log(chunk(numberTokens, 2));
+      return chunk(numberTokens, 2);
+    },
+    switchView(val) {
+      this.$cookie.delete('cardView');
+      this.$cookie.set('cardView', val.value, 5);
+      this.showCard = val.value;
+      console.log(val.value);
+    },
+    getLiquidity(pool) {
+      return getPoolLiquidity(pool, this.price.values);
+    },
+    myLiquidity(pool) {
+      const poolShares = this.subgraph.poolShares[pool.id];
+      if (!pool.finalized || !poolShares) return 0;
+      return (this.getLiquidity(pool) / pool.totalShares) * poolShares;
+    },
     ...mapActions(['getPools']),
     async loadMore() {
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
@@ -95,3 +249,105 @@ export default {
   }
 };
 </script>
+<style scoped>
+.card {
+  background-color: #272727;
+  /* color: blue; */
+  padding: 0px;
+  height: 13rem;
+  margin: 5px;
+}
+.cards {
+  /* background-color: #0A1E2A; */
+  background: linear-gradient(
+    178deg,
+    rgb(10 30 42 / 4%) 23.98%,
+    #0a1e2a83 100%
+  );
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+.margin-top10 {
+  margin-top: 5px;
+}
+.myForm {
+  display: grid;
+  grid-template-areas:
+    'comments contact'
+    '... button';
+  grid-template-rows: 9.5em 3em;
+  grid-template-columns: 10.5em 1fr;
+  grid-gap: 0.2em;
+  background: linear-gradient(
+    178deg,
+    rgb(56 74 255 / 4%) 23.98%,
+    #253743a1 100%
+  );
+  padding: 1em;
+}
+.myForm label {
+  grid-area: labels;
+}
+.myForm input {
+  grid-area: contact;
+  width: 100%;
+  padding: 1.1em;
+  border: none;
+  margin-bottom: 1em;
+}
+.myForm textarea {
+  min-height: calc(100% - 2em);
+  width: 100%;
+  border: none;
+}
+#contact-details {
+  grid-area: contact;
+}
+.border {
+  border: 1px solid #566b79 !important;
+}
+#comment-box {
+  grid-area: comments;
+  width: 100%;
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  float: left;
+}
+li {
+  float: left;
+  word-spacing: 2px;
+}
+.myForm button {
+  grid-area: button;
+  border: 0;
+  background: #5b8470;
+  color: white;
+}
+.text-white-normal {
+  color: white;
+  font-weight: 480;
+  font-size: 12px;
+}
+.highlight-card:hover {
+  background-color: #0a1e2a;
+}
+.container {
+  display: flex;
+  border: 0px solid;
+}
+.col {
+  margin: 0px;
+  border: 0px solid;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+.item-container {
+  border: 1px solid;
+}
+</style>
