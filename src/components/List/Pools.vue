@@ -3,7 +3,7 @@
     <div class="text-right ">
       {{ $t('rewardMessage') }} |
       <span class="hide-sm hide-md text-white"
-        >Current View:
+        >Switch View:
         <toggle-button
           @change="switchView"
           :value="showCard"
@@ -94,6 +94,7 @@
                     class="text-white-normal text-left"
                   />:
                   <span
+                    style="color: #FB6706"
                     v-text="_num(myLiquidity(item), 'usd-long')"
                     format="currency"
                   />
@@ -206,20 +207,6 @@ export default {
     }
   },
   methods: {
-    getColumns(numberTokens) {
-      // const items = [numberTokens];
-      // const columns = [];
-      // const mid = Math.ceil(numberTokens.length / this.cols);
-      // console.log(`MID: ${mid}`);
-      // for (let col = 0; col < this.cols; col++) {
-      //   columns.push(numberTokens.slice(col * mid, col * mid + mid));
-      // }
-      // console.log(columns[0]);
-      // return columns[0];
-      console.log(numberTokens);
-      console.log(chunk(numberTokens, 2));
-      return chunk(numberTokens, 2);
-    },
     switchView(val) {
       this.$cookie.delete('cardView');
       this.$cookie.set('cardView', val.value, 5);
@@ -236,6 +223,9 @@ export default {
     },
     ...mapActions(['getPools']),
     async loadMore() {
+      console.log(
+        `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
+      );
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
       this.loading = true;
       this.page++;
@@ -245,6 +235,10 @@ export default {
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
       this.loading = false;
+      if (this.$cookie.get('cardView') === null) {
+        this.switchView({ value: true });
+        this.showCard = true;
+      }
     }
   }
 };
