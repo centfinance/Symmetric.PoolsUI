@@ -66,7 +66,7 @@
                 </div>
                 <div id="comment-box">
                   <ul :key="token.address" v-for="token in item.tokens">
-                    <li style="font-size:9px;">
+                    <li style="font-size:9px; color:white">
                       <Icon
                         name="bullet"
                         size="12"
@@ -168,7 +168,6 @@
 import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
-import { chunk } from 'chunk';
 
 export default {
   props: ['query', 'title'],

@@ -117,7 +117,7 @@
     "manageWeights": "Manage weights",
     "manageWhitelist": "LP whitelist",
     "marketAmounts": "Calculate token amounts using market prices",
-    "marketCap": "Market cap",
+    "marketCap": "TVL",
     "max": "Max",
     "minimumSwapFee": "There is a minimum swap fee of",
     "minimumUpdateErr": "Gradual update period",
