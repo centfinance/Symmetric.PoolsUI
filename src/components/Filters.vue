@@ -12,6 +12,17 @@
         {{ $t('swap') }}
         <Icon name="external-link" class="ml-1" />
       </a>
+    </UiButton> | 
+    <UiButton style="background-color: #5B8470;" class="button-primary">
+      <a
+        href="https://defillama.com/protocol/symmetric"
+        class="text-white"
+        target="_blank"
+      >
+        TVL :
+        <span v-text="_num(tvl, 'usd-long')" />
+        <!-- <Icon name="external-link" class="ml-1" /> -->
+      </a>
     </UiButton>
     <div class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right">
       <div v-text="$t('filterByAsset')" class="pb-1" />
@@ -53,6 +64,7 @@ export default {
   data() {
     return {
       input: {},
+      tvl: '',
       tokens: [],
       type: 'shared',
       poolTypes: {
@@ -63,7 +75,17 @@ export default {
       modalOpen: false
     };
   },
+  mounted() {
+    // https://api.llama.fi/tvl/symmetric
+    setTimeout(this.fetchTVL(), 600);
+  },
   methods: {
+    async fetchTVL() {
+      const response = await fetch('https://api.llama.fi/tvl/symmetric');
+      const data = await response.json();
+      console.log(data);
+      this.tvl = data;
+    },
     addToken(token) {
       this.tokens.push(token);
       this.$emit('input', {
