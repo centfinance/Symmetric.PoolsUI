@@ -29,7 +29,7 @@
       "poolTokenId": true
     }
   },
-  "getSYMMPriceOnXDAI": {
+  "getSYMMPrice": {
     "tokenPrices": {
       "__args": {
         "first": 1000,

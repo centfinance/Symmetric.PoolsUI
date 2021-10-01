@@ -6,14 +6,16 @@
       @select="selectType"
       style="background-color: #3C525F"
       class="mb-4"
-    />&nbsp;
+    />
+    |
     <UiButton style="background-color: #5B8470;" class="button-primary">
       <a :href="config.exchangeUrl" class="text-white" target="_blank">
         {{ $t('swap') }}
         <Icon name="external-link" class="ml-1" />
       </a>
-    </UiButton> | 
-    <UiButton style="background-color: #5B8470;" class="button-primary">
+    </UiButton>
+    |
+    <UiButton class="button-primary">
       <a
         href="https://defillama.com/protocol/symmetric"
         class="text-white"
@@ -21,9 +23,50 @@
       >
         TVL :
         <span v-text="_num(tvl, 'usd-long')" />
-        <!-- <Icon name="external-link" class="ml-1" /> -->
       </a>
     </UiButton>
+    <div class="cards">
+      <div class="cardInfo rounded-1">
+        <div class="highlight-card anim-fade-in rounded-1">
+          <span>
+            <span>Symbol: </span>
+            <span class="row text-white-normal">SYMM</span>
+          </span>
+          &nbsp;
+          <span>
+            <span>Price on Celo: </span>
+             <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPriceCelo, 'usd-long')"
+            />
+          </span>
+          &nbsp;
+          <span>
+            <span>Price on xDai: </span>
+             <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPricexDAI, 'usd-long')"
+            />
+          </span>
+          &nbsp;
+          <span>
+            <span>TVL Celo: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(celoTVL, 'usd-long')"
+            />
+          </span>
+          &nbsp;
+          <span>
+            <span>TVL xDai: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(xDaiTVL, 'usd-long')"
+            />
+          </span>
+        </div>
+      </div>
+    </div>
     <div class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right">
       <div v-text="$t('filterByAsset')" class="pb-1" />
       <div v-for="(token, i) in tokens" :key="i" class="topic ml-2">
@@ -57,13 +100,25 @@
 </template>
 
 <script>
-import { formatFilters } from '@/helpers/utils';
+import {
+  formatFilters,
+  getSYMMPriceXDAI,
+  getSYMMPriceCELO
+} from '@/helpers/utils';
+// import LineChart from './LineChart';
 
 export default {
+  // components: { LineChart },
   props: ['value'],
   data() {
     return {
       input: {},
+      loaded: false,
+      chartdata: null,
+      xDaiTVL: null,
+      celoTVL: null,
+      SYMMPricexDAI: null,
+      SYMMPriceCelo: null,
       tvl: '',
       tokens: [],
       type: 'shared',
@@ -75,9 +130,19 @@ export default {
       modalOpen: false
     };
   },
-  mounted() {
+  async mounted() {
     // https://api.llama.fi/tvl/symmetric
     setTimeout(this.fetchTVL(), 600);
+    this.loaded = false;
+    try {
+      const response = await fetch('https://api.llama.fi/protocol/symmetric');
+      const data = await response.json();
+      this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
+      this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
+      this.loaded = true;
+    } catch (e) {
+      console.error(e);
+    }
   },
   methods: {
     async fetchTVL() {
@@ -85,6 +150,8 @@ export default {
       const data = await response.json();
       console.log(data);
       this.tvl = data;
+      this.SYMMPricexDAI = await getSYMMPriceXDAI();
+      this.SYMMPriceCelo = await getSYMMPriceCELO();
     },
     addToken(token) {
       this.tokens.push(token);
@@ -119,6 +186,100 @@ export default {
 
 <style scoped lang="scss">
 @import '../vars';
+
+.cardInfo {
+  background-color: #272727;
+  /* color: blue; */
+  padding: 5px;
+  height: 100%;
+  margin: 1px;
+}
+.text-white-normal {
+  color: white;
+  font-weight: 480;
+  font-size: 12px;
+}
+.card {
+  background-color: #272727;
+  /* color: blue; */
+  padding: 0px;
+  height: 13rem;
+  margin: 5px;
+}
+.cards {
+  /* background-color: #0A1E2A; */
+  background: linear-gradient(
+    178deg,
+    rgb(10 30 42 / 4%) 23.98%,
+    #0a1e2a83 100%
+  );
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+.margin-top10 {
+  margin-top: 5px;
+}
+.myForm {
+  display: grid;
+  grid-template-areas:
+    'comments contact'
+    '... button';
+  grid-template-rows: 9.5em 3em;
+  grid-template-columns: 10.5em 1fr;
+  grid-gap: 0.2em;
+  background: linear-gradient(
+    178deg,
+    rgb(56 74 255 / 4%) 23.98%,
+    #253743a1 100%
+  );
+  padding: 1em;
+}
+.chartjs-render-monitor {
+  height: 195px !important;
+  display: inline;
+}
+.TVL {
+  display: grid;
+  grid-template-areas:
+    'comments contact'
+    '... button';
+  grid-template-rows: 9.5em 3em;
+  grid-template-columns: 10.5em 1fr;
+  grid-gap: 0.2em;
+  background: linear-gradient(
+    178deg,
+    rgb(56 74 255 / 4%) 23.98%,
+    #253743a1 100%
+  );
+  padding: 1em;
+}
+.myForm label {
+  grid-area: labels;
+}
+.myForm input {
+  grid-area: contact;
+  width: 100%;
+  padding: 1.1em;
+  border: none;
+  margin-bottom: 1em;
+}
+.myForm textarea {
+  min-height: calc(100% - 2em);
+  width: 100%;
+  border: none;
+}
+#contact-details {
+  grid-area: contact;
+}
+.border {
+  border: 1px solid #566b79 !important;
+}
+#comment-box {
+  grid-area: comments;
+  width: 100%;
+}
 
 .topic {
   background-color: $blue-900;

@@ -126,13 +126,26 @@ export function isLocked(
   return amount.gt(tokenAllowance[spender]);
 }
 
-async function getSYMMPriceXDAI() {
+export async function getSYMMPriceXDAI() {
   try {
     const response = await subgraphRequest(
       process.env.VUE_APP_NETWORK === 'xdai'
         ? config.subgraphUrl
         : config.subgraphUrlXDAI,
-      queries['getSYMMPriceOnXDAI']
+      queries['getSYMMPrice']
+    );
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getSYMMPriceCELO() {
+  try {
+    const response = await subgraphRequest(
+      process.env.VUE_APP_NETWORK === 'celo'
+        ? config.subgraphUrl
+        : config.subgraphUrlCELO,
+      queries['getSYMMPrice']
     );
     return response.tokenPrices[0].price;
   } catch (e) {
@@ -297,7 +310,10 @@ export async function formatPool(pool) {
     .times(100)
     .div(totalLiquidityOnBoth)
     .toNumber();
-  const SYMMprice = await getSYMMPriceXDAI(); // fetch Price for SYMM on xDAI
+  const SYMMprice =
+    process.env.VUE_APP_NETWORK === 'xdai'
+      ? await getSYMMPriceXDAI()
+      : await getSYMMPriceCELO(); // fetch Price for SYMM
   console.log(`SYMMPRICE: ${SYMMprice}`);
   let weeklyCoinReward = 4154;
   weeklyCoinReward = (weeklyCoinReward / 100) * currentNetworkPercent;
