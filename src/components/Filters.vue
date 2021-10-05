@@ -33,7 +33,7 @@
             <span class="row text-white-normal">SYMM</span>
           </span>
           &nbsp;
-          <span>
+          <!-- <span>
             <span>Price on Celo: </span>
              <span
               class="row text-white-normal"
@@ -48,7 +48,7 @@
               v-text="_num(SYMMPricexDAI, 'usd-long')"
             />
           </span>
-          &nbsp;
+          &nbsp; -->
           <span>
             <span>TVL Celo: </span>
             <span
