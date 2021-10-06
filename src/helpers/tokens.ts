@@ -453,121 +453,13 @@ export const equivalentSets = {
   100: [
     [
       [
-        '0x3a97704a1b25F08aa230ae53B352e2e72ef52843' // AGVE
-      ]
-    ],
-    [
-      [
-        '0x44fA8E6f47987339850636F88629646662444217', // DAI
+        '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83', // USDC
         '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d' // WXDAI
-      ],
-      [
-        '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83' // USDC
       ]
     ],
-    [
-      [
-        '0x2bF2ba13735160624a0fEaE98f6aC8F70885eA61' // FRACTION
-      ]
-    ],
-    [
-      [
-        '0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9' // HONEY
-      ]
-    ],
-    [
-      [
-        '0xE2e73A1c69ecF83F464EFCE6A5be353a37cA09b2' // LINK
-      ]
-    ],
-    [
-      [
-        '0x63e62989D9EB2d37dfDB1F93A22f063635b07d51' // MIVA
-      ]
-    ],
-    [
-      [
-        '0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e' // STAKE
-      ]
-    ],
-    [
-      [
-        '0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84' // SYMM
-      ]
-    ],
-    [
-      [
-        '0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252' // WBTC
-      ]
-    ],
-    [
-      [
-        '0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1' // WETH
-      ]
-    ]
   ],
   42220: [
-    [
-      [
-        '0xD629eb00dEced2a080B7EC630eF6aC117e614f1b' // cBTC
-      ]
-    ],
-    [
-      [
-        '0x2DEf4285787d58a2f811AF24755A8150622f4361' // cETH
-      ]
-    ],
-    [
-      [
-        '0x471EcE3750Da237f93B8E339c536989b8978a438' // CELO
-      ],
-      [
-        '0x7037F7296B2fc7908de7b57a89efaa8319f0C500' // mCELO
-      ],
-      [
-        '0x1a8Dbe5958c597a744Ba51763AbEBD3355996c3e' // rCELO
-      ],
-      [
-        '0x2879BFD5e7c4EF331384E908aaA3Bd3014b703fA' // sCELO
-      ]
-    ],
-    [
-      [
-        '0x765DE816845861e75A25fCA122bb6898B8B1282a' // cUSD
-      ],
-      [
-        '0x64dEFa3544c695db8c535D289d843a189aa26b98' // mcUSD
-      ]
-    ],
-    [
-      [
-        '0xD8763CBa276a3738E6DE85b4b3bF5FDed6D6cA73' // cEUR
-      ],
-      [
-        '0xa8d0E6799FF3Fd19c6459bf02689aE09c4d78Ba7' // mcEUR
-      ]
-    ],
-    [
-      [
-        '0x00Be915B9dCf56a3CBE739D9B9c202ca692409EC' // UBE
-      ]
-    ]
   ],
   44787: [
-    [
-      [
-        '0xF194afDf50B03e69Bd7D057c1Aa9e10c9954E4C9' // cBTC
-      ]
-    ],
-    [
-      [
-        '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1' // cETH
-      ]
-    ],
-    [
-      [
-        '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F' // CELO
-      ]
-    ]
   ]
 };
