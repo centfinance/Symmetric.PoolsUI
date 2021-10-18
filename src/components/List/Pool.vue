@@ -37,6 +37,14 @@
       format="percent"
       class="column hide-sm hide-md"
     />
+    <UiNum
+      :value="pool.tokenReward"
+      format="long"
+      class="column-md hide-sm hide-md"
+    />
+    <div class="column-xxs hide-sm hide-md">
+      SYMM
+    </div>&nbsp;&nbsp;&nbsp;&nbsp;
     <div
       v-text="_num(myLiquidity, 'usd-long')"
       format="currency"

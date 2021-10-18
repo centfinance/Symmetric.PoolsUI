@@ -27,8 +27,7 @@
       "options": {
         "rpc": {
           "1": "https://cloudflare-eth.com"
-        },
-        "chainId": 1
+        }
       }
     }
   }

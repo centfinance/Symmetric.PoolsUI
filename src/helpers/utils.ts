@@ -199,6 +199,44 @@ async function getPools(payload, isCurrentNetwork?) {
   }
 }
 
+async function getPoolsNoPaging(payload, isCurrentNetwork?) {
+  const {
+    orderBy = 'liquidity',
+    orderDirection = 'desc',
+    where = {}
+  } = payload;
+  const ts = Math.round(new Date().getTime() / 1000);
+  const tsYesterday = ts - 24 * 3600;
+  where.tokensList_not = [];
+  const query = {
+    pools: {
+      __args: {
+        where: {
+          finalized: true,
+          liquidity_gt: 0
+        },
+        orderBy,
+        orderDirection
+      }
+    }
+  };
+  try {
+    if (config.network === 'xdai') {
+      return await subgraphRequest(
+        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlCELO,
+        merge(queries['getPools'], query)
+      );
+    } else {
+      return await subgraphRequest(
+        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlXDAI,
+        merge(queries['getPools'], query)
+      );
+    }
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 export async function formatPool(pool) {
   let colorIndex = 0;
   pool.tokens = pool.tokens.map(token => {
@@ -239,6 +277,7 @@ export async function formatPool(pool) {
     pool.totalWeight,
     config.chainId
   );
+
   const combinedAdjustmentFactor = new BigNumber(factors.feeFactor)
     .times(factors.ratioFactor)
     .times(factors.wrapFactor);
@@ -248,52 +287,57 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  let totalAdjustedLiquidity = new BigNumber(0);
+  let totalAdjustedLiquiditySecondNetwork = new BigNumber(0);
   let totalAdjustedLiquidityCurrentNetwork = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
-  // Get all the pools and loop throught them to calculate the total liquidity and total adjusted liquidity
-  let pools = await getPools(query);
+  const thisChainId = config.chainId;
+  const secondChainId = config.chainId == '42220' ? '100' : '42220';
+  
+  // Get all the pools for the other network and add up the total liquidity and adjusted liquidity
+  let pools = await getPoolsNoPaging(query);
   pools.pools.forEach(thispool => {
     const thisPoolFactors = getFactors(
       thispool.swapFee,
       thispool.tokens,
       thispool.tokensList,
-      pool.totalWeight,
-      config.chainId
+      thispool.totalWeight,
+      secondChainId
     );
-    const thisCombinedAdjustmentFactor = new BigNumber(
-      thisPoolFactors.feeFactor
-    )
+
+    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
       .times(thisPoolFactors.ratioFactor)
       .times(thisPoolFactors.wrapFactor);
-    const poolLiquidity = new BigNumber(thispool.liquidity);
-    thisAdjustedPoolLiquidity = poolLiquidity.times(
+
+    thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
       thisCombinedAdjustmentFactor
     );
-    totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
+
+    totalAdjustedLiquiditySecondNetwork = totalAdjustedLiquiditySecondNetwork.plus(
       thisAdjustedPoolLiquidity
     );
   });
-  // for current network
-  pools = await getPools(query, 1);
+
+  // Get all the pools for the current network and add up the total liquidity and adjusted liquidity
+  pools = await getPoolsNoPaging(query, 1);
   pools.pools.forEach(thispool => {
     const thisPoolFactors = getFactors(
       thispool.swapFee,
       thispool.tokens,
       thispool.tokensList,
-      pool.totalWeight,
-      config.chainId
+      thispool.totalWeight,
+      thisChainId,
+      thispool.id
     );
-    const thisCombinedAdjustmentFactor = new BigNumber(
-      thisPoolFactors.feeFactor
-    )
+
+    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
       .times(thisPoolFactors.ratioFactor)
       .times(thisPoolFactors.wrapFactor);
-    const poolLiquidity = new BigNumber(thispool.liquidity);
-    thisAdjustedPoolLiquidity = poolLiquidity.times(
+
+    thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
       thisCombinedAdjustmentFactor
     );
+
     totalAdjustedLiquidityCurrentNetwork = totalAdjustedLiquidityCurrentNetwork.plus(
       thisAdjustedPoolLiquidity
     );
@@ -301,47 +345,19 @@ export async function formatPool(pool) {
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
   const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
-    totalAdjustedLiquidityCurrentNetwork
+    totalAdjustedLiquidityCurrentNetwork.plus(totalAdjustedLiquiditySecondNetwork)
   );
-  const totalLiquidityOnBoth = totalAdjustedLiquidity.plus(
-    totalAdjustedLiquidityCurrentNetwork
-  );
-  const currentNetworkPercent = totalAdjustedLiquidityCurrentNetwork
-    .times(100)
-    .div(totalLiquidityOnBoth)
-    .toNumber();
+  
+  // const SYMMprice = await getSYMMPriceXDAI() + await getSYMMPriceCELO() / 2;
   const SYMMprice =
-    process.env.VUE_APP_NETWORK === 'xdai'
+      process.env.VUE_APP_NETWORK === 'xdai'
       ? await getSYMMPriceXDAI()
       : await getSYMMPriceCELO(); // fetch Price for SYMM
-  console.log(`SYMMPRICE: ${SYMMprice}`);
-  let weeklyCoinReward = 4154;
-  weeklyCoinReward = (weeklyCoinReward / 100) * currentNetworkPercent;
+//  console.log(`SYMMPRICE: ${SYMMprice}`);
+  const dailyCoinReward = new BigNumber(395.6);
 
-  const adjustedPoolTokenPayout = new BigNumber(weeklyCoinReward).times(
-    adjustedPoolLiquidityPercent
-  );
-
-  const adjustedPoolWeeklyPayoutValue = adjustedPoolTokenPayout.times(
-    SYMMprice
-  );
-  const APR = adjustedPoolWeeklyPayoutValue.div(pool.liquidity).times(52);
-
-  /*
-  const principal = totalAdjustedPoolValue;
-  const time = 1;
-  const rate = APR;
-  const n = 52;
-
-  const compoundInterest = (p, t, r, n) => {
-    const amount = p * (Math.pow((1 + (r / n)), (n * t)));
-    const interest = amount - p;
-    return interest;
-  };
-  
-  pool.rewardApy = principal.plus(compoundInterest(principal, time, rate, n)).div(principal);
-  */
-  pool.rewardApy = APR;
+  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
+  pool.rewardApy = pool.tokenReward.times(SYMMprice).div(pool.liquidity).times(365);
 
   return pool;
 }
