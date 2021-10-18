@@ -89,8 +89,16 @@ a {
   width: 120px;
 }
 
+.column-md {
+  width: 100px;
+}
+
 .column-lg {
-  width: 180px;
+  width: 167px;
+}
+
+.column-medium2 {
+  width: 120px;
 }
 
 .column-xl {
@@ -103,6 +111,10 @@ a {
 
 .column-xs {
   width: 60px;
+}
+
+.column-xxs {
+  width: 55px;
 }
 
 .highlight:hover {

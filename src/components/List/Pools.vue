@@ -51,6 +51,15 @@
                     <span v-text="$t('rewardApy')" class="text-white-normal" />:
                     <UiNum :value="item.rewardApy" format="percent" />
                   </div>
+                <div class="grouptext margin-top10">
+                    <span v-text="$t('symmReward')" class="text-white-normal" />:
+                    <span
+                      v-text="_num(item.tokenReward, 'long')"
+                      format="long"
+                      class=""
+                    /> SYMM
+                  </div>
+                  
                   <div class="grouptext margin-top10">
                     <span v-text="$t('volume24')" class="text-white-normal" />:
                     <span
@@ -120,8 +129,9 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div class="text-white" v-text="$t('poolAddress')" />
-        <div v-text="$t('assets')" class="text-white flex-auto text-left" />
+        <div class="text-white hide-sm hide-md hide-lg " v-text="$t('poolAddress')" />
+        <div style="padding-left:80px;"></div>
+        <div v-text="$t('assets')" class="text-white column flex-auto text-left" />
         <div v-text="$t('marketCap')" class="text-white column" />
         <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
         <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
@@ -130,6 +140,10 @@
           v-text="$t('rewardApy')"
           class="text-white column-sm hide-sm hide-md"
         />
+        <div
+          v-text="$t('symmReward')"
+          class="text-white column-lg hide-sm hide-md"
+        />
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
@@ -137,7 +151,7 @@
         />
         <div
           v-text="$t('volume24')"
-          class="text-white column hide-sm hide-md hide-lg"
+          class="text-white column-medium2 hide-sm hide-md hide-lg"
         />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
@@ -260,10 +274,10 @@ export default {
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
 }
 .margin-top10 {
-  margin-top: 5px;
+  margin-top: 2px;
 }
 .myForm {
   display: grid;
