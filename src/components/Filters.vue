@@ -29,27 +29,6 @@
       <div class="cardInfo rounded-1">
         <div class="highlight-card anim-fade-in rounded-1">
           <span>
-            <span>Symbol: </span>
-            <span class="row text-white-normal">SYMM</span>
-          </span>
-          &nbsp;
-          <!-- <span>
-            <span>Price on Celo: </span>
-             <span
-              class="row text-white-normal"
-              v-text="_num(SYMMPriceCelo, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span>Price on xDai: </span>
-             <span
-              class="row text-white-normal"
-              v-text="_num(SYMMPricexDAI, 'usd-long')"
-            />
-          </span>
-          &nbsp; -->
-          <span>
             <span>TVL Celo: </span>
             <span
               class="row text-white-normal"
@@ -62,8 +41,30 @@
             <span
               class="row text-white-normal"
               v-text="_num(xDaiTVL, 'usd-long')"
+            /> </span
+          >&nbsp; (
+          <span>
+            <span>Symbol: </span>
+            <span class="row text-white-normal">SYMM</span>
+          </span>
+          &nbsp;
+          <span>
+            <span>Celo: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPriceCelo, 'usd-long')"
             />
           </span>
+          &nbsp;
+          <span>
+            <span>xDai: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPricexDAI, 'usd-long')"
+            />
+          </span>
+          &nbsp; <span class="text-white-normal">*Last trade price</span>
+          )
         </div>
       </div>
     </div>
