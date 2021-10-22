@@ -28,7 +28,8 @@
       "options": {
         "rpc": {
           "100": "https://rpc.xdaichain.com/"
-        }
+        },
+        "chainId": 100
       }
     }
   }

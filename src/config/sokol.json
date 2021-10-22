@@ -27,7 +27,8 @@
       "options": {
         "rpc": {
           "77": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
-        }
+        },
+        "chainId": 77
       }
     }
   }
