@@ -260,7 +260,12 @@ const actions = {
       ]);
       const account = accounts.length > 0 ? accounts[0] : null;
       let name = '';
-      if (config.chainId === 1) name = await provider.lookupAddress(account);
+      if (config.chainId === 1)
+      {
+        const address = await provider.lookupAddress(account);
+        if (address)
+          name = address;
+      }
       commit('LOAD_PROVIDER_SUCCESS', {
         injectedLoaded: true,
         injectedChainId: network.chainId,
