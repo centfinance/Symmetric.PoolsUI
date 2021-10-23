@@ -13,7 +13,7 @@
           <UiButton class="width-full v-align-middle">
             <img
               :src="
-                `https://raw.githubusercontent.com/centfinance/Symmetric.PoolsUI/APRupdates/src/connectors/assets/${connector.id}.png`
+                `https://raw.githubusercontent.com/centfinance/Symmetric.PoolsUI/develop/src/connectors/assets/${connector.id}.png`
               "
               height="28"
               width="28"
