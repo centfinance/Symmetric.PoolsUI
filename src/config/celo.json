@@ -33,7 +33,8 @@
         "rpc": {
           "42220": "https://forno.celo.org"
         },
-        "chainId": 42220
+        "chainId": 42220,
+        "bridge": "https://walletconnect-relay.minerva.digital"
       }
     }
   }

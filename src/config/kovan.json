@@ -28,7 +28,8 @@
         "rpc": {
           "42": "https://eth-kovan.alchemyapi.io/v2/C467LJc7Aa761LLxlcxXvhIG9HzDTtKw"
         },
-        "chainId": 42
+        "chainId": 42,
+        "bridge": "https://walletconnect-relay.minerva.digital"
       }
     }
   }

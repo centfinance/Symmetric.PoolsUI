@@ -29,7 +29,8 @@
         "rpc": {
           "100": "https://rpc.xdaichain.com/"
         },
-        "chainId": 100
+        "chainId": 100,
+        "bridge": "https://walletconnect-relay.minerva.digital"
       }
     }
   }
