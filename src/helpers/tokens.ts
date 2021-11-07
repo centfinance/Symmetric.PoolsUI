@@ -473,6 +473,18 @@ export const equivalentSets = {
     ],
   ],
   42220: [
+    [
+      [
+        '0xD629eb00dEced2a080B7EC630eF6aC117e614f1b', // cBTC
+        '0xBe50a3013A1c94768A1ABb78c3cB79AB28fc1aCE' // WBTC
+      ]
+    ],
+    [
+      [
+        '0x2DEf4285787d58a2f811AF24755A8150622f4361', // cETH
+        '0xE919F65739c26a42616b7b8eedC6b5524d1e3aC4' // WETH
+      ]
+    ],
   ],
   44787: [
   ]
