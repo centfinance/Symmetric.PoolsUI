@@ -353,7 +353,7 @@ export async function formatPool(pool) {
       process.env.VUE_APP_NETWORK === 'xdai'
       ? await getSYMMPriceXDAI()
       : await getSYMMPriceCELO(); // fetch Price for SYMM
-//  console.log(`SYMMPRICE: ${SYMMprice}`);
+  // console.log(`SYMMPRICE: ${SYMMprice}`);
   const dailyCoinReward = new BigNumber(395.6);
 
   pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
