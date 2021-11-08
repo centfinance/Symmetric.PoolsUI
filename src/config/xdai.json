@@ -4,7 +4,7 @@
   "defaultPrecision": 2,
   "rpcUrl": "https://rpc.xdaichain.com/",
   "wsUrl": "wss://rpc.xdaichain.com/wss",
-  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
   "explorer": "https://blockscout.com/xdai/mainnet",
   "exchangeUrl": "https://xdai.symmetric.exchange/",
