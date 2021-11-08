@@ -5,7 +5,7 @@
   "rpcUrl": "https://forno.celo.org",
   "wsUrl": "wss://forno.celo.org/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
-  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://explorer.celo.org",
   "exchangeUrl": "https://celo.symmetric.exchange/",
   "addresses": {
