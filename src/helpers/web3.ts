@@ -24,7 +24,7 @@ export async function sendTransaction(
     );
     // const gasLimit = gasLimitNumber.toNumber();
     // overrides.gasLimit = Math.floor(gasLimit * (1 + GAS_LIMIT_BUFFER));
-    overrides.gasLimit = 10000000;
+    // overrides.gasLimit = gasLimit;
     return await contractWithSigner[action](...params, overrides);
   } catch (e) {
     if (isTxRejected(e)) return Promise.reject();
