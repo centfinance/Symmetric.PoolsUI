@@ -439,28 +439,27 @@ export async function formatPool(pool) {
 
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);
-  let crPoolLiquidityPercent = new BigNumber(0);
+  // let crPoolLiquidityPercent = new BigNumber(0);
   const CELOprice =
     process.env.VUE_APP_NETWORK === 'xdai'
       ? await getCELOPriceXDAI()
       : await getCELOPriceCELO();
 
-  // For SYMM/CELO, it's 20%, others 40%, 33K USD a month, 1064.5 USD a day, so 162.2 CELO a day
+  // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
+  // 238.09 USD per day -> 36.6 Celo per day
   const crDailyCoinReward = [
-    new BigNumber(2 * 32.4),
-    new BigNumber(2 * 32.4),
-    new BigNumber(32.4)
+    new BigNumber(2 * (238.09 / Number(CELOprice))),
+    new BigNumber(2 * (238.09 / Number(CELOprice))),
+    new BigNumber(238.09 / Number(CELOprice))
   ];
 
   crPoolIds.forEach((poolId: string, index: number) => {
     if (poolId === pool.id) {
-      crPoolLiquidityPercent = new BigNumber(pool.liquidity).div(
-        crTotalLiquidity
-      );
+      // crPoolLiquidityPercent = new BigNumber(pool.liquidity).div(
+      //   crTotalLiquidity
+      // );
 
-      crPool.tokenRewardCelo = crDailyCoinReward[index].times(
-        crPoolLiquidityPercent
-      );
+      crPool.tokenRewardCelo = crDailyCoinReward[index]; //.times(crPoolLiquidityPercent);
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
         .times(CELOprice)
@@ -477,7 +476,7 @@ export async function formatPool(pool) {
         ? await getTokenPriceXDAI('KNX')
         : await getTokenPriceCELO('KNX');
 
-    const krDailyCoinReward = new BigNumber(7142.8); // 50K KNX a week
+    const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
     crPool.tokenRewardKnx = krDailyCoinReward;
     crPool.rewardApyKnx = crPool.tokenRewardKnx
       .times(KNXprice)
