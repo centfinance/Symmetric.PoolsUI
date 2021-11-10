@@ -135,7 +135,7 @@
         <div v-text="$t('marketCap')" class="text-white column" />
         <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
         <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
-        &nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div
           v-text="$t('rewardApy')"
           class="text-white column-sm hide-sm hide-md"
