@@ -281,8 +281,11 @@ export default {
   background-color: #272727;
   /* color: blue; */
   padding: 0px;
-  height: 13rem;
+  /* height: 13rem; */
   margin: 5px;
+}
+.highlight-card {
+  height: 100%;
 }
 .cards {
   /* background-color: #0A1E2A; */
@@ -304,7 +307,7 @@ export default {
   grid-template-areas:
     'comments contact'
     '... button';
-  grid-template-rows: 9.5em 3em;
+  grid-template-rows: 12.5em 3em;
   grid-template-columns: 10.5em 1fr;
   grid-gap: 0.2em;
   background: linear-gradient(
@@ -313,6 +316,7 @@ export default {
     #253743a1 100%
   );
   padding: 1em;
+  height: 100%;
 }
 .myForm label {
   grid-area: labels;
