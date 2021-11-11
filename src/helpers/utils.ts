@@ -12,8 +12,9 @@ import { getFactors } from '@/helpers/miningFactors';
 import merge from 'lodash/merge';
 import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { default as data } from '../../rewards.json';
+// import { default as data } from '../../rewards.json';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -152,6 +153,59 @@ export async function getSYMMPriceCELO() {
     console.error(e);
   }
 }
+export async function getCELOPriceXDAI() {
+  try {
+    const response = await subgraphRequest(
+      process.env.VUE_APP_NETWORK === 'xdai'
+        ? config.subgraphUrl
+        : config.subgraphUrlXDAI,
+      queries['getCELOPrice']
+    );
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getCELOPriceCELO() {
+  try {
+    const response = await subgraphRequest(
+      process.env.VUE_APP_NETWORK === 'celo'
+        ? config.subgraphUrl
+        : config.subgraphUrlCELO,
+      queries['getCELOPrice']
+    );
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceXDAI(token: string) {
+  try {
+    const response = await subgraphRequest(
+      process.env.VUE_APP_NETWORK === 'xdai'
+        ? config.subgraphUrl
+        : config.subgraphUrlXDAI,
+      queries[`get${token}Price`]
+    );
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceCELO(token: string) {
+  try {
+    const response = await subgraphRequest(
+      process.env.VUE_APP_NETWORK === 'celo'
+        ? config.subgraphUrl
+        : config.subgraphUrlCELO,
+      queries[`get${token}Price`]
+    );
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
 async function getPools(payload, isCurrentNetwork?) {
   const {
     first = ITEMS_PER_PAGE,
@@ -293,7 +347,7 @@ export async function formatPool(pool) {
 
   const thisChainId = config.chainId;
   const secondChainId = config.chainId == '42220' ? '100' : '42220';
-  
+
   // Get all the pools for the other network and add up the total liquidity and adjusted liquidity
   let pools = await getPoolsNoPaging(query);
   pools.pools.forEach(thispool => {
@@ -305,7 +359,9 @@ export async function formatPool(pool) {
       secondChainId
     );
 
-    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
+    const thisCombinedAdjustmentFactor = new BigNumber(
+      thisPoolFactors.feeFactor
+    )
       .times(thisPoolFactors.ratioFactor)
       .times(thisPoolFactors.wrapFactor);
 
@@ -317,6 +373,14 @@ export async function formatPool(pool) {
       thisAdjustedPoolLiquidity
     );
   });
+
+  // total liquidity for CELO APR and rewards
+  let crTotalLiquidity = new BigNumber(0);
+  const crPoolIds = [
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+  ];
 
   // Get all the pools for the current network and add up the total liquidity and adjusted liquidity
   pools = await getPoolsNoPaging(query, 1);
@@ -330,7 +394,9 @@ export async function formatPool(pool) {
       thispool.id
     );
 
-    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
+    const thisCombinedAdjustmentFactor = new BigNumber(
+      thisPoolFactors.feeFactor
+    )
       .times(thisPoolFactors.ratioFactor)
       .times(thisPoolFactors.wrapFactor);
 
@@ -341,25 +407,84 @@ export async function formatPool(pool) {
     totalAdjustedLiquidityCurrentNetwork = totalAdjustedLiquidityCurrentNetwork.plus(
       thisAdjustedPoolLiquidity
     );
+
+    // get total liquidity for CELO APR and rewards
+    if (crPoolIds.includes(thispool.id)) {
+      crTotalLiquidity = crTotalLiquidity.plus(
+        new BigNumber(thispool.liquidity)
+      );
+    }
   });
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
   const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
-    totalAdjustedLiquidityCurrentNetwork.plus(totalAdjustedLiquiditySecondNetwork)
+    totalAdjustedLiquidityCurrentNetwork.plus(
+      totalAdjustedLiquiditySecondNetwork
+    )
   );
-  
+
   // const SYMMprice = await getSYMMPriceXDAI() + await getSYMMPriceCELO() / 2;
   const SYMMprice =
-      process.env.VUE_APP_NETWORK === 'xdai'
+    process.env.VUE_APP_NETWORK === 'xdai'
       ? await getSYMMPriceXDAI()
       : await getSYMMPriceCELO(); // fetch Price for SYMM
   // console.log(`SYMMPRICE: ${SYMMprice}`);
   const dailyCoinReward = new BigNumber(395.6);
 
   pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
-  pool.rewardApy = pool.tokenReward.times(SYMMprice).div(pool.liquidity).times(365);
+  pool.rewardApy = pool.tokenReward
+    .times(SYMMprice)
+    .div(pool.liquidity)
+    .times(365);
 
-  return pool;
+  // CELO APR and rewards,  cr is just prefix for Celo Rewards
+  const crPool = cloneDeep(pool);
+  // let crPoolLiquidityPercent = new BigNumber(0);
+  const CELOprice =
+    process.env.VUE_APP_NETWORK === 'xdai'
+      ? await getCELOPriceXDAI()
+      : await getCELOPriceCELO();
+
+  // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
+  // 238.09 USD per day -> 36.6 Celo per day
+  const crDailyCoinReward = [
+    new BigNumber(2 * (238.09 / Number(CELOprice))),
+    new BigNumber(2 * (238.09 / Number(CELOprice))),
+    new BigNumber(238.09 / Number(CELOprice))
+  ];
+
+  crPoolIds.forEach((poolId: string, index: number) => {
+    if (poolId === pool.id) {
+      // crPoolLiquidityPercent = new BigNumber(pool.liquidity).div(
+      //   crTotalLiquidity
+      // );
+
+      crPool.tokenRewardCelo = crDailyCoinReward[index]; //.times(crPoolLiquidityPercent);
+
+      crPool.rewardApyCelo = crPool.tokenRewardCelo
+        .times(CELOprice)
+        .div(pool.liquidity)
+        .times(365);
+    }
+  });
+
+  // KNX APR and rewards
+  if (crPool.id === '0xa4ae7529cece492b6c47c726a320eea8841658ec') {
+    // KNX/cUSD
+    const KNXprice =
+      process.env.VUE_APP_NETWORK === 'xdai'
+        ? await getTokenPriceXDAI('KNX')
+        : await getTokenPriceCELO('KNX');
+
+    const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
+    crPool.tokenRewardKnx = krDailyCoinReward;
+    crPool.rewardApyKnx = crPool.tokenRewardKnx
+      .times(KNXprice)
+      .div(crPool.liquidity)
+      .times(365);
+  }
+
+  return crPool;
 }
 
 export async function formatPools(pools) {

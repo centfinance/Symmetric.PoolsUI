@@ -49,7 +49,13 @@
                   </div>
                   <div class="grouptext margin-top10">
                     <span v-text="$t('rewardApy')" class="text-white-normal" />:
-                    <UiNum :value="item.rewardApy" format="percent" />
+                    <UiNum :value="item.rewardApy" format="percent" /> SYMM
+                    <span v-if="item.rewardApyCelo"> / 
+                      <UiNum :value="item.rewardApyCelo" format="percent" /> CELO
+                    </span>
+                    <span v-if="item.rewardApyKnx"> / 
+                      <UiNum :value="item.rewardApyKnx" format="percent" /> KNX
+                    </span>
                   </div>
                 <div class="grouptext margin-top10">
                     <span v-text="$t('symmReward')" class="text-white-normal" />:
@@ -57,7 +63,21 @@
                       v-text="_num(item.tokenReward, 'long')"
                       format="long"
                       class=""
-                    /> SYMM
+                    /> SYMM 
+                    <span v-if="item.tokenRewardCelo"> / 
+                      <span
+                        v-text="_num(item.tokenRewardCelo, 'long')"
+                        format="long"
+                        class=""
+                      /> CELO
+                    </span>
+                    <span v-if="item.tokenRewardKnx"> / 
+                      <span
+                        v-text="_num(item.tokenRewardKnx, 'long')"
+                        format="long"
+                        class=""
+                      /> KNX
+                    </span>
                   </div>
                   
                   <div class="grouptext margin-top10">
@@ -135,7 +155,7 @@
         <div v-text="$t('marketCap')" class="text-white column" />
         <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
         <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
-        &nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div
           v-text="$t('rewardApy')"
           class="text-white column-sm hide-sm hide-md"
