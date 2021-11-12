@@ -80,6 +80,23 @@
       "poolTokenId": true
     }
   },
+  "getSTAKEPrice": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1000,
+        "where": {
+          "symbol": "STAKE"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
   "getPool": {
     "pool": {
       "id": true,

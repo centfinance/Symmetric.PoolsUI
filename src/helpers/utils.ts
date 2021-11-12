@@ -291,6 +291,29 @@ async function getPoolsNoPaging(payload, isCurrentNetwork?) {
   }
 }
 
+function findPoolFromTokens(
+  pool: any,
+  token1: string,
+  token2: string,
+  count = 2
+) {
+  const { tokens } = pool;
+  if (tokens.length !== count) {
+    return false;
+  }
+
+  if (
+    (tokens[0].symbol !== token1 && tokens[0].symbol !== token2) ||
+    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2)
+  ) {
+    return false;
+  }
+
+  console.log({ tokens });
+
+  return true;
+}
+
 export async function formatPool(pool) {
   let colorIndex = 0;
   pool.tokens = pool.tokens.map(token => {
@@ -481,6 +504,39 @@ export async function formatPool(pool) {
     crPool.rewardApyKnx = crPool.tokenRewardKnx
       .times(KNXprice)
       .div(crPool.liquidity)
+      .times(365);
+  }
+
+  // xDAI APR and rewards
+  // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
+  const enum stakePool {
+    STAKE_AGVE,
+    STAKE_WXDAI,
+    SYMM_WXDAI,
+    None
+  }
+  let stakePoolIndex = stakePool.None;
+
+  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE')) {
+    stakePoolIndex = stakePool.STAKE_AGVE;
+  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI')) {
+    stakePoolIndex = stakePool.STAKE_WXDAI;
+  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI')) {
+    stakePoolIndex = stakePool.SYMM_WXDAI;
+  }
+
+  if (stakePoolIndex !== stakePool.None) {
+    const STAKEprice = await getTokenPriceXDAI('STAKE');
+    const stakeDailyCoinReward = [
+      new BigNumber((595.21 * 0.2) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.3) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.5) / Number(STAKEprice))
+    ];
+    crPool.tokenRewardStake = stakeDailyCoinReward[stakePoolIndex];
+
+    crPool.rewardApyStake = crPool.tokenRewardStake
+      .times(STAKEprice)
+      .div(pool.liquidity)
       .times(365);
   }
 

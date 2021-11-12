@@ -56,6 +56,9 @@
                     <span v-if="item.rewardApyKnx"> / 
                       <UiNum :value="item.rewardApyKnx" format="percent" /> KNX
                     </span>
+                    <span v-if="item.rewardApyStake"> / 
+                      <UiNum :value="item.rewardApyStake" format="percent" /> STAKE
+                    </span>
                   </div>
                 <div class="grouptext margin-top10">
                     <span v-text="$t('symmReward')" class="text-white-normal" />:
@@ -77,6 +80,13 @@
                         format="long"
                         class=""
                       /> KNX
+                    </span>
+                    <span v-if="item.tokenRewardStake"> / 
+                      <span
+                        v-text="_num(item.tokenRewardStake, 'long')"
+                        format="long"
+                        class=""
+                      /> STAKE
                     </span>
                   </div>
                   
