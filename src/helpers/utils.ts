@@ -269,6 +269,8 @@ function findPoolFromTokens(
   pool: any,
   token1: string,
   token2: string,
+  weight1: number,
+  weight2: number,
   count = 2
 ) {
   const { tokens } = pool;
@@ -278,7 +280,9 @@ function findPoolFromTokens(
 
   if (
     (tokens[0].symbol !== token1 && tokens[0].symbol !== token2) ||
-    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2)
+    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2) ||
+    tokens[0].weightPercent !== weight1 ||
+    tokens[1].weightPercent !== weight2
   ) {
     return false;
   }
@@ -477,11 +481,11 @@ export async function formatPool(pool) {
   }
   let stakePoolIndex = stakePool.None;
 
-  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE')) {
+  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
     stakePoolIndex = stakePool.STAKE_AGVE;
-  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI')) {
+  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI', 60, 40)) {
     stakePoolIndex = stakePool.STAKE_WXDAI;
-  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI')) {
+  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
     stakePoolIndex = stakePool.SYMM_WXDAI;
   }
 
