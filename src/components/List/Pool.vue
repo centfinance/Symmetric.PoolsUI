@@ -63,6 +63,16 @@
           KNX
         </div>
       </div>
+      <div class="d-flex" v-if="pool.rewardApyStake">
+        <UiNum
+          :value="pool.rewardApyStake"
+          format="percent"
+          class="column hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          STAKE
+        </div>
+      </div>
     </div>
     <div>
       <div class="d-flex">
@@ -93,6 +103,16 @@
         />
         <div class="column-xxs hide-sm hide-md">
           KNX
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardStake">
+        <UiNum
+          :value="pool.tokenRewardStake"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          STAKE
         </div>
       </div>
     </div>

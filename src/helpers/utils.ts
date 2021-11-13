@@ -153,32 +153,6 @@ export async function getSYMMPriceCELO() {
     console.error(e);
   }
 }
-export async function getCELOPriceXDAI() {
-  try {
-    const response = await subgraphRequest(
-      process.env.VUE_APP_NETWORK === 'xdai'
-        ? config.subgraphUrl
-        : config.subgraphUrlXDAI,
-      queries['getCELOPrice']
-    );
-    return response.tokenPrices[0].price;
-  } catch (e) {
-    console.error(e);
-  }
-}
-export async function getCELOPriceCELO() {
-  try {
-    const response = await subgraphRequest(
-      process.env.VUE_APP_NETWORK === 'celo'
-        ? config.subgraphUrl
-        : config.subgraphUrlCELO,
-      queries['getCELOPrice']
-    );
-    return response.tokenPrices[0].price;
-  } catch (e) {
-    console.error(e);
-  }
-}
 export async function getTokenPriceXDAI(token: string) {
   try {
     const response = await subgraphRequest(
@@ -289,6 +263,31 @@ async function getPoolsNoPaging(payload, isCurrentNetwork?) {
   } catch (e) {
     console.error(e);
   }
+}
+
+function findPoolFromTokens(
+  pool: any,
+  token1: string,
+  token2: string,
+  weight1: number,
+  weight2: number,
+  count = 2
+) {
+  const { tokens } = pool;
+  if (tokens.length !== count) {
+    return false;
+  }
+
+  if (
+    (tokens[0].symbol !== token1 && tokens[0].symbol !== token2) ||
+    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2) ||
+    tokens[0].weightPercent !== weight1 ||
+    tokens[1].weightPercent !== weight2
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export async function formatPool(pool) {
@@ -439,27 +438,18 @@ export async function formatPool(pool) {
 
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);
-  // let crPoolLiquidityPercent = new BigNumber(0);
-  const CELOprice =
-    process.env.VUE_APP_NETWORK === 'xdai'
-      ? await getCELOPriceXDAI()
-      : await getCELOPriceCELO();
 
   // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
   // 238.09 USD per day -> 36.6 Celo per day
-  const crDailyCoinReward = [
-    new BigNumber(2 * (238.09 / Number(CELOprice))),
-    new BigNumber(2 * (238.09 / Number(CELOprice))),
-    new BigNumber(238.09 / Number(CELOprice))
-  ];
-
-  crPoolIds.forEach((poolId: string, index: number) => {
+  crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
-      // crPoolLiquidityPercent = new BigNumber(pool.liquidity).div(
-      //   crTotalLiquidity
-      // );
-
-      crPool.tokenRewardCelo = crDailyCoinReward[index]; //.times(crPoolLiquidityPercent);
+      const CELOprice = await getTokenPriceCELO('CELO');
+      const crDailyCoinReward = [
+        new BigNumber(2 * (238.09 / Number(CELOprice))),
+        new BigNumber(2 * (238.09 / Number(CELOprice))),
+        new BigNumber(238.09 / Number(CELOprice))
+      ];
+      crPool.tokenRewardCelo = crDailyCoinReward[index];
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
         .times(CELOprice)
@@ -471,16 +461,46 @@ export async function formatPool(pool) {
   // KNX APR and rewards
   if (crPool.id === '0xa4ae7529cece492b6c47c726a320eea8841658ec') {
     // KNX/cUSD
-    const KNXprice =
-      process.env.VUE_APP_NETWORK === 'xdai'
-        ? await getTokenPriceXDAI('KNX')
-        : await getTokenPriceCELO('KNX');
+    const KNXprice = await getTokenPriceCELO('KNX');
 
     const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
     crPool.tokenRewardKnx = krDailyCoinReward;
     crPool.rewardApyKnx = crPool.tokenRewardKnx
       .times(KNXprice)
       .div(crPool.liquidity)
+      .times(365);
+  }
+
+  // xDAI APR and rewards
+  // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
+  const enum stakePool {
+    STAKE_AGVE,
+    STAKE_WXDAI,
+    SYMM_WXDAI,
+    None
+  }
+  let stakePoolIndex = stakePool.None;
+
+  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
+    stakePoolIndex = stakePool.STAKE_AGVE;
+  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI', 60, 40)) {
+    stakePoolIndex = stakePool.STAKE_WXDAI;
+  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
+    stakePoolIndex = stakePool.SYMM_WXDAI;
+  }
+
+  if (stakePoolIndex !== stakePool.None) {
+    const STAKEprice = await getTokenPriceXDAI('STAKE');
+    const stakeDailyCoinReward = [
+      new BigNumber((595.21 * 0.2) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.3) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.5) / Number(STAKEprice))
+    ];
+    crPool.tokenRewardStake = stakeDailyCoinReward[stakePoolIndex];
+
+    crPool.rewardApyStake = crPool.tokenRewardStake
+      .times(STAKEprice)
+      .div(pool.liquidity)
       .times(365);
   }
 
