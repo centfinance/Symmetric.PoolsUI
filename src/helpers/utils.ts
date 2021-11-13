@@ -212,8 +212,7 @@ async function getPoolsNoPaging(payload, isCurrentNetwork?) {
     pools: {
       __args: {
         where: {
-          finalized: true,
-          liquidity_gt: 0
+          finalized: true
         },
         orderBy,
         orderDirection
