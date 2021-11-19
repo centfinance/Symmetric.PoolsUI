@@ -15,6 +15,19 @@
         >
           {{ $t('addLiquidity') }}
         </UiButton>
+        <!-- MIVA:SYMM Pool with Farm -->
+        <a
+            v-if="this.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b'"
+            target="_blank"
+            class="ml-2 mivafarm"
+            href="https://farm.minerva.digital/"
+        >
+          <UiButton
+              class="button-primary"
+          >
+            Streaming Farm
+          </UiButton>
+        </a>
         <UiButton
           v-if="enableAddLiquidity && pool.tokens.length > 0"
           class="ml-2"
@@ -179,3 +192,12 @@ export default {
   }
 };
 </script>
+<style scoped>
+.mivafarm button {
+  background-image: linear-gradient(270deg,#443ad2,#8349d1);
+  border: none;
+}
+.mivafarm button:hover {
+  background: #8349d1;
+}
+</style>
