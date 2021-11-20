@@ -41,8 +41,37 @@
             <span
               class="row text-white-normal"
               v-text="_num(xDaiTVL, 'usd-long')"
-            /> </span
-          >&nbsp; (
+            /> </span>
+          &nbsp;
+          <!--
+          <span>
+            <span>TVL Avalanche: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(avalancheTVL, 'usd-long')"
+            /> </span>
+          &nbsp;
+          <span>
+            <span>TVL Fantom: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(fantomTVL, 'usd-long')"
+            /> </span>
+          &nbsp;
+          <span>
+            <span>TVL Optimism: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(optimismTVL, 'usd-long')"
+            /> </span>
+          &nbsp;
+          <span>
+            <span>TVL Polygon: </span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(polygonTVL, 'usd-long')"
+            /> </span> 
+          &nbsp; --> (
           <span>
             <span>Symbol: </span>
             <span class="row text-white-normal">SYMM</span>
@@ -62,8 +91,41 @@
               class="row text-white-normal"
               v-text="_num(SYMMPricexDAI, 'usd-long')"
             />
+          </span><!--
+          &nbsp;
+          <span>
+            <span>Avalanche: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPriceAvalanche, 'usd-long')"
+            />
           </span>
-          &nbsp; <span class="text-white-normal">*Last trade price</span>
+          &nbsp;
+          <span>
+            <span>Fantom: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPriceFantom, 'usd-long')"
+            />
+          </span>
+          &nbsp;
+          <span>
+            <span>Optimism: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPriceOptimism, 'usd-long')"
+            />
+          </span>
+          &nbsp;
+          <span>
+            <span>Polygon: *</span>
+            <span
+              class="row text-white-normal"
+              v-text="_num(SYMMPricePolygon, 'usd-long')"
+            />
+          </span> --> 
+          &nbsp; 
+          <span class="text-white-normal">*Last trade price</span>
           )
         </div>
       </div>
@@ -104,7 +166,11 @@
 import {
   formatFilters,
   getSYMMPriceXDAI,
-  getSYMMPriceCELO
+  getSYMMPriceCELO,
+  getSYMMPriceAVALANCHE,
+  getSYMMPriceFANTOM,
+  getSYMMPriceOPTIMISM,
+  getSYMMPricePOLYGON
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 
@@ -118,8 +184,16 @@ export default {
       chartdata: null,
       xDaiTVL: null,
       celoTVL: null,
+      avalancheTVL: null,
+      fantomTVL: null,
+      optimismTVL: null,
+      polygonTVL: null,
       SYMMPricexDAI: null,
       SYMMPriceCelo: null,
+      SYMMPriceAvalanche: null,
+      SYMMPriceFantom: null,
+      SYMMPriceOptimism: null,
+      SYMMPricePolygon: null,
       tvl: '',
       tokens: [],
       type: 'shared',
@@ -140,6 +214,11 @@ export default {
       const data = await response.json();
       this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
+      // TNA TODO
+    //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
+    //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
+    // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
+    //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -153,6 +232,10 @@ export default {
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();
+   //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
+   //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
+   //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
+   //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
     },
     addToken(token) {
       this.tokens.push(token);
