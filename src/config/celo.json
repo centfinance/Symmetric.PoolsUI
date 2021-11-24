@@ -26,6 +26,17 @@
       "id": "celo",
       "name": "Celo Extension Wallet"
     },
+    "valora": {
+      "id": "valora",
+      "name": "Valora",
+      "options": {
+        "rpc": {
+          "42220": "https://forno.celo.org"
+        },
+        "chainId": 42220,
+        "bridge": "https://walletconnect-relay.minerva.digital"
+      }
+    },
     "walletconnect": {
       "id": "walletconnect",
       "name": "WalletConnect",
