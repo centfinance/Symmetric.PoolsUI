@@ -17,7 +17,7 @@
         </UiButton>
         <!-- MIVA:SYMM Pool with Farm -->
         <a
-            v-if="this.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b'"
+            v-if="this.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' || this.id === '0x93b599b54af63518d1dca6a116f323f33888453c'"
             target="_blank"
             class="ml-2 mivafarm"
             href="https://farm.minerva.digital/"
