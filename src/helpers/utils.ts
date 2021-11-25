@@ -319,32 +319,32 @@ async function getPoolsNoPaging(payload, chainId) {
   try {
     switch (chainId)
     {
-      case 'celo':
+      case '42220':
         return await subgraphRequest(
           config.subgraphUrlCELO,
           merge(queries['getPools'], query)
         );
-      case 'polygon':
+      case '137':
         return await subgraphRequest(
           config.subgraphUrlPOLYGON,
           merge(queries['getPools'], query)
         );
-      case 'avalanche':
+      case '43114':
         return await subgraphRequest(
           config.subgraphUrlAVALANCHE,
           merge(queries['getPools'], query)
         );
-      case 'fantom':
+      case '250':
         return await subgraphRequest(
           config.subgraphUrlFANTOM,
           merge(queries['getPools'], query)
         );
-      case 'optimism':
+      case '10':
         return await subgraphRequest(
           config.subgraphUrlOPTIMISM,
           merge(queries['getPools'], query)
         );
-      case 'xdai':
+      case '100':
       default:
         return await subgraphRequest(
           config.subgraphUrlXDAI,
