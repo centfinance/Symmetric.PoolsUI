@@ -5,6 +5,7 @@ import { Contract } from '@ethersproject/contracts';
 import { Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import BigNumber from '@/helpers/bignumber';
+import store from '@/store';
 import config from '@/config';
 import i18n from '@/i18n';
 import { getFactors } from '@/helpers/miningFactors';
@@ -287,13 +288,50 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
+  const liquidity = store.getters['getNetworkLiquidity'];
+  const totalAdjustedLiquiditySecondNetwork = liquidity.totalAdjustedLiquiditySecondNetwork;
+  const totalAdjustedLiquidityCurrentNetwork = liquidity.totalAdjustedLiquidityCurrentNetwork;
+
+  // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
+  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
+    totalAdjustedLiquidityCurrentNetwork.plus(totalAdjustedLiquiditySecondNetwork)
+  );
+
+  // const SYMMprice = await getSYMMPriceXDAI() + await getSYMMPriceCELO() / 2;
+  const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM
+//  console.log(`SYMMPRICE: ${SYMMprice}`);
+
+  const dailyCoinReward = new BigNumber(395.6);
+  
+  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
+  pool.rewardApy = pool.tokenReward.times(SYMMprice).div(pool.liquidity).times(365);
+  
+  return pool;
+}
+
+export async function getSYMMprice(){
+  const SYMMprice =
+    process.env.VUE_APP_NETWORK === 'xdai'
+    ? await getSYMMPriceXDAI()
+    : await getSYMMPriceCELO();
+  return SYMMprice;
+}
+
+export async function getNetworkLiquidity(){
+  const query = {
+    where: {
+      finalized: true,
+      liquidity_gt: 0
+    }
+  };
+
   let totalAdjustedLiquiditySecondNetwork = new BigNumber(0);
   let totalAdjustedLiquidityCurrentNetwork = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
   const thisChainId = config.chainId;
   const secondChainId = config.chainId == '42220' ? '100' : '42220';
-  
+
   // Get all the pools for the other network and add up the total liquidity and adjusted liquidity
   let pools = await getPoolsNoPaging(query);
   pools.pools.forEach(thispool => {
@@ -343,23 +381,12 @@ export async function formatPool(pool) {
     );
   });
 
-  // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
-  const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
-    totalAdjustedLiquidityCurrentNetwork.plus(totalAdjustedLiquiditySecondNetwork)
-  );
-  
-  // const SYMMprice = await getSYMMPriceXDAI() + await getSYMMPriceCELO() / 2;
-  const SYMMprice =
-      process.env.VUE_APP_NETWORK === 'xdai'
-      ? await getSYMMPriceXDAI()
-      : await getSYMMPriceCELO(); // fetch Price for SYMM
-//  console.log(`SYMMPRICE: ${SYMMprice}`);
-  const dailyCoinReward = new BigNumber(395.6);
+  return {
+    totalAdjustedLiquiditySecondNetwork,
+    totalAdjustedLiquidityCurrentNetwork,
+    thisAdjustedPoolLiquidity
+  }
 
-  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
-  pool.rewardApy = pool.tokenReward.times(SYMMprice).div(pool.liquidity).times(365);
-
-  return pool;
 }
 
 export async function formatPools(pools) {

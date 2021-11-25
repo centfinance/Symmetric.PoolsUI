@@ -234,7 +234,7 @@ export default {
       if (!pool.finalized || !poolShares) return 0;
       return (this.getLiquidity(pool) / pool.totalShares) * poolShares;
     },
-    ...mapActions(['getPools']),
+    ...mapActions(['getPools', 'getNetworkLiquidity', 'getSYMMprice']),
     async loadMore() {
       console.log(
         `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
@@ -245,6 +245,8 @@ export default {
       const page = this.page;
       let query = this.query || {};
       query = { ...query, page };
+      await this.getNetworkLiquidity();
+      await this.getSYMMprice();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
       this.loading = false;
