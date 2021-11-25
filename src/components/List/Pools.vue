@@ -127,6 +127,19 @@
                 <UiButton class="button-primary">
                   Add Liquidity
                 </UiButton>
+                <!-- MIVA:SYMM Pool with Farm -->
+                <a
+                    v-if="item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' || item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'"
+                    class="mivafarm"
+                    href="https://farm.minerva.digital/"
+                    target="_blank"
+                >
+                  <UiButton
+                      class="button-primary"
+                  >
+                    Streaming Farm
+                  </UiButton>
+                </a>
                 <div class="grouptext">
                   <span
                     v-text="$t('myLiquidity')"
