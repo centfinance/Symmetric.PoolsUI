@@ -18,6 +18,18 @@ switch (config.network) {
     case 'kovan':
         provider = new JsonRpcProvider(config.rpcUrl, 42);
         break;
+    case 'avalanche':
+        provider = new JsonRpcProvider(config.rpcUrl, 43114);
+        break;
+    case 'fantom':
+        provider = new JsonRpcProvider(config.rpcUrl, 250);
+        break;
+    case 'optimism':
+        provider = new JsonRpcProvider(config.rpcUrl, 10);
+        break;
+    case 'polygon':
+        provider = new JsonRpcProvider(config.rpcUrl, 137);
+        break;
     case 'ethereum':
     default:
         break;
