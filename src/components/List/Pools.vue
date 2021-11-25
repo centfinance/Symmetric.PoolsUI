@@ -329,8 +329,7 @@ export default {
   display: grid;
   grid-template-areas:
     'comments contact'
-    '... button'
-    '... farm';
+    '... button';
   grid-template-rows: 12.5em 3em;
   grid-template-columns: 10.5em 1fr;
   grid-gap: 0.2em;
@@ -382,17 +381,6 @@ li {
   border: 0;
   background: #5b8470;
   color: white;
-}
-.myForm .mivafarm {
-  grid-area: farm;
-}
-.myForm .mivafarm button {
-  background-image: linear-gradient(270deg,#443ad2,#8349d1);
-  margin-top: 4px;
-  width: 100%;
-}
-.myForm .mivafarm button:hover {
-  background: #8349d1;
 }
 .text-white-normal {
   color: white;

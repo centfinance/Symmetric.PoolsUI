@@ -5,6 +5,12 @@
   "rpcUrl": "https://cloudflare-eth.com",
   "wsUrl": "wss://mainnet.infura.io/ws/v3/03f1a9a53dee4bd5a7d3dde58ce26442",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-homestead",
+  "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://etherscan.io",
   "exchangeUrl": "https://exchange.cent.finance",
   "addresses": {

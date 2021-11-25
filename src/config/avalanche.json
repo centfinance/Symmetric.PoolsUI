@@ -1,18 +1,18 @@
 {
-  "network": "celo",
-  "chainId": 42220,
+  "network": "avalanche",
+  "chainId": 43114,
   "defaultPrecision": 2,
-  "rpcUrl": "https://forno.celo.org",
+  "rpcUrl": "https://api.avax.network/ext/bc/C/rpc",
   "wsUrl": "wss://forno.celo.org/ws",
-  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
   "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
   "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
   "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
   "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
-  "explorer": "https://explorer.celo.org",
-  "exchangeUrl": "https://celo.symmetric.exchange/",
+  "explorer": "https://snowtrace.io/",
+  "exchangeUrl": "https://avalanche.symmetric.exchange/",
   "addresses": {
     "bFactory": "0x6C2e59C3cCB1d81c0eC9Fb9d4d6a3CC3488Fd71c",
     "bActions": "0xBe04ae09b9e41b8828b8866280bF882b42576b4e",
@@ -27,19 +27,14 @@
       "id": "injected",
       "name": "MetaMask"
     },
-    "celo": {
-      "id": "celo",
-      "name": "Celo Extension Wallet"
-    },
     "walletconnect": {
       "id": "walletconnect",
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "42220": "https://forno.celo.org"
+          "42220": "https://api.avax.network/ext/bc/C/rpc"
         },
-        "chainId": 42220,
-        "bridge": "https://walletconnect-relay.minerva.digital"
+        "chainId": 43114
       }
     }
   }

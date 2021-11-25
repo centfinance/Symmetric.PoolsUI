@@ -1,9 +1,9 @@
 {
-  "network": "celo",
-  "chainId": 42220,
+  "network": "polygon",
+  "chainId": 137,
   "defaultPrecision": 2,
-  "rpcUrl": "https://forno.celo.org",
-  "wsUrl": "wss://forno.celo.org/ws",
+  "rpcUrl": "https://polygon-rpc.com/",
+  "wsUrl": "wss://polygon-rpc.com//ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
   "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
@@ -11,8 +11,8 @@
   "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
   "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
   "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
-  "explorer": "https://explorer.celo.org",
-  "exchangeUrl": "https://celo.symmetric.exchange/",
+  "explorer": "https://polygonscan.com/",
+  "exchangeUrl": "https://polygon.symmetric.exchange/",
   "addresses": {
     "bFactory": "0x6C2e59C3cCB1d81c0eC9Fb9d4d6a3CC3488Fd71c",
     "bActions": "0xBe04ae09b9e41b8828b8866280bF882b42576b4e",
@@ -27,19 +27,14 @@
       "id": "injected",
       "name": "MetaMask"
     },
-    "celo": {
-      "id": "celo",
-      "name": "Celo Extension Wallet"
-    },
     "walletconnect": {
       "id": "walletconnect",
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "42220": "https://forno.celo.org"
+          "42220": "https://polygon-rpc.com/"
         },
-        "chainId": 42220,
-        "bridge": "https://walletconnect-relay.minerva.digital"
+        "chainId": 137
       }
     }
   }

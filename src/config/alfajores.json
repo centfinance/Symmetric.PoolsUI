@@ -5,7 +5,12 @@
   "rpcUrl": "https://alfajores-forno.celo-testnet.org",
   "wsUrl": "wss://alfajores-forno.celo-testnet.org/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-alfajores",
-  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-xdai",
+  "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://alfajores-blockscout.celo-testnet.org",
   "exchangeUrl": "https://alfajores.symmetric.exchange/",
   "addresses": {

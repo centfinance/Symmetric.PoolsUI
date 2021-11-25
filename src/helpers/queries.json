@@ -63,6 +63,74 @@
       "poolTokenId": true
     }
   },
+  "getAVALANCHEPrice": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1000,
+        "where": {
+          "symbol": "WAVAX"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
+  "getFANTOMPrice": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1000,
+        "where": {
+          "symbol": "WFTM"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
+  "getOPTIMISMPrice": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1000,
+        "where": {
+          "symbol": "WETH"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
+  "getPOLYGONPrice": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1000,
+        "where": {
+          "symbol": "WMATIC"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
   "getKNXPrice": {
     "tokenPrices": {
       "__args": {

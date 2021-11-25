@@ -5,6 +5,12 @@
   "rpcUrl": "https://kovan.infura.io/v3/e68cb3352f7d4fb7848c4650917e4422",
   "wsUrl": "wss://kovan.infura.io/ws/v3/e68cb3352f7d4fb7848c4650917e4422",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-kovan",
+  "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://kovan.etherscan.io",
   "exchangeUrl": "https://exchange-kovan.cent.finance",
   "addresses": {

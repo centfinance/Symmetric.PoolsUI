@@ -5,7 +5,12 @@
   "rpcUrl": "https://rpc.xdaichain.com/",
   "wsUrl": "wss://rpc.xdaichain.com/wss",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
+  "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://blockscout.com/xdai/mainnet",
   "exchangeUrl": "https://xdai.symmetric.exchange/",
   "addresses": {
