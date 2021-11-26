@@ -247,9 +247,10 @@ const actions = {
         auth.provider.on('networkChanged', async () => {
           commit('HANDLE_NETWORK_CHANGED');
           if (state.active) {
-            await dispatch('clearUser');
-            await dispatch('logout');
-            await dispatch('login');
+            // TODO: store connector to the state and send the connector when dispatch login
+            // await dispatch('clearUser');
+            // await dispatch('logout');
+            // await dispatch('login');
           }
         });
       }
