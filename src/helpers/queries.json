@@ -244,7 +244,8 @@
       "__args": {
         "where": {
           "active": true,
-          "tokensCount_gt": 1
+          "tokensCount_gt": 1,
+          "holdersCount_gt": 0
         }
       },
       "id": true,
