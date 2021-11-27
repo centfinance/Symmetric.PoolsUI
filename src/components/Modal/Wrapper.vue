@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <UiModalForm @submit="handleSubmit">
       <template slot="header">
         <h3 v-text="$t(title)" class="text-white" />
@@ -97,7 +97,7 @@ export default {
     return {
       currentSide: 1,
       amount: '',
-      loading: false
+      loading: false,
     };
   },
   watch: {
@@ -105,31 +105,35 @@ export default {
       if (this.side) this.currentSide = this.side;
       this.loading = false;
       this.amount = '';
-    }
+    },
   },
   computed: {
     title() {
       if (process.env.VUE_APP_NETWORK === 'xdai')
-        return this.currentSide === 2 ? 'wrapWxdaiToXdai' : 'Wrap xDai to wxDai';
+        return this.currentSide === 2
+          ? 'wrapWxdaiToXdai'
+          : 'Wrap xDai to wxDai';
       else if (process.env.VUE_APP_NETWORK === 'sokol')
-        return this.currentSide === 2 ? 'wrapWspoaToSpoa' : 'Wrap Spoa to Wspoa';
+        return this.currentSide === 2
+          ? 'wrapWspoaToSpoa'
+          : 'Wrap Spoa to Wspoa';
       else return this.currentSide === 2 ? 'wrapWethToEth' : 'Wrap Eth to wEth';
     },
     symbols() {
       if (process.env.VUE_APP_NETWORK === 'xdai')
         return {
           tokenIn: this.currentSide === 2 ? 'WXDAI' : 'XDAI',
-          tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI'
+          tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI',
         };
       else if (process.env.VUE_APP_NETWORK === 'sokol')
         return {
           tokenIn: this.currentSide === 2 ? 'WSPOA' : 'SPOA',
-          tokenOut: this.currentSide === 2 ? 'SPOA' : 'WSPOA'
+          tokenOut: this.currentSide === 2 ? 'SPOA' : 'WSPOA',
         };
       else {
         return {
           tokenIn: this.currentSide === 2 ? 'WETH' : 'ETH',
-          tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH'
+          tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH',
         };
       }
     },
@@ -143,7 +147,10 @@ export default {
         balance = this.web3.balances['spoa'] || '0';
         if (this.currentSide === 2)
           balance = this.web3.balances[this.config.addresses.wspoa] || '0';
-      } else if (process.env.VUE_APP_NETWORK === 'ethereum' || process.env.VUE_APP_NETWORK === 'kovan') {
+      } else if (
+        process.env.VUE_APP_NETWORK === 'ethereum' ||
+        process.env.VUE_APP_NETWORK === 'kovan'
+      ) {
         balance = this.web3.balances['ether'] || '0';
         if (this.currentSide === 2)
           balance = this.web3.balances[this.config.addresses.weth] || '0';
@@ -163,7 +170,7 @@ export default {
         this.balance.isZero() ||
         !this.balance.minus(GAS_BUFFER_WARNING).lt(this.amount)
       );
-    }
+    },
   },
   methods: {
     ...mapActions(['wrap', 'unwrap']),
@@ -187,7 +194,7 @@ export default {
       this.currentSide = this.currentSide === 1 ? 2 : 1;
       this.amount = '';
       this.loading = false;
-    }
-  }
+    },
+  },
 };
 </script>

@@ -225,77 +225,7 @@ export async function getTokenPricePOLYGON(token: string) {
 }
 
 let executed = false;
-/*
-async function getPools(payload, chainId) {
-  const {
-    first = ITEMS_PER_PAGE,
-    page = 1,
-    orderBy = 'liquidity',
-    orderDirection = 'desc',
-    where = {}
-  } = payload;
-  const skip = (page - 1) * first;
-  const ts = Math.round(new Date().getTime() / 1000);
-  const tsYesterday = ts - 24 * 3600;
-  where.tokensList_not = [];
-  const query = {
-    pools: {
-      __args: {
-        where,
-        first,
-        skip,
-        orderBy,
-        orderDirection
-      },
-      swaps: {
-        __args: {
-          where: {
-            timestamp_lt: tsYesterday
-          }
-        }
-      }
-    }
-  };
-  try {
-    switch (chainId)
-    {
-      case 'celo':
-        return await subgraphRequest(
-          config.subgraphUrlCELO,
-          merge(queries['getPools'], query)
-        );
-      case 'polygon':
-        return await subgraphRequest(
-          config.subgraphUrlPOLYGON,
-          merge(queries['getPools'], query)
-        );
-      case 'avalanche':
-        return await subgraphRequest(
-          config.subgraphUrlAVALANCHE,
-          merge(queries['getPools'], query)
-        );
-      case 'fantom':
-        return await subgraphRequest(
-          config.subgraphUrlFANTOM,
-          merge(queries['getPools'], query)
-        );
-      case 'optimism':
-        return await subgraphRequest(
-          config.subgraphUrlOPTIMISM,
-          merge(queries['getPools'], query)
-        );
-      case 'xdai':
-      default:
-        return await subgraphRequest(
-          config.subgraphUrlXDAI,
-          merge(queries['getPools'], query)
-        );
-    }
-  } catch (e) {
-    console.error(e);
-  }
-}
-*/
+
 async function getPoolsNoPaging(payload, chainId) {
   const {
     orderBy = 'liquidity',
