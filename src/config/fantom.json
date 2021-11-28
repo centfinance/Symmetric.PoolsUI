@@ -6,11 +6,17 @@
   "wsUrl": "wss://rpc.ftm.tools/ws",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
   "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "subgraphUrlFUJI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fuji",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlALFAJORES": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-alfajores",
   "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlFANTOM-TESTNET": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom-testnet",
   "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlOPTIMISM-KOVAN": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism-kovan",
   "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlPOLYGON-MUMBAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-mumbai",
   "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
+  "subgraphUrlSOKOL": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-sokol",
   "explorer": "https://ftmscan.com/",
   "exchangeUrl": "https://fantom.symmetric.exchange/",
   "addresses": {
@@ -32,7 +38,7 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "42220": "https://rpc.ftm.tools/"
+          "250": "https://rpc.ftm.tools/"
         },
         "chainId": 250
       }

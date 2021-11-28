@@ -309,6 +309,12 @@ const actions = {
         : Object.keys(state.balances).filter(token => token !== 'spoa');
     else if (config.network === 'celo' || config.network === 'alfajores')
       tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'fantom' || config.network === 'fantom-testnet')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'avalanche' || config.network === 'fuji')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'polygon' || config.network === 'polygon-mumbai')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else
       tokensToFetch = tokens
         ? tokens

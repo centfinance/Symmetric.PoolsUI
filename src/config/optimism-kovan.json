@@ -1,10 +1,10 @@
 {
-  "network": "avalanche",
-  "chainId": 43114,
+  "network": "optimism-kovan",
+  "chainId": 69,
   "defaultPrecision": 2,
-  "rpcUrl": "https://api.avax.network/ext/bc/C/rpc",
-  "wsUrl": "wss://forno.celo.org/ws",
-  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "rpcUrl": "https://kovan.optimism.io",
+  "wsUrl": "wss://ws-kovan.optimism.io/ws",
+  "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism-kovan",
   "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlFUJI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fuji",
   "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
@@ -17,8 +17,8 @@
   "subgraphUrlPOLYGON-MUMBAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-mumbai",
   "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "subgraphUrlSOKOL": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-sokol",
-  "explorer": "https://snowtrace.io/",
-  "exchangeUrl": "https://avalanche.symmetric.exchange/",
+  "explorer": "https://kovan-optimistic.etherscan.io",
+  "exchangeUrl": "https://optimism-kovan.symmetric.exchange/",
   "addresses": {
     "bFactory": "0x6C2e59C3cCB1d81c0eC9Fb9d4d6a3CC3488Fd71c",
     "bActions": "0xBe04ae09b9e41b8828b8866280bF882b42576b4e",
@@ -38,11 +38,10 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "43114": "https://api.avax.network/ext/bc/C/rpc"
+          "69": "https://kovan.optimism.io"
         },
-        "chainId": 43114
+        "chainId": 69
       }
     }
   }
 }
-
