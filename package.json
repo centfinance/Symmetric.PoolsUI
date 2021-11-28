@@ -12,6 +12,14 @@
     "start": "vue-cli-service express:run",
     "generate-icons": "icon-font-generator src/assets/fonts/icons/*.svg -o src/assets/fonts --name iconfont --html false"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{ts,vue,css,scss}": "prettier --write"
+  },
   "dependencies": {
     "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#master",
     "@ethersproject/abi": "^5.4.0",
@@ -65,7 +73,9 @@
     "@vue/eslint-config-typescript": "^5.0.2",
     "eslint-plugin-prettier": "^3.1.3",
     "eslint-plugin-vue": "^6.2.2",
+    "husky": "^7.0.4",
     "icon-font-generator": "^2.1.10",
+    "lint-staged": "^12.1.2",
     "prettier": "^1.19.1",
     "sass": "^1.29.0",
     "sass-loader": "^8.0.2",
