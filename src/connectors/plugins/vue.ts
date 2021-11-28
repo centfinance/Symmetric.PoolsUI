@@ -21,7 +21,7 @@ export const useLock = ({ ...options }) => {
       };
     },
     methods: {
-      async login(connector) {
+      async login(connector: string) {
         // @ts-ignore
         const lockConnector = this.lockClient.getConnector(connector);
         const provider = await lockConnector.connect();

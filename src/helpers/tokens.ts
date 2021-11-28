@@ -104,6 +104,27 @@ export const uncappedTokens = {
     '0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f', // cEUR
     '0x874069fa1eb16d44d622f2e0ca25eea172369bc1' // cUSD
   ],
+  43113: [
+		"0xafda926d549a67229d8db529638e0bafcdb66458",
+		"0xd00ae08403b9bbb9124bb305c09058e32c39a48c",
+		"0x29d861c32f28112547cf5e2d7487b33506570981",
+		"0x969771454b8a9b40e5578d38f16c91313fa67baf"
+	],
+  4002: [
+		"0xa5afdcaad3e67261e2dee707476699ef968cf57c",
+		"0x2d7cd0f70bd71c6bc382cfc752972f41f1f0acd6",
+		"0x1957d5e8496628d755a4b2151bca03ecc379bdd6"
+	],
+  69: [
+		"0x4200000000000000000000000000000000000006",
+		"0x7f5c764cbc14f9669b88837ca1490cca17c31607",
+		"0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3",
+		"0x94b008aa00579c1307b0ef2c499ad98a8ce58e58"
+	],
+  80001: [
+		"0xaff77c74e2a3861225173c2325314842338b73e6",
+		"0xda53403df5ff2058feb9c6729fafb3996b84545b"
+	],
 };
 
 export const equivalentSets = {
@@ -530,5 +551,13 @@ export const equivalentSets = {
     ],
   ],
   44787: [
-  ]
+  ],
+  4002: [
+  ],
+  43113: [
+  ],
+  69: [
+  ],
+  80001: [
+  ],
 };

@@ -199,9 +199,16 @@ function getAnotherToken(tokens, selectedTokens) {
     const token = tokens[tokenAddress];
     if (token.symbol === 'XDAI' && process.env.VUE_APP_NETWORK === 'xdai')
       continue;
+    if (token.symbol === 'WFTM' && process.env.VUE_APP_NETWORK === 'wftm')
+      continue;
+    if (token.symbol === 'WMATIC' && process.env.VUE_APP_NETWORK === 'wmatic')
+      continue;
     if (token.symbol === 'SPOA' && process.env.VUE_APP_NETWORK === 'sokol')
       continue;
-    else if (token.symbol === 'ETH' && process.env.VUE_APP_NETWORK !== 'ethereum')
+    else if (
+      token.symbol === 'ETH' &&
+      process.env.VUE_APP_NETWORK !== 'ethereum'
+    )
       continue;
     if (!selectedTokens.includes(token.address)) {
       return token.address;
@@ -236,15 +243,12 @@ export default {
   },
   created() {
     let usdc;
-    if (
-      process.env.VUE_APP_NETWORK === 'xdai'
-    ) {
+    if (process.env.VUE_APP_NETWORK === 'xdai') {
       const weth = getTokenBySymbol('WXDAI').address;
       usdc = getTokenBySymbol('USDC').address;
       this.tokens = [weth, usdc];
       Vue.set(this.weights, weth, '30');
-    } else if (process.env.VUE_APP_NETWORK === 'sokol'
-    ) {
+    } else if (process.env.VUE_APP_NETWORK === 'sokol') {
       const weth = getTokenBySymbol('WSPOA').address;
       usdc = getTokenBySymbol('USDC').address;
       this.tokens = [weth, usdc];
@@ -255,6 +259,30 @@ export default {
     ) {
       const weth = getTokenBySymbol('CELO').address;
       usdc = getTokenBySymbol('cUSD').address;
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
+    } else if (
+      process.env.VUE_APP_NETWORK === 'fantom' ||
+      process.env.VUE_APP_NETWORK === 'fantom-testnet'
+    ) {
+      const weth = getTokenBySymbol('WFTM').address;
+      usdc = getTokenBySymbol('WETH').address;
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
+    } else if (
+      process.env.VUE_APP_NETWORK === 'avalanche' ||
+      process.env.VUE_APP_NETWORK === 'fuji'
+    ) {
+      const weth = getTokenBySymbol('WAVAX').address;
+      usdc = getTokenBySymbol('USDT').address;
+      this.tokens = [weth, usdc];
+      Vue.set(this.weights, weth, '30');
+    } else if (
+      process.env.VUE_APP_NETWORK === 'polygon' ||
+      process.env.VUE_APP_NETWORK === 'polygon-mumbai'
+    ) {
+      const weth = getTokenBySymbol('WMATIC').address;
+      usdc = getTokenBySymbol('USDT').address;
       this.tokens = [weth, usdc];
       Vue.set(this.weights, weth, '30');
     } else {

@@ -247,9 +247,10 @@ const actions = {
         auth.provider.on('networkChanged', async () => {
           commit('HANDLE_NETWORK_CHANGED');
           if (state.active) {
-            await dispatch('clearUser');
-            await dispatch('logout');
-            await dispatch('login');
+            // TODO: store connector to the state and send the connector when dispatch login
+            // await dispatch('clearUser');
+            // await dispatch('logout');
+            // await dispatch('login');
           }
         });
       }
@@ -307,6 +308,12 @@ const actions = {
         ? tokens
         : Object.keys(state.balances).filter(token => token !== 'spoa');
     else if (config.network === 'celo' || config.network === 'alfajores')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'fantom' || config.network === 'fantom-testnet')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'avalanche' || config.network === 'fuji')
+      tokensToFetch = tokens ? tokens : Object.keys(state.balances);
+    else if (config.network === 'polygon' || config.network === 'polygon-mumbai')
       tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else
       tokensToFetch = tokens

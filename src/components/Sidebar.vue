@@ -60,6 +60,7 @@
               <Icon name="external-link" class="ml-1" />
             </a>
           </li>
+          <!--
           <li>
             <a href="https://avalanche-pools.symmetric.exchange">
               Avalanche
@@ -83,7 +84,7 @@
               Polygon
               <Icon name="external-link" class="ml-1" />
             </a>
-          </li>
+          </li>-->
           <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
