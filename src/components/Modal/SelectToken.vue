@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="close" style="max-width: 440px;">
+  <UiModal :open="open" @close="close" style="max-width: 440px">
     <UiModalForm>
       <template slot="header">
         <h3 v-text="$t('selectToken')" class="text-white mb-4" />

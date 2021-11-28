@@ -110,31 +110,26 @@ export default class Pool {
         ),
         bspCap: formatUnits(bspCap.toString(), decimals),
         crpController: crpController[0],
-        minimumWeightChangeBlockPeriod: minimumWeightChangeBlockPeriod.toString(),
+        minimumWeightChangeBlockPeriod:
+          minimumWeightChangeBlockPeriod.toString(),
         addTokenTimeLockInBlocks: addTokenTimeLockInBlocks.toString(),
         startBlock: startBlock.toString(),
         endBlock: endBlock.toString()
       };
     }
-    const [
-      publicSwap,
-      name,
-      decimals,
-      symbol,
-      swapFee,
-      totalShares
-    ] = await multicall(
-      provider,
-      abi['BPool'],
-      [
-        'isPublicSwap',
-        'name',
-        'decimals',
-        'symbol',
-        'getSwapFee',
-        'totalSupply'
-      ].map(method => [address, method, []])
-    );
+    const [publicSwap, name, decimals, symbol, swapFee, totalShares] =
+      await multicall(
+        provider,
+        abi['BPool'],
+        [
+          'isPublicSwap',
+          'name',
+          'decimals',
+          'symbol',
+          'getSwapFee',
+          'totalSupply'
+        ].map(method => [address, method, []])
+      );
     return {
       publicSwap: publicSwap[0],
       name: name.toString(),

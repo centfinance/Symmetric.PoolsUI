@@ -97,7 +97,7 @@ export default {
     return {
       currentSide: 1,
       amount: '',
-      loading: false,
+      loading: false
     };
   },
   watch: {
@@ -105,7 +105,7 @@ export default {
       if (this.side) this.currentSide = this.side;
       this.loading = false;
       this.amount = '';
-    },
+    }
   },
   computed: {
     title() {
@@ -123,17 +123,17 @@ export default {
       if (process.env.VUE_APP_NETWORK === 'xdai')
         return {
           tokenIn: this.currentSide === 2 ? 'WXDAI' : 'XDAI',
-          tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI',
+          tokenOut: this.currentSide === 2 ? 'XDAI' : 'WXDAI'
         };
       else if (process.env.VUE_APP_NETWORK === 'sokol')
         return {
           tokenIn: this.currentSide === 2 ? 'WSPOA' : 'SPOA',
-          tokenOut: this.currentSide === 2 ? 'SPOA' : 'WSPOA',
+          tokenOut: this.currentSide === 2 ? 'SPOA' : 'WSPOA'
         };
       else {
         return {
           tokenIn: this.currentSide === 2 ? 'WETH' : 'ETH',
-          tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH',
+          tokenOut: this.currentSide === 2 ? 'ETH' : 'WETH'
         };
       }
     },
@@ -170,7 +170,7 @@ export default {
         this.balance.isZero() ||
         !this.balance.minus(GAS_BUFFER_WARNING).lt(this.amount)
       );
-    },
+    }
   },
   methods: {
     ...mapActions(['wrap', 'unwrap']),
@@ -194,7 +194,7 @@ export default {
       this.currentSide = this.currentSide === 1 ? 2 : 1;
       this.amount = '';
       this.loading = false;
-    },
-  },
+    }
+  }
 };
 </script>

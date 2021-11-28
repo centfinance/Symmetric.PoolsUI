@@ -10,7 +10,8 @@
     "express": "vue-cli-service express:watch",
     "express:run": "vue-cli-service express:run",
     "start": "vue-cli-service express:run",
-    "generate-icons": "icon-font-generator src/assets/fonts/icons/*.svg -o src/assets/fonts --name iconfont --html false"
+    "generate-icons": "icon-font-generator src/assets/fonts/icons/*.svg -o src/assets/fonts --name iconfont --html false",
+    "format": "prettier --write \"**/*.+(ts|vue|css|scss)\""
   },
   "husky": {
     "hooks": {

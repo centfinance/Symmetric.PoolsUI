@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="text-right ">
+    <div class="text-right">
       {{ $t('rewardMessage') }} |
       <span class="hide-sm hide-md switch-view"
         >Switch View:
@@ -120,7 +120,7 @@
                 </div>
                 <div id="comment-box">
                   <ul :key="token.address" v-for="token in item.tokens">
-                    <li style="font-size:9px; color:white">
+                    <li style="font-size: 9px; color: white">
                       <Icon
                         name="bullet"
                         size="12"
@@ -130,31 +130,27 @@
                       {{ _shorten(token.symbol, 4) }}
                     </li>
                   </ul>
-                  <hr style="width:100%;  opacity: 0" />
+                  <hr style="width: 100%; opacity: 0" />
                   <Pie
                     :tokens="item.tokens"
-                    style="left:30%; position:relative; float:left"
+                    style="left: 30%; position: relative; float: left"
                     size="55"
                   />
                   <!-- <div class="container"> -->
                   <!-- </div> -->
                 </div>
-                <UiButton class="button-primary">
-                  Add Liquidity
-                </UiButton>
+                <UiButton class="button-primary"> Add Liquidity </UiButton>
                 <!-- MIVA:SYMM Pool with Farm -->
                 <a
                   v-if="
                     item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' ||
-                      item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'
+                    item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'
                   "
                   class="mivafarm"
                   href="https://farm.minerva.digital/"
                   target="_blank"
                 >
-                  <UiButton class="button-primary">
-                    Streaming Farm
-                  </UiButton>
+                  <UiButton class="button-primary"> Streaming Farm </UiButton>
                 </a>
                 <div class="grouptext">
                   <span
@@ -162,7 +158,7 @@
                     class="text-white-normal text-left"
                   />:
                   <span
-                    style="color: #FB6706"
+                    style="color: #fb6706"
                     v-text="_num(myLiquidity(item), 'usd-long')"
                     format="currency"
                   />
@@ -188,27 +184,15 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div
-          class="hide-sm hide-md hide-lg "
-          v-text="$t('poolAddress')"
-        />
-        <div style="padding-left:80px;"></div>
-        <div
-          v-text="$t('assets')"
-          class="column flex-auto text-left"
-        />
+        <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" />
+        <div style="padding-left: 80px"></div>
+        <div v-text="$t('assets')" class="column flex-auto text-left" />
         <div v-text="$t('marketCap')" class="column" />
         <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
         <div v-text="$t('apy')" class="column hide-sm hide-md" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div
-          v-text="$t('rewardApy')"
-          class="column-sm hide-sm hide-md"
-        />
-        <div
-          v-text="$t('symmReward')"
-          class="column-lg hide-sm hide-md"
-        />
+        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
+        <div v-text="$t('symmReward')" class="column-lg hide-sm hide-md" />
         &nbsp;
         <div
           v-text="$t('myLiquidity')"

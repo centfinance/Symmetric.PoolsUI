@@ -125,9 +125,7 @@ export default {
   },
   computed: {
     balances() {
-      if (
-        process.env.VUE_APP_NETWORK === 'xdai'
-      ) {
+      if (process.env.VUE_APP_NETWORK === 'xdai') {
         const balances = Object.entries(this.web3.balances)
           .filter(
             ([address]) =>
@@ -162,9 +160,7 @@ export default {
           },
           ...balances
         ];
-      } else if (
-        process.env.VUE_APP_NETWORK === 'sokol'
-      ) {
+      } else if (process.env.VUE_APP_NETWORK === 'sokol') {
         const balances = Object.entries(this.web3.balances)
           .filter(
             ([address]) =>

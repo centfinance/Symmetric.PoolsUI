@@ -2,7 +2,7 @@
   <nav id="topnav" class="border-bottom position-fixed width-full">
     <div
       class="d-flex flex-items-center px-5"
-      style="height: 66px;padding-left:2px !important"
+      style="height: 66px; padding-left: 2px !important"
     >
       <div class="flex-auto d-flex flex-items-center">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
@@ -17,7 +17,7 @@
         <router-link
           :to="{ name: 'home' }"
           class="d-flex"
-          style="padding-top: 2px;"
+          style="padding-top: 2px"
         >
           <img class="logo" src="@/assets/symmetricIcon.svg" />
           <span class="title">SYMMETRIC</span>

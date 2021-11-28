@@ -121,9 +121,11 @@ const actions = {
     try {
       let { pools } = await request('getPools', query);
 
-      pools = await Promise.all(pools.map(async (pool): Promise<object> => {
-        return await formatPool(pool);
-      }));
+      pools = await Promise.all(
+        pools.map(async (pool): Promise<object> => {
+          return await formatPool(pool);
+        })
+      );
 
       commit('GET_POOLS_SUCCESS');
       return pools;

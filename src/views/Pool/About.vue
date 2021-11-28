@@ -5,7 +5,7 @@
       <h5
         v-text="bPool.config.about"
         class="text-white mb-2"
-        style="max-width: 580px;"
+        style="max-width: 580px"
       />
       <h5 v-if="bPool.config.learn_more">
         <a :href="bPool.config.learn_more" target="_blank">
@@ -222,7 +222,13 @@ export default {
   },
   computed: {
     factors() {
-      return getFactors(this.bPool.metadata.swapFee, this.bPool.metadata.tokens, this.bPool.metadata.tokensList, this.bPool.metadata.totalWeight, this.config.chainId);
+      return getFactors(
+        this.bPool.metadata.swapFee,
+        this.bPool.metadata.tokens,
+        this.bPool.metadata.tokensList,
+        this.bPool.metadata.totalWeight,
+        this.config.chainId
+      );
     },
     rights() {
       return filterObj(this.bPool.metadata.rights, right => right[1]);

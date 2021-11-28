@@ -20,7 +20,18 @@ import fantom from '@/config/fantom.json';
 import optimism from '@/config/optimism.json';
 import polygon from '@/config/polygon.json';
 
-const configs = { homestead, kovan, xdai, sokol, celo, alfajores, avalanche, fantom, optimism, polygon };
+const configs = {
+  homestead,
+  kovan,
+  xdai,
+  sokol,
+  celo,
+  alfajores,
+  avalanche,
+  fantom,
+  optimism,
+  polygon
+};
 configs.homestead = merge(registry, configs.homestead);
 configs.kovan = merge(registryKovan, configs.kovan);
 configs.sokol = merge(registrySokol, configs.sokol);

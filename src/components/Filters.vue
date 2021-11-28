@@ -4,11 +4,11 @@
       :value="type"
       :options="poolTypes"
       @select="selectType"
-      style="background-color: #3C525F"
+      style="background-color: #3c525f"
       class="mb-4"
     />
     |
-    <UiButton style="background-color: #5B8470;" class="button-primary">
+    <UiButton style="background-color: #5b8470" class="button-primary">
       <a :href="config.exchangeUrl" class="text-white" target="_blank">
         {{ $t('swap') }}
         <Icon name="external-link" class="ml-1" />
@@ -41,7 +41,8 @@
             <span
               class="row text-white-normal"
               v-text="_num(xDaiTVL, 'usd-long')"
-            /> </span>
+            />
+          </span>
           &nbsp;
           <!--
           <span>
@@ -71,7 +72,8 @@
               class="row text-white-normal"
               v-text="_num(polygonTVL, 'usd-long')"
             /> </span> 
-          &nbsp; --> (
+          &nbsp; -->
+          (
           <span>
             <span>Symbol: </span>
             <span class="row text-white-normal">SYMM</span>
@@ -90,8 +92,8 @@
             <span
               class="row text-white-normal"
               v-text="_num(SYMMPricexDAI, 'usd-long')"
-            />
-          </span><!--
+            /> </span
+          ><!--
           &nbsp;
           <span>
             <span>Avalanche: *</span>
@@ -123,8 +125,8 @@
               class="row text-white-normal"
               v-text="_num(SYMMPricePolygon, 'usd-long')"
             />
-          </span> --> 
-          &nbsp; 
+          </span> -->
+          &nbsp;
           <span class="text-white-normal">*Last trade price</span>
           )
         </div>
@@ -141,7 +143,7 @@
         </button>
         <span
           class="ml-2 pl-1"
-          style="padding-right: 30px;"
+          style="padding-right: 30px"
           v-text="_ticker(token)"
         />
       </div>
@@ -215,10 +217,10 @@ export default {
       this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
       // TNA TODO
-    //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
-    //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
-    // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
-    //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
+      //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
+      //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
+      // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
+      //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -232,10 +234,10 @@ export default {
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();
-   //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
-   //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
-   //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
-   //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
+      //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
+      //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
+      //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
+      //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
     },
     addToken(token) {
       this.tokens.push(token);

@@ -26,8 +26,8 @@
             class="px-1 mr-1 tooltipped tooltipped-n"
             :aria-label="$t(padlock ? 'marketAmounts' : 'customAmounts')"
           >
-            <span v-if="padlock"><Icon name="lock" size="16"/></span>
-            <span v-else><Icon name="unlock" size="16"/></span>
+            <span v-if="padlock"><Icon name="lock" size="16" /></span>
+            <span v-else><Icon name="unlock" size="16" /></span>
           </a>
           {{ $t('amount') }}
         </div>
@@ -481,7 +481,8 @@ export default {
       Vue.set(this.crp.rights, right, !this.crp.rights[right]);
       // If we remove the right, don't leave the old values (could be invalid, causing createPool to revert)
       if (!this.crp.rights.canChangeWeights)
-        this.crp.minimumWeightChangeBlockPeriod = DEFAULT_WEIGHT_CHANGE_DURATION;
+        this.crp.minimumWeightChangeBlockPeriod =
+          DEFAULT_WEIGHT_CHANGE_DURATION;
       if (!this.crp.rights.canAddRemoveTokens)
         this.crp.addTokenTimeLockInBlocks = DEFAULT_ADD_TOKEN_TIMELOCK;
     },
@@ -628,9 +629,7 @@ export default {
       if (!tokenPrice || !this.amounts[tokenAddress]) {
         return 0;
       }
-      return bnum(this.amounts[tokenAddress])
-        .times(tokenPrice)
-        .toFixed(2);
+      return bnum(this.amounts[tokenAddress]).times(tokenPrice).toFixed(2);
     },
     getRelativeWeight(tokenAddress) {
       const absoluteWeight = this.weights[tokenAddress];

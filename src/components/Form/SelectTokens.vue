@@ -6,7 +6,7 @@
     </div>
     <div
       class="text-left overflow-y-scroll border rounded-1 mt-0 m-4"
-      style="height: 260px;"
+      style="height: 260px"
     >
       <p
         class="py-3 text-center"
@@ -59,7 +59,8 @@ export default {
             return token;
           })
           .filter(token => {
-            const str = `${token[1].address} ${token[1].symbol} ${token[1].name}`.toLowerCase();
+            const str =
+              `${token[1].address} ${token[1].symbol} ${token[1].name}`.toLowerCase();
             return (
               str.includes(this.query.toLowerCase()) ||
               this.selectedTokens.includes(token[1].address)

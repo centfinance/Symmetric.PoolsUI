@@ -20,6 +20,6 @@ export default class Connector extends LockConnector {
     if (!window['celo']) return false;
     if (window['celo'].selectedAddress) return true;
     await new Promise(r => setTimeout(r, 400));
-    return !!window['celo'].selectedAddress
+    return !!window['celo'].selectedAddress;
   }
 }

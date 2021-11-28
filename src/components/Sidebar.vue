@@ -167,7 +167,7 @@ export default {
   }
 
   .network-name {
-    color: var(--text-primary-color)
+    color: var(--text-primary-color);
   }
 }
 </style>

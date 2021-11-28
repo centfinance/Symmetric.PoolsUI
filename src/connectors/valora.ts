@@ -13,7 +13,6 @@ export default class Connector extends LockConnector {
       await provider.enable();
     } catch (e) {
       console.error(e);
-      console.log('error = ', e)
       return;
     }
     console.log('Valora provider2 = ', provider);

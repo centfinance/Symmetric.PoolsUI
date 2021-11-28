@@ -10,7 +10,15 @@ import walletlink from './connectors/walletlink';
 import config from '@/config';
 
 const options: any = { connectors: [] };
-const connectors = { injected, celo, fortmatic, portis, valora, walletconnect, walletlink };
+const connectors = {
+  injected,
+  celo,
+  fortmatic,
+  portis,
+  valora,
+  walletconnect,
+  walletlink
+};
 
 Object.entries(config.connectors).forEach((connector: any) => {
   options.connectors.push({

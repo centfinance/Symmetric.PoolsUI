@@ -1,15 +1,13 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
-    <h4 class="m-4 mb-0 text-center">
-      Can't see your coins or ETH balance?
-    </h4>
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
+    <h4 class="m-4 mb-0 text-center">Can't see your coins or ETH balance?</h4>
     <div
-      style="font-weight: 300;"
+      style="font-weight: 300"
       class="m-4 mb-0 p-4 border rounded-2 text-white"
     >
       <div>
         <div class="vc_tta-panel-body" style="">
-          <div class="wpb_text_column wpb_content_element ">
+          <div class="wpb_text_column wpb_content_element">
             <div class="wpb_wrapper">
               <span
                 ><span
@@ -23,7 +21,7 @@
                       class="orange"
                       target="_blank"
                       href="https://docs.tokenbridge.net/eth-xdai-amb-bridge/multi-token-extension/ui-to-transfer-tokens/transfer-erc20"
-                      >Omnibridge <Icon name="external-link" class="ml-1"/></a
+                      >Omnibridge <Icon name="external-link" class="ml-1" /></a
                     ><br /><br />
                     Or any other bridge that can transfer your coins from other
                     network to xDai network.

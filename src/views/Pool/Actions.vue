@@ -3,7 +3,7 @@
     <div
       v-if="bPool.metadata.rights.canChangeWeights"
       class="p-4 border rounded-1"
-      style="max-width: 440px;"
+      style="max-width: 440px"
     >
       <h5 v-text="$t('poke')" class="mb-3" />
       <p v-html="$t('pokeWeightsEarly')" class="mb-3" v-if="tooEarly" />

@@ -4,7 +4,7 @@
       v-for="i in 3"
       :key="i"
       class="py-3 border-top d-flex text-right v-align-middle px-4"
-      style="line-height: 0;"
+      style="line-height: 0"
     >
       <div
         v-for="(itemClass, i2) in classes"

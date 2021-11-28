@@ -16,7 +16,10 @@
       />
     </div>
     <div>
-      <a :href="_etherscanLink(pool.getBptAddress(), 'address')" target="_blank">
+      <a
+        :href="_etherscanLink(pool.getBptAddress(), 'address')"
+        target="_blank"
+      >
         <span
           v-if="pool.config.name || pool.metadata.name"
           v-text="_shorten(pool.config.name || 'View pool in explorer', 24)"
