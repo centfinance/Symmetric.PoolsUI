@@ -18,7 +18,9 @@
     }
   },
   "lint-staged": {
-    "src/**/*.{ts,vue,css,scss}": "prettier --write"
+    "src/**/*.{ts,vue,css,scss}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#master",
@@ -76,7 +78,7 @@
     "husky": "^7.0.4",
     "icon-font-generator": "^2.1.10",
     "lint-staged": "^12.1.2",
-    "prettier": "^1.19.1",
+    "prettier": "^2.5.0",
     "sass": "^1.29.0",
     "sass-loader": "^8.0.2",
     "stylus": "^0.54.8",
