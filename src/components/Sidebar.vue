@@ -91,7 +91,7 @@
       </div>
       <div class="d-block m-4">
         <span
-          >Network: <span class="text-white">{{ config.network }}</span>
+          >Network: <span class="network-name">{{ config.network }}</span>
         </span>
 
         <a
@@ -145,7 +145,7 @@ export default {
 
   ul > li > a {
     font-size: 16px;
-    color: $white;
+    color: var(--text-primary-color);
     display: block;
     padding: 10px 22px 12px;
 
@@ -163,6 +163,10 @@ export default {
 
   &.is-open {
     left: 0 !important;
+  }
+
+  .network-name {
+    color: var(--text-primary-color)
   }
 }
 </style>

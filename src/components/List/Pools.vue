@@ -2,7 +2,7 @@
   <div>
     <div class="text-right ">
       {{ $t('rewardMessage') }} |
-      <span class="hide-sm hide-md text-white"
+      <span class="hide-sm hide-md switch-view"
         >Switch View:
         <toggle-button
           @change="switchView"
@@ -50,46 +50,61 @@
                   <div class="grouptext margin-top10">
                     <span v-text="$t('rewardApy')" class="text-white-normal" />:
                     <UiNum :value="item.rewardApy" format="percent" /> SYMM
-                    <span v-if="item.rewardApyCelo"> / 
-                      <UiNum :value="item.rewardApyCelo" format="percent" /> CELO
+                    <span v-if="item.rewardApyCelo">
+                      /
+                      <UiNum :value="item.rewardApyCelo" format="percent" />
+                      CELO
                     </span>
-                    <span v-if="item.rewardApyKnx"> / 
+                    <span v-if="item.rewardApyKnx">
+                      /
                       <UiNum :value="item.rewardApyKnx" format="percent" /> KNX
                     </span>
-                    <span v-if="item.rewardApyStake"> / 
-                      <UiNum :value="item.rewardApyStake" format="percent" /> STAKE
+                    <span v-if="item.rewardApyStake">
+                      /
+                      <UiNum :value="item.rewardApyStake" format="percent" />
+                      STAKE
                     </span>
                   </div>
-                <div class="grouptext margin-top10">
-                    <span v-text="$t('symmReward')" class="text-white-normal" />:
+                  <div class="grouptext margin-top10">
+                    <span
+                      v-text="$t('symmReward')"
+                      class="text-white-normal"
+                    />:
                     <span
                       v-text="_num(item.tokenReward, 'long')"
                       format="long"
                       class=""
-                    /> SYMM 
-                    <span v-if="item.tokenRewardCelo"> / 
+                    />
+                    SYMM
+                    <span v-if="item.tokenRewardCelo">
+                      /
                       <span
                         v-text="_num(item.tokenRewardCelo, 'long')"
                         format="long"
                         class=""
-                      /> CELO
+                      />
+                      CELO
                     </span>
-                    <span v-if="item.tokenRewardKnx"> / 
+                    <span v-if="item.tokenRewardKnx">
+                      /
                       <span
                         v-text="_num(item.tokenRewardKnx, 'long')"
                         format="long"
                         class=""
-                      /> KNX
+                      />
+                      KNX
                     </span>
-                    <span v-if="item.tokenRewardStake"> / 
+                    <span v-if="item.tokenRewardStake">
+                      /
                       <span
                         v-text="_num(item.tokenRewardStake, 'long')"
                         format="long"
                         class=""
-                      /> STAKE
+                      />
+                      STAKE
                     </span>
                   </div>
-                  
+
                   <div class="grouptext margin-top10">
                     <span v-text="$t('volume24')" class="text-white-normal" />:
                     <span
@@ -129,14 +144,15 @@
                 </UiButton>
                 <!-- MIVA:SYMM Pool with Farm -->
                 <a
-                    v-if="item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' || item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'"
-                    class="mivafarm"
-                    href="https://farm.minerva.digital/"
-                    target="_blank"
+                  v-if="
+                    item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' ||
+                      item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'
+                  "
+                  class="mivafarm"
+                  href="https://farm.minerva.digital/"
+                  target="_blank"
                 >
-                  <UiButton
-                      class="button-primary"
-                  >
+                  <UiButton class="button-primary">
                     Streaming Farm
                   </UiButton>
                 </a>
@@ -172,29 +188,35 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div class="text-white hide-sm hide-md hide-lg " v-text="$t('poolAddress')" />
+        <div
+          class="hide-sm hide-md hide-lg "
+          v-text="$t('poolAddress')"
+        />
         <div style="padding-left:80px;"></div>
-        <div v-text="$t('assets')" class="text-white column flex-auto text-left" />
-        <div v-text="$t('marketCap')" class="text-white column" />
-        <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
-        <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
+        <div
+          v-text="$t('assets')"
+          class="column flex-auto text-left"
+        />
+        <div v-text="$t('marketCap')" class="column" />
+        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="column hide-sm hide-md" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div
           v-text="$t('rewardApy')"
-          class="text-white column-sm hide-sm hide-md"
+          class="column-sm hide-sm hide-md"
         />
         <div
           v-text="$t('symmReward')"
-          class="text-white column-lg hide-sm hide-md"
+          class="column-lg hide-sm hide-md"
         />
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
-          class="text-white column hide-sm hide-md hide-lg"
+          class="column hide-sm hide-md hide-lg"
         />
         <div
           v-text="$t('volume24')"
-          class="text-white column-medium2 hide-sm hide-md hide-lg"
+          class="column-medium2 hide-sm hide-md hide-lg"
         />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
@@ -403,5 +425,8 @@ li {
 }
 .item-container {
   border: 1px solid;
+}
+.switch-view {
+  color: var(--text-primary-color);
 }
 </style>

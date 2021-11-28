@@ -26,7 +26,7 @@ export default {
   display: flex;
   align-items: center;
   border-top: $border;
-  color: $white;
+  color: var(--text-primary-color);
   text-align: right;
 }
 </style>

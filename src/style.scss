@@ -1,8 +1,10 @@
 @import './assets/fonts/iconfont.css';
 @import './vars';
-@import "~@primer/css/index.scss";
+@import '~@primer/css/index.scss';
 
-html, body, #app {
+html,
+body,
+#app {
   background-color: $black;
   color: $gray;
   font-family: $font-weight-normal;
@@ -14,7 +16,10 @@ html, body, #app {
   outline: none !important;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
   color: $white;
   font-family: $font-weight-bold;
 }
@@ -188,7 +193,7 @@ a {
 }
 
 .panel-background {
-  background-color:#3E4E59;
+  background-color: var(--panel-background);
   box-shadow: $box-shadow;
 }
 

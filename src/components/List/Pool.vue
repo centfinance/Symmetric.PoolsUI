@@ -27,11 +27,7 @@
       format="percent"
       class="column hide-sm hide-md"
     />
-    <UiNum
-      :value="pool.apy"
-      format="percent"
-      class="column hide-sm hide-md"
-    />
+    <UiNum :value="pool.apy" format="percent" class="column hide-sm hide-md" />
     <div>
       <div class="d-flex">
         <UiNum
