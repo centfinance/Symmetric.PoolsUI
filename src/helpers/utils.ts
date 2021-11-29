@@ -130,7 +130,10 @@ export function isLocked(
 
 export async function getSYMMPriceXDAI() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlXDAI, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlXDAI,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -138,7 +141,10 @@ export async function getSYMMPriceXDAI() {
 }
 export async function getSYMMPriceCELO() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlCELO, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlCELO,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -146,7 +152,10 @@ export async function getSYMMPriceCELO() {
 }
 export async function getSYMMPriceAVALANCHE() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlAVALANCHE,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -154,7 +163,10 @@ export async function getSYMMPriceAVALANCHE() {
 }
 export async function getSYMMPriceFANTOM() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlFANTOM, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlFANTOM,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -162,7 +174,10 @@ export async function getSYMMPriceFANTOM() {
 }
 export async function getSYMMPriceOPTIMISM() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlOPTIMISM, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlOPTIMISM,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -170,7 +185,10 @@ export async function getSYMMPriceOPTIMISM() {
 }
 export async function getSYMMPricePOLYGON() {
   try {
-    const response = await subgraphRequest(config.subgraphUrlPOLYGON, queries['getSYMMPrice']);
+    const response = await subgraphRequest(
+      config.subgraphUrlPOLYGON,
+      queries['getSYMMPrice']
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -178,7 +196,10 @@ export async function getSYMMPricePOLYGON() {
 }
 export async function getTokenPriceXDAI(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlXDAI, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlXDAI,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -186,7 +207,10 @@ export async function getTokenPriceXDAI(token: string) {
 }
 export async function getTokenPriceCELO(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlCELO, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlCELO,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -194,7 +218,10 @@ export async function getTokenPriceCELO(token: string) {
 }
 export async function getTokenPriceAVALANCHE(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlAVALANCHE,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -202,7 +229,10 @@ export async function getTokenPriceAVALANCHE(token: string) {
 }
 export async function getTokenPriceFANTOM(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlAVALANCHE,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -210,7 +240,10 @@ export async function getTokenPriceFANTOM(token: string) {
 }
 export async function getTokenPriceOPTIMISM(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlOPTIMISM, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlOPTIMISM,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -218,7 +251,10 @@ export async function getTokenPriceOPTIMISM(token: string) {
 }
 export async function getTokenPricePOLYGON(token: string) {
   try {
-    const response = await subgraphRequest(config.subgraphUrlPOLYGON, queries[`get${token}Price`]);
+    const response = await subgraphRequest(
+      config.subgraphUrlPOLYGON,
+      queries[`get${token}Price`]
+    );
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -231,8 +267,8 @@ async function getPoolsNoPaging(payload, chainId) {
     orderDirection = 'desc',
     where = {}
   } = payload;
-  const ts = Math.round(new Date().getTime() / 1000);
-  const tsYesterday = ts - 24 * 3600;
+  // const ts = Math.round(new Date().getTime() / 1000);
+  // const tsYesterday = ts - 24 * 3600;
   where.tokensList_not = [];
   const query = {
     pools: {
@@ -246,8 +282,7 @@ async function getPoolsNoPaging(payload, chainId) {
     }
   };
   try {
-    switch (chainId)
-    {
+    switch (chainId) {
       case '42220':
         return await subgraphRequest(
           config.subgraphUrlCELO,
@@ -335,12 +370,12 @@ export async function formatPool(pool) {
   pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
-  const query = {
+  /* const query = {
     where: {
       finalized: true,
       liquidity_gt: 0
     }
-  };
+  }; */
 
   // Get factors
   const factors = getFactors(
@@ -456,7 +491,7 @@ export async function formatPool(pool) {
   return crPool;
 }
 
-export async function getNetworkLiquidity(){
+export async function getNetworkLiquidity() {
   const query = {
     where: {
       finalized: true,
@@ -475,8 +510,8 @@ export async function getNetworkLiquidity(){
     '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
   ];
 
-  const networks = ['100', '42220']
-//  const networks = ['100', '43114', '250', '10', '137', '42220']
+  const networks = ['100', '42220'];
+  // const networks = ['100', '43114', '250', '10', '137', '42220']
   const nLen = networks.length;
 
   for (let i = 0; i < nLen; i++) {
@@ -494,8 +529,8 @@ export async function getNetworkLiquidity(){
       const thisCombinedAdjustmentFactor = new BigNumber(
         thisPoolFactors.feeFactor
       )
-      .times(thisPoolFactors.ratioFactor)
-      .times(thisPoolFactors.wrapFactor);
+        .times(thisPoolFactors.ratioFactor)
+        .times(thisPoolFactors.wrapFactor);
 
       thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
         thisCombinedAdjustmentFactor
@@ -505,8 +540,7 @@ export async function getNetworkLiquidity(){
         thisAdjustedPoolLiquidity
       );
 
-      if ('celo' == networks[i])
-      {
+      if ('celo' == networks[i]) {
         // get total liquidity for CELO APR and rewards
         if (crPoolIds.includes(thispool.id)) {
           crTotalLiquidity = crTotalLiquidity.plus(
@@ -520,10 +554,9 @@ export async function getNetworkLiquidity(){
   return totalAdjustedLiquidity;
 }
 
-export async function getSYMMprice(){
+export async function getSYMMprice() {
   let SYMMprice = '1';
-  switch (process.env.VUE_APP_NETWORK)
-  {
+  switch (process.env.VUE_APP_NETWORK) {
     case 'celo':
       SYMMprice = await getSYMMPriceCELO();
       break;
