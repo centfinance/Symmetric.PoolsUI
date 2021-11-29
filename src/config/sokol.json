@@ -5,6 +5,12 @@
   "rpcUrl": "https://sokol.poa.network",
   "wsUrl": "wss://sokol.poa.network/wss ",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/cent-swap-sokol",
+  "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
+  "subgraphUrlCELO": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-celo",
+  "subgraphUrlFANTOM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fantom",
+  "subgraphUrlOPTIMISM": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-optimism",
+  "subgraphUrlPOLYGON": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-polygon",
+  "subgraphUrlXDAI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "explorer": "https://blockscout.com/poa/sokol",
   "exchangeUrl": "https://sokol.symmetric.exchange",
   "addresses": {
@@ -28,7 +34,8 @@
         "rpc": {
           "77": "https://eth-sokol.alchemyapi.io/v2/dOeZGROZbIBAQ2cSfifZdZbe25s2NidS"
         },
-        "chainId": 77
+        "chainId": 77,
+        "bridge": "https://walletconnect-relay.minerva.digital"
       }
     }
   }

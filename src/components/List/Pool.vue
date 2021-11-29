@@ -32,19 +32,90 @@
       format="percent"
       class="column hide-sm hide-md"
     />
-    <UiNum
-      :value="pool.rewardApy"
-      format="percent"
-      class="column hide-sm hide-md"
-    />
-    <UiNum
-      :value="pool.tokenReward"
-      format="long"
-      class="column-md hide-sm hide-md"
-    />
-    <div class="column-xxs hide-sm hide-md">
-      SYMM
-    </div>&nbsp;&nbsp;&nbsp;&nbsp;
+    <div>
+      <div class="d-flex">
+        <UiNum
+          :value="pool.rewardApy"
+          format="percent"
+          class="column hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          SYMM
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.rewardApyCelo">
+        <UiNum
+          :value="pool.rewardApyCelo"
+          format="percent"
+          class="column hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          CELO
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.rewardApyKnx">
+        <UiNum
+          :value="pool.rewardApyKnx"
+          format="percent"
+          class="column hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          KNX
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.rewardApyStake">
+        <UiNum
+          :value="pool.rewardApyStake"
+          format="percent"
+          class="column hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          STAKE
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="d-flex">
+        <UiNum
+          :value="pool.tokenReward"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          SYMM
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardCelo">
+        <UiNum
+          :value="pool.tokenRewardCelo"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          CELO
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardKnx">
+        <UiNum
+          :value="pool.tokenRewardKnx"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          KNX
+        </div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardStake">
+        <UiNum
+          :value="pool.tokenRewardStake"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">
+          STAKE
+        </div>
+      </div>
+    </div>
     <div
       v-text="_num(myLiquidity, 'usd-long')"
       format="currency"

@@ -13,8 +13,9 @@ import { getFactors } from '@/helpers/miningFactors';
 import merge from 'lodash/merge';
 import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
+import cloneDeep from 'lodash/cloneDeep';
 
-import { default as data } from '../../rewards.json';
+// import { default as data } from '../../rewards.json';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -129,12 +130,7 @@ export function isLocked(
 
 export async function getSYMMPriceXDAI() {
   try {
-    const response = await subgraphRequest(
-      process.env.VUE_APP_NETWORK === 'xdai'
-        ? config.subgraphUrl
-        : config.subgraphUrlXDAI,
-      queries['getSYMMPrice']
-    );
+    const response = await subgraphRequest(config.subgraphUrlXDAI, queries['getSYMMPrice']);
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
@@ -142,18 +138,96 @@ export async function getSYMMPriceXDAI() {
 }
 export async function getSYMMPriceCELO() {
   try {
-    const response = await subgraphRequest(
-      process.env.VUE_APP_NETWORK === 'celo'
-        ? config.subgraphUrl
-        : config.subgraphUrlCELO,
-      queries['getSYMMPrice']
-    );
+    const response = await subgraphRequest(config.subgraphUrlCELO, queries['getSYMMPrice']);
     return response.tokenPrices[0].price;
   } catch (e) {
     console.error(e);
   }
 }
-async function getPools(payload, isCurrentNetwork?) {
+export async function getSYMMPriceAVALANCHE() {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries['getSYMMPrice']);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getSYMMPriceFANTOM() {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlFANTOM, queries['getSYMMPrice']);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getSYMMPriceOPTIMISM() {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlOPTIMISM, queries['getSYMMPrice']);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getSYMMPricePOLYGON() {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlPOLYGON, queries['getSYMMPrice']);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceXDAI(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlXDAI, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceCELO(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlCELO, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceAVALANCHE(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceFANTOM(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlAVALANCHE, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPriceOPTIMISM(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlOPTIMISM, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+export async function getTokenPricePOLYGON(token: string) {
+  try {
+    const response = await subgraphRequest(config.subgraphUrlPOLYGON, queries[`get${token}Price`]);
+    return response.tokenPrices[0].price;
+  } catch (e) {
+    console.error(e);
+  }
+}
+
+let executed = false;
+/*
+async function getPools(payload, chainId) {
   const {
     first = ITEMS_PER_PAGE,
     page = 1,
@@ -184,23 +258,46 @@ async function getPools(payload, isCurrentNetwork?) {
     }
   };
   try {
-    if (config.network === 'xdai') {
-      return await subgraphRequest(
-        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlCELO,
-        merge(queries['getPools'], query)
-      );
-    } else {
-      return await subgraphRequest(
-        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlXDAI,
-        merge(queries['getPools'], query)
-      );
+    switch (chainId)
+    {
+      case 'celo':
+        return await subgraphRequest(
+          config.subgraphUrlCELO,
+          merge(queries['getPools'], query)
+        );
+      case 'polygon':
+        return await subgraphRequest(
+          config.subgraphUrlPOLYGON,
+          merge(queries['getPools'], query)
+        );
+      case 'avalanche':
+        return await subgraphRequest(
+          config.subgraphUrlAVALANCHE,
+          merge(queries['getPools'], query)
+        );
+      case 'fantom':
+        return await subgraphRequest(
+          config.subgraphUrlFANTOM,
+          merge(queries['getPools'], query)
+        );
+      case 'optimism':
+        return await subgraphRequest(
+          config.subgraphUrlOPTIMISM,
+          merge(queries['getPools'], query)
+        );
+      case 'xdai':
+      default:
+        return await subgraphRequest(
+          config.subgraphUrlXDAI,
+          merge(queries['getPools'], query)
+        );
     }
   } catch (e) {
     console.error(e);
   }
 }
-
-async function getPoolsNoPaging(payload, isCurrentNetwork?) {
+*/
+async function getPoolsNoPaging(payload, chainId) {
   const {
     orderBy = 'liquidity',
     orderDirection = 'desc',
@@ -213,8 +310,7 @@ async function getPoolsNoPaging(payload, isCurrentNetwork?) {
     pools: {
       __args: {
         where: {
-          finalized: true,
-          liquidity_gt: 0
+          finalized: true
         },
         orderBy,
         orderDirection
@@ -222,20 +318,68 @@ async function getPoolsNoPaging(payload, isCurrentNetwork?) {
     }
   };
   try {
-    if (config.network === 'xdai') {
-      return await subgraphRequest(
-        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlCELO,
-        merge(queries['getPools'], query)
-      );
-    } else {
-      return await subgraphRequest(
-        isCurrentNetwork ? config.subgraphUrl : config.subgraphUrlXDAI,
-        merge(queries['getPools'], query)
-      );
+    switch (chainId)
+    {
+      case '42220':
+        return await subgraphRequest(
+          config.subgraphUrlCELO,
+          merge(queries['getPools'], query)
+        );
+      case '137':
+        return await subgraphRequest(
+          config.subgraphUrlPOLYGON,
+          merge(queries['getPools'], query)
+        );
+      case '43114':
+        return await subgraphRequest(
+          config.subgraphUrlAVALANCHE,
+          merge(queries['getPools'], query)
+        );
+      case '250':
+        return await subgraphRequest(
+          config.subgraphUrlFANTOM,
+          merge(queries['getPools'], query)
+        );
+      case '10':
+        return await subgraphRequest(
+          config.subgraphUrlOPTIMISM,
+          merge(queries['getPools'], query)
+        );
+      case '100':
+      default:
+        return await subgraphRequest(
+          config.subgraphUrlXDAI,
+          merge(queries['getPools'], query)
+        );
     }
   } catch (e) {
     console.error(e);
   }
+}
+
+function findPoolFromTokens(
+  pool: any,
+  token1: string,
+  token2: string,
+  weight1: number,
+  weight2: number,
+  count = 2
+) {
+  const { tokens } = pool;
+  if (tokens.length !== count) {
+    return false;
+  }
+
+  if (
+    (tokens[0].symbol !== token1 && tokens[0].symbol !== token2) ||
+    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2) ||
+    tokens[0].weightPercent !== weight1 ||
+    tokens[1].weightPercent !== weight2
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export async function formatPool(pool) {
@@ -288,33 +432,100 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  const liquidity = store.getters['getNetworkLiquidity'];
-  const totalAdjustedLiquiditySecondNetwork = liquidity.totalAdjustedLiquiditySecondNetwork;
-  const totalAdjustedLiquidityCurrentNetwork = liquidity.totalAdjustedLiquidityCurrentNetwork;
+  const crPoolIds = [
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+  ];
+
+  const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
   const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
-    totalAdjustedLiquidityCurrentNetwork.plus(totalAdjustedLiquiditySecondNetwork)
+    totalAdjustedLiquidity
   );
 
-  // const SYMMprice = await getSYMMPriceXDAI() + await getSYMMPriceCELO() / 2;
-  const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM
-//  console.log(`SYMMPRICE: ${SYMMprice}`);
+  const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM;
 
+  // console.log(`SYMMPRICE: ${SYMMprice}`);
   const dailyCoinReward = new BigNumber(395.6);
-  
-  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
-  pool.rewardApy = pool.tokenReward.times(SYMMprice).div(pool.liquidity).times(365);
-  
-  return pool;
-}
 
-export async function getSYMMprice(){
-  const SYMMprice =
-    process.env.VUE_APP_NETWORK === 'xdai'
-    ? await getSYMMPriceXDAI()
-    : await getSYMMPriceCELO();
-  return SYMMprice;
+  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
+
+  pool.rewardApy = pool.tokenReward
+    .times(SYMMprice)
+    .div(pool.liquidity)
+    .times(365);
+
+  // CELO APR and rewards,  cr is just prefix for Celo Rewards
+  const crPool = cloneDeep(pool);
+
+  // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
+  // 238.09 USD per day -> 36.6 Celo per day
+  crPoolIds.forEach(async (poolId: string, index: number) => {
+    if (poolId === pool.id) {
+      const CELOprice = await getTokenPriceCELO('CELO');
+      const crDailyCoinReward = [
+        new BigNumber(2 * (238.09 / Number(CELOprice))),
+        new BigNumber(2 * (238.09 / Number(CELOprice))),
+        new BigNumber(238.09 / Number(CELOprice))
+      ];
+      crPool.tokenRewardCelo = crDailyCoinReward[index];
+
+      crPool.rewardApyCelo = crPool.tokenRewardCelo
+        .times(CELOprice)
+        .div(pool.liquidity)
+        .times(365);
+    }
+  });
+
+  // KNX APR and rewards
+  if (crPool.id === '0xa4ae7529cece492b6c47c726a320eea8841658ec') {
+    // KNX/cUSD
+    const KNXprice = await getTokenPriceCELO('KNX');
+
+    const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
+    crPool.tokenRewardKnx = krDailyCoinReward;
+    crPool.rewardApyKnx = crPool.tokenRewardKnx
+      .times(KNXprice)
+      .div(crPool.liquidity)
+      .times(365);
+  }
+
+  // xDAI APR and rewards
+  // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
+  const enum stakePool {
+    STAKE_AGVE,
+    STAKE_WXDAI,
+    SYMM_WXDAI,
+    None
+  }
+  let stakePoolIndex = stakePool.None;
+
+  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
+    stakePoolIndex = stakePool.STAKE_AGVE;
+  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI', 60, 40)) {
+    stakePoolIndex = stakePool.STAKE_WXDAI;
+  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
+    stakePoolIndex = stakePool.SYMM_WXDAI;
+  }
+
+  if (stakePoolIndex !== stakePool.None) {
+    const STAKEprice = await getTokenPriceXDAI('STAKE');
+    const stakeDailyCoinReward = [
+      new BigNumber((595.21 * 0.2) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.3) / Number(STAKEprice)),
+      new BigNumber((595.21 * 0.5) / Number(STAKEprice))
+    ];
+    crPool.tokenRewardStake = stakeDailyCoinReward[stakePoolIndex];
+
+    crPool.rewardApyStake = crPool.tokenRewardStake
+      .times(STAKEprice)
+      .div(pool.liquidity)
+      .times(365);
+  }
+
+  return crPool;
 }
 
 export async function getNetworkLiquidity(){
@@ -325,68 +536,92 @@ export async function getNetworkLiquidity(){
     }
   };
 
-  let totalAdjustedLiquiditySecondNetwork = new BigNumber(0);
-  let totalAdjustedLiquidityCurrentNetwork = new BigNumber(0);
+  let totalAdjustedLiquidity = new BigNumber(0);
   let thisAdjustedPoolLiquidity = new BigNumber(0);
 
-  const thisChainId = config.chainId;
-  const secondChainId = config.chainId == '42220' ? '100' : '42220';
+  // total liquidity for CELO APR and rewards
+  let crTotalLiquidity = new BigNumber(0);
+  const crPoolIds = [
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+  ];
 
-  // Get all the pools for the other network and add up the total liquidity and adjusted liquidity
-  let pools = await getPoolsNoPaging(query);
-  pools.pools.forEach(thispool => {
-    const thisPoolFactors = getFactors(
-      thispool.swapFee,
-      thispool.tokens,
-      thispool.tokensList,
-      thispool.totalWeight,
-      secondChainId
-    );
+  const networks = ['100', '42220']
+//  const networks = ['100', '43114', '250', '10', '137', '42220']
+  const nLen = networks.length;
 
-    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
-      .times(thisPoolFactors.ratioFactor)
-      .times(thisPoolFactors.wrapFactor);
+  if (executed === false)
+  {
+    for (let i = 0; i < nLen; i++) {
+      const pools = await getPoolsNoPaging(query, networks[i]);
+      pools.pools.forEach(thispool => {
+        const thisPoolFactors = getFactors(
+          thispool.swapFee,
+          thispool.tokens,
+          thispool.tokensList,
+          thispool.totalWeight,
+          networks[i],
+          thispool.id
+        );
 
-    thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
-      thisCombinedAdjustmentFactor
-    );
+        const thisCombinedAdjustmentFactor = new BigNumber(
+          thisPoolFactors.feeFactor
+        )
+        .times(thisPoolFactors.ratioFactor)
+        .times(thisPoolFactors.wrapFactor);
 
-    totalAdjustedLiquiditySecondNetwork = totalAdjustedLiquiditySecondNetwork.plus(
-      thisAdjustedPoolLiquidity
-    );
-  });
+        thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
+          thisCombinedAdjustmentFactor
+        );
 
-  // Get all the pools for the current network and add up the total liquidity and adjusted liquidity
-  pools = await getPoolsNoPaging(query, 1);
-  pools.pools.forEach(thispool => {
-    const thisPoolFactors = getFactors(
-      thispool.swapFee,
-      thispool.tokens,
-      thispool.tokensList,
-      thispool.totalWeight,
-      thisChainId,
-      thispool.id
-    );
+        totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
+          thisAdjustedPoolLiquidity
+        );
 
-    const thisCombinedAdjustmentFactor = new BigNumber(thisPoolFactors.feeFactor)
-      .times(thisPoolFactors.ratioFactor)
-      .times(thisPoolFactors.wrapFactor);
-
-    thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
-      thisCombinedAdjustmentFactor
-    );
-
-    totalAdjustedLiquidityCurrentNetwork = totalAdjustedLiquidityCurrentNetwork.plus(
-      thisAdjustedPoolLiquidity
-    );
-  });
-
-  return {
-    totalAdjustedLiquiditySecondNetwork,
-    totalAdjustedLiquidityCurrentNetwork,
-    thisAdjustedPoolLiquidity
+        if ('celo' == networks[i])
+        {
+          // get total liquidity for CELO APR and rewards
+          if (crPoolIds.includes(thispool.id)) {
+            crTotalLiquidity = crTotalLiquidity.plus(
+              new BigNumber(thispool.liquidity)
+            );
+          }
+        }
+      });
+    }
+    executed = true;
   }
 
+  return totalAdjustedLiquidity;
+}
+
+export async function getSYMMprice(){
+  let SYMMprice = '1';
+  switch (process.env.VUE_APP_NETWORK)
+  {
+    case 'celo':
+      SYMMprice = await getSYMMPriceCELO();
+      break;
+    case 'polygon':
+      SYMMprice = await getSYMMPricePOLYGON();
+      break;
+    case 'avalanche':
+      SYMMprice = await getSYMMPriceAVALANCHE();
+      break;
+    case 'fantom':
+      SYMMprice = await getSYMMPriceFANTOM();
+      break;
+    case 'optimism':
+      SYMMprice = await getSYMMPriceOPTIMISM();
+      break;
+    case 'xdai':
+    default:
+      SYMMprice = await getSYMMPriceXDAI();
+      break;
+  }
+
+  return SYMMprice;
 }
 
 export async function formatPools(pools) {

@@ -13,6 +13,16 @@ export const uncappedTokens = {
     '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48', // USDC
     '0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599' // WBTC
   ],
+  10: [
+    '0x350a791bfc2c21f9ed5d10980dad2e2638ffa7f6', // LINK
+    '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', // DAI.e
+    '0x4200000000000000000000000000000000000006', // WETH
+    '', // SYMM
+    '0x8700daec35af8ff88c16bdf0418774cb3d7599b4', // SNX
+    '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58', // USDT
+    '0x7f5c764cbc14f9669b88837ca1490cca17c31607', //USDC
+    '0x68f180fcce6836688e9084f035309e29bf0a2095' // WBTC
+  ],
   42: [
     '0xd0A1E359811322d97991E03f863a0C30C2cF029C', // WETH
     '0xfc1a1381b3f63f3becc2990100e3c94fe4fdffdc', // SYMM
@@ -43,6 +53,27 @@ export const uncappedTokens = {
     '0xd87fcb23da48d4d9b70c6f39b46debb5d993ad19', // HBTC
     '0x22bd2a732b39dace37ae7e8f50a186f3d9702e87' // yDAI+yUSDC+yUSDT+yTUSD
   ],
+  137: [
+    '0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3', // BNB
+    '0x53e0bca35ec356bd5dddfebbd1fc0fd03fabad39', // LINK
+    '0x8f3cf7ad23cd3cadbd9735aff958023239c6a063', // DAI
+    '0x45c32fa6df82ead1e2ef74d17b76547eddfaff89', // FRAX
+    '0x1a3acf6d19267e2d3e7f898f42803e90c9219062', // FXS
+    '0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270', // WMATIC
+    '0x0b3f868e0be5597d5db7feb59e1cadbb0fdda50a', // SUSHI
+    '', // SYMM
+    '0xc2132d05d31c914a87c6611c10748aeb04b58e8f', // USDT
+    '0x2e1ad108ff1d8c782fcbbb89aad783ac49586756', // TUSD
+    '0x2791bca1f2de4661ed88a30c99a7a9449aa84174', // USDC
+    '0xb33eaad8d922b1083446dc23f610c2567fb5180f', // UNI
+    '0x1bfd67037b42cf73acf2047067bd4f2c47d9bfd6' // WBTC
+  ],
+  250: [
+    '0x2DEf4285787d58a2f811AF24755A8150622f4361', // ICE
+    '0x841fad6eae12c286d1fd18d1d525dffa75c7effe', // BOO
+    '', // SYMM
+    '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83'  // WFTM
+  ],
   42220: [
     '0x2def4285787d58a2f811af24755a8150622f4361', // cETH
     '0x471ece3750da237f93b8e339c536989b8978a438', // CELO
@@ -55,6 +86,18 @@ export const uncappedTokens = {
     '0x1a8dbe5958c597a744ba51763abebd3355996c3e', // rCELO
     '0x7037f7296b2fc7908de7b57a89efaa8319f0c500', // mCELO
     '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a'  //SYMM
+  ],
+  43114: [
+    '0x5947bb275c521040051d82396192181b413227a3', // LINK.e
+    '0xd586e7f844cea2f87f50152665bcbc2c279d8d70', // DAI.e
+    '0xd24c2ad096400b6fbcd2ad8b24e7acbc21a1da64', // FRAX
+    '0x214db107654ff987ad859f34125307783fc8e387', // SUSHI
+    '', // SYMM
+    '0x9702230a8ea53601f5cd2dc00fdbc13d4df4a8c7', // USDT
+    '0xc7198437980c041c805a1edcba50c1ce5db95118', // USDT.e
+    '0x1c20e891bab6b1727d14da358fae2984ed9b59eb', // TUSD
+    '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7', // WAVAX
+    '0x408d4cd0adb7cebd1f1a1c33a0ba2098e1295bab'  // WBTC
   ],
   44787: [
     '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9', // CELO
@@ -473,6 +516,18 @@ export const equivalentSets = {
     ],
   ],
   42220: [
+    [
+      [
+        '0xD629eb00dEced2a080B7EC630eF6aC117e614f1b', // cBTC
+        '0xBe50a3013A1c94768A1ABb78c3cB79AB28fc1aCE' // WBTC
+      ]
+    ],
+    [
+      [
+        '0x2DEf4285787d58a2f811AF24755A8150622f4361', // cETH
+        '0xE919F65739c26a42616b7b8eedC6b5524d1e3aC4' // WETH
+      ]
+    ],
   ],
   44787: [
   ]
