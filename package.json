@@ -34,6 +34,7 @@
     "bootstrap": "^5.1.0",
     "core-js": "^3.6.5",
     "eslint": "^6.7.2",
+    "eth-json-rpc-middleware": "^8.0.0",
     "fortmatic": "^2.0.6",
     "json-to-graphql-query": "^2.0.0",
     "lightweight-charts": "^3.1.5",
