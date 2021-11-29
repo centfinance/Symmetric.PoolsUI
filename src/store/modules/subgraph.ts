@@ -102,7 +102,7 @@ const actions = {
     commit('GET_NETWORK_LIQUIDITY', liquidity);
   },
   getSYMMprice: async ({ commit }, payload) => {
-    const price  = await getNetworkLiquidity();
+    const price  = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {

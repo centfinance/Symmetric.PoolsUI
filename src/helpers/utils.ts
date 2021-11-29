@@ -225,8 +225,6 @@ export async function getTokenPricePOLYGON(token: string) {
   }
 }
 
-let executed = false;
-
 async function getPoolsNoPaging(payload, chainId) {
   const {
     orderBy = 'liquidity',
@@ -481,46 +479,42 @@ export async function getNetworkLiquidity(){
 //  const networks = ['100', '43114', '250', '10', '137', '42220']
   const nLen = networks.length;
 
-  if (executed === false)
-  {
-    for (let i = 0; i < nLen; i++) {
-      const pools = await getPoolsNoPaging(query, networks[i]);
-      pools.pools.forEach(thispool => {
-        const thisPoolFactors = getFactors(
-          thispool.swapFee,
-          thispool.tokens,
-          thispool.tokensList,
-          thispool.totalWeight,
-          networks[i],
-          thispool.id
-        );
+  for (let i = 0; i < nLen; i++) {
+    const pools = await getPoolsNoPaging(query, networks[i]);
+    pools.pools.forEach(thispool => {
+      const thisPoolFactors = getFactors(
+        thispool.swapFee,
+        thispool.tokens,
+        thispool.tokensList,
+        thispool.totalWeight,
+        networks[i],
+        thispool.id
+      );
 
-        const thisCombinedAdjustmentFactor = new BigNumber(
-          thisPoolFactors.feeFactor
-        )
-        .times(thisPoolFactors.ratioFactor)
-        .times(thisPoolFactors.wrapFactor);
+      const thisCombinedAdjustmentFactor = new BigNumber(
+        thisPoolFactors.feeFactor
+      )
+      .times(thisPoolFactors.ratioFactor)
+      .times(thisPoolFactors.wrapFactor);
 
-        thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
-          thisCombinedAdjustmentFactor
-        );
+      thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
+        thisCombinedAdjustmentFactor
+      );
 
-        totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
-          thisAdjustedPoolLiquidity
-        );
+      totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
+        thisAdjustedPoolLiquidity
+      );
 
-        if ('celo' == networks[i])
-        {
-          // get total liquidity for CELO APR and rewards
-          if (crPoolIds.includes(thispool.id)) {
-            crTotalLiquidity = crTotalLiquidity.plus(
-              new BigNumber(thispool.liquidity)
-            );
-          }
+      if ('celo' == networks[i])
+      {
+        // get total liquidity for CELO APR and rewards
+        if (crPoolIds.includes(thispool.id)) {
+          crTotalLiquidity = crTotalLiquidity.plus(
+            new BigNumber(thispool.liquidity)
+          );
         }
-      });
-    }
-    executed = true;
+      }
+    });
   }
 
   return totalAdjustedLiquidity;
