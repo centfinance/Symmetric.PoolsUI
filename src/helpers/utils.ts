@@ -728,7 +728,5 @@ export function formatNumber(number, key) {
   if (key === 'percent') format = '(0.[00])%';
   if (key === 'percent-short') format = '(0)%';
 
-  return numeral(number)
-    .format(format)
-    .toUpperCase();
+  return numeral(number).format(format).toUpperCase();
 }

@@ -20,10 +20,7 @@ export function swapPrice(pool, chainId, swap) {
 
   const intersection = new Set([...poolTokens].filter(x => reserves.has(x)));
 
-  const reserveToken = intersection
-    .values()
-    .next()
-    .value.toLowerCase();
+  const reserveToken = intersection.values().next().value.toLowerCase();
 
   return swap.tokenIn === reserveToken
     ? swap.tokenAmountIn / swap.tokenAmountOut

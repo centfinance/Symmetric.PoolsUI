@@ -4,11 +4,11 @@
       :value="type"
       :options="poolTypes"
       @select="selectType"
-      style="background-color: #3C525F"
+      style="background-color: #3c525f"
       class="mb-4"
     />
     |
-    <UiButton style="background-color: #5B8470;" class="button-primary">
+    <UiButton style="background-color: #5b8470" class="button-primary">
       <a :href="config.exchangeUrl" class="text-white" target="_blank">
         {{ $t('swap') }}
         <Icon name="external-link" class="ml-1" />
@@ -29,74 +29,75 @@
       <div class="cardInfo rounded-1">
         <div class="highlight-card anim-fade-in rounded-1">
           <span>
-            <span>TVL Celo: </span>
+            <span class="span-text-key">TVL Celo: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(celoTVL, 'usd-long')"
             />
           </span>
           &nbsp;
           <span>
-            <span>TVL xDai: </span>
+            <span class="span-text-key">TVL xDai: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(xDaiTVL, 'usd-long')"
-            /> </span>
+            />
+          </span>
           &nbsp;
           <!--
           <span>
             <span>TVL Avalanche: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(avalancheTVL, 'usd-long')"
             /> </span>
           &nbsp;
           <span>
             <span>TVL Fantom: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(fantomTVL, 'usd-long')"
             /> </span>
           &nbsp;
           <span>
             <span>TVL Optimism: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(optimismTVL, 'usd-long')"
             /> </span>
           &nbsp;
           <span>
             <span>TVL Polygon: </span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(polygonTVL, 'usd-long')"
             /> </span> 
-          &nbsp; --> (
+          &nbsp; -->
           <span>
-            <span>Symbol: </span>
-            <span class="row text-white-normal">SYMM</span>
+            <span class="span-text-key">( Symbol: </span>
+            <span class="row span-text-value">SYMM</span>
           </span>
           &nbsp;
           <span>
-            <span>Celo: *</span>
+            <span class="span-text-key">Celo: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPriceCelo, 'usd-long')"
             />
           </span>
           &nbsp;
           <span>
-            <span>xDai: *</span>
+            <span class="span-text-key">xDai: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPricexDAI, 'usd-long')"
-            />
-          </span><!--
+            /> </span
+          ><!--
           &nbsp;
           <span>
             <span>Avalanche: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPriceAvalanche, 'usd-long')"
             />
           </span>
@@ -104,7 +105,7 @@
           <span>
             <span>Fantom: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPriceFantom, 'usd-long')"
             />
           </span>
@@ -112,7 +113,7 @@
           <span>
             <span>Optimism: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPriceOptimism, 'usd-long')"
             />
           </span>
@@ -120,18 +121,17 @@
           <span>
             <span>Polygon: *</span>
             <span
-              class="row text-white-normal"
+              class="row span-text-value"
               v-text="_num(SYMMPricePolygon, 'usd-long')"
             />
-          </span> --> 
-          &nbsp; 
-          <span class="text-white-normal">*Last trade price</span>
-          )
+          </span> -->
+          &nbsp;
+          <span class="span-text-value">*Last trade price )</span>
         </div>
       </div>
     </div>
     <div class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right">
-      <div v-text="$t('filterByAsset')" class="pb-1" />
+      <div v-text="$t('filterByAsset')" />
       <div v-for="(token, i) in tokens" :key="i" class="topic ml-2">
         <button
           class="topic-button text-center line-height-0 position-absolute right-0"
@@ -141,7 +141,7 @@
         </button>
         <span
           class="ml-2 pl-1"
-          style="padding-right: 30px;"
+          style="padding-right: 30px"
           v-text="_ticker(token)"
         />
       </div>
@@ -215,10 +215,10 @@ export default {
       this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
       // TNA TODO
-    //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
-    //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
-    // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
-    //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
+      //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
+      //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
+      // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
+      //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -232,10 +232,10 @@ export default {
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();
-   //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
-   //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
-   //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
-   //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
+      //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
+      //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
+      //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
+      //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
     },
     addToken(token) {
       this.tokens.push(token);
@@ -271,36 +271,40 @@ export default {
 <style scoped lang="scss">
 @import '../vars';
 
-.cardInfo {
-  background-color: #272727;
-  /* color: blue; */
-  padding: 5px;
-  height: 100%;
-  margin: 1px;
-}
-.text-white-normal {
-  color: white;
-  font-weight: 480;
-  font-size: 12px;
-}
 .card {
-  background-color: #272727;
+  // background-color: #272727;
   /* color: blue; */
   padding: 0px;
   height: 13rem;
   margin: 5px;
 }
 .cards {
-  /* background-color: #0A1E2A; */
-  background: linear-gradient(
-    178deg,
-    rgb(10 30 42 / 4%) 23.98%,
-    #0a1e2a83 100%
-  );
+  // background: linear-gradient(
+  //   178deg,
+  //   rgb(10 30 42 / 4%) 23.98%,
+  //   #0a1e2a83 100%
+  // );
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+
+  .cardInfo {
+    background-color: var(--filter-bar-background);
+
+    padding: 8px 12px;
+    margin: 1px;
+
+    .span-text-key {
+      color: var(--text-secondary-color);
+    }
+
+    .span-text-value {
+      color: var(--text-primary-color);
+      font-weight: 480;
+      font-size: 12px;
+    }
+  }
 }
 .margin-top10 {
   margin-top: 5px;

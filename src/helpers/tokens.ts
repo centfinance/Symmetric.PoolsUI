@@ -72,7 +72,7 @@ export const uncappedTokens = {
     '0x2DEf4285787d58a2f811AF24755A8150622f4361', // ICE
     '0x841fad6eae12c286d1fd18d1d525dffa75c7effe', // BOO
     '', // SYMM
-    '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83'  // WFTM
+    '0x21be370d5312f44cb42ce377bc9b8a0cef1a4c83' // WFTM
   ],
   42220: [
     '0x2def4285787d58a2f811af24755a8150622f4361', // cETH
@@ -85,7 +85,7 @@ export const uncappedTokens = {
     '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec', // UBE
     '0x1a8dbe5958c597a744ba51763abebd3355996c3e', // rCELO
     '0x7037f7296b2fc7908de7b57a89efaa8319f0c500', // mCELO
-    '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a'  //SYMM
+    '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a' //SYMM
   ],
   43114: [
     '0x5947bb275c521040051d82396192181b413227a3', // LINK.e
@@ -97,7 +97,7 @@ export const uncappedTokens = {
     '0xc7198437980c041c805a1edcba50c1ce5db95118', // USDT.e
     '0x1c20e891bab6b1727d14da358fae2984ed9b59eb', // TUSD
     '0xb31f66aa3c1e785363f0875a1b74e27b85fd66c7', // WAVAX
-    '0x408d4cd0adb7cebd1f1a1c33a0ba2098e1295bab'  // WBTC
+    '0x408d4cd0adb7cebd1f1a1c33a0ba2098e1295bab' // WBTC
   ],
   44787: [
     '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9', // CELO
@@ -105,26 +105,26 @@ export const uncappedTokens = {
     '0x874069fa1eb16d44d622f2e0ca25eea172369bc1' // cUSD
   ],
   43113: [
-		"0xafda926d549a67229d8db529638e0bafcdb66458",
-		"0xd00ae08403b9bbb9124bb305c09058e32c39a48c",
-		"0x29d861c32f28112547cf5e2d7487b33506570981",
-		"0x969771454b8a9b40e5578d38f16c91313fa67baf"
-	],
+    '0xafda926d549a67229d8db529638e0bafcdb66458',
+    '0xd00ae08403b9bbb9124bb305c09058e32c39a48c',
+    '0x29d861c32f28112547cf5e2d7487b33506570981',
+    '0x969771454b8a9b40e5578d38f16c91313fa67baf'
+  ],
   4002: [
-		"0xa5afdcaad3e67261e2dee707476699ef968cf57c",
-		"0x2d7cd0f70bd71c6bc382cfc752972f41f1f0acd6",
-		"0x1957d5e8496628d755a4b2151bca03ecc379bdd6"
-	],
+    '0xa5afdcaad3e67261e2dee707476699ef968cf57c',
+    '0x2d7cd0f70bd71c6bc382cfc752972f41f1f0acd6',
+    '0x1957d5e8496628d755a4b2151bca03ecc379bdd6'
+  ],
   69: [
-		"0x4200000000000000000000000000000000000006",
-		"0x7f5c764cbc14f9669b88837ca1490cca17c31607",
-		"0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3",
-		"0x94b008aa00579c1307b0ef2c499ad98a8ce58e58"
-	],
+    '0x4200000000000000000000000000000000000006',
+    '0x7f5c764cbc14f9669b88837ca1490cca17c31607',
+    '0x1147b3f6eca313a5b3c2aa3fb85928104a5787d3',
+    '0x94b008aa00579c1307b0ef2c499ad98a8ce58e58'
+  ],
   80001: [
-		"0xaff77c74e2a3861225173c2325314842338b73e6",
-		"0xda53403df5ff2058feb9c6729fafb3996b84545b"
-	],
+    '0xaff77c74e2a3861225173c2325314842338b73e6',
+    '0xda53403df5ff2058feb9c6729fafb3996b84545b'
+  ]
 };
 
 export const equivalentSets = {
@@ -526,15 +526,14 @@ export const equivalentSets = {
       ]
     ]
   ],
-  77: [
-  ],
+  77: [],
   100: [
     [
       [
         '0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83', // USDC
         '0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d' // WXDAI
       ]
-    ],
+    ]
   ],
   42220: [
     [
@@ -548,16 +547,11 @@ export const equivalentSets = {
         '0x2DEf4285787d58a2f811AF24755A8150622f4361', // cETH
         '0xE919F65739c26a42616b7b8eedC6b5524d1e3aC4' // WETH
       ]
-    ],
+    ]
   ],
-  44787: [
-  ],
-  4002: [
-  ],
-  43113: [
-  ],
-  69: [
-  ],
-  80001: [
-  ],
+  44787: [],
+  4002: [],
+  43113: [],
+  69: [],
+  80001: []
 };

@@ -1,86 +1,89 @@
 @font-face {
-    font-family: "iconfont";
-    src: url("./iconfont.eot?5bf7bcf8112a56450d974569531f87d8?#iefix") format("embedded-opentype"),
-url("./iconfont.woff2?5bf7bcf8112a56450d974569531f87d8") format("woff2"),
-url("./iconfont.woff?5bf7bcf8112a56450d974569531f87d8") format("woff"),
-url("./iconfont.ttf?5bf7bcf8112a56450d974569531f87d8") format("truetype"),
-url("./iconfont.svg?5bf7bcf8112a56450d974569531f87d8#iconfont") format("svg");
+  font-family: 'iconfont';
+  src: url('./iconfont.eot?5bf7bcf8112a56450d974569531f87d8?#iefix')
+      format('embedded-opentype'),
+    url('./iconfont.woff2?5bf7bcf8112a56450d974569531f87d8') format('woff2'),
+    url('./iconfont.woff?5bf7bcf8112a56450d974569531f87d8') format('woff'),
+    url('./iconfont.ttf?5bf7bcf8112a56450d974569531f87d8') format('truetype'),
+    url('./iconfont.svg?5bf7bcf8112a56450d974569531f87d8#iconfont')
+      format('svg');
 }
 
-i[class^="icon-"]:before, i[class*=" icon-"]:before {
-    font-family: iconfont !important;
-    font-style: normal;
-    font-weight: normal !important;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+i[class^='icon-']:before,
+i[class*=' icon-']:before {
+  font-family: iconfont !important;
+  font-style: normal;
+  font-weight: normal !important;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .icon-arrow-down:before {
-    content: "\f101";
+  content: '\f101';
 }
 .icon-arrow-up:before {
-    content: "\f102";
+  content: '\f102';
 }
 .icon-back:before {
-    content: "\f103";
+  content: '\f103';
 }
 .icon-bullet:before {
-    content: "\f104";
+  content: '\f104';
 }
 .icon-check:before {
-    content: "\f105";
+  content: '\f105';
 }
 .icon-checkbox-off:before {
-    content: "\f106";
+  content: '\f106';
 }
 .icon-checkbox-on:before {
-    content: "\f107";
+  content: '\f107';
 }
 .icon-close:before {
-    content: "\f106";
+  content: '\f106';
 }
 .icon-external-link:before {
-    content: "\f107";
+  content: '\f107';
 }
 .icon-github:before {
-    content: "\f108";
+  content: '\f108';
 }
 .icon-go:before {
-    content: "\f109";
+  content: '\f109';
 }
 .icon-info:before {
-    content: "\f10a";
+  content: '\f10a';
 }
 .icon-lock:before {
-    content: "\f10b";
+  content: '\f10b';
 }
 .icon-menu:before {
-    content: "\f10c";
+  content: '\f10c';
 }
 .icon-plus:before {
-    content: "\f10d";
+  content: '\f10d';
 }
 .icon-receipt-outlined:before {
-    content: "\f10e";
+  content: '\f10e';
 }
 .icon-search:before {
-    content: "\f10f";
+  content: '\f10f';
 }
 .icon-signature:before {
-    content: "\f110";
+  content: '\f110';
 }
 .icon-unlock:before {
-    content: "\f111";
+  content: '\f111';
 }
 .icon-user:before {
-    content: "\f112";
+  content: '\f112';
 }
 .icon-wallet:before {
-    content: "\f113";
+  content: '\f113';
 }
 .icon-warning:before {
-    content: "\f114";
+  content: '\f114';
 }

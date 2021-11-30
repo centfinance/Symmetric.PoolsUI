@@ -25,8 +25,12 @@ export default {
 .line {
   display: flex;
   align-items: center;
-  border-top: $border;
-  color: $white;
+  border-top: solid 1px var(--table-border-color);
+  color: var(--text-primary-color);
   text-align: right;
+
+  &:hover {
+    background-color: var(--table-hover-background);
+  }
 }
 </style>

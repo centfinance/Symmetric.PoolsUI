@@ -15,9 +15,9 @@
         <UiTableTr v-for="(share, i) in shares" :key="i">
           <div class="text-left flex-auto">
             <a
-              :href="
-                `${_etherscanLink(pool.id, 'address')}?a=${share.userAddress.id}`
-              "
+              :href="`${_etherscanLink(pool.id, 'address')}?a=${
+                share.userAddress.id
+              }`"
               target="_blank"
               class="text-white"
             >

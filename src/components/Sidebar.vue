@@ -6,7 +6,7 @@
   >
     <nav class="nav d-flex flex-column height-full">
       <div class="flex-auto">
-        <ul class="border-bottom py-3">
+        <ul class="sidebar-border-bottom py-3">
           <li v-if="$auth.isAuthenticated">
             <router-link
               :to="{ name: 'home' }"
@@ -92,7 +92,7 @@
       </div>
       <div class="d-block m-4">
         <span
-          >Network: <span class="text-white">{{ config.network }}</span>
+          >Network: <span class="network-name">{{ config.network }}</span>
         </span>
 
         <a
@@ -132,7 +132,7 @@ export default {
 
 #sidebar {
   z-index: 5;
-  border-right: $border;
+  box-shadow: $box-shadow-secondary;
   position: fixed;
   background-color: $panel-background;
   margin-top: 79px;
@@ -144,19 +144,18 @@ export default {
     left: 0;
   }
 
+  .sidebar-border-bottom {
+    border-bottom: $border-secondary;
+  }
+
   ul > li > a {
     font-size: 16px;
-    color: $white;
+    color: var(--text-primary-color);
     display: block;
     padding: 10px 22px 12px;
 
     &.active {
-      // background: linear-gradient(
-      //   270deg,
-      //   rgba(49, 255, 216, 1) 0%,
-      //   rgba(221, 61, 255, 1) 100%
-      // );
-      background-color: #3e4e59;
+      background-color: var(--panel-background);
       border-left: 3px solid $blue;
       padding-left: 19px;
     }
@@ -164,6 +163,10 @@ export default {
 
   &.is-open {
     left: 0 !important;
+  }
+
+  .network-name {
+    color: var(--text-primary-color);
   }
 }
 </style>

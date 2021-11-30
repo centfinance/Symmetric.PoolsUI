@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <UiModalForm @submit="handleSubmit">
       <template slot="header">
         <h3 v-text="$t('gradualWeightUpdate')" class="text-white" />

@@ -1,11 +1,11 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <UiModalForm @submit="handleSubmit">
       <template slot="header">
         <h3 v-text="$t('manageWhitelist')" class="text-white" />
       </template>
       <div class="text-center m-4">
-        <h5 class="px-4 mb-4 mx-auto overflow-hidden" style="max-width: 340px;">
+        <h5 class="px-4 mb-4 mx-auto overflow-hidden" style="max-width: 340px">
           {{ $t('addOrRemoveLP') }}
         </h5>
         <input

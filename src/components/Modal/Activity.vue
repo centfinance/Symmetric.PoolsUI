@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <h3 v-text="$t('pendingTransactions')" class="m-4 mb-0 text-center" />
     <Block class="m-4">
       <div v-if="myPendingTransactions.length">

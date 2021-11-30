@@ -21,15 +21,13 @@
         class="border rounded-0 rounded-md-1 panel-background py-4 mx-0 mx-md-2"
       >
         <h3 v-text="_num(pool.apy, 'percent')" />
-        
-        &nbsp; 
+
+        &nbsp;
         <span
           :class="'tooltipped tooltipped-n mb-0'"
-          :aria-label="
-          $t('apyTip')
-        "
+          :aria-label="$t('apyTip')"
         >
-        {{ $t('apy') }}
+          {{ $t('apy') }}
           <Icon name="info" size="16" :style="`color: #red`" />
         </span>
       </div>

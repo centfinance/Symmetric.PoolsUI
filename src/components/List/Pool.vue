@@ -7,7 +7,7 @@
       <Pie :tokens="pool.tokens" class="mr-3" size="34" />
     </div>
     <div class="flex-auto text-left">
-      <div class="d-flex flex-wrap" style="max-width: 205px;">
+      <div class="d-flex flex-wrap" style="max-width: 205px">
         <div
           v-for="token in pool.tokens"
           :key="token.address"
@@ -27,11 +27,7 @@
       format="percent"
       class="column hide-sm hide-md"
     />
-    <UiNum
-      :value="pool.apy"
-      format="percent"
-      class="column hide-sm hide-md"
-    />
+    <UiNum :value="pool.apy" format="percent" class="column hide-sm hide-md" />
     <div>
       <div class="d-flex">
         <UiNum
@@ -39,9 +35,7 @@
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          SYMM
-        </div>
+        <div class="column-xxs hide-sm hide-md">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyCelo">
         <UiNum
@@ -49,9 +43,7 @@
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          CELO
-        </div>
+        <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyKnx">
         <UiNum
@@ -59,9 +51,7 @@
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          KNX
-        </div>
+        <div class="column-xxs hide-sm hide-md">KNX</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyStake">
         <UiNum
@@ -69,9 +59,7 @@
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          STAKE
-        </div>
+        <div class="column-xxs hide-sm hide-md">STAKE</div>
       </div>
     </div>
     <div>
@@ -81,9 +69,7 @@
           format="long"
           class="column-md hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          SYMM
-        </div>
+        <div class="column-xxs hide-sm hide-md">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardCelo">
         <UiNum
@@ -91,9 +77,7 @@
           format="long"
           class="column-md hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          CELO
-        </div>
+        <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardKnx">
         <UiNum
@@ -101,9 +85,7 @@
           format="long"
           class="column-md hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          KNX
-        </div>
+        <div class="column-xxs hide-sm hide-md">KNX</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardStake">
         <UiNum
@@ -111,9 +93,7 @@
           format="long"
           class="column-md hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">
-          STAKE
-        </div>
+        <div class="column-xxs hide-sm hide-md">STAKE</div>
       </div>
     </div>
     <div

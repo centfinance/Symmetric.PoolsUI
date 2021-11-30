@@ -1,8 +1,8 @@
 <template>
-  <nav id="topnav" class="border-bottom position-fixed width-full">
+  <nav id="topnav" class="position-fixed width-full">
     <div
       class="d-flex flex-items-center px-5"
-      style="height: 66px;padding-left:2px !important"
+      style="height: 66px; padding-left: 2px !important"
     >
       <div class="flex-auto d-flex flex-items-center">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
@@ -17,10 +17,10 @@
         <router-link
           :to="{ name: 'home' }"
           class="d-flex"
-          style="padding-top: 2px;"
+          style="padding-top: 2px"
         >
           <img class="logo" src="@/assets/symmetricIcon.svg" />
-          <span class="title">SYMMETRIC </span>
+          <span class="title">SYMMETRIC</span>
           <!-- <span
             style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FB6706;"
             v-text="'Symmetric '"
@@ -31,7 +31,8 @@
           /> -->
         </router-link>
       </div>
-      <div :key="web3.account">
+      <div :key="web3.account" class="account">
+        <Theme-Switcher class="theme-switcher" />
         <UiButton
           v-if="$auth.isAuthenticated && !wrongNetwork"
           @click="modalOpen.account = true"
@@ -86,9 +87,10 @@
         </UiButton>
       </div>
     </div>
-    <div class="ml-6 !important" style="color:white; text-align: center;">
-          Caution: Investments carry risk. Only add liquidity that you can afford to lose.
-        </div>
+    <div class="caution-message">
+      Caution: Investments carry risk. Only add liquidity that you can afford to
+      lose.
+    </div>
     <portal to="modal">
       <ModalAccount
         :open="modalOpen.account"
@@ -106,8 +108,10 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex';
+import ThemeSwitcher from './ThemeSwitcher.vue';
 
 export default {
+  components: { ThemeSwitcher },
   data() {
     return {
       loading: false,
@@ -138,242 +142,191 @@ export default {
     },
 
     async switchNetwork() {
-            if (!window.ethereum) {
-                console.error('No injected wallet found.');
-                return;
-            }
-            switch (this.config.network) {
-            case "xdai":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '0x64',
-                            'chainName': 'xDai',
-                            'rpcUrls': ['https://rpc.xdaichain.com'],
-                            'nativeCurrency': {
-                                'name': 'xDai Chain xDai',
-                                'symbol': 'xDai',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://blockscout.com/poa/xdai'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "celo":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '0xa4ec',
-                            'chainName': 'Celo',
-                            'rpcUrls': ['https://forno.celo.org'],
-                            'nativeCurrency': {
-                                'name': 'Celo',
-                                'symbol': 'CELO',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://explorer.celo.org'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "avalanche":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '43114',
-                            'chainName': 'Avalanche',
-                            'rpcUrls': ['https://api.avax.network/ext/bc/C/rpc'],
-                            'nativeCurrency': {
-                                'name': 'Avax',
-                                'symbol': 'AVAX',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://snowtrace.io/'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "fuji":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '43113',
-                            'chainName': 'Avalanche Fuji Testnet',
-                            'rpcUrls': ['https://api.avax-test.network/ext/bc/C/rpc'],
-                            'nativeCurrency': {
-                                'name': 'Avax',
-                                'symbol': 'AVAX',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://testnet.snowtrace.io/'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "fantom":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '250',
-                            'chainName': 'Fantom',
-                            'rpcUrls': ['https://rpc.ftm.tools/'],
-                            'nativeCurrency': {
-                                'name': 'Ftm',
-                                'symbol': 'FTM',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://ftmscan.com/'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "fantom-testnet":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '4002',
-                            'chainName': 'Fantom Test Network',
-                            'rpcUrls': ['https://rpc.testnet.fantom.network/'],
-                            'nativeCurrency': {
-                                'name': 'Ftm',
-                                'symbol': 'FTM',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://testnet.ftmscan.com'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "optimism":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '10',
-                            'chainName': 'Optimism',
-                            'rpcUrls': ['https://mainnet.optimism.io'],
-                            'nativeCurrency': {
-                                'name': 'Ether',
-                                'symbol': 'ETH',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://optimistic.etherscan.io'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "optimism-kovan":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '69',
-                            'chainName': 'Optimism Kovan',
-                            'rpcUrls': ['https://kovan.optimism.io'],
-                            'nativeCurrency': {
-                                'name': 'Ether',
-                                'symbol': 'ETH',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://kovan-optimistic.etherscan.io'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "polygon":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '137',
-                            'chainName': 'Polygon',
-                            'rpcUrls': ['https://polygon-rpc.com/'],
-                            'nativeCurrency': {
-                                'name': 'Matic',
-                                'symbol': 'MATIC',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://polygonscan.com/'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "polygon-mumbai":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '80001',
-                            'chainName': 'Polygon Mumbai Test Network',
-                            'rpcUrls': ['https://rpc-mumbai.maticvigil.com/'],
-                            'nativeCurrency': {
-                                'name': 'Matic',
-                                'symbol': 'MATIC',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://mumbai.polygonscan.com/'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "alfajores":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '0xaef3',
-                            'chainName': 'Celo (Alfajores Testnet)',
-                            'rpcUrls': ['https://alfajores-forno.celo-testnet.org'],
-                            'nativeCurrency': {
-                                'name': 'Celo',
-                                'symbol': 'CELO',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://alfajores-blockscout.celo-testnet.org'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            case "sokol":
-                window.ethereum.request({
-                    method: 'wallet_addEthereumChain',
-                    params: [
-                        {
-                            'chainId': '0x4d',
-                            'chainName': 'Sokol Testnet',
-                            'rpcUrls': ['https://sokol.poa.network'],
-                            'nativeCurrency': {
-                                'name': 'SPOA',
-                                'symbol': 'SPOA',
-                                'decimals': 18,
-                            },
-                            'blockExplorerUrls': ['https://blockscout.com/poa/sokol'],
-                        },
-                    ],
-                    id: 1,
-                }, console.log);
-                break;
-            }
-        }
-
+      if (!window.ethereum) {
+        console.error('No injected wallet found.');
+        return;
+      }
+      switch (this.config.network) {
+        case 'xdai':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x64',
+                  chainName: 'xDai',
+                  rpcUrls: ['https://rpc.xdaichain.com'],
+                  nativeCurrency: {
+                    name: 'xDai Chain xDai',
+                    symbol: 'xDai',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://blockscout.com/poa/xdai']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'celo':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0xa4ec',
+                  chainName: 'Celo',
+                  rpcUrls: ['https://forno.celo.org'],
+                  nativeCurrency: {
+                    name: 'Celo',
+                    symbol: 'CELO',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://explorer.celo.org']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'avalanche':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '43114',
+                  chainName: 'Avalanche',
+                  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
+                  nativeCurrency: {
+                    name: 'Avax',
+                    symbol: 'AVAX',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://snowtrace.io/']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'fantom':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '250',
+                  chainName: 'Fantom',
+                  rpcUrls: ['https://rpc.ftm.tools/'],
+                  nativeCurrency: {
+                    name: 'Ftm',
+                    symbol: 'FTM',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://ftmscan.com/']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'optimism':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '10',
+                  chainName: 'Optimism',
+                  rpcUrls: ['https://mainnet.optimism.io'],
+                  nativeCurrency: {
+                    name: 'Ether',
+                    symbol: 'ETH',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://optimistic.etherscan.io']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'polygon':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '137',
+                  chainName: 'Polygon',
+                  rpcUrls: ['https://polygon-rpc.com/'],
+                  nativeCurrency: {
+                    name: 'Matic',
+                    symbol: 'MATIC',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://polygonscan.com/']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'alfajores':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0xaef3',
+                  chainName: 'Celo (Alfajores Testnet)',
+                  rpcUrls: ['https://alfajores-forno.celo-testnet.org'],
+                  nativeCurrency: {
+                    name: 'Celo',
+                    symbol: 'CELO',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: [
+                    'https://alfajores-blockscout.celo-testnet.org'
+                  ]
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+        case 'sokol':
+          window.ethereum.request(
+            {
+              method: 'wallet_addEthereumChain',
+              params: [
+                {
+                  chainId: '0x4d',
+                  chainName: 'Sokol Testnet',
+                  rpcUrls: ['https://sokol.poa.network'],
+                  nativeCurrency: {
+                    name: 'SPOA',
+                    symbol: 'SPOA',
+                    decimals: 18
+                  },
+                  blockExplorerUrls: ['https://blockscout.com/poa/sokol']
+                }
+              ],
+              id: 1
+            },
+            console.log
+          );
+          break;
+      }
+    }
   }
 };
 </script>
@@ -400,10 +353,23 @@ export default {
   letter-spacing: 1px;
   font-size: 24px;
   font-weight: 500;
-  color: white !important;
+  color: var(--text-primary-color) !important;
 }
 #topnav {
   z-index: 10;
   background-color: $panel-background;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+.account {
+  display: flex;
+  align-items: center;
+}
+.theme-switcher {
+  margin-right: 8px;
+}
+.caution-message {
+  margin-left: 40px !important;
+  text-align: center;
+  color: var(--text-primary-color);
 }
 </style>

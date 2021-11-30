@@ -40,6 +40,7 @@ export async function subgraphRequest(url, query) {
 }
 
 export function getTokenLogoUrl(address: string): string | null {
+
   if (
     address !== 'xdai' &&
     address !== 'ether' &&

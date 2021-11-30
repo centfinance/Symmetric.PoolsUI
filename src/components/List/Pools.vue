@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="text-right ">
+    <div class="text-right reward-message mb-1">
       {{ $t('rewardMessage') }} |
-      <span class="hide-sm hide-md text-white"
-        >Switch View:
+      <span class="hide-sm hide-md switch-view"
+        >&nbsp;Switch View:&nbsp;&nbsp;
         <toggle-button
           @change="switchView"
           :value="showCard"
@@ -26,7 +26,7 @@
       <div v-if="pools.length > 0">
         <div class="cards">
           <div class="card" v-for="item in pools" :key="item.id">
-            <div class="border highlight-card anim-fade-in rounded-1">
+            <div class="highlight-card anim-fade-in rounded-1">
               <a :href="'#/pool/' + item.id" class="myForm">
                 <div id="contact-details">
                   <span
@@ -50,46 +50,61 @@
                   <div class="grouptext margin-top10">
                     <span v-text="$t('rewardApy')" class="text-white-normal" />:
                     <UiNum :value="item.rewardApy" format="percent" /> SYMM
-                    <span v-if="item.rewardApyCelo"> / 
-                      <UiNum :value="item.rewardApyCelo" format="percent" /> CELO
+                    <span v-if="item.rewardApyCelo">
+                      /
+                      <UiNum :value="item.rewardApyCelo" format="percent" />
+                      CELO
                     </span>
-                    <span v-if="item.rewardApyKnx"> / 
+                    <span v-if="item.rewardApyKnx">
+                      /
                       <UiNum :value="item.rewardApyKnx" format="percent" /> KNX
                     </span>
-                    <span v-if="item.rewardApyStake"> / 
-                      <UiNum :value="item.rewardApyStake" format="percent" /> STAKE
+                    <span v-if="item.rewardApyStake">
+                      /
+                      <UiNum :value="item.rewardApyStake" format="percent" />
+                      STAKE
                     </span>
                   </div>
-                <div class="grouptext margin-top10">
-                    <span v-text="$t('symmReward')" class="text-white-normal" />:
+                  <div class="grouptext margin-top10">
+                    <span
+                      v-text="$t('symmReward')"
+                      class="text-white-normal"
+                    />:
                     <span
                       v-text="_num(item.tokenReward, 'long')"
                       format="long"
                       class=""
-                    /> SYMM 
-                    <span v-if="item.tokenRewardCelo"> / 
+                    />
+                    SYMM
+                    <span v-if="item.tokenRewardCelo">
+                      /
                       <span
                         v-text="_num(item.tokenRewardCelo, 'long')"
                         format="long"
                         class=""
-                      /> CELO
+                      />
+                      CELO
                     </span>
-                    <span v-if="item.tokenRewardKnx"> / 
+                    <span v-if="item.tokenRewardKnx">
+                      /
                       <span
                         v-text="_num(item.tokenRewardKnx, 'long')"
                         format="long"
                         class=""
-                      /> KNX
+                      />
+                      KNX
                     </span>
-                    <span v-if="item.tokenRewardStake"> / 
+                    <span v-if="item.tokenRewardStake">
+                      /
                       <span
                         v-text="_num(item.tokenRewardStake, 'long')"
                         format="long"
                         class=""
-                      /> STAKE
+                      />
+                      STAKE
                     </span>
                   </div>
-                  
+
                   <div class="grouptext margin-top10">
                     <span v-text="$t('volume24')" class="text-white-normal" />:
                     <span
@@ -105,7 +120,7 @@
                 </div>
                 <div id="comment-box">
                   <ul :key="token.address" v-for="token in item.tokens">
-                    <li style="font-size:9px; color:white">
+                    <li>
                       <Icon
                         name="bullet"
                         size="12"
@@ -115,30 +130,27 @@
                       {{ _shorten(token.symbol, 4) }}
                     </li>
                   </ul>
-                  <hr style="width:100%;  opacity: 0" />
+                  <hr style="width: 100%; opacity: 0" />
                   <Pie
                     :tokens="item.tokens"
-                    style="left:30%; position:relative; float:left"
+                    style="left: 30%; position: relative; float: left"
                     size="55"
                   />
                   <!-- <div class="container"> -->
                   <!-- </div> -->
                 </div>
-                <UiButton class="button-primary">
-                  Add Liquidity
-                </UiButton>
+                <UiButton class="button-primary"> Add Liquidity </UiButton>
                 <!-- MIVA:SYMM Pool with Farm -->
                 <a
-                    v-if="item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' || item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'"
-                    class="mivafarm"
-                    href="https://farm.minerva.digital/"
-                    target="_blank"
+                  v-if="
+                    item.id === '0x79670b0cb738a0bd826bc7709bc363c6b554690b' ||
+                    item.id === '0x93b599b54af63518d1dca6a116f323f33888453c'
+                  "
+                  class="mivafarm"
+                  href="https://farm.minerva.digital/"
+                  target="_blank"
                 >
-                  <UiButton
-                      class="button-primary"
-                  >
-                    Streaming Farm
-                  </UiButton>
+                  <UiButton class="button-primary"> Streaming Farm </UiButton>
                 </a>
                 <div class="grouptext">
                   <span
@@ -146,7 +158,7 @@
                     class="text-white-normal text-left"
                   />:
                   <span
-                    style="color: #FB6706"
+                    style="color: #fb6706"
                     v-text="_num(myLiquidity(item), 'usd-long')"
                     format="currency"
                   />
@@ -172,29 +184,23 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div class="text-white hide-sm hide-md hide-lg " v-text="$t('poolAddress')" />
-        <div style="padding-left:80px;"></div>
-        <div v-text="$t('assets')" class="text-white column flex-auto text-left" />
-        <div v-text="$t('marketCap')" class="text-white column" />
-        <div v-text="$t('swapFee')" class="text-white column hide-sm hide-md" />
-        <div v-text="$t('apy')" class="text-white column hide-sm hide-md" />
+        <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" />
+        <div style="padding-left: 80px"></div>
+        <div v-text="$t('assets')" class="column flex-auto text-left" />
+        <div v-text="$t('marketCap')" class="column" />
+        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="column hide-sm hide-md" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div
-          v-text="$t('rewardApy')"
-          class="text-white column-sm hide-sm hide-md"
-        />
-        <div
-          v-text="$t('symmReward')"
-          class="text-white column-lg hide-sm hide-md"
-        />
+        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
+        <div v-text="$t('symmReward')" class="column-lg hide-sm hide-md" />
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
-          class="text-white column hide-sm hide-md hide-lg"
+          class="column hide-sm hide-md hide-lg"
         />
         <div
           v-text="$t('volume24')"
-          class="text-white column-medium2 hide-sm hide-md hide-lg"
+          class="column-medium2 hide-sm hide-md hide-lg"
         />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
@@ -301,28 +307,41 @@ export default {
   }
 };
 </script>
-<style scoped>
-.card {
-  background-color: #272727;
-  /* color: blue; */
-  padding: 0px;
-  /* height: 13rem; */
-  margin: 5px;
+<style scoped lang="scss">
+.reward-message {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
-.highlight-card {
-  height: 100%;
-}
+
 .cards {
   /* background-color: #0A1E2A; */
-  background: linear-gradient(
-    178deg,
-    rgb(10 30 42 / 4%) 23.98%,
-    #0a1e2a83 100%
-  );
+  // background: linear-gradient(
+  //   178deg,
+  //   rgb(10 30 42 / 4%) 23.98%,
+  //   #0a1e2a83 100%
+  // );
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+
+  .card {
+    background-color: var(--card-background-color);
+    padding: 0px;
+    margin: 0px; // TODO: should consider for mobile version
+    border-radius: 8px;
+
+    .highlight-card {
+      height: 100%;
+      border: solid 1px var(--card-border-color);
+      overflow: hidden;
+
+      &:hover {
+        background-color: var(--card-hover-background);
+      }
+    }
+  }
 }
 .margin-top10 {
   margin-top: 2px;
@@ -338,10 +357,16 @@ export default {
   background: linear-gradient(
     178deg,
     rgb(56 74 255 / 4%) 23.98%,
-    #253743a1 100%
+    var(--card-gradient) 100%
   );
   padding: 1em;
   height: 100%;
+
+  .text-white-normal {
+    color: var(--text-primary-color);
+    font-weight: 480;
+    font-size: 12px;
+  }
 }
 .myForm label {
   grid-area: labels;
@@ -373,24 +398,19 @@ ul {
   margin: 0;
   padding: 0;
   float: left;
-}
-li {
-  float: left;
-  word-spacing: 2px;
+
+  li {
+    float: left;
+    word-spacing: 2px;
+    color: var(--text-primary-color);
+    font-size: 9px;
+  }
 }
 .myForm button {
   grid-area: button;
   border: 0;
   background: #5b8470;
   color: white;
-}
-.text-white-normal {
-  color: white;
-  font-weight: 480;
-  font-size: 12px;
-}
-.highlight-card:hover {
-  background-color: #0a1e2a;
 }
 .container {
   display: flex;
@@ -405,5 +425,10 @@ li {
 }
 .item-container {
   border: 1px solid;
+}
+.switch-view {
+  color: var(--text-primary-color);
+  display: flex;
+  align-items: center;
 }
 </style>

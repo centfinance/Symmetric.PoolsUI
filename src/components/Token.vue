@@ -1,7 +1,7 @@
 <template>
   <span
     class="circle bg-white overflow-hidden d-inline-block"
-    style="line-height: 0;"
+    style="line-height: 0"
   >
     <img
       v-if="tokenLogoUrl && !loadingFailed"

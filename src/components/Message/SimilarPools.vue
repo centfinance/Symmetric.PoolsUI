@@ -1,13 +1,14 @@
 <template>
   <div
     v-if="pools.length > 0"
-    id="info" style="border-color: white;"
+    id="info"
+    style="border-color: white"
     class="d-flex flex-items-center px-4 py-2 text-white"
   >
     <Icon name="info" size="22" class="mr-4" />
     <div>
-      <div v-text="$t('similarPools')" class='text-white' />
-      <div v-for="pool in pools" :key="pool.id" >
+      <div v-text="$t('similarPools')" class="text-white" />
+      <div v-for="pool in pools" :key="pool.id">
         <router-link
           :to="{ name: 'pool', params: { id: pool.id } }"
           class="link text-white"

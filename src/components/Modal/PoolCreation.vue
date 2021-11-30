@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 600px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 600px">
     <div class="modal-body p-6 text-white">
       <div class="mb-2">
         {{ $t('beforeCreatingPre') }} {{ type.toLowerCase() }}

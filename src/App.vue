@@ -31,7 +31,7 @@ export default {
       pageView();
       this.hideSidebar();
     },
-    'ui.modalOpen': function(val) {
+    'ui.modalOpen': function (val) {
       const el = document.body;
       el.classList[val ? 'add' : 'remove']('overflow-hidden');
     }

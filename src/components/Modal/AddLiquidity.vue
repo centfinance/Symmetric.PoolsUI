@@ -138,9 +138,9 @@
           @submit="handleSubmit"
           :disabled="
             tokenError ||
-              validationError ||
-              !checkboxAccept ||
-              transactionReverted
+            validationError ||
+            !checkboxAccept ||
+            transactionReverted
           "
           :loading="loading"
           class="button-primary"
@@ -233,9 +233,7 @@ export default {
       }
 
       const poolTokens = this.poolTokens
-        ? bnum(this.poolTokens)
-            .div('1e18')
-            .toNumber()
+        ? bnum(this.poolTokens).div('1e18').toNumber()
         : 0;
       const future = (poolSharesFrom + poolTokens) / (totalShares + poolTokens);
       return {

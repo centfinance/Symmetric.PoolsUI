@@ -265,13 +265,9 @@ const actions = {
           .toString();
       });
       weights = tokens.map(token => {
-        return toWei(weights[token])
-          .div(2)
-          .toString();
+        return toWei(weights[token]).div(2).toString();
       });
-      swapFee = toWei(swapFee)
-        .div(100)
-        .toString();
+      swapFee = toWei(swapFee).div(100).toString();
       const underlyingParams = [
         'BActions',
         config.addresses.bActions,
@@ -299,10 +295,8 @@ const actions = {
     const { poolTokenSymbol, poolTokenName, constituentTokens } = poolParams;
     let { tokenBalances, tokenWeights, swapFee } = poolParams;
     let { initialSupply } = crpParams;
-    const {
-      minimumWeightChangeBlockPeriod,
-      addTokenTimeLockInBlocks
-    } = crpParams;
+    const { minimumWeightChangeBlockPeriod, addTokenTimeLockInBlocks } =
+      crpParams;
     try {
       tokenBalances = constituentTokens.map(token => {
         const amountInput = tokenBalances[token];
@@ -314,13 +308,9 @@ const actions = {
           .toString();
       });
       tokenWeights = constituentTokens.map(token => {
-        return toWei(tokenWeights[token])
-          .div(2)
-          .toString();
+        return toWei(tokenWeights[token]).div(2).toString();
       });
-      swapFee = toWei(swapFee)
-        .div(100)
-        .toString();
+      swapFee = toWei(swapFee).div(100).toString();
       poolParams = {
         poolTokenSymbol,
         poolTokenName,
@@ -523,9 +513,7 @@ const actions = {
     commit('SET_SWAP_FEE_REQUEST');
     const dsProxyAddress = rootState.web3.dsProxyAddress;
     try {
-      newFee = toWei(newFee)
-        .div(100)
-        .toString();
+      newFee = toWei(newFee).div(100).toString();
       const underlyingParams = [
         'BActions',
         config.addresses.bActions,
@@ -596,9 +584,7 @@ const actions = {
     commit('INCREASE_WEIGHT_REQUEST');
     const dsProxyAddress = rootState.web3.dsProxyAddress;
     try {
-      newWeight = toWei(newWeight)
-        .div(2)
-        .toString();
+      newWeight = toWei(newWeight).div(2).toString();
       const tokenMetadata = rootState.web3.tokenMetadata[token];
       const decimals = tokenMetadata ? tokenMetadata.decimals : null;
       tokenAmountIn = denormalizeBalance(tokenAmountIn, decimals)
@@ -627,9 +613,7 @@ const actions = {
     commit('DECREASE_WEIGHT_REQUEST');
     const dsProxyAddress = rootState.web3.dsProxyAddress;
     try {
-      newWeight = toWei(newWeight)
-        .div(2)
-        .toString();
+      newWeight = toWei(newWeight).div(2).toString();
       poolAmountIn = toWei(poolAmountIn);
       const underlyingParams = [
         'BActions',
@@ -655,9 +639,7 @@ const actions = {
     const dsProxyAddress = rootState.web3.dsProxyAddress;
     try {
       newWeights = tokens.map(token => {
-        return toWei(newWeights[token])
-          .div(2)
-          .toString();
+        return toWei(newWeights[token]).div(2).toString();
       });
       const underlyingParams = [
         'BActions',
@@ -708,9 +690,7 @@ const actions = {
       balance = denormalizeBalance(balance, decimals)
         .integerValue(BigNumber.ROUND_DOWN)
         .toString();
-      denormalizedWeight = toWei(denormalizedWeight)
-        .div(2)
-        .toString();
+      denormalizedWeight = toWei(denormalizedWeight).div(2).toString();
       const underlyingParams = [
         'BActions',
         config.addresses.bActions,

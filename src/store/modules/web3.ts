@@ -261,11 +261,9 @@ const actions = {
       ]);
       const account = accounts.length > 0 ? accounts[0] : null;
       let name = '';
-      if (config.chainId === 1)
-      {
+      if (config.chainId === 1) {
         const address = await provider.lookupAddress(account);
-        if (address)
-          name = address;
+        if (address) name = address;
       }
       commit('LOAD_PROVIDER_SUCCESS', {
         injectedLoaded: true,
@@ -313,7 +311,10 @@ const actions = {
       tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else if (config.network === 'avalanche' || config.network === 'fuji')
       tokensToFetch = tokens ? tokens : Object.keys(state.balances);
-    else if (config.network === 'polygon' || config.network === 'polygon-mumbai')
+    else if (
+      config.network === 'polygon' ||
+      config.network === 'polygon-mumbai'
+    )
       tokensToFetch = tokens ? tokens : Object.keys(state.balances);
     else
       tokensToFetch = tokens

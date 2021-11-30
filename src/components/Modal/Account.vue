@@ -1,5 +1,5 @@
 <template>
-  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px;">
+  <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <div v-if="!web3.account || step === 'connect'">
       <h3 v-text="$t('connectWallet')" class="p-4 border-bottom text-center" />
       <div class="m-4 mb-5">
@@ -12,9 +12,7 @@
         >
           <UiButton class="width-full v-align-middle">
             <img
-              :src="
-                `https://raw.githubusercontent.com/centfinance/Symmetric.PoolsUI/develop/src/connectors/assets/${connector.id}.png`
-              "
+              :src="`https://raw.githubusercontent.com/centfinance/Symmetric.PoolsUI/develop/src/connectors/assets/${connector.id}.png`"
               height="28"
               width="28"
               class="mr-2 v-align-middle"
