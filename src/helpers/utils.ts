@@ -5,6 +5,7 @@ import { Contract } from '@ethersproject/contracts';
 import { Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import BigNumber from '@/helpers/bignumber';
+import store from '@/store';
 import config from '@/config';
 import i18n from '@/i18n';
 import { getFactors } from '@/helpers/miningFactors';
@@ -260,16 +261,14 @@ export async function getTokenPricePOLYGON(token: string) {
   }
 }
 
-let executed = false;
-
 async function getPoolsNoPaging(payload, chainId) {
   const {
     orderBy = 'liquidity',
     orderDirection = 'desc',
     where = {}
   } = payload;
-  const ts = Math.round(new Date().getTime() / 1000);
-  const tsYesterday = ts - 24 * 3600;
+  // const ts = Math.round(new Date().getTime() / 1000);
+  // const tsYesterday = ts - 24 * 3600;
   where.tokensList_not = [];
   const query = {
     pools: {
@@ -371,12 +370,12 @@ export async function formatPool(pool) {
   pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
-  const query = {
+  /* const query = {
     where: {
       finalized: true,
       liquidity_gt: 0
     }
-  };
+  }; */
 
   // Get factors
   const factors = getFactors(
@@ -396,88 +395,20 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  let totalAdjustedLiquidity = new BigNumber(0);
-  let thisAdjustedPoolLiquidity = new BigNumber(0);
-
-  // total liquidity for CELO APR and rewards
-  let crTotalLiquidity = new BigNumber(0);
   const crPoolIds = [
     '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
     '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
     '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
   ];
 
-  const networks = ['100', '42220'];
-  //  const networks = ['100', '43114', '250', '10', '137', '42220']
-  const nLen = networks.length;
-
-  if (executed === false) {
-    for (let i = 0; i < nLen; i++) {
-      const pools = await getPoolsNoPaging(query, networks[i]);
-      pools.pools.forEach(thispool => {
-        const thisPoolFactors = getFactors(
-          thispool.swapFee,
-          thispool.tokens,
-          thispool.tokensList,
-          thispool.totalWeight,
-          networks[i],
-          thispool.id
-        );
-
-        const thisCombinedAdjustmentFactor = new BigNumber(
-          thisPoolFactors.feeFactor
-        )
-          .times(thisPoolFactors.ratioFactor)
-          .times(thisPoolFactors.wrapFactor);
-
-        thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
-          thisCombinedAdjustmentFactor
-        );
-
-        totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
-          thisAdjustedPoolLiquidity
-        );
-
-        if ('celo' == networks[i]) {
-          // get total liquidity for CELO APR and rewards
-          if (crPoolIds.includes(thispool.id)) {
-            crTotalLiquidity = crTotalLiquidity.plus(
-              new BigNumber(thispool.liquidity)
-            );
-          }
-        }
-      });
-    }
-    executed = true;
-  }
+  const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
   const adjustedPoolLiquidityPercent = adjustedPoolLiquidity.div(
     totalAdjustedLiquidity
   );
 
-  let SYMMprice = '1';
-  switch (process.env.VUE_APP_NETWORK) {
-    case 'celo':
-      SYMMprice = await getSYMMPriceCELO();
-      break;
-    case 'polygon':
-      SYMMprice = await getSYMMPricePOLYGON();
-      break;
-    case 'avalanche':
-      SYMMprice = await getSYMMPriceAVALANCHE();
-      break;
-    case 'fantom':
-      SYMMprice = await getSYMMPriceFANTOM();
-      break;
-    case 'optimism':
-      SYMMprice = await getSYMMPriceOPTIMISM();
-      break;
-    case 'xdai':
-    default:
-      SYMMprice = await getSYMMPriceXDAI();
-      break;
-  }
+  const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM;
 
   // console.log(`SYMMPRICE: ${SYMMprice}`);
   const dailyCoinReward = new BigNumber(395.6);
@@ -558,6 +489,96 @@ export async function formatPool(pool) {
   }
 
   return crPool;
+}
+
+export async function getNetworkLiquidity() {
+  const query = {
+    where: {
+      finalized: true,
+      liquidity_gt: 0
+    }
+  };
+
+  let totalAdjustedLiquidity = new BigNumber(0);
+  let thisAdjustedPoolLiquidity = new BigNumber(0);
+
+  // total liquidity for CELO APR and rewards
+  let crTotalLiquidity = new BigNumber(0);
+  const crPoolIds = [
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+  ];
+
+  const networks = ['100', '42220'];
+  // const networks = ['100', '43114', '250', '10', '137', '42220']
+  const nLen = networks.length;
+
+  for (let i = 0; i < nLen; i++) {
+    const pools = await getPoolsNoPaging(query, networks[i]);
+    pools.pools.forEach(thispool => {
+      const thisPoolFactors = getFactors(
+        thispool.swapFee,
+        thispool.tokens,
+        thispool.tokensList,
+        thispool.totalWeight,
+        networks[i],
+        thispool.id
+      );
+
+      const thisCombinedAdjustmentFactor = new BigNumber(
+        thisPoolFactors.feeFactor
+      )
+        .times(thisPoolFactors.ratioFactor)
+        .times(thisPoolFactors.wrapFactor);
+
+      thisAdjustedPoolLiquidity = new BigNumber(thispool.liquidity).times(
+        thisCombinedAdjustmentFactor
+      );
+
+      totalAdjustedLiquidity = totalAdjustedLiquidity.plus(
+        thisAdjustedPoolLiquidity
+      );
+
+      if ('celo' == networks[i]) {
+        // get total liquidity for CELO APR and rewards
+        if (crPoolIds.includes(thispool.id)) {
+          crTotalLiquidity = crTotalLiquidity.plus(
+            new BigNumber(thispool.liquidity)
+          );
+        }
+      }
+    });
+  }
+
+  return totalAdjustedLiquidity;
+}
+
+export async function getSYMMprice() {
+  let SYMMprice = '1';
+  switch (process.env.VUE_APP_NETWORK) {
+    case 'celo':
+      SYMMprice = await getSYMMPriceCELO();
+      break;
+    case 'polygon':
+      SYMMprice = await getSYMMPricePOLYGON();
+      break;
+    case 'avalanche':
+      SYMMprice = await getSYMMPriceAVALANCHE();
+      break;
+    case 'fantom':
+      SYMMprice = await getSYMMPriceFANTOM();
+      break;
+    case 'optimism':
+      SYMMprice = await getSYMMPriceOPTIMISM();
+      break;
+    case 'xdai':
+    default:
+      SYMMprice = await getSYMMPriceXDAI();
+      break;
+  }
+
+  return SYMMprice;
 }
 
 export async function formatPools(pools) {
