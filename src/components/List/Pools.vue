@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-right reward-message mb-1">
-      {{ $t('rewardMessage') }} | 
+      {{ $t('rewardMessage') }} |
       <span class="hide-sm hide-md switch-view"
         >&nbsp;Switch View:&nbsp;&nbsp;
         <toggle-button
@@ -26,7 +26,7 @@
       <div v-if="pools.length > 0">
         <div class="cards">
           <div class="card" v-for="item in pools" :key="item.id">
-            <div class="border highlight-card anim-fade-in rounded-1">
+            <div class="highlight-card anim-fade-in rounded-1">
               <a :href="'#/pool/' + item.id" class="myForm">
                 <div id="contact-details">
                   <span
@@ -120,7 +120,7 @@
                 </div>
                 <div id="comment-box">
                   <ul :key="token.address" v-for="token in item.tokens">
-                    <li style="font-size: 9px; color: white">
+                    <li>
                       <Icon
                         name="bullet"
                         size="12"
@@ -305,33 +305,41 @@ export default {
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
 .reward-message {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
-.card {
-  background-color: #272727;
-  /* color: blue; */
-  padding: 0px;
-  /* height: 13rem; */
-  margin: 5px;
-}
-.highlight-card {
-  height: 100%;
-}
+
 .cards {
   /* background-color: #0A1E2A; */
-  background: linear-gradient(
-    178deg,
-    rgb(10 30 42 / 4%) 23.98%,
-    #0a1e2a83 100%
-  );
+  // background: linear-gradient(
+  //   178deg,
+  //   rgb(10 30 42 / 4%) 23.98%,
+  //   #0a1e2a83 100%
+  // );
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(370px, 1fr));
+
+  .card {
+    background-color: var(--card-background-color);
+    padding: 0px;
+    margin: 0px; // TODO: should consider for mobile version
+    border-radius: 8px;
+
+    .highlight-card {
+      height: 100%;
+      border: solid 1px var(--card-border-color);
+      overflow: hidden;
+
+      &:hover {
+        background-color: var(--card-hover-background);
+      }
+    }
+  }
 }
 .margin-top10 {
   margin-top: 2px;
@@ -347,10 +355,16 @@ export default {
   background: linear-gradient(
     178deg,
     rgb(56 74 255 / 4%) 23.98%,
-    #253743a1 100%
+    var(--card-gradient) 100%
   );
   padding: 1em;
   height: 100%;
+
+  .text-white-normal {
+    color: var(--text-primary-color);
+    font-weight: 480;
+    font-size: 12px;
+  }
 }
 .myForm label {
   grid-area: labels;
@@ -382,24 +396,19 @@ ul {
   margin: 0;
   padding: 0;
   float: left;
-}
-li {
-  float: left;
-  word-spacing: 2px;
+
+  li {
+    float: left;
+    word-spacing: 2px;
+    color: var(--text-primary-color);
+    font-size: 9px;
+  }
 }
 .myForm button {
   grid-area: button;
   border: 0;
   background: #5b8470;
   color: white;
-}
-.text-white-normal {
-  color: white;
-  font-weight: 480;
-  font-size: 12px;
-}
-.highlight-card:hover {
-  background-color: #0a1e2a;
 }
 .container {
   display: flex;
