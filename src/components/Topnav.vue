@@ -1,5 +1,5 @@
 <template>
-  <nav id="topnav" class="border-bottom position-fixed width-full">
+  <nav id="topnav" class="position-fixed width-full">
     <div
       class="d-flex flex-items-center px-5"
       style="height: 66px; padding-left: 2px !important"
@@ -358,6 +358,7 @@ export default {
 #topnav {
   z-index: 10;
   background-color: $panel-background;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }
 .account {
   display: flex;

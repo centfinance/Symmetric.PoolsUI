@@ -11,10 +11,18 @@
   --warning: #fbd7d9;
 
   --background-color: #253743;
+
   --button-primary-background: #fb6706;
+  --button-primary-color: #ffffff;
   --button-secondary-background: #272727;
+  --button-secondary-color: #ffffff;
+
   --panel-background: #3e4e59;
+  --filter-bar-background: #272727;
+  --sidebar-border-color: #3e4e59;
+
   --text-primary-color: #ffffff;
+  --text-secondary-color: #90a4ae;
 }
 
 html[data-theme='light'] {
@@ -27,11 +35,19 @@ html[data-theme='light'] {
   --info: #361e4e;
   --warning: #fbd7d9;
 
-  --background-color: #ffffff;
-  --button-primary-background: #a39b96;
+  --background-color: #ededf2;
+
+  --button-primary-background: #fb6706;
+  --button-primary-color: #ffffff;
   --button-secondary-background: #a7a4a4;
-  --panel-background: #c1c1c0;
-  --text-primary-color: #253743;
+  --button-secondary-color: #ffffff;
+
+  --panel-background: #ffffff;
+  --filter-bar-background: #c1c1c0;
+  --sidebar-border-color: #c1c1c0;
+
+  --text-primary-color: #000000;
+  --text-secondary-color: #31383b;
 }
 
 $link-text: #82b1ff;
@@ -42,11 +58,11 @@ $input-hover-border: #4c5480;
 $primary-button-background: var(--button-primary-background);
 $primary-button-background-hover: var(--button-primary-background);
 $primary-button-border: var(--button-primary-background);
-$primary-button-text: var(--text-primary-color);
+$primary-button-text: var(--button-primary-color);
 $secondary-button-background: var(--button-secondary-background);
 $secondary-button-background-hover: var(--background-color);
 $secondary-button-border: #31313b;
-$secondary-button-text: var(--text-primary-color);
+$secondary-button-text: var(--button-secondary-color);
 $button-disabled: #414249;
 $button-disabled-text: #c5c5c5;
 $panel-border: #272727;
@@ -57,6 +73,7 @@ $highlighted-selector-border: #31ffd8;
 // PrimerCSS
 $black: var(--background-color);
 $border: 1px solid $panel-border;
+$border-secondary: 1px solid var(--sidebar-border-color);
 $bg-blue: #384aff;
 $bg-blue-light: #f7f8fc;
 $bg-gray: #90a4ae;
@@ -72,7 +89,7 @@ $blue-900: #fb6706;
 $gray-dark: #282a32;
 $bg-gray-dark: $gray-dark;
 
-//cent colours
+// cent colours
 $primary: #fb6706;
 $secondary: #00d1e4;
 $accent: #ddf5f7;
@@ -85,6 +102,7 @@ $warning: #fbd7d9;
 $border-radius: 8px;
 $box-shadow: rgba(0, 0, 0, 0.01) 0px 0px 1px, rgba(0, 0, 0, 0.04) 0px 4px 8px,
   rgba(0, 0, 0, 0.04) 0px 16px 24px, rgba(0, 0, 0, 0.01) 0px 24px 32px;
+$box-shadow-secondary: 0px 4px 10px rgba(0, 0, 0, 0.25);
 
 $body-font-size: 14px;
 $body-line-height: 1.4;

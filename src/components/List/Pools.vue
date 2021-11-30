@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="text-right">
-      {{ $t('rewardMessage') }} |
+    <div class="text-right reward-message mb-1">
+      {{ $t('rewardMessage') }} | 
       <span class="hide-sm hide-md switch-view"
-        >Switch View:
+        >&nbsp;Switch View:&nbsp;&nbsp;
         <toggle-button
           @change="switchView"
           :value="showCard"
@@ -306,6 +306,11 @@ export default {
 };
 </script>
 <style scoped>
+.reward-message {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
 .card {
   background-color: #272727;
   /* color: blue; */
@@ -412,5 +417,7 @@ li {
 }
 .switch-view {
   color: var(--text-primary-color);
+  display: flex;
+  align-items: center;
 }
 </style>

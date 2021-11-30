@@ -28,10 +28,10 @@ export default {
   a {
     display: inline-block;
     height: 44px;
-    line-height: 40px;
+    line-height: 44px;
     border-radius: 22px;
     color: $secondary-button-text;
-    padding: 0 24px 3px;
+    padding: 0 24px;
   }
 
   .active {
