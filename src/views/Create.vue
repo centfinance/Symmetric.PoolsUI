@@ -9,6 +9,7 @@
           $t(type === 'SMART_POOL' ? 'createSmartTip' : 'createSharedTip')
         "
         @select="handleSelectType"
+        style="background-color: #3c525f"
       />
     </div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
