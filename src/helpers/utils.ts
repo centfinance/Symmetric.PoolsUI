@@ -427,7 +427,7 @@ export async function formatPool(pool) {
   // 238.09 USD per day -> 36.6 Celo per day
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
-      const CELOprice = await getTokenPriceCELO('CELO');
+      const CELOprice = store.getters['getCELOprice'];
       const crDailyCoinReward = [
         new BigNumber(2 * (238.09 / Number(CELOprice))),
         new BigNumber(2 * (238.09 / Number(CELOprice))),
@@ -445,7 +445,7 @@ export async function formatPool(pool) {
   // KNX APR and rewards
   if (crPool.id === '0xa4ae7529cece492b6c47c726a320eea8841658ec') {
     // KNX/cUSD
-    const KNXprice = await getTokenPriceCELO('KNX');
+    const KNXprice = store.getters['getKNXprice'];
 
     const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
     crPool.tokenRewardKnx = krDailyCoinReward;
@@ -474,7 +474,7 @@ export async function formatPool(pool) {
   }
 
   if (stakePoolIndex !== stakePool.None) {
-    const STAKEprice = await getTokenPriceXDAI('STAKE');
+    const STAKEprice = store.getters['getSTAKEprice'];
     const stakeDailyCoinReward = [
       new BigNumber((595.21 * 0.2) / Number(STAKEprice)),
       new BigNumber((595.21 * 0.3) / Number(STAKEprice)),
@@ -487,7 +487,6 @@ export async function formatPool(pool) {
       .div(pool.liquidity)
       .times(365);
   }
-
   return crPool;
 }
 
@@ -579,6 +578,18 @@ export async function getSYMMprice() {
   }
 
   return SYMMprice;
+}
+
+export async function getCELOprice() {
+  return await getTokenPriceCELO('CELO');
+}
+
+export async function getKNXprice() {
+  return await getTokenPriceCELO('KNX');
+}
+
+export async function getSTAKEprice() {
+  return await getTokenPriceXDAI('STAKE');
 }
 
 export async function formatPools(pools) {
