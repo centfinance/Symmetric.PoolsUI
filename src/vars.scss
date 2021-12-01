@@ -45,7 +45,7 @@ html[data-theme='light'] {
 
   --button-primary-background: #fb6706;
   --button-primary-color: #ffffff;
-  --button-secondary-background: #a7a4a4;
+  --button-secondary-background: #272727;
   --button-secondary-color: #ffffff;
 
   --panel-background: #ffffff;
@@ -72,7 +72,7 @@ $primary-button-background-hover: var(--button-primary-background);
 $primary-button-border: var(--button-primary-background);
 $primary-button-text: var(--button-primary-color);
 $secondary-button-background: var(--button-secondary-background);
-$secondary-button-background-hover: var(--background-color);
+$secondary-button-background-hover: #253743;
 $secondary-button-border: #31313b;
 $secondary-button-text: var(--button-secondary-color);
 $button-disabled: #414249;

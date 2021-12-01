@@ -20,7 +20,7 @@ h1,
 h2,
 h3,
 h4 {
-  color: $white;
+  color: var(--text-primary-color);
   font-family: $font-weight-bold;
 }
 
@@ -44,7 +44,7 @@ a {
 .input {
   padding: 0 14px;
   outline: none;
-  color: $white;
+  color: var(--text-primary-color);
   min-height: 38px;
   line-height: 28px;
   background-color: transparent;
@@ -141,8 +141,9 @@ a {
 .text-black {
   color: $black;
 }
+
 .text-white {
-  color: $white;
+  color: var(--text-primary-color) !important;
 }
 
 .vue-ui-loading-indicator {
@@ -152,7 +153,7 @@ a {
 
   .animation {
     border-color: transparentize($white, 0.8);
-    border-right-color: $white;
+    border-right-color: var(--text-primary-color);
   }
 
   .loading-xl {
@@ -240,7 +241,7 @@ input {
     padding: 4px 16px;
     font-size: 14px;
     background-color: $input-hover-border;
-    color: white;
+    color: var(--text-primary-color);
   }
 }
 

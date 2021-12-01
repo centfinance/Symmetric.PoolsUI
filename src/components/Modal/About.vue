@@ -1,23 +1,25 @@
 <template>
   <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
-    <h3 class="m-4 mb-0 text-center">About</h3>
+    <h3 class="m-4 mb-0 text-center about-title">About</h3>
     <div class="m-4 mb-0 p-4 border rounded-2 text-white">
       <div class="d-flex">
         <span v-text="$t('version')" class="flex-auto text-gray mr-1" />
-        {{ pkg.version
-        }}<span v-if="commitSha" v-text="`#${commitSha.slice(0, 7)}`" />
+        <span class="value">{{ pkg.version }}</span>
+        <span v-if="commitSha" v-text="`#${commitSha.slice(0, 7)}`" />
       </div>
       <div class="d-flex">
         <span v-text="$t('license')" class="flex-auto text-gray mr-1" />
-        {{ pkg.license }}
+        <span class="value">{{ pkg.license }}</span>
       </div>
       <div class="d-flex">
         <span v-text="$t('network')" class="flex-auto text-gray mr-1" />
-        {{ config.network === 'homestead' ? 'mainnet' : config.network }}
+        <span class="value">{{
+          config.network === 'homestead' ? 'mainnet' : config.network
+        }}</span>
       </div>
       <div class="d-flex">
         <span v-text="$t('blockNumber')" class="flex-auto text-gray mr-1" />
-        {{ _num(web3.blockNumber, 'long') }}
+        <span class="value">{{ _num(web3.blockNumber, 'long') }}</span>
       </div>
     </div>
     <div class="m-4">
@@ -51,3 +53,9 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.about-title, .value {
+  color: var(--text-primary-color);
+}
+</style>
