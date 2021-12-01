@@ -12,7 +12,7 @@
       />
     </div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('assets')" class="flex-auto" />
+      <h4 v-text="$t('assets')" class="flex-auto section-title" />
     </div>
     <UiTable class="mb-4">
       <UiTableTh>
@@ -100,7 +100,7 @@
       {{ $t('addToken') }}
     </UiButton>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('swapFeePct')" class="flex-auto" />
+      <h4 v-text="$t('swapFeePct')" class="flex-auto section-title" />
     </div>
     <div class="mb-4">
       <input
@@ -646,8 +646,15 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.section-title {
+  color: var(--text-primary-color);
+}
 .pool-input {
   width: 100px;
+
+  &.text-white {
+    color: var(--text-primary-color) !important;
+  }
 }
 </style>

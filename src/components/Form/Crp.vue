@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('tokenSymbol')" class="flex-auto" />
+      <h4 v-text="$t('tokenSymbol')" class="flex-auto section-title" />
     </div>
     <div class="mb-4">
       <input
@@ -12,7 +12,7 @@
       />
     </div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('tokenName')" class="flex-auto" />
+      <h4 v-text="$t('tokenName')" class="flex-auto section-title" />
     </div>
     <div class="mb-4">
       <input
@@ -23,7 +23,7 @@
       />
     </div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('initialSupply')" class="flex-auto" />
+      <h4 v-text="$t('initialSupply')" class="flex-auto section-title" />
     </div>
     <div class="mb-4">
       <input
@@ -38,7 +38,7 @@
       />
     </div>
     <div class="d-flex flex-items-center px-4 px-md-0 mb-3">
-      <h4 v-text="$t('rights')" class="flex-auto" />
+      <h4 v-text="$t('rights')" class="flex-auto section-title" />
     </div>
     <div>
       <div class="d-flex flex-column">
@@ -120,8 +120,18 @@ export default {
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.section-title {
+  color: var(--text-primary-color);
+}
 .pool-input {
   width: 100px;
+
+  &.text-white {
+    color: var(--text-primary-color) !important;
+  }
+}
+.text-white {
+  color: var(--text-primary-color) !important;
 }
 </style>
