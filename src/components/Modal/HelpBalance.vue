@@ -1,10 +1,7 @@
 <template>
   <UiModal :open="open" @close="$emit('close')" style="max-width: 440px">
     <h4 class="m-4 mb-0 text-center">Can't see your coins or ETH balance?</h4>
-    <div
-      style="font-weight: 300"
-      class="m-4 mb-0 p-4 border rounded-2 text-white"
-    >
+    <div style="font-weight: 300" class="m-4 p-4 border rounded-2 text-white">
       <div>
         <div class="vc_tta-panel-body" style="">
           <div class="wpb_text_column wpb_content_element">

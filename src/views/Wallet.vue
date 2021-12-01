@@ -12,7 +12,7 @@
         <Icon name="info" class="ml-n2 mr-1 v-align-middle" />
         Help
       </UiButton>
-      <div class="text-right">
+      <div class="text-right ml-3">
         <h3 v-text="_num(balancesTotalValue, 'usd-long')" />
         {{ $t('totalValue') }}
       </div>
