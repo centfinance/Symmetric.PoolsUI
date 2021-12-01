@@ -1,7 +1,15 @@
 import Vue from 'vue';
 import { getAddress } from '@ethersproject/address';
 import { request } from '@/helpers/subgraph';
-import { formatPool, ITEMS_PER_PAGE, getNetworkLiquidity, getSYMMprice } from '@/helpers/utils';
+import { 
+  formatPool, 
+  ITEMS_PER_PAGE, 
+  getNetworkLiquidity, 
+  getSYMMprice, 
+  getCELOprice, 
+  getKNXprice,
+  getSTAKEprice
+} from '@/helpers/utils';
 
 const state = {
   balancer: {},
@@ -9,7 +17,10 @@ const state = {
   myPools: [],
   tokens: {},
   liquidity: {},
-  SYMMprice: {}
+  SYMMprice: {},
+  CELOprice: {},
+  KNXprice: {},
+  STAKEprice: {}
 };
 
 const mutations = {
@@ -90,6 +101,18 @@ const mutations = {
   GET_SYMM_PRICE(_state, payload) {
     Vue.set(_state, 'SYMMprice', payload);
     console.debug('GET_SYMM_PRICE', payload);
+  },
+  GET_CELO_PRICE(_state, payload) {
+    Vue.set(_state, 'CELOprice', payload);
+    console.debug('GET_CELO_PRICE', payload);
+  },
+  GET_KNX_PRICE(_state, payload) {
+    Vue.set(_state, 'KNXprice', payload);
+    console.debug('GET_KNX_PRICE', payload);
+  },
+  GET_STAKE_PRICE(_state, payload) {
+    Vue.set(_state, 'STAKEprice', payload);
+    console.debug('GET_STAKE_PRICE', payload);
   }
 };
 
@@ -104,6 +127,18 @@ const actions = {
   getSYMMprice: async ({ commit }, payload) => {
     const price  = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
+  },
+  getCELOprice: async ({ commit }, payload) => {
+    const price  = await getCELOprice();
+    commit('GET_CELO_PRICE', price);
+  },
+  getKNXprice: async ({ commit }, payload) => {
+    const price  = await getKNXprice();
+    commit('GET_KNX_PRICE', price);
+  },
+  getSTAKEprice: async ({ commit }, payload) => {
+    const price  = await getSTAKEprice();
+    commit('GET_STAKE_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {
     const {
@@ -138,11 +173,9 @@ const actions = {
     commit('GET_POOLS_REQUEST');
     try {
       let { pools } = await request('getPools', query);
-      console.log('pools', pools);
       pools = await Promise.all(pools.map(async (pool): Promise<object> => {
         return await formatPool(pool);
       }));
-      console.log('afterpools')
       commit('GET_POOLS_SUCCESS');
       return pools;
     } catch (e) {
@@ -316,6 +349,15 @@ const getters = {
   },
   getSYMMprice (state) {
     return state.SYMMprice
+  },
+  getCELOprice (state) {
+    return state.CELOprice
+  },
+  getKNXprice (state) {
+    return state.KNXprice
+  },
+  getSTAKEprice (state) {
+    return state.STAKEprice
   }
 }
 
