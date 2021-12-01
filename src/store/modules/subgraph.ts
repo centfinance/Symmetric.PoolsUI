@@ -1,13 +1,15 @@
 import Vue from 'vue';
 import { getAddress } from '@ethersproject/address';
 import { request } from '@/helpers/subgraph';
-import { formatPool, ITEMS_PER_PAGE } from '@/helpers/utils';
+import { formatPool, ITEMS_PER_PAGE, getNetworkLiquidity, getSYMMprice } from '@/helpers/utils';
 
 const state = {
   balancer: {},
   poolShares: {},
   myPools: [],
-  tokens: {}
+  tokens: {},
+  liquidity: {},
+  SYMMprice: {}
 };
 
 const mutations = {
@@ -80,6 +82,14 @@ const mutations = {
   },
   GET_TOKENS_FAILURE(_state, payload) {
     console.debug('GET_TOKEN_PRICES_FAILURE', payload);
+  },
+  GET_NETWORK_LIQUIDITY(_state, payload) {
+    Vue.set(_state, 'liquidity', payload);
+    console.debug('GET_NETWORK_LIQUIDITY', payload);
+  },
+  GET_SYMM_PRICE(_state, payload) {
+    Vue.set(_state, 'SYMMprice', payload);
+    console.debug('GET_SYMM_PRICE', payload);
   }
 };
 
@@ -87,9 +97,17 @@ const actions = {
   clearUser: async ({ commit }) => {
     commit('CLEAR_USER');
   },
+  getNetworkLiquidity: async ({ commit }, payload) => {
+    const liquidity  = await getNetworkLiquidity();
+    commit('GET_NETWORK_LIQUIDITY', liquidity);
+  },
+  getSYMMprice: async ({ commit }, payload) => {
+    const price  = await getSYMMprice();
+    commit('GET_SYMM_PRICE', price);
+  },
   getPools: async ({ commit }, payload) => {
     const {
-      first = ITEMS_PER_PAGE,
+      first = 20,
       page = 1,
       orderBy = 'liquidity',
       orderDirection = 'desc',
@@ -120,13 +138,11 @@ const actions = {
     commit('GET_POOLS_REQUEST');
     try {
       let { pools } = await request('getPools', query);
-
-      pools = await Promise.all(
-        pools.map(async (pool): Promise<object> => {
-          return await formatPool(pool);
-        })
-      );
-
+      console.log('pools', pools);
+      pools = await Promise.all(pools.map(async (pool): Promise<object> => {
+        return await formatPool(pool);
+      }));
+      console.log('afterpools')
       commit('GET_POOLS_SUCCESS');
       return pools;
     } catch (e) {
@@ -294,8 +310,18 @@ const actions = {
   }
 };
 
+const getters = {
+  getNetworkLiquidity (state) {
+    return state.liquidity
+  },
+  getSYMMprice (state) {
+    return state.SYMMprice
+  }
+}
+
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

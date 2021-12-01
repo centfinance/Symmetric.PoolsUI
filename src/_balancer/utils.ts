@@ -4,7 +4,6 @@ import { getAddress } from '@ethersproject/address';
 import { jsonToGraphQLQuery } from 'json-to-graphql-query';
 import config from '../config';
 import { abi as multicallAbi } from '../helpers/abi/Multicall.json';
-import { collapseTextChangeRangesAcrossMultipleVersions } from 'typescript';
 
 const MULTICALL = config.addresses.multicall;
 
@@ -41,19 +40,17 @@ export async function subgraphRequest(url, query) {
 }
 
 export function getTokenLogoUrl(address: string): string | null {
-  let trustwalletId: string | null = null;
+
   if (
-    address === 'xdai' ||
-    address == 'ether' ||
-    address == 'spoa' ||
-    address == 'celo' ||
-    address == 'weth' ||
-    address == 'avax' ||
-    address == 'matic' ||
-    address == 'ftm'
+    address !== 'xdai' &&
+    address !== 'ether' &&
+    address !== 'spoa' &&
+    address !== 'celo' &&
+    address !== 'weth' &&
+    address !== 'avax' &&
+    address !== 'matic' &&
+    address !== 'ftm'
   ) {
-    trustwalletId = '';
-  } else {
     const checksum = getAddress(address);
     const token = config.tokens[checksum];
     if (token && token.hasIcon) {
