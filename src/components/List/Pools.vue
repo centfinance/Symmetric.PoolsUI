@@ -353,7 +353,8 @@ export default {
   display: grid;
   grid-template-areas:
     'comments contact'
-    '... button';
+    '... button'
+    '... farm';
   grid-template-rows: 12.5em 3em;
   grid-template-columns: 10.5em 1fr;
   grid-gap: 0.2em;
@@ -370,6 +371,17 @@ export default {
     font-weight: 480;
     font-size: 12px;
   }
+}
+.myForm .mivafarm {
+  grid-area: farm;
+}
+.myForm .mivafarm button {
+  background-image: linear-gradient(270deg,#443ad2,#8349d1);
+  margin-top: 4px;
+  width: 100%;
+}
+.myForm .mivafarm button:hover {
+  background: #8349d1;
 }
 .myForm label {
   grid-area: labels;
