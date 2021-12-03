@@ -180,6 +180,14 @@ export default {
       if (!this.chart) {
         options.width = chartContainer.offsetWidth;
         options.height = chartContainer.offsetHeight;
+
+        const theme = localStorage.getItem('themeSwitch');
+        if (theme === 'light') {
+          options.layout.textColor = '#90a4ae';
+        } else {
+          options.layout.textColor = '#90a4ae';
+        }
+
         this.chart = TV.createChart(chartContainer, options);
         window.onresize = () => {
           const width = Math.min(
@@ -191,7 +199,7 @@ export default {
       } else {
         this.chart.removeSeries(this.series);
       }
-      const color = '#ffffff';
+      const color = '#fb6706';
       if (this.activeTab === 'LIQUIDITY') {
         this.series = this.chart.addAreaSeries({
           lineColor: color,
@@ -278,12 +286,13 @@ export default {
   padding: 0 16px;
   border-radius: $border-radius $border-radius 0 0;
   font-size: 16px;
-  color: #fff;
+  color: var(--text-primary-color);
   display: block;
   cursor: pointer;
 }
 
 .tab.active {
   background-color: $blue-900;
+  color: white;
 }
 </style>
