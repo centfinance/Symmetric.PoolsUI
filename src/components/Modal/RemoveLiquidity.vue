@@ -9,6 +9,7 @@
           :value="type"
           :options="liquidityToggleOptions"
           @select="handleSelectType"
+          style="background-color: #3c525f"
           class="mt-4"
         />
       </div>

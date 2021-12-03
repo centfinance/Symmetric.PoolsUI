@@ -86,9 +86,11 @@ export default {
         overflow: hidden;
         padding: 0 16px;
         border-radius: $border-radius $border-radius 0 0;
+        color: var(--text-primary-color);
 
         &.router-link-exact-active {
           background-color: $blue-900;
+          color: white;
         }
       }
     }
