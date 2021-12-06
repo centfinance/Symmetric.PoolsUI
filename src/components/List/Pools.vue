@@ -34,7 +34,7 @@
                     class="text-right text-white-normal"
                   />:
                   <span v-text="_num(getLiquidity(item), 'usd-long')" />
-                  <div class="grouptext margin-top10">
+                  <!-- <div class="grouptext margin-top10">
                     <span
                       v-text="$t('swapFee')"
                       class="row text-white-normal"
@@ -42,7 +42,7 @@
                     <span
                       >: <UiNum :value="item.swapFee" format="percent"
                     /></span>
-                  </div>
+                  </div> -->
                   <div class="grouptext margin-top10">
                     <span v-text="$t('apy')" class="text-white-normal" />:
                     <UiNum :value="item.apy" format="percent" class="column" />
@@ -65,7 +65,7 @@
                       STAKE
                     </span>
                   </div>
-                  <div class="grouptext margin-top10">
+                  <!-- <div class="grouptext margin-top10">
                     <span
                       v-text="$t('symmReward')"
                       class="text-white-normal"
@@ -103,7 +103,7 @@
                       />
                       STAKE
                     </span>
-                  </div>
+                  </div> -->
 
                   <div class="grouptext margin-top10">
                     <span v-text="$t('volume24')" class="text-white-normal" />:
@@ -186,13 +186,13 @@
       <UiTableTh>
         <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" />
         <div style="padding-left: 80px"></div>
-        <div v-text="$t('assets')" class="column flex-auto text-left" />
+        <div v-text="$t('assets')" class="column flex-auto text-left ml-5" />
         <div v-text="$t('marketCap')" class="column" />
-        <div v-text="$t('swapFee')" class="column hide-sm hide-md" />
+        <!-- <div v-text="$t('swapFee')" class="column hide-sm hide-md" /> -->
         <div v-text="$t('apy')" class="column hide-sm hide-md" />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
-        <div v-text="$t('symmReward')" class="column-lg hide-sm hide-md" />
+        <!-- <div v-text="$t('symmReward')" class="column-lg hide-sm hide-md" /> -->
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
@@ -283,7 +283,14 @@ export default {
       if (!pool.finalized || !poolShares) return 0;
       return (this.getLiquidity(pool) / pool.totalShares) * poolShares;
     },
-    ...mapActions(['getPools', 'getNetworkLiquidity', 'getSYMMprice', 'getCELOprice', 'getKNXprice', 'getSTAKEprice']),
+    ...mapActions([
+      'getPools',
+      'getNetworkLiquidity',
+      'getSYMMprice',
+      'getCELOprice',
+      'getKNXprice',
+      'getSTAKEprice'
+    ]),
     async loadMore() {
       console.log(
         `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
@@ -355,7 +362,7 @@ export default {
     'comments contact'
     '... button'
     '... farm';
-  grid-template-rows: 12.5em 3em;
+  grid-template-rows: 10.5em 3em;
   grid-template-columns: 10.5em 1fr;
   grid-gap: 0.2em;
   background: linear-gradient(
@@ -376,7 +383,7 @@ export default {
   grid-area: farm;
 }
 .myForm .mivafarm button {
-  background-image: linear-gradient(270deg,#443ad2,#8349d1);
+  background-image: linear-gradient(270deg, #443ad2, #8349d1);
   margin-top: 4px;
   width: 100%;
 }
