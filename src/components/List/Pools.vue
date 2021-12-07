@@ -184,9 +184,9 @@
     <!-- infinite scroll ends -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" />
-        <div style="padding-left: 80px"></div>
-        <div v-text="$t('assets')" class="column flex-auto text-left ml-5" />
+        <!-- <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" /> -->
+        <!-- <div style="padding-left: 80px"></div> -->
+        <div v-text="$t('assets')" class="column flex-auto text-left" />
         <div v-text="$t('marketCap')" class="column" />
         <!-- <div v-text="$t('swapFee')" class="column hide-sm hide-md" /> -->
         <div v-text="$t('apy')" class="column hide-sm hide-md" />
