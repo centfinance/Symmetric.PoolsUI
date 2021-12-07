@@ -1,6 +1,8 @@
 <template>
   <UiTableTr :to="{ name: 'pool', params: { id: pool.id } }">
-    <div class="column-sm text-left hide-sm hide-md hide-lg">
+    <div
+      class="column-sm text-left hide-sm hide-md hide-lg hide-sl hide-ml hide-ll"
+    >
       {{ _shortenAddress(pool.id) }}
     </div>
     <div>
@@ -33,33 +35,33 @@
         <UiNum
           :value="pool.rewardApy"
           format="percent"
-          class="column hide-sm hide-md"
+          class="column hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">SYMM</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyCelo">
         <UiNum
           :value="pool.rewardApyCelo"
           format="percent"
-          class="column hide-sm hide-md"
+          class="column hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">CELO</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">CELO</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyKnx">
         <UiNum
           :value="pool.rewardApyKnx"
           format="percent"
-          class="column hide-sm hide-md"
+          class="column hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">KNX</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyStake">
         <UiNum
           :value="pool.rewardApyStake"
           format="percent"
-          class="column hide-sm hide-md"
+          class="column hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">STAKE</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">STAKE</div>
       </div>
     </div>
     <div>
@@ -67,44 +69,44 @@
         <UiNum
           :value="pool.tokenReward"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">SYMM</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardCelo">
         <UiNum
           :value="pool.tokenRewardCelo"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">CELO</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">CELO</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardKnx">
         <UiNum
           :value="pool.tokenRewardKnx"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">KNX</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardStake">
         <UiNum
           :value="pool.tokenRewardStake"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">STAKE</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">STAKE</div>
       </div>
     </div>
     <div
       v-text="_num(myLiquidity, 'usd-long')"
       format="currency"
-      class="column hide-sm hide-md hide-lg"
+      class="column hide-sm hide-md hide-lg hide-sl hide-ml"
     />
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
-      class="column hide-sm hide-md hide-lg"
+      class="column hide-sm hide-md hide-lg hide-sl hide-ml"
     />
   </UiTableTr>
 </template>

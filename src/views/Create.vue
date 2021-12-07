@@ -20,8 +20,8 @@
         <div v-text="$t('asset')" class="flex-auto text-left" />
         <div v-text="$t('myBalance')" class="column" />
         <div v-text="$t('weight')" class="column" />
-        <div v-text="'%'" class="column-sm hide-sm" />
-        <div class="column">
+        <div v-text="'%'" class="column-sm hide-sm hide-md hide-mm" />
+        <div class="column hide-sm">
           <a
             @click="togglePadlock"
             class="px-1 mr-1 tooltipped tooltipped-n"
@@ -32,8 +32,8 @@
           </a>
           {{ $t('amount') }}
         </div>
-        <div v-text="$t('price')" class="column-sm hide-sm" />
-        <div v-text="$t('totalValue')" class="column hide-sm" />
+        <div v-text="$t('price')" class="column-sm hide-sm hide-md hide-mm" />
+        <div v-text="$t('totalValue')" class="column hide-sm hide-md hide-mm" />
         <div class="column-xs" />
       </UiTableTh>
       <div v-for="(token, i) in tokens" :key="token">
@@ -51,7 +51,10 @@
               <Icon name="arrow-down" />
             </a>
           </div>
-          <div v-text="getBalance(token)" class="column-ms hide-sm" />
+          <div
+            v-text="getBalance(token)"
+            class="column-ms hide-sm hide-md hide-mm"
+          />
           <div class="column">
             <input
               class="input pool-input text-right"
@@ -60,7 +63,7 @@
               @input="handleWeightChange(token)"
             />
           </div>
-          <div class="column-sm hide-sm">
+          <div class="column-sm hide-sm hide-md hide-mm">
             <div v-text="_num(getRelativeWeight(token), 'percent')" />
           </div>
           <div class="column">
@@ -71,7 +74,7 @@
               @input="handleAmountChange(token)"
             />
           </div>
-          <div class="column-sm hide-sm">
+          <div class="column-sm hide-sm hide-md hide-mm">
             <div
               v-text="_num(parseFloat(price.values[token]).toFixed(2), 'usd')"
               v-if="padlock"
