@@ -189,12 +189,9 @@
         <div v-text="$t('assets')" class="column flex-auto text-left" />
         <div v-text="$t('marketCap')" class="column" />
         <!-- <div v-text="$t('swapFee')" class="column hide-sm hide-md" /> -->
-        <div v-text="$t('apy')" class="column hide-sm hide-md" />
+        <div v-text="$t('apy')" class="column hide-sm" />
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div
-          v-text="$t('rewardApy')"
-          class="column-sm hide-sm hide-md hide-mm"
-        />
+        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
         <!--  <div
           v-text="$t('symmReward')"
           class="column-lg hide-sm hide-md hide-mm"
@@ -202,12 +199,9 @@
         &nbsp;
         <div
           v-text="$t('myLiquidity')"
-          class="column hide-sm hide-md hide-lg hide-sl hide-ml"
+          class="column hide-sm hide-md hide-lg"
         />
-        <div
-          v-text="$t('volume24')"
-          class="column-medium2 hide-sm hide-md hide-lg hide-sl hide-ml"
-        />
+        <div v-text="$t('volume24')" class="column-medium2 hide-sm" />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
