@@ -5,6 +5,11 @@ export const BAL_TOKEN = {
   42220: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a'
 };
 
+export const SYMM_TOKENS = {
+  v1: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a',
+  v2: '0x8427bD503dd3169cCC9aFF7326c15258Bc305478'
+};
+
 export const uncappedTokens = {
   1: [
     '0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2', // WETH
@@ -85,7 +90,8 @@ export const uncappedTokens = {
     '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec', // UBE
     '0x1a8dbe5958c597a744ba51763abebd3355996c3e', // rCELO
     '0x7037f7296b2fc7908de7b57a89efaa8319f0c500', // mCELO
-    '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a' //SYMM
+    '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a', // SYMM v1
+    '0x8427bD503dd3169cCC9aFF7326c15258Bc305478' // SYMM v2
   ],
   43114: [
     '0x5947bb275c521040051d82396192181b413227a3', // LINK.e

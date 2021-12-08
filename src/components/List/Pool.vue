@@ -18,7 +18,7 @@
         >
           <Icon name="bullet" size="16" :style="`color: ${token.color}`" />
           {{ _num(token.weightPercent / 100, 'percent-short') }}
-          {{ _shorten(token.symbol, 14) }}
+          {{ filterTokenSymbol(token.symbol, token.address) }}
         </div>
       </div>
     </div>
@@ -112,6 +112,7 @@
 
 <script>
 import { getPoolLiquidity } from '@/helpers/price';
+import { SYMM_TOKENS } from '@/helpers/tokens';
 
 export default {
   props: ['pool'],
@@ -123,6 +124,15 @@ export default {
       const poolShares = this.subgraph.poolShares[this.pool.id];
       if (!this.pool.finalized || !poolShares) return 0;
       return (this.poolLiquidity / this.pool.totalShares) * poolShares;
+    }
+  },
+  methods: {
+    filterTokenSymbol(symbol, address) {
+      if (address === SYMM_TOKENS.v1) {
+        return 'SYMMv1';
+      } else {
+        return this._shorten(symbol, 14);
+      }
     }
   }
 };
