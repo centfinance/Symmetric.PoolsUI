@@ -14,6 +14,7 @@ import merge from 'lodash/merge';
 import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
 import cloneDeep from 'lodash/cloneDeep';
+import { getPoolLiquidity } from '@/helpers/price';
 
 // import { default as data } from '../../rewards.json';
 
@@ -368,6 +369,10 @@ export async function formatPool(pool) {
       : 0;
   pool.lastSwapVolume = parseFloat(pool.totalSwapVolume) - poolTotalSwapVolume;
   pool.feesCollected = pool.lastSwapVolume * pool.swapFee;
+
+  if (pool.liquidity === '0') {
+    pool.liquidity = getPoolLiquidity(pool, store.getters['getTokenPrices']);
+  }
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
   /* const query = {
