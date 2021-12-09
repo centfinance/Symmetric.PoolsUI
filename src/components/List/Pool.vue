@@ -102,6 +102,40 @@
       format="currency"
       class="column hide-sm hide-md hide-lg"
     />
+    <div>
+      <div class="d-flex">
+        <UiNum
+          :value="myDailyRewards"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">SYMM</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardCelo">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardCelo)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">CELO</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardKnx">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardKnx)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">KNX</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardStake">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardStake)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">STAKE</div>
+      </div>
+    </div>
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
@@ -124,6 +158,14 @@ export default {
       const poolShares = this.subgraph.poolShares[this.pool.id];
       if (!this.pool.finalized || !poolShares) return 0;
       return (this.poolLiquidity / this.pool.totalShares) * poolShares;
+    },
+    myDailyRewards() {
+      return (this.pool.tokenReward * this.myLiquidity) / this.poolLiquidity;
+    }
+  },
+  methods: {
+    getSpecificMyDailyRewards(tokenReward) {
+      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
     }
   },
   methods: {

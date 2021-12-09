@@ -193,9 +193,13 @@
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
         <!-- <div v-text="$t('symmReward')" class="column-lg hide-sm hide-md" /> -->
-        &nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <div
           v-text="$t('myLiquidity')"
+          class="column hide-sm hide-md hide-lg"
+        />
+        <div
+          v-text="$t('myApr')"
           class="column hide-sm hide-md hide-lg"
         />
         <div
