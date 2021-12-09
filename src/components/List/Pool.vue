@@ -46,13 +46,13 @@
         />
         <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
-      <div class="d-flex" v-if="pool.rewardApyKnx">
+      <div class="d-flex" v-if="pool.rewardApyPoof">
         <UiNum
-          :value="pool.rewardApyKnx"
+          :value="pool.rewardApyPoof"
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md">POOF</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyStake">
         <UiNum
@@ -80,9 +80,9 @@
         />
         <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
-      <div class="d-flex" v-if="pool.tokenRewardKnx">
+      <div class="d-flex" v-if="pool.tokenRewardPoof">
         <UiNum
-          :value="pool.tokenRewardKnx"
+          :value="pool.tokenRewardPoof"
           format="long"
           class="column-md hide-sm hide-md"
         />
@@ -119,13 +119,13 @@
         />
         <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
-      <div class="d-flex" v-if="pool.tokenRewardKnx">
+      <div class="d-flex" v-if="pool.tokenRewardPoof">
         <UiNum
-          :value="getSpecificMyDailyRewards(pool.tokenRewardKnx)"
+          :value="getSpecificMyDailyRewards(pool.tokenRewardPoof)"
           format="long"
           class="column-md hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md">POOF</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardStake">
         <UiNum
@@ -164,17 +164,15 @@ export default {
     }
   },
   methods: {
-    getSpecificMyDailyRewards(tokenReward) {
-      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
-    }
-  },
-  methods: {
     filterTokenSymbol(symbol, address) {
       if (address === SYMM_TOKENS.v1) {
         return 'SYMMv1';
       } else {
         return this._shorten(symbol, 14);
       }
+    },
+    getSpecificMyDailyRewards(tokenReward) {
+      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
     }
   }
 };
