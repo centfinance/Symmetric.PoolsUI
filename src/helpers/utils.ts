@@ -447,15 +447,16 @@ export async function formatPool(pool) {
     }
   });
 
-  // KNX APR and rewards
-  if (crPool.id === '0xa4ae7529cece492b6c47c726a320eea8841658ec') {
-    // KNX/cUSD
-    const KNXprice = store.getters['getKNXprice'];
+  // POOF APR and rewards
+  if (crPool.id === '0x095562ec6395e84fb22eb74edb67d7638e8d2f57') {
+    // POOF/cUSD
+    const POOFprice = store.getters['getPOOFprice'];
+    console.log('poof', POOFprice)
 
-    const krDailyCoinReward = new BigNumber(7142.85); // 50K KNX a week
-    crPool.tokenRewardKnx = krDailyCoinReward;
-    crPool.rewardApyKnx = crPool.tokenRewardKnx
-      .times(KNXprice)
+    const krDailyCoinReward = new BigNumber(57.14); // 400 POOF a week
+    crPool.tokenRewardPoof = krDailyCoinReward;
+    crPool.rewardApyPoof = crPool.tokenRewardPoof
+      .times(POOFprice)
       .div(crPool.liquidity)
       .times(365);
   }
@@ -591,6 +592,10 @@ export async function getCELOprice() {
 
 export async function getKNXprice() {
   return await getTokenPriceCELO('KNX');
+}
+
+export async function getPOOFprice() {
+  return await getTokenPriceCELO('POOF');
 }
 
 export async function getSTAKEprice() {
