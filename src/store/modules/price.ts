@@ -69,8 +69,15 @@ const actions = {
   }
 };
 
+const getters = {
+  getTokenPrices(state) {
+    return state.values;
+  }
+};
+
 export default {
   state,
   mutations,
-  actions
+  actions,
+  getters
 };

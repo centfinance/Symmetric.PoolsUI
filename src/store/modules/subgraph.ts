@@ -1,13 +1,14 @@
 import Vue from 'vue';
 import { getAddress } from '@ethersproject/address';
 import { request } from '@/helpers/subgraph';
-import { 
-  formatPool, 
-  ITEMS_PER_PAGE, 
-  getNetworkLiquidity, 
-  getSYMMprice, 
-  getCELOprice, 
+import {
+  formatPool,
+  ITEMS_PER_PAGE,
+  getNetworkLiquidity,
+  getSYMMprice,
+  getCELOprice,
   getKNXprice,
+  getPOOFprice,
   getSTAKEprice
 } from '@/helpers/utils';
 
@@ -20,6 +21,7 @@ const state = {
   SYMMprice: {},
   CELOprice: {},
   KNXprice: {},
+  POOFprice: {},
   STAKEprice: {}
 };
 
@@ -110,6 +112,10 @@ const mutations = {
     Vue.set(_state, 'KNXprice', payload);
     console.debug('GET_KNX_PRICE', payload);
   },
+  GET_POOF_PRICE(_state, payload) {
+    Vue.set(_state, 'POOFprice', payload);
+    console.debug('GET_POOF_PRICE', payload);
+  },
   GET_STAKE_PRICE(_state, payload) {
     Vue.set(_state, 'STAKEprice', payload);
     console.debug('GET_STAKE_PRICE', payload);
@@ -121,23 +127,27 @@ const actions = {
     commit('CLEAR_USER');
   },
   getNetworkLiquidity: async ({ commit }, payload) => {
-    const liquidity  = await getNetworkLiquidity();
+    const liquidity = await getNetworkLiquidity();
     commit('GET_NETWORK_LIQUIDITY', liquidity);
   },
   getSYMMprice: async ({ commit }, payload) => {
-    const price  = await getSYMMprice();
+    const price = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
   },
   getCELOprice: async ({ commit }, payload) => {
-    const price  = await getCELOprice();
+    const price = await getCELOprice();
     commit('GET_CELO_PRICE', price);
   },
   getKNXprice: async ({ commit }, payload) => {
-    const price  = await getKNXprice();
+    const price = await getKNXprice();
     commit('GET_KNX_PRICE', price);
   },
+  getPOOFprice: async ({ commit }, payload) => {
+    const price = await getPOOFprice();
+    commit('GET_POOF_PRICE', price);
+  },
   getSTAKEprice: async ({ commit }, payload) => {
-    const price  = await getSTAKEprice();
+    const price = await getSTAKEprice();
     commit('GET_STAKE_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {
@@ -173,9 +183,11 @@ const actions = {
     commit('GET_POOLS_REQUEST');
     try {
       let { pools } = await request('getPools', query);
-      pools = await Promise.all(pools.map(async (pool): Promise<object> => {
-        return await formatPool(pool);
-      }));
+      pools = await Promise.all(
+        pools.map(async (pool): Promise<object> => {
+          return await formatPool(pool);
+        })
+      );
       commit('GET_POOLS_SUCCESS');
       return pools;
     } catch (e) {
@@ -344,22 +356,25 @@ const actions = {
 };
 
 const getters = {
-  getNetworkLiquidity (state) {
-    return state.liquidity
+  getNetworkLiquidity(state) {
+    return state.liquidity;
   },
-  getSYMMprice (state) {
-    return state.SYMMprice
+  getSYMMprice(state) {
+    return state.SYMMprice;
   },
-  getCELOprice (state) {
-    return state.CELOprice
+  getCELOprice(state) {
+    return state.CELOprice;
   },
-  getKNXprice (state) {
-    return state.KNXprice
+  getKNXprice(state) {
+    return state.KNXprice;
   },
-  getSTAKEprice (state) {
-    return state.STAKEprice
+  getPOOFprice(state) {
+    return state.POOFprice;
+  },
+  getSTAKEprice(state) {
+    return state.STAKEprice;
   }
-}
+};
 
 export default {
   state,

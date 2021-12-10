@@ -18,7 +18,7 @@
         >
           <Icon name="bullet" size="16" :style="`color: ${token.color}`" />
           {{ _num(token.weightPercent / 100, 'percent-short') }}
-          {{ _shorten(token.symbol, 14) }}
+          {{ filterTokenSymbol(token.symbol, token.address) }}
         </div>
       </div>
     </div>
@@ -46,13 +46,13 @@
         />
         <div class="column-xxs hide-sm hide-md">CELO</div>
       </div>
-      <div class="d-flex" v-if="pool.rewardApyKnx">
+      <div class="d-flex" v-if="pool.rewardApyPoof">
         <UiNum
-          :value="pool.rewardApyKnx"
+          :value="pool.rewardApyPoof"
           format="percent"
           class="column hide-sm hide-md"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md">POOF</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyStake">
         <UiNum
@@ -80,9 +80,9 @@
         />
         <div class="column-xxs hide-sm hide-md hide-mm">CELO</div>
       </div>
-      <div class="d-flex" v-if="pool.tokenRewardKnx">
+      <div class="d-flex" v-if="pool.tokenRewardPoof">
         <UiNum
-          :value="pool.tokenRewardKnx"
+          :value="pool.tokenRewardPoof"
           format="long"
           class="column-md hide-sm hide-md hide-mm"
         />
@@ -102,6 +102,40 @@
       format="currency"
       class="column hide-sm hide-md hide-lg"
     />
+    <div>
+      <div class="d-flex">
+        <UiNum
+          :value="myDailyRewards"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">SYMM</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardCelo">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardCelo)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">CELO</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardPoof">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardPoof)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">POOF</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardStake">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardStake)"
+          format="long"
+          class="column-md hide-sm hide-md"
+        />
+        <div class="column-xxs hide-sm hide-md">STAKE</div>
+      </div>
+    </div>
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
@@ -112,6 +146,7 @@
 
 <script>
 import { getPoolLiquidity } from '@/helpers/price';
+import { SYMM_TOKENS } from '@/helpers/tokens';
 
 export default {
   props: ['pool'],
@@ -123,6 +158,21 @@ export default {
       const poolShares = this.subgraph.poolShares[this.pool.id];
       if (!this.pool.finalized || !poolShares) return 0;
       return (this.poolLiquidity / this.pool.totalShares) * poolShares;
+    },
+    myDailyRewards() {
+      return (this.pool.tokenReward * this.myLiquidity) / this.poolLiquidity;
+    }
+  },
+  methods: {
+    filterTokenSymbol(symbol, address) {
+      if (address === SYMM_TOKENS.v1) {
+        return 'SYMMv1';
+      } else {
+        return this._shorten(symbol, 14);
+      }
+    },
+    getSpecificMyDailyRewards(tokenReward) {
+      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
     }
   }
 };

@@ -17,6 +17,7 @@
       <h3 class="flex-auto" v-text="title" />
     </Container>
     <!-- infinite scroll -->
+    <!-- Card View -->
     <div
       v-infinite-scroll="loadMore"
       class="justified-container"
@@ -55,9 +56,10 @@
                       <UiNum :value="item.rewardApyCelo" format="percent" />
                       CELO
                     </span>
-                    <span v-if="item.rewardApyKnx">
+                    <span v-if="item.rewardApyPoof">
                       /
-                      <UiNum :value="item.rewardApyKnx" format="percent" /> KNX
+                      <UiNum :value="item.rewardApyPoof" format="percent" />
+                      POOF
                     </span>
                     <span v-if="item.rewardApyStake">
                       /
@@ -85,14 +87,14 @@
                       />
                       CELO
                     </span>
-                    <span v-if="item.tokenRewardKnx">
+                    <span v-if="item.tokenRewardPoof">
                       /
                       <span
-                        v-text="_num(item.tokenRewardKnx, 'long')"
+                        v-text="_num(item.tokenRewardPoof, 'long')"
                         format="long"
                         class=""
                       />
-                      KNX
+                      POOF
                     </span>
                     <span v-if="item.tokenRewardStake">
                       /
@@ -104,6 +106,71 @@
                       STAKE
                     </span>
                   </div> -->
+                  <div class="grouptext margin-top10">
+                    <span v-text="$t('myApr')" class="text-white-normal" />:
+                    <span
+                      v-text="
+                        _num(
+                          getSpecificMyDailyRewards(item.tokenReward, item),
+                          'long'
+                        )
+                      "
+                      format="long"
+                      class=""
+                    />
+                    SYMM
+                    <span v-if="item.tokenRewardCelo">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardCelo,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      CELO
+                    </span>
+                    <span v-if="item.tokenRewardPoof">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardPoof,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      POOF
+                    </span>
+                    <span v-if="item.tokenRewardStake">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardStake,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      STAKE
+                    </span>
+                  </div>
 
                   <div class="grouptext margin-top10">
                     <span v-text="$t('volume24')" class="text-white-normal" />:
@@ -127,7 +194,7 @@
                         :style="`color: ${token.color}`"
                       />
                       {{ _num(token.weightPercent / 100, 'percent-short') }}
-                      {{ _shorten(token.symbol, 4) }}
+                      {{ filterTokenSymbol(token.symbol, token.address) }}
                     </li>
                   </ul>
                   <hr style="width: 100%; opacity: 0" />
@@ -182,6 +249,7 @@
       />
     </div>
     <!-- infinite scroll ends -->
+    <!-- Table View -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
         <!-- <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" /> -->
@@ -201,6 +269,7 @@
           v-text="$t('myLiquidity')"
           class="column hide-sm hide-md hide-lg"
         />
+        <div v-text="$t('myApr')" class="column hide-sm hide-md hide-lg" />
         <div v-text="$t('volume24')" class="column-medium2 hide-sm" />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
@@ -231,6 +300,7 @@
 import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
+import { SYMM_TOKENS } from '@/helpers/tokens';
 
 export default {
   props: ['query', 'title'],
@@ -283,12 +353,22 @@ export default {
       if (!pool.finalized || !poolShares) return 0;
       return (this.getLiquidity(pool) / pool.totalShares) * poolShares;
     },
+    filterTokenSymbol(symbol, address) {
+      if (address === SYMM_TOKENS.v1) {
+        return 'SYMMv1';
+      } else {
+        return this._shorten(symbol, 4);
+      }
+    },
+    getSpecificMyDailyRewards(tokenReward, pool) {
+      return (tokenReward * this.myLiquidity(pool)) / this.getLiquidity(pool);
+    },
     ...mapActions([
       'getPools',
       'getNetworkLiquidity',
       'getSYMMprice',
       'getCELOprice',
-      'getKNXprice',
+      'getPOOFprice',
       'getSTAKEprice'
     ]),
     async loadMore() {
@@ -304,7 +384,7 @@ export default {
       await this.getNetworkLiquidity();
       await this.getSYMMprice();
       await this.getCELOprice();
-      await this.getKNXprice();
+      await this.getPOOFprice();
       await this.getSTAKEprice();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
