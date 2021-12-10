@@ -102,7 +102,7 @@
       format="currency"
       class="column hide-sm hide-md hide-lg"
     />
-    <div>
+    <div class="column hide-sm hide-md hide-lg">
       <div class="d-flex">
         <UiNum
           :value="myDailyRewards"
