@@ -1,49 +1,55 @@
 <template>
   <div class="overflow-hidden">
-    <Toggle
-      :value="type"
-      :options="poolTypes"
-      @select="selectType"
-      style="background-color: #3c525f"
-      class="mb-4"
-    />
-    |
-    <UiButton style="background-color: #5b8470" class="button-primary">
-      <a :href="config.exchangeUrl" class="text-white" target="_blank">
-        {{ $t('swap') }}
-        <Icon name="external-link" class="ml-1" />
-      </a>
-    </UiButton>
-    |
-    <UiButton class="button-primary">
-      <a
-        href="https://defillama.com/protocol/symmetric"
-        class="text-white"
-        target="_blank"
-      >
-        TVL :
-        <span v-text="_num(tvl, 'usd-long')" />
-      </a>
-    </UiButton>
+    <div class="d-flex explore-buttons">
+      <div class="explore-buttons-toggle">
+        <Toggle
+          :value="type"
+          :options="poolTypes"
+          @select="selectType"
+          style="background-color: #3c525f"
+          class="mb-4"
+        />
+      </div>
+      <div class="explore-buttons-buttons">
+        <UiButton style="background-color: #5b8470" class="button-primary mx-2">
+          <a :href="config.exchangeUrl" class="text-white" target="_blank">
+            {{ $t('swap') }}
+            <Icon name="external-link" class="ml-1" />
+          </a>
+        </UiButton>
+        <UiButton class="button-primary">
+          <a
+            href="https://defillama.com/protocol/symmetric"
+            class="text-white"
+            target="_blank"
+          >
+            TVL :
+            <span v-text="_num(tvl, 'usd-long')" />
+          </a>
+        </UiButton>
+      </div>
+    </div>
     <div class="cards">
       <div class="cardInfo rounded-1">
-        <div class="highlight-card anim-fade-in rounded-1">
-          <span>
-            <span class="span-text-key">TVL Celo: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(celoTVL, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span class="span-text-key">TVL xDai: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(xDaiTVL, 'usd-long')"
-            />
-          </span>
-          &nbsp;
+        <div class="highlight-card anim-fade-in rounded-1 d-flex">
+          <div>
+            <span>
+              <span class="span-text-key">TVL Celo: </span>
+              <span
+                class="row span-text-value"
+                v-text="_num(celoTVL, 'usd-long')"
+              />
+            </span>
+            &nbsp;
+            <span>
+              <span class="span-text-key">TVL xDai: </span>
+              <span
+                class="row span-text-value"
+                v-text="_num(xDaiTVL, 'usd-long')"
+              />
+            </span>
+            &nbsp;
+          </div>
           <!--
           <span>
             <span>TVL Avalanche: </span>
@@ -73,26 +79,27 @@
               v-text="_num(polygonTVL, 'usd-long')"
             /> </span> 
           &nbsp; -->
-          <span>
-            <span class="span-text-key">( Symbol: </span>
-            <span class="row span-text-value">SYMM</span>
-          </span>
-          &nbsp;
-          <span>
-            <span class="span-text-key">Celo: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPriceCelo, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span class="span-text-key">xDai: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPricexDAI, 'usd-long')"
-            /> </span
-          ><!--
+          <div>
+            <span>
+              <span class="span-text-key">( Symbol: </span>
+              <span class="row span-text-value">SYMM</span>
+            </span>
+            &nbsp;
+            <span>
+              <span class="span-text-key">Celo: *</span>
+              <span
+                class="row span-text-value"
+                v-text="_num(SYMMPriceCelo, 'usd-long')"
+              />
+            </span>
+            &nbsp;
+            <span>
+              <span class="span-text-key">xDai: *</span>
+              <span
+                class="row span-text-value"
+                v-text="_num(SYMMPricexDAI, 'usd-long')"
+              /> </span
+            ><!--
           &nbsp;
           <span>
             <span>Avalanche: *</span>
@@ -125,12 +132,15 @@
               v-text="_num(SYMMPricePolygon, 'usd-long')"
             />
           </span> -->
-          &nbsp;
-          <span class="span-text-value">*Last trade price )</span>
+            &nbsp;
+            <span class="span-text-value">*Last trade price )</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right">
+    <div
+      class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right filter-by-asset"
+    >
       <div v-text="$t('filterByAsset')" />
       <div v-for="(token, i) in tokens" :key="i" class="topic ml-2">
         <button
@@ -390,6 +400,40 @@ export default {
     padding: 0 6px;
     height: 28px;
     width: 28px;
+  }
+}
+@media (max-width: 767px) {
+  .cards {
+    margin-top: 8px;
+    .cardInfo {
+      .highlight-card {
+        flex-direction: column;
+      }
+    }
+  }
+
+  .explore-buttons {
+    flex-direction: column;
+
+    &-toggle {
+      margin-top: 22px;
+      display: flex;
+      justify-content: center;
+
+      span {
+        margin-bottom: 16px !important;
+      }
+    }
+
+    &-buttons {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}
+@media (max-width: 543px) {
+  .filter-by-asset {
+    justify-content: center;
   }
 }
 </style>

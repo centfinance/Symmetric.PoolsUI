@@ -451,7 +451,6 @@ export async function formatPool(pool) {
   if (crPool.id === '0x095562ec6395e84fb22eb74edb67d7638e8d2f57') {
     // POOF/cUSD
     const POOFprice = store.getters['getPOOFprice'];
-    console.log('poof', POOFprice)
 
     const krDailyCoinReward = new BigNumber(57.14); // 400 POOF a week
     crPool.tokenRewardPoof = krDailyCoinReward;
