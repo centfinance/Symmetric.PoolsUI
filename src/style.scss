@@ -318,3 +318,23 @@ input {
     transform: translateX(-8px);
   }
 }
+@media (max-width: 1600px) {
+  .hide-ll {
+    display: none!important;
+  }
+}
+@media (min-width: 1280px) and (max-width: 1600px) {
+  .hide-ml {
+    display: none!important;
+  }
+}
+@media (max-width: 1280px) {
+  .hide-sl {
+    display: none!important;
+  }
+}
+@media (min-width: 767px) and (max-width: 980px) {
+  .hide-mm {
+    display: none!important;
+  }
+}

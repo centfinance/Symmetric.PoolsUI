@@ -28,7 +28,7 @@
       format="percent"
       class="column hide-sm hide-md"
     /> -->
-    <UiNum :value="pool.apy" format="percent" class="column hide-sm hide-md" />
+    <UiNum :value="pool.apy" format="percent" class="column hide-sm" />
     <div>
       <div class="d-flex">
         <UiNum
@@ -68,33 +68,33 @@
         <UiNum
           :value="pool.tokenReward"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">SYMM</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardCelo">
         <UiNum
           :value="pool.tokenRewardCelo"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">CELO</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">CELO</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardPoof">
         <UiNum
           :value="pool.tokenRewardPoof"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">KNX</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">KNX</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardStake">
         <UiNum
           :value="pool.tokenRewardStake"
           format="long"
-          class="column-md hide-sm hide-md"
+          class="column-md hide-sm hide-md hide-mm"
         />
-        <div class="column-xxs hide-sm hide-md">STAKE</div>
+        <div class="column-xxs hide-sm hide-md hide-mm">STAKE</div>
       </div>
     </div> -->
     <div
@@ -139,7 +139,7 @@
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
-      class="column hide-sm hide-md hide-lg"
+      class="column hide-sm"
     />
   </UiTableTr>
 </template>
