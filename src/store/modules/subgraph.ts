@@ -126,27 +126,27 @@ const actions = {
   clearUser: async ({ commit }) => {
     commit('CLEAR_USER');
   },
-  getNetworkLiquidity: async ({ commit }, payload) => {
+  getNetworkLiquidity: async ({ commit }) => {
     const liquidity = await getNetworkLiquidity();
     commit('GET_NETWORK_LIQUIDITY', liquidity);
   },
-  getSYMMprice: async ({ commit }, payload) => {
+  getSYMMprice: async ({ commit }) => {
     const price = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
   },
-  getCELOprice: async ({ commit }, payload) => {
+  getCELOprice: async ({ commit }) => {
     const price = await getCELOprice();
     commit('GET_CELO_PRICE', price);
   },
-  getKNXprice: async ({ commit }, payload) => {
+  getKNXprice: async ({ commit }) => {
     const price = await getKNXprice();
     commit('GET_KNX_PRICE', price);
   },
-  getPOOFprice: async ({ commit }, payload) => {
+  getPOOFprice: async ({ commit }) => {
     const price = await getPOOFprice();
     commit('GET_POOF_PRICE', price);
   },
-  getSTAKEprice: async ({ commit }, payload) => {
+  getSTAKEprice: async ({ commit }) => {
     const price = await getSTAKEprice();
     commit('GET_STAKE_PRICE', price);
   },

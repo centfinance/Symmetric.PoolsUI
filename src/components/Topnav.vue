@@ -1,9 +1,6 @@
 <template>
   <nav id="topnav" class="position-fixed width-full">
-    <div
-      class="d-flex flex-items-center px-5"
-      style="height: 66px; padding-left: 2px !important"
-    >
+    <div class="d-flex flex-items-center px-5 top-bar-container">
       <div class="flex-auto d-flex flex-items-center">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
           <Icon name="menu" size="28" class="mr-3" />
@@ -91,6 +88,7 @@
       Caution: Investments carry risk. Only add liquidity that you can afford to
       lose.
     </div>
+    <!-- <Theme-Switcher class="theme-switcher-mobile" /> -->
     <portal to="modal">
       <ModalAccount
         :open="modalOpen.account"
@@ -368,8 +366,28 @@ export default {
   margin-right: 8px;
 }
 .caution-message {
-  margin-left: 40px !important;
+  margin: 0 40px !important;
   text-align: center;
   color: var(--text-primary-color);
+}
+// .theme-switcher-mobile {
+//   display: none;
+// }
+.top-bar-container {
+  height: 66px;
+  padding-left: 2px !important;
+}
+@media (max-width: 543px) {
+  .top-bar-container {
+    flex-direction: column;
+    height: auto;
+    padding: 0px !important;
+  }
+  // .theme-switcher {
+  //   display: none;
+  // }
+  // .theme-switcher-mobile {
+  //   display: flex;
+  // }
 }
 </style>

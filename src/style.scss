@@ -122,6 +122,27 @@ a {
   width: 55px;
 }
 
+// new styles for table cell width
+.table-column {
+  // width: 140px;
+  width: 11.66%;
+  padding: 0px 10px;
+}
+
+.table-column-assets {
+  width: 30%;
+  // min-width: 200px;
+}
+
+.w-60 {
+  width: 60%;
+}
+
+.w-40 {
+  width: 40%;
+}
+// new styles for table cell width end
+
 .highlight:hover {
   background-color: $panel-border;
 }
@@ -318,23 +339,31 @@ input {
     transform: translateX(-8px);
   }
 }
-@media (max-width: 1600px) {
-  .hide-ll {
-    display: none!important;
-  }
-}
+
 @media (min-width: 1280px) and (max-width: 1600px) {
-  .hide-ml {
-    display: none!important;
-  }
 }
 @media (max-width: 1280px) {
-  .hide-sl {
-    display: none!important;
+  .table-column {
+    width: 17.5%;
   }
 }
 @media (min-width: 767px) and (max-width: 980px) {
-  .hide-mm {
-    display: none!important;
+}
+
+@media (max-width: 767px) {
+  .table-column {
+    width: 23.33%;
+  }
+}
+
+@media (max-width: 543px) {
+  .table-column {
+    width: 30%;
+  }
+  .table-column-assets {
+    width: 70%;
+  }
+  .page-container {
+    padding-top: 80px !important;
   }
 }
