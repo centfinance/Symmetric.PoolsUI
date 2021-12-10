@@ -34,13 +34,14 @@
           v-if="$auth.isAuthenticated && !wrongNetwork"
           @click="modalOpen.account = true"
           :loading="loading || ui.authLoading"
+          style="min-width: fit-content;"
         >
           <Avatar :address="web3.account" size="16" class="ml-n1 mr-n1" />
           <span v-if="web3.name" v-text="web3.name" class="hide-sm ml-2 pl-1" />
           <span
             v-else
             v-text="_shortenAddress(web3.account)"
-            class="hide-sm ml-2 pl-1"
+            class="ml-2 pl-1"
           />
         </UiButton>
         <UiButton
