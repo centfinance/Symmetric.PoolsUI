@@ -2,8 +2,8 @@
   <div>
     <div class="text-right reward-message mb-1">
       {{ $t('rewardMessage') }} |
-      <span class="hide-sm hide-md switch-view"
-        >&nbsp;Switch View:&nbsp;&nbsp;
+      <span class="switch-view"
+        ><span class="hide-sm mx-1">Switch View:</span>
         <toggle-button
           @change="switchView"
           :value="showCard"
@@ -11,6 +11,7 @@
           :color="{ checked: '#FB6706', unchecked: '#FB6706' }"
           :switch-color="{ checked: '#123123', unchecked: '#535b5c5b' }"
           :labels="{ checked: 'Cards', unchecked: 'Table' }"
+          class="ml-1"
       /></span>
     </div>
     <Container v-if="title" class="d-flex flex-items-center px-4 px-md-0 mb-3">
@@ -35,15 +36,6 @@
                     class="text-right text-white-normal"
                   />:
                   <span v-text="_num(getLiquidity(item), 'usd-long')" />
-                  <!-- <div class="grouptext margin-top10">
-                    <span
-                      v-text="$t('swapFee')"
-                      class="row text-white-normal"
-                    />
-                    <span
-                      >: <UiNum :value="item.swapFee" format="percent"
-                    /></span>
-                  </div> -->
                   <div class="grouptext margin-top10">
                     <span v-text="$t('apy')" class="text-white-normal" />:
                     <UiNum :value="item.apy" format="percent" class="column" />
@@ -67,45 +59,6 @@
                       STAKE
                     </span>
                   </div>
-                  <!-- <div class="grouptext margin-top10">
-                    <span
-                      v-text="$t('symmReward')"
-                      class="text-white-normal"
-                    />:
-                    <span
-                      v-text="_num(item.tokenReward, 'long')"
-                      format="long"
-                      class=""
-                    />
-                    SYMM
-                    <span v-if="item.tokenRewardCelo">
-                      /
-                      <span
-                        v-text="_num(item.tokenRewardCelo, 'long')"
-                        format="long"
-                        class=""
-                      />
-                      CELO
-                    </span>
-                    <span v-if="item.tokenRewardPoof">
-                      /
-                      <span
-                        v-text="_num(item.tokenRewardPoof, 'long')"
-                        format="long"
-                        class=""
-                      />
-                      POOF
-                    </span>
-                    <span v-if="item.tokenRewardStake">
-                      /
-                      <span
-                        v-text="_num(item.tokenRewardStake, 'long')"
-                        format="long"
-                        class=""
-                      />
-                      STAKE
-                    </span>
-                  </div> -->
                   <div class="grouptext margin-top10">
                     <span v-text="$t('myApr')" class="text-white-normal" />:
                     <span
@@ -180,10 +133,6 @@
                       class=""
                     />
                   </div>
-
-                  <!-- <div style="margin-top: 10px;" class="grouptext">
-                    {{ _shortenAddress(item.id) }}
-                  </div> -->
                 </div>
                 <div id="comment-box">
                   <ul :key="token.address" v-for="token in item.tokens">
@@ -203,8 +152,6 @@
                     style="left: 30%; position: relative; float: left"
                     size="55"
                   />
-                  <!-- <div class="container"> -->
-                  <!-- </div> -->
                 </div>
                 <UiButton class="button-primary"> Add Liquidity </UiButton>
                 <!-- MIVA:SYMM Pool with Farm -->
@@ -252,25 +199,22 @@
     <!-- Table View -->
     <UiTable class="anim-fade-in" v-if="!showCard">
       <UiTableTh>
-        <!-- <div class="hide-sm hide-md hide-lg" v-text="$t('poolAddress')" /> -->
-        <!-- <div style="padding-left: 80px"></div> -->
-        <div v-text="$t('assets')" class="column flex-auto text-left" />
-        <div v-text="$t('marketCap')" class="column" />
-        <!-- <div v-text="$t('swapFee')" class="column hide-sm hide-md" /> -->
-        <div v-text="$t('apy')" class="column hide-sm" />
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <div v-text="$t('rewardApy')" class="column-sm hide-sm hide-md" />
-        <!--  <div
-          v-text="$t('symmReward')"
-          class="column-lg hide-sm hide-md hide-mm"
-        /> -->
-        &nbsp;
+        <div
+          v-text="$t('assets')"
+          class="table-column-assets flex-auto text-left"
+        />
+        <div v-text="$t('marketCap')" class="table-column" />
+        <div v-text="$t('apy')" class="table-column hide-sm" />
+        <div v-text="$t('rewardApy')" class="table-column hide-sm hide-md" />
         <div
           v-text="$t('myLiquidity')"
-          class="column hide-sm hide-md hide-lg"
+          class="table-column hide-sm hide-md hide-lg"
         />
-        <div v-text="$t('myApr')" class="column hide-sm hide-md hide-lg" />
-        <div v-text="$t('volume24')" class="column-medium2 hide-sm" />
+        <div
+          v-text="$t('myApr')"
+          class="table-column hide-sm hide-md hide-lg"
+        />
+        <div v-text="$t('volume24')" class="table-column hide-sm" />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
@@ -284,10 +228,10 @@
           :classes="[
             'column-sm text-left hide-sm hide-md hide-lg',
             'flex-auto text-left',
-            'column hide-sm hide-md',
-            'column',
-            'column hide-sm hide-md hide-lg',
-            'column hide-sm hide-md hide-lg'
+            'table-column hide-sm hide-md',
+            'table-column',
+            'table-column hide-sm hide-md hide-lg',
+            'table-column hide-sm hide-md hide-lg'
           ]"
           :height="29"
         />
@@ -532,5 +476,10 @@ ul {
   color: var(--text-primary-color);
   display: flex;
   align-items: center;
+}
+@media (max-width: 543px) {
+  .reward-message {
+    justify-content: center;
+  }
 }
 </style>

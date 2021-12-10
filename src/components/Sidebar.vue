@@ -169,4 +169,10 @@ export default {
     color: var(--text-primary-color);
   }
 }
+
+@media (max-width: 543px) {
+  #sidebar {
+    margin-top: 159px;
+  }
+}
 </style>
