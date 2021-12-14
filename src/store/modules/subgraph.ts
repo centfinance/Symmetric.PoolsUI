@@ -22,7 +22,9 @@ const state = {
   CELOprice: {},
   KNXprice: {},
   POOFprice: {},
-  STAKEprice: {}
+  STAKEprice: {},
+  symmV1cUSDLiquidity: 0,
+  symmV2cUSDLiquidity: 0
 };
 
 const mutations = {
@@ -119,6 +121,12 @@ const mutations = {
   GET_STAKE_PRICE(_state, payload) {
     Vue.set(_state, 'STAKEprice', payload);
     console.debug('GET_STAKE_PRICE', payload);
+  },
+  GET_SYMMV1_CUSD_LIQUIDITY(_state, payload) {
+    Vue.set(_state, 'symmV1cUSDLiquidity', payload);
+  },
+  GET_SYMMV2_CUSD_LIQUIDITY(_state, payload) {
+    Vue.set(_state, 'symmV2cUSDLiquidity', payload);
   }
 };
 
@@ -373,6 +381,12 @@ const getters = {
   },
   getSTAKEprice(state) {
     return state.STAKEprice;
+  },
+  getSymmV1cUSDLiquidity(state) {
+    return state.symmV1cUSDLiquidity;
+  },
+  getSymmV2cUSDLiquidity(state) {
+    return state.symmV2cUSDLiquidity;
   }
 };
 

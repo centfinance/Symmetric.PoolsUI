@@ -245,6 +245,8 @@ import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
+import Pool from '@/_balancer/pool';
+import store from '@/store';
 
 export default {
   props: ['query', 'title'],
@@ -256,7 +258,8 @@ export default {
       showCard: this.$cookie.get('cardView') === 'true' ? true : false,
       page: 0,
       pools: [],
-      filters: formatFilters(this.$route.query)
+      filters: formatFilters(this.$route.query),
+      symmPoolsLoading: false
     };
   },
   mounted() {
@@ -316,9 +319,9 @@ export default {
       'getSTAKEprice'
     ]),
     async loadMore() {
-      console.log(
-        `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
-      );
+      // console.log(
+      //   `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
+      // );
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
       this.loading = true;
       this.page++;
@@ -337,7 +340,30 @@ export default {
         this.switchView({ value: true });
         this.showCard = true;
       }
+    },
+    async loadPool() {
+      const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
+      const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
+      const bPool1 = new Pool(symmV1cUSD);
+      const bPool2 = new Pool(symmV2cUSD);
+      let pool1, pool2;
+      try {
+        pool1 = await bPool1.getMetadata();
+        pool2 = await bPool2.getMetadata();
+      } catch (e) {
+        console.log(e);
+        // return this.$router.push({ name: 'home' });
+      }
+      // console.log('v1,v2 = ', pool1, pool2);
+
+      store.commit('GET_SYMMV1_CUSD_LIQUIDITY', this.getLiquidity(pool1));
+      store.commit('GET_SYMMV2_CUSD_LIQUIDITY', this.getLiquidity(pool2));
     }
+  },
+  async created() {
+    this.symmPoolsLoading = true;
+    await this.loadPool();
+    this.symmPoolsLoading = false;
   }
 };
 </script>
