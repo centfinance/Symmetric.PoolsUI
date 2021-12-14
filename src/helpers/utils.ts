@@ -404,9 +404,11 @@ export async function formatPool(pool) {
   const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
   const crPoolIds = [
     '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
+    '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
     '0x22324f68ff401a4379da39421140bcc58102338f', // SYMMv1/cUSD
     '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
-    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMMv1/CELO
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221', // SYMMv1/CELO
+    '0x7ee06450f4ff97990c6288237964bf4f545f221f' // SYMMv2/CELO
   ];
 
   const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
@@ -432,47 +434,59 @@ export async function formatPool(pool) {
   const crPool = cloneDeep(pool);
 
   // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
-  // 238.09 USD per day -> 36.6 Celo per day
+  // 238.09 USD per day -> 36.6 Celo per day ( old calculation )
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
       const CELOprice = store.getters['getCELOprice'];
+      const symmV1cUSDLiquidity = Number(store.getters['getSymmV1cUSDLiquidity']);
+      const symmV2cUSDLiquidity = Number(store.getters['getSymmV2cUSDLiquidity']);
+      const symmV1cEURLiquidity = Number(store.getters['getSymmV1cEURLiquidity']);
+      const symmV2cEURLiquidity = Number(store.getters['getSymmV2cEURLiquidity']);
+      const symmV1CELOLiquidity = Number(store.getters['getSymmV1CELOLiquidity']);
+      const symmV2CELOLiquidity = Number(store.getters['getSymmV2CELOLiquidity']);
+
+      // 20000 USD / Price of Celo = Total quantity for 84 days
+      const totalQuantity = 20000 / Number(CELOprice);
+      // Qty of celo/number of days = daily celo for the pool
+      const numberOfDays = 84;
+      const dailyCelo = totalQuantity / numberOfDays;
+
+      // (TVL for symm v1 cusd pool)/(tvl for symm v1 cusd pool + tvl for symm v2 cusd pool)
+      const symmv1Rate =
+        symmV1cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
+      const symmv2Rate =
+        symmV2cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
+
+      const v1cEUR =
+        symmV1cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
+      const v2cEUR =
+        symmV2cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
+      const v1CELO =
+        symmV1CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
+      const v2CELO =
+        symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
+
+      // Daily celo qty * price => value per day
+      const dailyV1Celo = dailyCelo * symmv1Rate * CELOprice;
+      const dailyV2Celo = dailyCelo * symmv2Rate * CELOprice;
+      const dailyV1CelocEUR = dailyCelo * v1cEUR * CELOprice;
+      const dailyV2CelocEUR = dailyCelo * v2cEUR * CELOprice;
+      const dailyV1CeloCELO = dailyCelo * v1CELO * CELOprice;
+      const dailyV2CeloCELO = dailyCelo * v2CELO * CELOprice;
+
       const crDailyCoinReward = [
-        new BigNumber(2 * (238.09 / Number(CELOprice))),
-        new BigNumber(2 * (238.09 / Number(CELOprice))),
-        new BigNumber(2 * (238.09 / Number(CELOprice))),
-        new BigNumber(238.09 / Number(CELOprice))
+        new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
+        new BigNumber(2 * dailyV2CelocEUR), // symmv2 / cEUR
+        new BigNumber(2 * dailyV1Celo), // symmv1 / cUSD
+        new BigNumber(2 * dailyV2Celo), // symmv2 / cUSD
+        new BigNumber(dailyV1CeloCELO), // symmv1 / celo
+        new BigNumber(dailyV2CeloCELO) // symmv2 / celo
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
-      const symmV1cUSDLiquidity = store.getters['getSymmV1cUSDLiquidity'];
-      const symmV2cUSDLiquidity = store.getters['getSymmV2cUSDLiquidity'];
-      // console.log('v1, v2 = ', symmV1cUSDLiquidity, symmV2cUSDLiquidity);
-      if (poolId === symmV1cUSD) {
-        const rate =
-          Number(pool.liquidity) /
-          (Number(pool.liquidity) + Number(symmV2cUSDLiquidity));
-        // console.log(pool.liquidity, symmV2cUSDLiquidity, rate, 'v1111');
-        crPool.rewardApyCelo = crPool.tokenRewardCelo
-          .times(CELOprice)
-          .times(rate)
-          .div(Number(pool.liquidity) + Number(symmV2cUSDLiquidity))
-          .times(365);
-      } else if (poolId === symmV2cUSD) {
-        const rate =
-          Number(pool.liquidity) /
-          (Number(pool.liquidity) + Number(symmV1cUSDLiquidity));
-        // console.log(pool.liquidity, symmV1cUSDLiquidity, rate, 'v2222');
-        crPool.rewardApyCelo = crPool.tokenRewardCelo
-          .times(CELOprice)
-          .times(rate)
-          .div(Number(pool.liquidity) + Number(symmV1cUSDLiquidity))
-          .times(365);
-      } else {
-        crPool.rewardApyCelo = crPool.tokenRewardCelo
-          .times(CELOprice)
-          .div(pool.liquidity)
-          .times(365);
-      }
+      crPool.rewardApyCelo = crPool.tokenRewardCelo
+        .div(pool.liquidity)
+        .times(365);
     }
   });
 
