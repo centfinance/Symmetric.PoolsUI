@@ -183,7 +183,7 @@
         </div>
       </div>
       <ListLoading
-        v-if="loading"
+        v-if="loading || symmPoolsLoading"
         :classes="[
           'column-sm text-left hide-sm hide-md hide-lg',
           'flex-auto text-left',
@@ -333,6 +333,7 @@ export default {
       await this.getCELOprice();
       await this.getPOOFprice();
       await this.getSTAKEprice();
+      await this.loadPool();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
       this.loading = false;
@@ -362,7 +363,7 @@ export default {
   },
   async created() {
     this.symmPoolsLoading = true;
-    await this.loadPool();
+    // await this.loadPool();
     this.symmPoolsLoading = false;
   }
 };

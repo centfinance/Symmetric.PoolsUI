@@ -400,10 +400,13 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
+  const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
+  const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
   const crPoolIds = [
-    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
-    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
-    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMMv1/cUSD
+    '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMMv1/CELO
   ];
 
   const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
@@ -436,14 +439,40 @@ export async function formatPool(pool) {
       const crDailyCoinReward = [
         new BigNumber(2 * (238.09 / Number(CELOprice))),
         new BigNumber(2 * (238.09 / Number(CELOprice))),
+        new BigNumber(2 * (238.09 / Number(CELOprice))),
         new BigNumber(238.09 / Number(CELOprice))
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
-      crPool.rewardApyCelo = crPool.tokenRewardCelo
-        .times(CELOprice)
-        .div(pool.liquidity)
-        .times(365);
+      const symmV1cUSDLiquidity = store.getters['getSymmV1cUSDLiquidity'];
+      const symmV2cUSDLiquidity = store.getters['getSymmV2cUSDLiquidity'];
+      // console.log('v1, v2 = ', symmV1cUSDLiquidity, symmV2cUSDLiquidity);
+      if (poolId === symmV1cUSD) {
+        const rate =
+          Number(pool.liquidity) /
+          (Number(pool.liquidity) + Number(symmV2cUSDLiquidity));
+        // console.log(pool.liquidity, symmV2cUSDLiquidity, rate, 'v1111');
+        crPool.rewardApyCelo = crPool.tokenRewardCelo
+          .times(CELOprice)
+          .times(rate)
+          .div(Number(pool.liquidity) + Number(symmV2cUSDLiquidity))
+          .times(365);
+      } else if (poolId === symmV2cUSD) {
+        const rate =
+          Number(pool.liquidity) /
+          (Number(pool.liquidity) + Number(symmV1cUSDLiquidity));
+        // console.log(pool.liquidity, symmV1cUSDLiquidity, rate, 'v2222');
+        crPool.rewardApyCelo = crPool.tokenRewardCelo
+          .times(CELOprice)
+          .times(rate)
+          .div(Number(pool.liquidity) + Number(symmV1cUSDLiquidity))
+          .times(365);
+      } else {
+        crPool.rewardApyCelo = crPool.tokenRewardCelo
+          .times(CELOprice)
+          .div(pool.liquidity)
+          .times(365);
+      }
     }
   });
 
