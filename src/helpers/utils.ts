@@ -395,13 +395,8 @@ export async function formatPool(pool) {
     .times(factors.ratioFactor)
     .times(factors.wrapFactor);
 
-  // Calculate adjusted pool liquidity
-  const adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(
-    combinedAdjustmentFactor
-  );
-
-  const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
-  const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
+  // const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
+  // const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
   const crPoolIds = [
     '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
     '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
@@ -410,6 +405,46 @@ export async function formatPool(pool) {
     '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221', // SYMMv1/CELO
     '0x7ee06450f4ff97990c6288237964bf4f545f221f' // SYMMv2/CELO
   ];
+
+  let adjustedPoolLiquidity = new BigNumber(pool.liquidity).times(
+    combinedAdjustmentFactor
+  );
+
+  crPoolIds.forEach(async (poolId: string, index: number) => {
+    if (poolId === pool.id) {
+      const symmV1cUSDLiquidity = Number(
+        store.getters['getSymmV1cUSDLiquidity']
+      );
+      const symmV2cUSDLiquidity = Number(
+        store.getters['getSymmV2cUSDLiquidity']
+      );
+      const symmV1cEURLiquidity = Number(
+        store.getters['getSymmV1cEURLiquidity']
+      );
+      const symmV2cEURLiquidity = Number(
+        store.getters['getSymmV2cEURLiquidity']
+      );
+      const symmV1CELOLiquidity = Number(
+        store.getters['getSymmV1CELOLiquidity']
+      );
+      const symmV2CELOLiquidity = Number(
+        store.getters['getSymmV2CELOLiquidity']
+      );
+
+      const liquidities = [
+        symmV1cEURLiquidity,
+        symmV2cEURLiquidity,
+        symmV1cUSDLiquidity,
+        symmV2cUSDLiquidity,
+        symmV1CELOLiquidity,
+        symmV2CELOLiquidity
+      ];
+      // Calculate adjusted pool liquidity
+      adjustedPoolLiquidity = new BigNumber(liquidities[index]).times(
+        combinedAdjustmentFactor
+      );
+    }
+  });
 
   const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
 
@@ -465,7 +500,6 @@ export async function formatPool(pool) {
         symmV1CELOLiquidity,
         symmV2CELOLiquidity
       ];
-
       // 20000 USD / Price of Celo = Total quantity for 84 days
       const totalQuantity = 20000 / Number(CELOprice);
       // Qty of celo/number of days = daily celo for the pool
@@ -506,6 +540,11 @@ export async function formatPool(pool) {
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
+        .div(liquidities[index])
+        .times(365);
+
+      crPool.rewardApy = pool.tokenReward
+        .times(SYMMprice)
         .div(liquidities[index])
         .times(365);
     }
@@ -572,10 +611,18 @@ export async function getNetworkLiquidity() {
 
   // total liquidity for CELO APR and rewards
   let crTotalLiquidity = new BigNumber(0);
+  // const crPoolIds = [
+  //   '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
+  //   '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
+  //   '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+  // ];
   const crPoolIds = [
-    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMM/cEUR
-    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMM/cUSD
-    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221' // SYMM/CELO
+    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
+    '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
+    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMMv1/cUSD
+    '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
+    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221', // SYMMv1/CELO
+    '0x7ee06450f4ff97990c6288237964bf4f545f221f' // SYMMv2/CELO
   ];
 
   const networks = ['100', '42220'];
