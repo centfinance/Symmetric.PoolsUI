@@ -438,12 +438,24 @@ export async function formatPool(pool) {
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
       const CELOprice = store.getters['getCELOprice'];
-      const symmV1cUSDLiquidity = Number(store.getters['getSymmV1cUSDLiquidity']);
-      const symmV2cUSDLiquidity = Number(store.getters['getSymmV2cUSDLiquidity']);
-      const symmV1cEURLiquidity = Number(store.getters['getSymmV1cEURLiquidity']);
-      const symmV2cEURLiquidity = Number(store.getters['getSymmV2cEURLiquidity']);
-      const symmV1CELOLiquidity = Number(store.getters['getSymmV1CELOLiquidity']);
-      const symmV2CELOLiquidity = Number(store.getters['getSymmV2CELOLiquidity']);
+      const symmV1cUSDLiquidity = Number(
+        store.getters['getSymmV1cUSDLiquidity']
+      );
+      const symmV2cUSDLiquidity = Number(
+        store.getters['getSymmV2cUSDLiquidity']
+      );
+      const symmV1cEURLiquidity = Number(
+        store.getters['getSymmV1cEURLiquidity']
+      );
+      const symmV2cEURLiquidity = Number(
+        store.getters['getSymmV2cEURLiquidity']
+      );
+      const symmV1CELOLiquidity = Number(
+        store.getters['getSymmV1CELOLiquidity']
+      );
+      const symmV2CELOLiquidity = Number(
+        store.getters['getSymmV2CELOLiquidity']
+      );
 
       // 20000 USD / Price of Celo = Total quantity for 84 days
       const totalQuantity = 20000 / Number(CELOprice);
