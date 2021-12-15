@@ -457,6 +457,15 @@ export async function formatPool(pool) {
         store.getters['getSymmV2CELOLiquidity']
       );
 
+      const liquidities = [
+        symmV1cEURLiquidity,
+        symmV2cEURLiquidity,
+        symmV1cUSDLiquidity,
+        symmV2cUSDLiquidity,
+        symmV1CELOLiquidity,
+        symmV2CELOLiquidity
+      ];
+
       // 20000 USD / Price of Celo = Total quantity for 84 days
       const totalQuantity = 20000 / Number(CELOprice);
       // Qty of celo/number of days = daily celo for the pool
@@ -497,7 +506,7 @@ export async function formatPool(pool) {
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
-        .div(pool.liquidity)
+        .div(liquidities[index])
         .times(365);
     }
   });
