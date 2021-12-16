@@ -9,7 +9,8 @@ import {
   getCELOprice,
   getKNXprice,
   getPOOFprice,
-  getSTAKEprice
+  getSTAKEprice,
+  getGNOprice
 } from '@/helpers/utils';
 
 const state = {
@@ -23,6 +24,7 @@ const state = {
   KNXprice: {},
   POOFprice: {},
   STAKEprice: {},
+  GNOprice: {},
   symmV1cUSDLiquidity: 0,
   symmV2cUSDLiquidity: 0,
   symmV1cEURLiquidity: 0,
@@ -126,6 +128,10 @@ const mutations = {
     Vue.set(_state, 'STAKEprice', payload);
     console.debug('GET_STAKE_PRICE', payload);
   },
+  GET_GNO_PRICE(_state, payload) {
+    Vue.set(_state, 'GNOprice', payload);
+    console.debug('GET_GNO_PRICE', payload);
+  },
   GET_SYMMV1_CUSD_LIQUIDITY(_state, payload) {
     Vue.set(_state, 'symmV1cUSDLiquidity', payload);
   },
@@ -173,6 +179,10 @@ const actions = {
   getSTAKEprice: async ({ commit }) => {
     const price = await getSTAKEprice();
     commit('GET_STAKE_PRICE', price);
+  },
+  getGNOprice: async ({ commit }) => {
+    const price = await getGNOprice();
+    commit('GET_GNO_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {
     const {
@@ -397,6 +407,9 @@ const getters = {
   },
   getSTAKEprice(state) {
     return state.STAKEprice;
+  },
+  getGNOprice(state) {
+    return state.GNOprice;
   },
   getSymmV1cUSDLiquidity(state) {
     return state.symmV1cUSDLiquidity;

@@ -524,35 +524,35 @@ export async function formatPool(pool) {
       .times(365);
   }
 
-  // xDAI APR and rewards
+  // GNO(Gnosis) APR and rewards
   // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
-  const enum stakePool {
-    STAKE_AGVE,
-    STAKE_WXDAI,
+  const enum gnoPool {
+    GNO_AGVE,
+    GNO_WXDAI,
     SYMM_WXDAI,
     None
   }
-  let stakePoolIndex = stakePool.None;
+  let gnoPoolIndex = gnoPool.None;
 
-  if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
-    stakePoolIndex = stakePool.STAKE_AGVE;
-  } else if (findPoolFromTokens(crPool, 'STAKE', 'WXDAI', 60, 40)) {
-    stakePoolIndex = stakePool.STAKE_WXDAI;
+  if (findPoolFromTokens(crPool, 'GNO', 'AGVE', 60, 40)) {
+    gnoPoolIndex = gnoPool.GNO_AGVE;
+  } else if (findPoolFromTokens(crPool, 'GNO', 'WXDAI', 60, 40)) {
+    gnoPoolIndex = gnoPool.GNO_WXDAI;
   } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
-    stakePoolIndex = stakePool.SYMM_WXDAI;
+    gnoPoolIndex = gnoPool.SYMM_WXDAI;
   }
 
-  if (stakePoolIndex !== stakePool.None) {
-    const STAKEprice = store.getters['getSTAKEprice'];
-    const stakeDailyCoinReward = [
-      new BigNumber((595.21 * 0.2) / Number(STAKEprice)),
-      new BigNumber((595.21 * 0.3) / Number(STAKEprice)),
-      new BigNumber((595.21 * 0.5) / Number(STAKEprice))
+  if (gnoPoolIndex !== gnoPool.None) {
+    const GNOprice = store.getters['getGNOprice'];
+    const gnoDailyCoinReward = [
+      new BigNumber((595.21 * 0.2) / Number(GNOprice)),
+      new BigNumber((595.21 * 0.3) / Number(GNOprice)),
+      new BigNumber((595.21 * 0.5) / Number(GNOprice))
     ];
-    crPool.tokenRewardStake = stakeDailyCoinReward[stakePoolIndex];
+    crPool.tokenRewardGno = gnoDailyCoinReward[gnoPoolIndex];
 
-    crPool.rewardApyStake = crPool.tokenRewardStake
-      .times(STAKEprice)
+    crPool.rewardApyGno = crPool.tokenRewardGno
+      .times(GNOprice)
       .div(pool.liquidity)
       .times(365);
   }
@@ -663,6 +663,10 @@ export async function getPOOFprice() {
 
 export async function getSTAKEprice() {
   return await getTokenPriceXDAI('STAKE');
+}
+
+export async function getGNOprice() {
+  return await getTokenPriceXDAI('GNO');
 }
 
 export async function formatPools(pools) {
