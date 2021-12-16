@@ -31,9 +31,9 @@
         <UiNum :value="pool.rewardApyPoof" format="percent" class="w-60" />
         <div class="w-40 ml-1 text-right">POOF</div>
       </div>
-      <div class="d-flex" v-if="pool.rewardApyStake">
-        <UiNum :value="pool.rewardApyStake" format="percent" class="w-60" />
-        <div class="w-40 ml-1 text-right">STAKE</div>
+      <div class="d-flex" v-if="pool.rewardApyGno">
+        <UiNum :value="pool.rewardApyGno" format="percent" class="w-60" />
+        <div class="w-40 ml-1 text-right">GNO</div>
       </div>
     </div>
     <div
@@ -62,13 +62,13 @@
         />
         <div class="w-40 ml-1 text-right">POOF</div>
       </div>
-      <div class="d-flex" v-if="pool.tokenRewardStake">
+      <div class="d-flex" v-if="pool.tokenRewardGno">
         <UiNum
-          :value="getSpecificMyDailyRewards(pool.tokenRewardStake)"
+          :value="getSpecificMyDailyRewards(pool.tokenRewardGno)"
           format="long"
           class="w-60"
         />
-        <div class="w-40 ml-1 text-right">STAKE</div>
+        <div class="w-40 ml-1 text-right">GNO</div>
       </div>
     </div>
     <div

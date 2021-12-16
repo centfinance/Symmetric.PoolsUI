@@ -59,21 +59,21 @@
             />
             <div class="column-s hide-sm hide-md">CELO</div>
           </div>
-          <div class="d-flex" v-if="pool.tokenRewardKnx">
+          <div class="d-flex" v-if="pool.tokenRewardPoof">
             <UiNum
-              :value="pool.tokenRewardKnx"
+              :value="pool.tokenRewardPoof"
               format="long"
               class="column-md hide-sm hide-md"
             />
-            <div class="column-s hide-sm hide-md">KNX</div>
+            <div class="column-s hide-sm hide-md">POOF</div>
           </div>
-          <div class="d-flex" v-if="pool.tokenRewardStake">
+          <div class="d-flex" v-if="pool.tokenRewardGno">
             <UiNum
-              :value="pool.tokenRewardStake"
+              :value="pool.tokenRewardGno"
               format="long"
               class="column-md hide-sm hide-md"
             />
-            <div class="column-s hide-sm hide-md">STAKE</div>
+            <div class="column-s hide-sm hide-md">GNO</div>
           </div>
         </h3>
         <p v-text="$t('symmReward')" class="mb-0" />
