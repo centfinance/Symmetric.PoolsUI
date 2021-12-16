@@ -25,7 +25,7 @@ export function getStakingBoostOfPair(
   poolId: string
 ) {
   if (
-    token1 == BAL_TOKEN[chainId].toLowerCase() &&
+    (token1 == BAL_TOKEN[chainId].toLowerCase() || "0x8427bD503dd3169cCC9aFF7326c15258Bc305478".toLowerCase()) &&
     uncappedTokens[chainId].includes(token2)
   ) {
     return balMultiplier
@@ -33,7 +33,7 @@ export function getStakingBoostOfPair(
       .plus(weight2)
       .div(weight1.plus(weight2));
   } else if (
-    token2 == BAL_TOKEN[chainId].toLowerCase() &&
+    (token2 == BAL_TOKEN[chainId].toLowerCase() || "0x8427bD503dd3169cCC9aFF7326c15258Bc305478".toLowerCase()) &&
     uncappedTokens[chainId].includes(token1)
   ) {
     return weight1
