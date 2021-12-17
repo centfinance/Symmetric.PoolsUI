@@ -245,6 +245,7 @@ import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
+import config from '@/config';
 import Pool from '@/_balancer/pool';
 import store from '@/store';
 
@@ -335,6 +336,7 @@ export default {
       await this.getPOOFprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
+      if (config.network == 'celo')
       await this.loadPool();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
