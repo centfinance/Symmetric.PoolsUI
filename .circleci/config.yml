@@ -28,8 +28,8 @@ jobs:
           # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
       - run:
-          name: Run Lint
-          command: npm lint
+          name: Run Build
+          command: npm build
 
 workflows:
   # Below is the definition of your workflow.
