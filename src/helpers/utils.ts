@@ -488,12 +488,12 @@ export async function formatPool(pool) {
         symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
 
       // Daily celo qty * price => value per day
-      const dailyV1Celo = dailyCelo * symmv1Rate * CELOprice;
-      const dailyV2Celo = dailyCelo * symmv2Rate * CELOprice;
-      const dailyV1CelocEUR = dailyCelo * v1cEUR * CELOprice;
-      const dailyV2CelocEUR = dailyCelo * v2cEUR * CELOprice;
-      const dailyV1CeloCELO = dailyCelo * v1CELO * CELOprice;
-      const dailyV2CeloCELO = dailyCelo * v2CELO * CELOprice;
+      const dailyV1Celo = dailyCelo * symmv1Rate;
+      const dailyV2Celo = dailyCelo * symmv2Rate;
+      const dailyV1CelocEUR = dailyCelo * v1cEUR;
+      const dailyV2CelocEUR = dailyCelo * v2cEUR;
+      const dailyV1CeloCELO = dailyCelo * v1CELO;
+      const dailyV2CeloCELO = dailyCelo * v2CELO;
 
       const crDailyCoinReward = [
         new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
@@ -507,6 +507,7 @@ export async function formatPool(pool) {
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
         .div(liquidities[index])
+        .times(CELOprice)
         .times(365);
     }
   });
