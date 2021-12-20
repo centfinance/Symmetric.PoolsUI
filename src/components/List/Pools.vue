@@ -53,10 +53,10 @@
                       <UiNum :value="item.rewardApyPoof" format="percent" />
                       POOF
                     </span>
-                    <span v-if="item.rewardApyStake">
+                    <span v-if="item.rewardApyGno">
                       /
-                      <UiNum :value="item.rewardApyStake" format="percent" />
-                      STAKE
+                      <UiNum :value="item.rewardApyGno" format="percent" />
+                      GNO
                     </span>
                   </div>
                   <div class="grouptext margin-top10">
@@ -106,13 +106,13 @@
                       />
                       POOF
                     </span>
-                    <span v-if="item.tokenRewardStake">
+                    <span v-if="item.tokenRewardGno">
                       /
                       <span
                         v-text="
                           _num(
                             getSpecificMyDailyRewards(
-                              item.tokenRewardStake,
+                              item.tokenRewardGno,
                               item
                             ),
                             'long'
@@ -121,7 +121,7 @@
                         format="long"
                         class=""
                       />
-                      STAKE
+                      GNO
                     </span>
                   </div>
 
@@ -245,6 +245,7 @@ import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
+import config from '@/config';
 import Pool from '@/_balancer/pool';
 import store from '@/store';
 
@@ -316,7 +317,8 @@ export default {
       'getSYMMprice',
       'getCELOprice',
       'getPOOFprice',
-      'getSTAKEprice'
+      'getSTAKEprice',
+      'getGNOprice'
     ]),
     async loadMore() {
       // console.log(
@@ -333,6 +335,8 @@ export default {
       await this.getCELOprice();
       await this.getPOOFprice();
       await this.getSTAKEprice();
+      await this.getGNOprice();
+      if (config.network == 'celo')
       await this.loadPool();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
