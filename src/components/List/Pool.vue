@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div v-text="_num(poolLiquidity, 'usd-long')" class="table-column" />
+    <div v-text="_num(pool.liquidity, 'usd-long')" class="table-column" />
     <UiNum :value="pool.apy" format="percent" class="table-column hide-sm" />
     <div class="table-column hide-sm hide-md">
       <div class="d-flex">
@@ -92,10 +92,10 @@ export default {
     myLiquidity() {
       const poolShares = this.subgraph.poolShares[this.pool.id];
       if (!this.pool.finalized || !poolShares) return 0;
-      return (this.poolLiquidity / this.pool.totalShares) * poolShares;
+      return (this.pool.liquidiy / this.pool.totalShares) * poolShares;
     },
     myDailyRewards() {
-      return (this.pool.tokenReward * this.myLiquidity) / this.poolLiquidity;
+      return (this.pool.tokenReward * this.myLiquidity) / this.pool.liquidiy;
     }
   },
   methods: {
@@ -107,7 +107,7 @@ export default {
       }
     },
     getSpecificMyDailyRewards(tokenReward) {
-      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
+      return (tokenReward * this.myLiquidity) / this.pool.liquidiy;
     }
   }
 };

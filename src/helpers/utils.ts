@@ -400,8 +400,6 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
-  const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
   const crPoolIds = [
     '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
     '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR

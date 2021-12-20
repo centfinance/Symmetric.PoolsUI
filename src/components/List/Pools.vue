@@ -336,8 +336,7 @@ export default {
       await this.getPOOFprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
-      if (config.network == 'celo')
-      await this.loadPool();
+      if (config.network == 'celo') await this.loadPool();
       const pools = await this.getPools(query);
       this.pools = this.pools.concat(pools);
       this.loading = false;
@@ -371,20 +370,20 @@ export default {
         console.log(e);
         // return this.$router.push({ name: 'home' });
       }
-      // console.log('v1,v2 = ', pool1, pool2);
 
-      store.commit('GET_SYMMV1_CUSD_LIQUIDITY', this.getLiquidity(pool1));
-      store.commit('GET_SYMMV2_CUSD_LIQUIDITY', this.getLiquidity(pool2));
-      store.commit('GET_SYMMV1_CEUR_LIQUIDITY', this.getLiquidity(pool3));
-      store.commit('GET_SYMMV2_CEUR_LIQUIDITY', this.getLiquidity(pool4));
-      store.commit('GET_SYMMV1_CELO_LIQUIDITY', this.getLiquidity(pool5));
-      store.commit('GET_SYMMV2_CELO_LIQUIDITY', this.getLiquidity(pool6));
+      store.commit('GET_SYMMV1_CUSD_LIQUIDITY', pool1.liquidity);
+      store.commit('GET_SYMMV2_CUSD_LIQUIDITY', pool2.liquidity);
+      store.commit('GET_SYMMV1_CEUR_LIQUIDITY', pool3.liquidity);
+      store.commit('GET_SYMMV2_CEUR_LIQUIDITY', pool4.liquidity);
+      store.commit('GET_SYMMV1_CELO_LIQUIDITY', pool5.liquidity);
+      store.commit('GET_SYMMV2_CELO_LIQUIDITY', pool6.liquidity);
+      // store.commit('GET_SYMMV1_CUSD_LIQUIDITY', this.getLiquidity(pool1));
+      // store.commit('GET_SYMMV2_CUSD_LIQUIDITY', this.getLiquidity(pool2));
+      // store.commit('GET_SYMMV1_CEUR_LIQUIDITY', this.getLiquidity(pool3));
+      // store.commit('GET_SYMMV2_CEUR_LIQUIDITY', this.getLiquidity(pool4));
+      // store.commit('GET_SYMMV1_CELO_LIQUIDITY', this.getLiquidity(pool5));
+      // store.commit('GET_SYMMV2_CELO_LIQUIDITY', this.getLiquidity(pool6));
     }
-  },
-  async created() {
-    this.symmPoolsLoading = true;
-    // await this.loadPool();
-    this.symmPoolsLoading = false;
   }
 };
 </script>

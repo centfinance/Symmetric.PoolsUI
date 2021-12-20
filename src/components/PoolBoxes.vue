@@ -4,7 +4,7 @@
       <div
         class="border rounded-0 rounded-md-1 panel-background py-4 mx-0 mx-md-2"
       >
-        <h3 v-text="_num(poolLiquidity, 'usd')" />
+        <h3 v-text="_num(pool.liquidity, 'usd')" />
         <p v-text="$t('liquidity')" class="mb-0" />
       </div>
     </div>
@@ -92,7 +92,6 @@
 
 <script>
 import { getAddress } from '@ethersproject/address';
-import { getPoolLiquidity } from '@/helpers/price';
 import { normalizeBalance } from '@/helpers/utils';
 
 export default {
@@ -105,9 +104,6 @@ export default {
     },
     totalShares() {
       return parseFloat(this.bPool.metadata.totalShares);
-    },
-    poolLiquidity() {
-      return getPoolLiquidity(this.pool, this.price.values);
     },
     poolSharePercent() {
       if (
