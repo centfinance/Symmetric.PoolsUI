@@ -375,13 +375,6 @@ export async function formatPool(pool) {
   }
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
-  /* const query = {
-    where: {
-      finalized: true,
-      liquidity_gt: 0
-    }
-  }; */
-
   // Get factors
   const factors = getFactors(
     pool.swapFee,
@@ -552,7 +545,7 @@ export async function formatPool(pool) {
 
     crPool.rewardApyGno = crPool.tokenRewardGno
       .times(GNOprice)
-      .div(pool.liquidity)
+      .div(crPool.liquidity)
       .times(365);
   }
   return crPool;

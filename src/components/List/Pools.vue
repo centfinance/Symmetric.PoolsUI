@@ -35,7 +35,7 @@
                     v-text="$t('marketCap')"
                     class="text-right text-white-normal"
                   />:
-                  <span v-text="_num(getLiquidity(item), 'usd-long')" />
+                  <span v-text="_num(item.liquidity, 'usd-long')" />
                   <div class="grouptext margin-top10">
                     <span v-text="$t('apy')" class="text-white-normal" />:
                     <UiNum :value="item.apy" format="percent" class="column" />
@@ -243,7 +243,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
-import { getPoolLiquidity } from '@/helpers/price';
+// import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
 import Pool from '@/_balancer/pool';
@@ -293,13 +293,13 @@ export default {
       this.showCard = val.value;
       console.log(val.value);
     },
-    getLiquidity(pool) {
-      return getPoolLiquidity(pool, this.price.values);
-    },
+    // getLiquidity(pool) {
+    //   return getPoolLiquidity(pool, this.price.values);
+    // },
     myLiquidity(pool) {
       const poolShares = this.subgraph.poolShares[pool.id];
       if (!pool.finalized || !poolShares) return 0;
-      return (this.getLiquidity(pool) / pool.totalShares) * poolShares;
+      return (this.pool.liquidity / pool.totalShares) * poolShares;
     },
     filterTokenSymbol(symbol, address) {
       if (address === SYMM_TOKENS.v1) {
@@ -309,7 +309,7 @@ export default {
       }
     },
     getSpecificMyDailyRewards(tokenReward, pool) {
-      return (tokenReward * this.myLiquidity(pool)) / this.getLiquidity(pool);
+      return (tokenReward * this.myLiquidity(pool)) / this.pool.liquidity;
     },
     ...mapActions([
       'getPools',
@@ -321,9 +321,6 @@ export default {
       'getGNOprice'
     ]),
     async loadMore() {
-      // console.log(
-      //   `loadMore: ${this.pools.length} - ${this.page} - ${ITEMS_PER_PAGE} `
-      // );
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
       this.loading = true;
       this.page++;
@@ -368,7 +365,6 @@ export default {
         pool6 = await bPool6.getMetadata();
       } catch (e) {
         console.log(e);
-        // return this.$router.push({ name: 'home' });
       }
 
       store.commit('GET_SYMMV1_CUSD_LIQUIDITY', pool1.liquidity);
@@ -393,14 +389,7 @@ export default {
   justify-content: flex-end;
   align-items: center;
 }
-
 .cards {
-  /* background-color: #0A1E2A; */
-  // background: linear-gradient(
-  //   178deg,
-  //   rgb(10 30 42 / 4%) 23.98%,
-  //   #0a1e2a83 100%
-  // );
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
