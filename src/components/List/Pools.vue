@@ -53,6 +53,11 @@
                       <UiNum :value="item.rewardApyPoof" format="percent" />
                       POOF
                     </span>
+                    <span v-if="item.rewardApyMoo">
+                      /
+                      <UiNum :value="item.rewardApyMoo" format="percent" />
+                      MOO
+                    </span>
                     <span v-if="item.rewardApyGno">
                       /
                       <UiNum :value="item.rewardApyGno" format="percent" />
@@ -105,6 +110,23 @@
                         class=""
                       />
                       POOF
+                    </span>
+                    <span v-if="item.tokenRewardMoo">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardMoo,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      MOO
                     </span>
                     <span v-if="item.tokenRewardGno">
                       /
@@ -317,6 +339,7 @@ export default {
       'getSYMMprice',
       'getCELOprice',
       'getPOOFprice',
+      'getMOOprice',
       'getSTAKEprice',
       'getGNOprice'
     ]),
@@ -331,6 +354,7 @@ export default {
       await this.getSYMMprice();
       await this.getCELOprice();
       await this.getPOOFprice();
+      await this.getMOOprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
       if (config.network == 'celo') await this.loadPool();
