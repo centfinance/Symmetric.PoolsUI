@@ -533,27 +533,27 @@ export async function formatPool(pool) {
   // GNO(Gnosis) APR and rewards
   // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
   const enum gnoPool {
-    GNO_AGVE,
     GNO_WXDAI,
     SYMM_WXDAI,
+    STAKE_AGVE,
     None
   }
   let gnoPoolIndex = gnoPool.None;
 
-  if (findPoolFromTokens(crPool, 'GNO', 'AGVE', 60, 40)) {
-    gnoPoolIndex = gnoPool.GNO_AGVE;
-  } else if (findPoolFromTokens(crPool, 'GNO', 'WXDAI', 60, 40)) {
+  if (findPoolFromTokens(crPool, 'GNO', 'WXDAI', 60, 40)) {
     gnoPoolIndex = gnoPool.GNO_WXDAI;
   } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
     gnoPoolIndex = gnoPool.SYMM_WXDAI;
+  } else if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
+    gnoPoolIndex = gnoPool.STAKE_AGVE;
   }
 
   if (gnoPoolIndex !== gnoPool.None) {
     const GNOprice = store.getters['getGNOprice'];
     const gnoDailyCoinReward = [
-      new BigNumber((595.21 * 0.2) / Number(GNOprice)),
       new BigNumber((595.21 * 0.3) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.5) / Number(GNOprice))
+      new BigNumber((595.21 * 0.5) / Number(GNOprice)),
+      new BigNumber((595.21 * 0.2) / Number(GNOprice))
     ];
     crPool.tokenRewardGno = gnoDailyCoinReward[gnoPoolIndex];
 
