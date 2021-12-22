@@ -16,7 +16,7 @@
         </div>
       </div>
     </div>
-    <div v-text="_num(poolLiquidity, 'usd-long')" class="table-column" />
+    <div v-text="_num(pool.liquidity, 'usd-long')" class="table-column" />
     <UiNum :value="pool.apy" format="percent" class="table-column hide-sm" />
     <div class="table-column hide-sm hide-md">
       <div class="d-flex">
@@ -80,22 +80,22 @@
 </template>
 
 <script>
-import { getPoolLiquidity } from '@/helpers/price';
+// import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 
 export default {
   props: ['pool'],
   computed: {
-    poolLiquidity() {
-      return getPoolLiquidity(this.pool, this.price.values);
-    },
+    // poolLiquidity() {
+    //   return getPoolLiquidity(this.pool, this.price.values);
+    // },
     myLiquidity() {
       const poolShares = this.subgraph.poolShares[this.pool.id];
       if (!this.pool.finalized || !poolShares) return 0;
-      return (this.poolLiquidity / this.pool.totalShares) * poolShares;
+      return (this.pool.liquidity / this.pool.totalShares) * poolShares;
     },
     myDailyRewards() {
-      return (this.pool.tokenReward * this.myLiquidity) / this.poolLiquidity;
+      return (this.pool.tokenReward * this.myLiquidity) / this.pool.liquidity;
     }
   },
   methods: {
@@ -107,7 +107,7 @@ export default {
       }
     },
     getSpecificMyDailyRewards(tokenReward) {
-      return (tokenReward * this.myLiquidity) / this.poolLiquidity;
+      return (tokenReward * this.myLiquidity) / this.pool.liquidity;
     }
   }
 };

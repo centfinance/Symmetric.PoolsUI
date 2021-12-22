@@ -375,13 +375,6 @@ export async function formatPool(pool) {
   }
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
-  /* const query = {
-    where: {
-      finalized: true,
-      liquidity_gt: 0
-    }
-  }; */
-
   // Get factors
   const factors = getFactors(
     pool.swapFee,
@@ -400,8 +393,6 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
-  const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
   const crPoolIds = [
     '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
     '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
@@ -488,12 +479,12 @@ export async function formatPool(pool) {
         symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
 
       // Daily celo qty * price => value per day
-      const dailyV1Celo = dailyCelo * symmv1Rate * CELOprice;
-      const dailyV2Celo = dailyCelo * symmv2Rate * CELOprice;
-      const dailyV1CelocEUR = dailyCelo * v1cEUR * CELOprice;
-      const dailyV2CelocEUR = dailyCelo * v2cEUR * CELOprice;
-      const dailyV1CeloCELO = dailyCelo * v1CELO * CELOprice;
-      const dailyV2CeloCELO = dailyCelo * v2CELO * CELOprice;
+      const dailyV1Celo = dailyCelo * symmv1Rate;
+      const dailyV2Celo = dailyCelo * symmv2Rate;
+      const dailyV1CelocEUR = dailyCelo * v1cEUR;
+      const dailyV2CelocEUR = dailyCelo * v2cEUR;
+      const dailyV1CeloCELO = dailyCelo * v1CELO;
+      const dailyV2CeloCELO = dailyCelo * v2CELO;
 
       const crDailyCoinReward = [
         new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
@@ -507,6 +498,7 @@ export async function formatPool(pool) {
 
       crPool.rewardApyCelo = crPool.tokenRewardCelo
         .div(liquidities[index])
+        .times(CELOprice)
         .times(365);
     }
   });
@@ -553,7 +545,7 @@ export async function formatPool(pool) {
 
     crPool.rewardApyGno = crPool.tokenRewardGno
       .times(GNOprice)
-      .div(pool.liquidity)
+      .div(crPool.liquidity)
       .times(365);
   }
   return crPool;
