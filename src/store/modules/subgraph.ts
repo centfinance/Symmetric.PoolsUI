@@ -9,6 +9,7 @@ import {
   getCELOprice,
   getKNXprice,
   getPOOFprice,
+  getMOOprice,
   getSTAKEprice,
   getGNOprice
 } from '@/helpers/utils';
@@ -23,6 +24,7 @@ const state = {
   CELOprice: {},
   KNXprice: {},
   POOFprice: {},
+  MOOprice: {},
   STAKEprice: {},
   GNOprice: {},
   symmV1cUSDLiquidity: 0,
@@ -124,6 +126,10 @@ const mutations = {
     Vue.set(_state, 'POOFprice', payload);
     console.debug('GET_POOF_PRICE', payload);
   },
+  GET_MOO_PRICE(_state, payload) {
+    Vue.set(_state, 'MOOprice', payload);
+    console.debug('GET_MOO_PRICE', payload);
+  },
   GET_STAKE_PRICE(_state, payload) {
     Vue.set(_state, 'STAKEprice', payload);
     console.debug('GET_STAKE_PRICE', payload);
@@ -175,6 +181,10 @@ const actions = {
   getPOOFprice: async ({ commit }) => {
     const price = await getPOOFprice();
     commit('GET_POOF_PRICE', price);
+  },
+  getMOOprice: async ({ commit }) => {
+    const price = await getMOOprice();
+    commit('GET_MOO_PRICE', price);
   },
   getSTAKEprice: async ({ commit }) => {
     const price = await getSTAKEprice();
@@ -404,6 +414,9 @@ const getters = {
   },
   getPOOFprice(state) {
     return state.POOFprice;
+  },
+  getMOOprice(state) {
+    return state.MOOprice;
   },
   getSTAKEprice(state) {
     return state.STAKEprice;

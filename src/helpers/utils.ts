@@ -516,6 +516,20 @@ export async function formatPool(pool) {
       .times(365);
   }
 
+  // MOO APR and rewards
+  if (crPool.id === '0x461f83dd5c84680a3c29662a9d90177c77f39d93') {
+    // MOO/mCUSD
+    const MOOprice = store.getters['getMOOprice'];
+
+    console.log(MOOprice)
+    const mooDailyCoinReward = new BigNumber(1428.57); // 10K MOO a week
+    crPool.tokenRewardMoo = mooDailyCoinReward;
+    crPool.rewardApyMoo = crPool.tokenRewardMoo
+      .times(MOOprice)
+      .div(crPool.liquidity)
+      .times(365);
+  }
+
   // GNO(Gnosis) APR and rewards
   // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
   const enum gnoPool {
@@ -651,6 +665,10 @@ export async function getKNXprice() {
 
 export async function getPOOFprice() {
   return await getTokenPriceCELO('POOF');
+}
+
+export async function getMOOprice() {
+  return await getTokenPriceCELO('MOO');
 }
 
 export async function getSTAKEprice() {
