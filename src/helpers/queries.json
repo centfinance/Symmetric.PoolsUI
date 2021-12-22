@@ -170,7 +170,7 @@
       "__args": {
         "first": 1000,
         "where": {
-          "symbol": "POOF"
+          "symbol": "MOO"
         }
       },
       "id": true,
