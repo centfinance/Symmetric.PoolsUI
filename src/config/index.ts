@@ -5,10 +5,10 @@ import registrySokol from '@centfinance/cent.dex_assets/generated/pm/registry.so
 import registryxDai from '@centfinance/cent.dex_assets/generated/pm/registry.xdai.json';
 import registryAlfajores from '@centfinance/cent.dex_assets/generated/pm/registry.alfajores.json';
 import registryCelo from '@centfinance/cent.dex_assets/generated/pm/registry.celo.json';
-import registryAvalanche from '@centfinance/cent.dex_assets/generated/pm/registry.avalanche.json';
-import registryFantom from '@centfinance/cent.dex_assets/generated/pm/registry.fantom.json';
-import registryOptimism from '@centfinance/cent.dex_assets/generated/pm/registry.optimism.json';
-import registryPolygon from '@centfinance/cent.dex_assets/generated/pm/registry.polygon.json';
+// import registryAvalanche from '@centfinance/cent.dex_assets/generated/pm/registry.avalanche.json';
+// import registryFantom from '@centfinance/cent.dex_assets/generated/pm/registry.fantom.json';
+// import registryOptimism from '@centfinance/cent.dex_assets/generated/pm/registry.optimism.json';
+// import registryPolygon from '@centfinance/cent.dex_assets/generated/pm/registry.polygon.json';
 import homestead from '@/config/homestead.json';
 import kovan from '@/config/kovan.json';
 import sokol from '@/config/sokol.json';
