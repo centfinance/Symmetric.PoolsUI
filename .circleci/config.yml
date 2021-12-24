@@ -33,7 +33,7 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: tar -cvzf dist.tar ./dist appspec.yml
+            command: tar -cvzf dist.tar ./dist appSpec.yml
         # - store_artifacts: 
         #     path: dist.tar
         #     destination: dist.tar
