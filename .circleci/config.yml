@@ -31,6 +31,12 @@ jobs:
         - run:
             name: Run Build
             command: npm run build
+        - run:
+            name: Compress Artifacts
+            command: tar -cvzf dist.tar ./dist appspec.yml
+        - store_artifacts: 
+            path: dist.tar
+            destination: build-for-uat
         - aws-s3/copy:
             from: ./dist 
             to: s3://symmetric-pools-ui-bucket/uat/ 
