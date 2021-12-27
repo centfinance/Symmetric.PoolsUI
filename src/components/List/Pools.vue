@@ -321,7 +321,7 @@ export default {
     myLiquidity(pool) {
       const poolShares = this.subgraph.poolShares[pool.id];
       if (!pool.finalized || !poolShares) return 0;
-      return (this.pool.liquidity / pool.totalShares) * poolShares;
+      return (pool.liquidity / pool.totalShares) * poolShares;
     },
     filterTokenSymbol(symbol, address) {
       if (address === SYMM_TOKENS.v1) {
@@ -331,7 +331,7 @@ export default {
       }
     },
     getSpecificMyDailyRewards(tokenReward, pool) {
-      return (tokenReward * this.myLiquidity(pool)) / this.pool.liquidity;
+      return (tokenReward * this.myLiquidity(pool)) / pool.liquidity;
     },
     ...mapActions([
       'getPools',
