@@ -41,7 +41,7 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: tar -cvzf dist_$APP_NETWORK_CELO.tar ./dist appSpec.yml
+            command: tar -cvzf dist_$APP_NETWORK_CELO.tar ./dist appspec.yml
         - aws-s3/copy:
             from: dist_$APP_NETWORK_CELO.tar 
             to: s3://symmetric-pools-ui-bucket/uat/ 
