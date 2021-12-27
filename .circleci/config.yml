@@ -41,10 +41,43 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: tar -cvzf dist_$APP_NETWORK_CELO.tar ./dist appspec.yml
+            command: zip -qr dist_$APP_NETWORK_CELO.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: dist_$APP_NETWORK_CELO.tar 
+            from: dist_$APP_NETWORK_CELO.zip 
             to: s3://symmetric-pools-ui-bucket/uat/ 
+        - run:    
+            name: Iniitate Code-Deploy
+            command: |
+              ID=$(aws deploy create-deployment \
+                    --application-name $APP_NAME \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce \
+                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/dist_$APP_NETWORK_CELO.zip \
+                    --description "Deployed via CircleCI" \
+                    -- output text \
+                    --query '[deploymentId]')
+              STATUS=$(aws deploy get-deployment \
+                              --deployment-id $ID \
+                              --output text \
+                              --query '[deploymentInfo.status]')
+              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                      echo "Status: $STATUS..."
+                      STATUS=$(aws deploy get-deployment \
+                                --deployment-id $ID \
+                                --output text \
+                                --query '[deploymentInfo.status]')
+                      sleep 5
+                    done
+                    if [[ $STATUS == "Succeeded" ]]; then
+                      EXITCODE=0
+                      echo "Deployment finished."
+                    else
+                      EXITCODE=1
+                      echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
+
 
 
 workflows:
@@ -55,14 +88,14 @@ workflows:
   Build-and-Deploy:
     jobs:
       - build-and-deploy
-      - aws-code-deploy/deploy:
-          requires: [build-and-deploy]
-          application-name: $APP_NAME
-          bundle-bucket: $BUNDLE_BUCKET
-          bundle-key: uat/dist_$BUNDLE_KEY
-          deployment-group: $DEPLOYMENT_GROUP
-          service-role-arn: $SERVICE_ROLE_ARN
-          bundle-type: tar
-          deployment-config: CodeDeployDefault.AllAtOnce
+      # - aws-code-deploy/deploy:
+      #     requires: [build-and-deploy]
+      #     application-name: $APP_NAME
+      #     bundle-bucket: $BUNDLE_BUCKET
+      #     bundle-key: uat/dist_$BUNDLE_KEY
+      #     deployment-group: $DEPLOYMENT_GROUP
+      #     service-role-arn: $SERVICE_ROLE_ARN
+      #     bundle-type: tar
+      #     deployment-config: CodeDeployDefault.AllAtOnce
 
 
