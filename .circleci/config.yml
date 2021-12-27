@@ -63,4 +63,6 @@ workflows:
           deployment-group: $DEPLOYMENT_GROUP
           service-role-arn: $SERVICE_ROLE_ARN
           bundle-type: tar
+          deployment-config: CodeDeployDefault.AllAtOnce
+
 
