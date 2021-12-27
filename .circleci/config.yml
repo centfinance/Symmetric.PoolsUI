@@ -55,11 +55,8 @@ workflows:
   Build-and-Deploy:
     jobs:
       - build-and-deploy
-  deploy_application:
-    requires:
-      - build-and-deploy
-    jobs:
       - aws-code-deploy/deploy:
+          requires: [build-and-deploy]
           application-name: $APP_NAME
           bundle-bucket: $BUNDLE_BUCKET
           bundle-key: $BUNDLE_KEY
