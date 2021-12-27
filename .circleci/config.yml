@@ -59,7 +59,7 @@ workflows:
           requires: [build-and-deploy]
           application-name: $APP_NAME
           bundle-bucket: $BUNDLE_BUCKET
-          bundle-key: uat/dist_$BUNDLE_KEY.tar
+          bundle-key: uat/dist_$BUNDLE_KEY
           deployment-group: $DEPLOYMENT_GROUP
           service-role-arn: $SERVICE_ROLE_ARN
           bundle-type: tar
