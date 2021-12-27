@@ -8,6 +8,7 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.7
   aws-s3: circleci/aws-s3@3.0.0
+  aws-code-deploy: circleci/aws-code-deploy@2.0.0
 
 
 jobs:
@@ -29,17 +30,22 @@ jobs:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
         - run:
+            name: Setting Env Variable
+            # VUE_APP_ENV=production
+            # VUE_APP_NETWORK=celo
+            command: |
+              touch .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO" > .env
+        - run:
             name: Run Build
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: tar -cvzf dist.tar ./dist appSpec.yml
-        # - store_artifacts: 
-        #     path: dist.tar
-        #     destination: dist.tar
+            command: tar -cvzf dist_$APP_NETWORK_CELO.tar ./dist appSpec.yml
         - aws-s3/copy:
-            from: dist.tar 
+            from: dist_$APP_NETWORK_CELO.tar 
             to: s3://symmetric-pools-ui-bucket/uat/ 
+
 
 workflows:
   # Below is the definition of your workflow.
@@ -49,8 +55,13 @@ workflows:
   Build-and-Deploy:
     jobs:
       - build-and-deploy
-      # - deploy:
-      #     requires:
-      #       - build
-      # For running simple node tests, you could optionally use the node/test job from the orb to replicate and replace the job above in fewer lines.
-      # - node/test
+  deploy_application:
+    requires:
+      - build-and-deploy
+    jobs:
+      - aws-code-deploy/deploy:
+          application-name: $APP_NAME
+          bundle-bucket: $BUNDLE_BUCKET
+          bundle-key: $BUNDLE_KEY
+          deployment-group: $DEPLOYMENT_GROUP
+          service-role-arn: $SERVICE_ROLE_ARN
