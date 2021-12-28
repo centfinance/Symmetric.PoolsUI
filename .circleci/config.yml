@@ -19,6 +19,8 @@ jobs:
         - checkout
         - save_cache:
             key: v1-npm-deps-{{ checksum "package-lock.json" }}
+            paths:
+              - ~/project
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
@@ -87,8 +89,6 @@ jobs:
         - checkout
         - restore_cache:
             key: v1-npm-deps-{{ checksum "package-lock.json" }}
-            paths:
-            - ~/project
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
