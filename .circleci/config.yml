@@ -25,9 +25,9 @@ jobs:
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
-            pkg-manager: yarn
+            pkg-manager: npm
             with-cache: false
-            override-ci-command: yarn install
+            override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
@@ -44,7 +44,7 @@ jobs:
                   destination: $APPSPEC_CELO_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
-            command: yarn build
+            command: npm run build
         - run:
             name: Compress Artifacts
             command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip ./dist appspec.yml
@@ -95,9 +95,9 @@ jobs:
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
-            pkg-manager: yarn
+            pkg-manager: npm
             with-cache: false
-            override-ci-command: yarn install
+            override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
@@ -114,7 +114,7 @@ jobs:
                   destination: $APPSPEC_XDAI_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
-            command: yarn build
+            command: npm run build
         - run:
             name: Compress Artifacts
             command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip ./dist appspec.yml
