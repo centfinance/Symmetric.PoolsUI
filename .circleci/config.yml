@@ -148,5 +148,7 @@ workflows:
   Build-and-Deploy:
     jobs:
       - build-and-deploy-celo
-      - build-and-deploy-xdai
+      - build-and-deploy-xdai:
+          requires:
+           - build-and-deploy-celo
 
