@@ -18,12 +18,12 @@ jobs:
       # Checkout the code as the first step.
         - checkout
         - restore_cache:
-          keys:
-            # Find a cache corresponding to this specific package-lock.json checksum
-            # when this file is changed, this key will fail
-            - v1-npm-deps-{{ checksum "package-lock.json" }}
-            # Find the most recently generated cache used from any branch
-            - v1-npm-deps-
+            keys:
+              # Find a cache corresponding to this specific package-lock.json checksum
+              # when this file is changed, this key will fail
+              - v1-npm-deps-{{ checksum "package-lock.json" }}
+              # Find the most recently generated cache used from any branch
+              - v1-npm-deps-
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
