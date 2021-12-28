@@ -15,8 +15,8 @@ jobs:
     docker:
       - image: cimg/node:16.10
     environment:
-      GIT_COMMIT_MSG: git log --format=oneline -n 1 $CIRCLE_SHA1
-      GIT_SHA1_SHORT: CIRCLE_SHA1:0:7
+      GIT_COMMIT_MSG: $(echo git log --format=oneline -n 1 $CIRCLE_SHA1)
+      GIT_SHA1_SHORT: $(echo CIRCLE_SHA1:0:7)
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -34,11 +34,11 @@ jobs:
             name: Setting appspec
             command: |
               touch appspec.yml
-              echo "version: 0.0 /n
-              os: windows /n
-              files: /n
-                - source: . /n
-                  destination: C:\inetpub\Symmetric\uat\celo\Pools.UI /n" > appspec.yml      
+              echo "version: 0.0
+              os: windows
+              files:
+                - source: .
+                  destination: C:\inetpub\Symmetric\uat\celo\Pools.UI" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
@@ -84,7 +84,8 @@ jobs:
     docker:
       - image: cimg/node:16.10
     environment:
-      GIT_COMMIT_MSG: git log --format=oneline -n 1 $CIRCLE_SHA1
+      GIT_COMMIT_MSG: $(echo git log --format=oneline -n 1 $CIRCLE_SHA1)
+      GIT_SHA1_SHORT: $(echo CIRCLE_SHA1:0:7)
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -102,19 +103,19 @@ jobs:
             name: Setting appspec
             command: |
               touch appspec.yml
-              echo "version: 0.0 /n
-              os: windows /n
-              files: /n
-                - source: . /n
-                  destination: C:\inetpub\Symmetric\uat\xdai\Pools.UI /n" > appspec.yml      
+              echo "version: 0.0
+              os: windows
+              files:
+                - source: .
+                  destination: C:\inetpub\Symmetric\uat\xdai\Pools.UI" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip ./dist appspec.yml
+            command: zip -qr $CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_XDAI.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip
+            from: $CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_XDAI.zip
             to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
@@ -123,7 +124,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_XDAI.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
