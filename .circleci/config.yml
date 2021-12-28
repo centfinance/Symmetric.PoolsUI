@@ -14,6 +14,8 @@ jobs:
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
       - image: cimg/node:16.10
+    environment:
+      GIT_COMMIT_MSG=git log --format=oneline -n 1 $CIRCLE_SHA1
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -30,7 +32,7 @@ jobs:
         - run:
             name: Setting appspec
             command: |
-              touch appspec.yml /n
+              touch appspec.yml
               echo "version: 0.0 /n
               os: windows /n
               files: /n
@@ -41,9 +43,9 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip ./dist appspec.yml
+            command: zip -qr $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip 
+            from: $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip 
             to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
@@ -52,8 +54,8 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip \
-                    --description "Deployed via CircleCI" \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip \
+                    --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
               echo $ID      
@@ -80,6 +82,8 @@ jobs:
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
       - image: cimg/node:16.10
+    environment:
+      GIT_COMMIT_MSG=git log --format=oneline -n 1 $CIRCLE_SHA1
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -96,7 +100,7 @@ jobs:
         - run:
             name: Setting appspec
             command: |
-              touch appspec.yml /n
+              touch appspec.yml
               echo "version: 0.0 /n
               os: windows /n
               files: /n
@@ -107,9 +111,9 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr CIRCLE_SHA1_$APP_NETWORK_XDAI.zip ./dist appspec.yml
+            command: zip -qr $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: CIRCLE_SHA1_$APP_NETWORK_XDAI.zip 
+            from: $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip
             to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
@@ -118,8 +122,8 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/CIRCLE_SHA1_$APP_NETWORK_XDAI.zip \
-                    --description "Deployed via CircleCI" \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_XDAI.zip \
+                    --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
               echo $ID      
