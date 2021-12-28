@@ -18,16 +18,16 @@ jobs:
       # Checkout the code as the first step.
         - checkout
         - save_cache:
-            key: v1-npm-deps-{{ checksum "package-lock.json" }}
+            key: v1-npm-deps-{{ checksum "package.json" }}
             paths:
               - ~/project
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
-            pkg-manager: npm
+            pkg-manager: yarn
             with-cache: false
-            override-ci-command: npm install
+            override-ci-command: yarn install
         - run:
             name: Setting Env Variable
             command: |
@@ -44,7 +44,7 @@ jobs:
                   destination: $APPSPEC_CELO_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
-            command: npm run build
+            command: yarn build
         - run:
             name: Compress Artifacts
             command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip ./dist appspec.yml
@@ -90,14 +90,14 @@ jobs:
       # Checkout the code as the first step.
         - checkout
         - restore_cache:
-            key: v1-npm-deps-{{ checksum "package-lock.json" }}
+            key: v1-npm-deps-{{ checksum "package.json" }}
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
-            pkg-manager: npm
+            pkg-manager: yarn
             with-cache: false
-            override-ci-command: npm install
+            override-ci-command: yarn install
         - run:
             name: Setting Env Variable
             command: |
@@ -114,7 +114,7 @@ jobs:
                   destination: $APPSPEC_XDAI_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
-            command: npm run build
+            command: yarn build
         - run:
             name: Compress Artifacts
             command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip ./dist appspec.yml
