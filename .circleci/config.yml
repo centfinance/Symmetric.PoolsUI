@@ -15,7 +15,8 @@ jobs:
     docker:
       - image: cimg/node:16.10
     environment:
-      GIT_COMMIT_MSG=git log --format=oneline -n 1 $CIRCLE_SHA1
+      GIT_COMMIT_MSG: git log --format=oneline -n 1 $CIRCLE_SHA1
+      GIT_SHA1_SHORT: CIRCLE_SHA1:0:7
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -43,9 +44,9 @@ jobs:
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip ./dist appspec.yml
+            command: zip -qr $CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_CELO.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: $CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip 
+            from: $CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_CELO.zip 
             to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
@@ -54,7 +55,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_SHA1-$APP_NETWORK_CELO.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$GIT_SHA1_SHORT-$APP_NETWORK_CELO.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
@@ -83,7 +84,7 @@ jobs:
     docker:
       - image: cimg/node:16.10
     environment:
-      GIT_COMMIT_MSG=git log --format=oneline -n 1 $CIRCLE_SHA1
+      GIT_COMMIT_MSG: git log --format=oneline -n 1 $CIRCLE_SHA1
     steps:
       # Checkout the code as the first step.
         - checkout
