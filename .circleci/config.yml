@@ -8,19 +8,15 @@ orbs:
   # See the orb documentation here: https://circleci.com/developer/orbs/orb/circleci/node
   node: circleci/node@4.7
   aws-s3: circleci/aws-s3@3.0.0
-  aws-code-deploy: circleci/aws-code-deploy@2.0.0
-
 
 jobs:
   # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-  build-and-deploy:
+  build-and-deploy-celo:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
       - image: cimg/node:16.10
-    # Then run your tests!
-    # CircleCI will report the results back to your VCS provider.
     steps:
       # Checkout the code as the first step.
         - checkout
@@ -31,20 +27,27 @@ jobs:
             pkg-manager: npm
         - run:
             name: Setting Env Variable
-            # VUE_APP_ENV=production
-            # VUE_APP_NETWORK=celo
             command: |
               touch .env
               echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO" > .env
+        - run:
+            name: Setting appspec
+            command: |
+              touch appspec.yml \n
+              echo "version: 0.0 \n
+              os: windows \n
+              files: \n
+                - source: . \n
+                  destination: C:\inetpub\Symmetric\uat\$APP_NETWORK_CELO\Pools.UI /n" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr dist_$APP_NETWORK_CELO.zip ./dist appspec.yml
+            command: zip -qr $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: dist_$APP_NETWORK_CELO.zip 
-            to: s3://symmetric-pools-ui-bucket/uat/ 
+            from: $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip 
+            to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
             command: |
@@ -52,7 +55,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/dist_$APP_NETWORK_CELO.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_CELO.zip \
                     --description "Deployed via CircleCI" \
                     --output text \
                     --query 'deploymentId')
@@ -74,7 +77,71 @@ jobs:
                     aws deploy get-deployment --deployment-id $ID
                     exit $EXITCODE
 
-
+  build-and-deploy-xdai:
+    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
+    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      # Checkout the code as the first step.
+        - checkout
+        # Next, the node orb's install-packages step will install the dependencies from a package.json.
+        # The orb install-packages step will also automatically cache them for faster future runs.
+        - node/install-packages:
+            # If you are using yarn, change the line below from "npm" to "yarn"
+            pkg-manager: npm
+        - run:
+            name: Setting Env Variable
+            command: |
+              touch .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_XDAI" > .env
+        - run:
+            name: Setting appspec
+            command: |
+              touch appspec.yml \n
+              echo "version: 0.0 \n
+              os: windows \n
+              files: \n
+                - source: . \n
+                  destination: C:\inetpub\Symmetric\uat\$APP_NETWORK_XDAI\Pools.UI /n" > appspec.yml      
+        - run:
+            name: Run Build
+            command: npm run build
+        - run:
+            name: Compress Artifacts
+            command: zip -qr $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip ./dist appspec.yml
+        - aws-s3/copy:
+            from: $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip 
+            to: $AWS_BUCKET_LOCATION 
+        - run:    
+            name: Iniitate Code-Deploy
+            command: |
+              ID=$(aws deploy create-deployment \
+                    --application-name $APP_NAME \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce \
+                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip \
+                    --description "Deployed via CircleCI" \
+                    --output text \
+                    --query 'deploymentId')
+              echo $ID      
+              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+              echo "STATUS: $STATUS..."
+              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                      echo "Status: $STATUS..."
+                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                      sleep 5
+                    done
+                    if [[ $STATUS == "Succeeded" ]]; then
+                      EXITCODE=0
+                      echo "Deployment finished."
+                    else
+                      EXITCODE=1
+                      echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
 
 workflows:
   # Below is the definition of your workflow.
@@ -83,15 +150,6 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   Build-and-Deploy:
     jobs:
-      - build-and-deploy
-      # - aws-code-deploy/deploy:
-      #     requires: [build-and-deploy]
-      #     application-name: $APP_NAME
-      #     bundle-bucket: $BUNDLE_BUCKET
-      #     bundle-key: uat/dist_$BUNDLE_KEY
-      #     deployment-group: $DEPLOYMENT_GROUP
-      #     service-role-arn: $SERVICE_ROLE_ARN
-      #     bundle-type: tar
-      #     deployment-config: CodeDeployDefault.AllAtOnce
-
+      - build-and-deploy-celo
+      - build-and-deploy-xdai
 
