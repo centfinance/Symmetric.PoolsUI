@@ -70,6 +70,8 @@ jobs:
                     else
                       EXITCODE=1
                       echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
                     exit $EXITCODE
 
 
