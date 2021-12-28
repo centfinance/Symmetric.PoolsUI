@@ -30,12 +30,12 @@ jobs:
         - run:
             name: Setting appspec
             command: |
-              touch appspec.yml \n
-              echo "version: 0.0 \n
-              os: windows \n
-              files: \n
-                - source: . \n
-                  destination: C:\inetpub\Symmetric\uat\$APP_NETWORK_CELO\Pools.UI /n" > appspec.yml      
+              touch appspec.yml /n
+              echo "version: 0.0 /n
+              os: windows /n
+              files: /n
+                - source: . /n
+                  destination: C:\inetpub\Symmetric\uat\celo\Pools.UI /n" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
@@ -96,20 +96,20 @@ jobs:
         - run:
             name: Setting appspec
             command: |
-              touch appspec.yml \n
-              echo "version: 0.0 \n
-              os: windows \n
-              files: \n
-                - source: . \n
-                  destination: C:\inetpub\Symmetric\uat\$APP_NETWORK_XDAI\Pools.UI /n" > appspec.yml      
+              touch appspec.yml /n
+              echo "version: 0.0 /n
+              os: windows /n
+              files: /n
+                - source: . /n
+                  destination: C:\inetpub\Symmetric\uat\xdai\Pools.UI /n" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
         - run:
             name: Compress Artifacts
-            command: zip -qr $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip ./dist appspec.yml
+            command: zip -qr CIRCLE_SHA1_$APP_NETWORK_XDAI.zip ./dist appspec.yml
         - aws-s3/copy:
-            from: $CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip 
+            from: CIRCLE_SHA1_$APP_NETWORK_XDAI.zip 
             to: $AWS_BUCKET_LOCATION 
         - run:    
             name: Iniitate Code-Deploy
@@ -118,7 +118,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH_$CIRCLE_SHA1_$APP_NETWORK_XDAI.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/CIRCLE_SHA1_$APP_NETWORK_XDAI.zip \
                     --description "Deployed via CircleCI" \
                     --output text \
                     --query 'deploymentId')
