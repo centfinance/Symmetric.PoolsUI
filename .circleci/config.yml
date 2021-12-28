@@ -35,7 +35,7 @@ jobs:
               os: windows
               files:
                 - source: .
-                  destination: C:\inetpub\Symmetric\uat\celo\Pools.UI" > appspec.yml      
+                  destination: $APPSPEC_CELO_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
@@ -101,7 +101,7 @@ jobs:
               os: windows
               files:
                 - source: .
-                  destination: C:\inetpub\Symmetric\uat\xdai\Pools.UI" > appspec.yml      
+                  destination: $APPSPEC_XDAI_DESTINATION" > appspec.yml      
         - run:
             name: Run Build
             command: npm run build
