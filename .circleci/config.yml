@@ -27,6 +27,7 @@ jobs:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
             with-cache: false
+            override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
@@ -96,6 +97,7 @@ jobs:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
             with-cache: false
+            override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
