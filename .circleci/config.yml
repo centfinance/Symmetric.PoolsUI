@@ -17,17 +17,17 @@ jobs:
     steps:
       # Checkout the code as the first step.
         - checkout
-        - save_cache:
-            key: v1-npm-deps-{{ checksum "package.json" }}
-            paths:
-              - ~/project
+        # - save_cache:
+        #     key: v1-npm-deps-{{ checksum "package.json" }}
+        #     paths:
+        #       - ~/project
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
             with-cache: false
-            override-ci-command: npm install
+            # override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
@@ -89,15 +89,15 @@ jobs:
     steps:
       # Checkout the code as the first step.
         - checkout
-        - restore_cache:
-            key: v1-npm-deps-{{ checksum "package.json" }}
+        # - restore_cache:
+        #     key: v1-npm-deps-{{ checksum "package.json" }}
         # Next, the node orb's install-packages step will install the dependencies from a package.json.
         # The orb install-packages step will also automatically cache them for faster future runs.
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
             with-cache: false
-            override-ci-command: npm install
+            # override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
