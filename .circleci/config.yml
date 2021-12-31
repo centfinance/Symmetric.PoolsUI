@@ -116,10 +116,15 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
+              deployment-group = $DEPLOYMENT_GROUP \
+              if [$CIRCLE_BRANCH== "develop"] 
+              then
+                deployment-group = $DEPLOYMENT_GROUP_U \
+              fi
               ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
-                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --deployment-group-name $deployment-group \
                     --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
