@@ -210,7 +210,7 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   Build-and-Deploy:
     jobs:
-      - build-and-deploy-celo:
+      - build-and-deploy-celo
       - build-and-deploy-xdai:
           requires:
            - build-and-deploy-celo
