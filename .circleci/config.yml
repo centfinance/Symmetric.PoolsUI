@@ -54,7 +54,7 @@ jobs:
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
-                    --deployment-group-name $DEPLOYMENT_GROUP_U \
+                    --deployment-group-name $DEPLOYMENT_GROUP_UC \
                     --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
@@ -80,7 +80,7 @@ jobs:
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
-                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --deployment-group-name $DEPLOYMENT_GROUP_CELO \
                     --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
@@ -152,7 +152,7 @@ jobs:
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
-                    --deployment-group-name $DEPLOYMENT_GROUP_U \
+                    --deployment-group-name $DEPLOYMENT_GROUP_UX \
                     --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
@@ -178,7 +178,7 @@ jobs:
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
-                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --deployment-group-name $DEPLOYMENT_GROUP_X \
                     --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
