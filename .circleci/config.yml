@@ -22,7 +22,7 @@ jobs:
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
-            override-ci-command: npm install --force
+            override-ci-command: npm install
         - run:
             name: Setting Env Variable
             command: |
@@ -55,7 +55,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP_U \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
@@ -81,7 +81,7 @@ jobs:
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
-                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip \
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
