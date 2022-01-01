@@ -39,53 +39,72 @@ jobs:
                   destination: C:\inetpub\Symmetric\uat\celo\Pools.UI" > appspec.yml      
         - run:
             name: Run Build
-            # command: npm run build
+            command: npm run build
+        - run:
+            name: Compress Artifacts
+            command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip ./dist appspec.yml
+        - aws-s3/copy:
+            from: $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip 
+            to: $AWS_BUCKET_LOCATION 
+        - run:    
+            name: Iniitate Code-Deploy
             command: |
-              DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP \
               if [$CIRCLE_BRANCH== "develop"] 
               then
-                DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP_U \
+                ID=$(aws deploy create-deployment \
+                    --application-name $APP_NAME \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce \
+                    --deployment-group-name $DEPLOYMENT_GROUP_U \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
+                    --description "$GIT_COMMIT_MSG" \
+                    --output text \
+                    --query 'deploymentId')
+              echo $ID      
+              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+              echo "STATUS: $STATUS..."
+              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                      echo "Status: $STATUS..."
+                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                      sleep 5
+                    done
+                    if [[ $STATUS == "Succeeded" ]]; then
+                      EXITCODE=0
+                      echo "Deployment finished."
+                    else
+                      EXITCODE=1
+                      echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
+              else
+                ID=$(aws deploy create-deployment \
+                    --application-name $APP_NAME \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce \
+                    --deployment-group-name $DEPLOYMENT_GROUP \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
+                    --description "$GIT_COMMIT_MSG" \
+                    --output text \
+                    --query 'deploymentId')
+              echo $ID      
+              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+              echo "STATUS: $STATUS..."
+              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                      echo "Status: $STATUS..."
+                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                      sleep 5
+                    done
+                    if [[ $STATUS == "Succeeded" ]]; then
+                      EXITCODE=0
+                      echo "Deployment finished."
+                    else
+                      EXITCODE=1
+                      echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
               fi
-              echo $DEPLOYMENT_GROUP
-        # - run:
-        #     name: Compress Artifacts
-        #     command: zip -qr $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip ./dist appspec.yml
-        # - aws-s3/copy:
-        #     from: $CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip 
-        #     to: $AWS_BUCKET_LOCATION 
-        # - run:    
-        #     name: Iniitate Code-Deploy
-        #     command: |
-        #       DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP \
-        #       if [$CIRCLE_BRANCH== "develop"] 
-        #       then
-        #         DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP_U \
-        #       fi
-        #       ID=$(aws deploy create-deployment \
-        #             --application-name $APP_NAME \
-        #             --deployment-config-name CodeDeployDefault.AllAtOnce \
-        #             --deployment-group-name $DEPLOYMENT_GROUP \
-        #             --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_CELO.zip \
-        #             --description "$GIT_COMMIT_MSG" \
-        #             --output text \
-        #             --query 'deploymentId')
-        #       echo $ID      
-        #       STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-        #       echo "STATUS: $STATUS..."
-        #       while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
-        #               echo "Status: $STATUS..."
-        #               STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-        #               sleep 5
-        #             done
-        #             if [[ $STATUS == "Succeeded" ]]; then
-        #               EXITCODE=0
-        #               echo "Deployment finished."
-        #             else
-        #               EXITCODE=1
-        #               echo "Deployment failed!"
-        #             fi
-        #             aws deploy get-deployment --deployment-id $ID
-        #             exit $EXITCODE
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
 
   build-and-deploy-xdai:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
@@ -128,12 +147,35 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP \
               if [$CIRCLE_BRANCH== "develop"] 
               then
-                DEPLOYMENT_GROUP = $DEPLOYMENT_GROUP_U \
-              fi
-              ID=$(aws deploy create-deployment \
+                ID=$(aws deploy create-deployment \
+                    --application-name $APP_NAME \
+                    --deployment-config-name CodeDeployDefault.AllAtOnce \
+                    --deployment-group-name $DEPLOYMENT_GROUP_U \
+                    --s3-location bucket=symmetric-pools-ui-bucket,bundleType=zip,key=uat/$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM-$APP_NETWORK_XDAI.zip \
+                    --description "$GIT_COMMIT_MSG" \
+                    --output text \
+                    --query 'deploymentId')
+              echo $ID      
+              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+              echo "STATUS: $STATUS..."
+              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                      echo "Status: $STATUS..."
+                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                      sleep 5
+                    done
+                    if [[ $STATUS == "Succeeded" ]]; then
+                      EXITCODE=0
+                      echo "Deployment finished."
+                    else
+                      EXITCODE=1
+                      echo "Deployment failed!"
+                    fi
+                    aws deploy get-deployment --deployment-id $ID
+                    exit $EXITCODE
+              else
+                ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
                     --deployment-group-name $DEPLOYMENT_GROUP \
@@ -158,6 +200,8 @@ jobs:
                     fi
                     aws deploy get-deployment --deployment-id $ID
                     exit $EXITCODE
+              fi
+              
 
 workflows:
   # Below is the definition of your workflow.
@@ -166,7 +210,7 @@ workflows:
   # For more details on extending your workflow, see the configuration docs: https://circleci.com/docs/2.0/configuration-reference/#workflows
   Build-and-Deploy:
     jobs:
-      - build-and-deploy-celo
-      # - build-and-deploy-xdai:
-      #     requires:
-      #      - build-and-deploy-celo
+      - build-and-deploy-celo:
+      - build-and-deploy-xdai:
+          requires:
+           - build-and-deploy-celo
