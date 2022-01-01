@@ -22,7 +22,7 @@ jobs:
         - node/install-packages:
             # If you are using yarn, change the line below from "npm" to "yarn"
             pkg-manager: npm
-            override-ci-command: npm install
+            override-ci-command: npm install --force
         - run:
             name: Setting Env Variable
             command: |
