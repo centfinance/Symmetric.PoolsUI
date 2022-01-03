@@ -27,7 +27,7 @@ jobs:
             name: Setting Env Variable
             command: |
               touch .env
-              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO" > .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
         - run:
             name: Setting appspec
             command: |
@@ -49,8 +49,8 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [$CIRCLE_BRANCH== "develop"] 
-              then
+              if [[ $CIRCLE_BRANCH== "develop"]]; then 
+                echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
@@ -59,24 +59,25 @@ jobs:
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
-              echo $ID      
-              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-              echo "STATUS: $STATUS..."
-              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
-                      echo "Status: $STATUS..."
-                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-                      sleep 5
-                    done
-                    if [[ $STATUS == "Succeeded" ]]; then
-                      EXITCODE=0
-                      echo "Deployment finished."
-                    else
-                      EXITCODE=1
-                      echo "Deployment failed!"
-                    fi
-                    aws deploy get-deployment --deployment-id $ID
-                    exit $EXITCODE
+                echo $ID      
+                STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                echo "STATUS: $STATUS..."
+                while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                        echo "Status: $STATUS..."
+                        STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                        sleep 5
+                      done
+                      if [[ $STATUS == "Succeeded" ]]; then
+                        EXITCODE=0
+                        echo "Deployment finished."
+                      else
+                        EXITCODE=1
+                        echo "Deployment failed!"
+                      fi
+                      aws deploy get-deployment --deployment-id $ID
+                      exit $EXITCODE
               else
+                echo "pushing to feature..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
@@ -125,7 +126,7 @@ jobs:
             name: Setting Env Variable
             command: |
               touch .env
-              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_XDAI" > .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
         - run:
             name: Setting appspec
             command: |
@@ -147,8 +148,8 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [$CIRCLE_BRANCH== "develop"] 
-              then
+              if [[ $CIRCLE_BRANCH== "develop"]]; then 
+                echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
                     --deployment-config-name CodeDeployDefault.AllAtOnce \
@@ -157,23 +158,23 @@ jobs:
                     --description "$GIT_COMMIT_MSG" \
                     --output text \
                     --query 'deploymentId')
-              echo $ID      
-              STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-              echo "STATUS: $STATUS..."
-              while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
-                      echo "Status: $STATUS..."
-                      STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
-                      sleep 5
-                    done
-                    if [[ $STATUS == "Succeeded" ]]; then
-                      EXITCODE=0
-                      echo "Deployment finished."
-                    else
-                      EXITCODE=1
-                      echo "Deployment failed!"
-                    fi
-                    aws deploy get-deployment --deployment-id $ID
-                    exit $EXITCODE
+                echo $ID      
+                STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                echo "STATUS: $STATUS..."
+                while [[ $STATUS == "Created" || $STATUS == "InProgress" || $STATUS == "Pending" || $STATUS == "Queued" || $STATUS == "Ready" ]]; do
+                        echo "Status: $STATUS..."
+                        STATUS=$(aws deploy get-deployment --deployment-id $ID --output text --query 'deploymentInfo.status')
+                        sleep 5
+                      done
+                      if [[ $STATUS == "Succeeded" ]]; then
+                        EXITCODE=0
+                        echo "Deployment finished."
+                      else
+                        EXITCODE=1
+                        echo "Deployment failed!"
+                      fi
+                      aws deploy get-deployment --deployment-id $ID
+                      exit $EXITCODE
               else
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
