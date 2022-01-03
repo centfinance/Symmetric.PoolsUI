@@ -94,6 +94,11 @@
         <span
           >Network: <span class="network-name">{{ config.network }}</span>
         </span>
+        <br />
+        <span
+          >Build:
+          <span class="network-name">{{ buildNumber }}</span>
+        </span>
 
         <a
           v-if="commitSha"
@@ -123,6 +128,11 @@ export default {
       pkg,
       commitSha
     };
+  },
+  computed: {
+    buildNumber() {
+      return process.env.VUE_APP_BUILD_NUMBER;
+    }
   }
 };
 </script>

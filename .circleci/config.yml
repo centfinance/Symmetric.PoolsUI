@@ -27,7 +27,7 @@ jobs:
             name: Setting Env Variable
             command: |
               touch .env
-              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n VUE_APP_BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
         - run:
             name: Setting appspec
             command: |
@@ -49,7 +49,7 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [[ $CIRCLE_BRANCH== "develop"]]; then 
+              if [[ $CIRCLE_BRANCH== "develop" ]]; then 
                 echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
@@ -126,7 +126,7 @@ jobs:
             name: Setting Env Variable
             command: |
               touch .env
-              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
+              echo "VUE_APP_ENV=production /n VUE_APP_NETWORK=$APP_NETWORK_CELO /n VUE_APP_BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
         - run:
             name: Setting appspec
             command: |
@@ -148,7 +148,7 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [[ $CIRCLE_BRANCH== "develop"]]; then 
+              if [[ $CIRCLE_BRANCH== "develop" ]]; then 
                 echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
