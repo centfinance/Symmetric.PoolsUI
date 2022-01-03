@@ -49,7 +49,7 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [[ $CIRCLE_BRANCH== "develop" ]]; then 
+              if [[ $CIRCLE_BRANCH == "develop" ]]; then 
                 echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
@@ -148,7 +148,7 @@ jobs:
         - run:    
             name: Iniitate Code-Deploy
             command: |
-              if [[ $CIRCLE_BRANCH== "develop" ]]; then 
+              if [[ $CIRCLE_BRANCH == "develop" ]]; then 
                 echo "pushing to UAT..." 
                 ID=$(aws deploy create-deployment \
                     --application-name $APP_NAME \
