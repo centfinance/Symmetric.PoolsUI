@@ -1,8 +1,8 @@
 export const BAL_TOKEN = {
   1: '0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345',
-  42: '0xfB66054D9C7b357b3134Dc47eD54EddAcc012f44',
-  100: '0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84',
-  42220: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a',
+  42: '0xfB66054D9C7b357b3134Dc47eD54EddAcc012f44', // kovan
+  100: '0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84', // xdai
+  42220: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a', // celo
   77: '', // sokol reward token
   44787: '' // alfajores reward token
 };
