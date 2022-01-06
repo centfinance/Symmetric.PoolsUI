@@ -119,19 +119,21 @@ export default {
         }
       };
       const pools = await this.getPools(query);
-      const processedPools = processPools(pools);
-      // Rank and filter pools
-      this.pools = processedPools
-        .sort((a, b) => {
-          const aPoolScore = getPoolScore(a, this.pool);
-          const bPoolScore = getPoolScore(b, this.pool);
-          return bPoolScore - aPoolScore;
-        })
-        .filter(pool => {
-          const poolScore = getPoolScore(pool, this.pool);
-          return poolScore > SCORE_THRESHOLD;
-        })
-        .slice(0, 3);
+      if (pools && pools.length > 0) {
+        const processedPools = processPools(pools);
+        // Rank and filter pools
+        this.pools = processedPools
+          .sort((a, b) => {
+            const aPoolScore = getPoolScore(a, this.pool);
+            const bPoolScore = getPoolScore(b, this.pool);
+            return bPoolScore - aPoolScore;
+          })
+          .filter(pool => {
+            const poolScore = getPoolScore(pool, this.pool);
+            return poolScore > SCORE_THRESHOLD;
+          })
+          .slice(0, 3);
+      }
     },
     formatPool(pool) {
       // const tokens = Object.keys(pool.weights);
