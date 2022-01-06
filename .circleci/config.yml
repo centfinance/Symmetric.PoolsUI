@@ -129,7 +129,7 @@ jobs:
             command: |
               touch .env
               echo "VUE_APP_ENV=production
-              VUE_APP_NETWORK=$APP_NETWORK_CELO
+              VUE_APP_NETWORK=$APP_NETWORK_XDAI
               VUE_APP_BUILD_NUMBER=$CIRCLE_BUILD_NUM" > .env
         - run:
             name: Setting appspec
