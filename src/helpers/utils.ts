@@ -521,7 +521,7 @@ export async function formatPool(pool) {
     // MOO/mCUSD
     const MOOprice = store.getters['getMOOprice'];
 
-    console.log(MOOprice)
+    console.log(MOOprice);
     const mooDailyCoinReward = new BigNumber(1428.57); // 10K MOO a week
     crPool.tokenRewardMoo = mooDailyCoinReward;
     crPool.rewardApyMoo = crPool.tokenRewardMoo
