@@ -51,6 +51,15 @@ const mutations = {
   GET_POOLS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_FAILURE', payload);
   },
+  GET_SPECIFIC_POOLS_REQUEST() {
+    console.debug('GET_SPECIFIC_POOLS_REQUEST');
+  },
+  GET_SPECIFIC_POOLS_SUCCESS() {
+    console.debug('GET_SPECIFIC_POOLS_SUCCESS');
+  },
+  GET_SPECIFIC_POOLS_FAILURE(_state, payload) {
+    console.debug('GET_SPECIFIC_POOLS_FAILURE', payload);
+  },
   GET_MY_POOLS_SHARES_REQUEST() {
     console.debug('GET_MY_POOLS_SHARES_REQUEST');
   },
@@ -238,6 +247,43 @@ const actions = {
       return pools;
     } catch (e) {
       commit('GET_POOLS_FAILURE', e);
+    }
+  },
+  getSpecificPools: async ({ commit }, payload) => {
+    const { first = 20, where = {} } = payload;
+    const ts = Math.round(new Date().getTime() / 1000);
+    const tsYesterday = ts - 24 * 3600;
+    where.filter = {
+      id: ['0x1', '0x2', '0x3', '0x4']
+    };
+
+    const query = {
+      pools: {
+        __args: {
+          where,
+          first
+        },
+        swaps: {
+          __args: {
+            where: {
+              timestamp_lt: tsYesterday
+            }
+          }
+        }
+      }
+    };
+    commit('GET_SPECIFIC_POOLS_REQUEST');
+    try {
+      let { pools } = await request('getPools', query);
+      // pools = await Promise.all(
+      //   pools.map(async (pool): Promise<object> => {
+      //     return await formatPool(pool);
+      //   })
+      // );
+      commit('GET_SPECIFIC_POOLS_SUCCESS');
+      return pools;
+    } catch (e) {
+      commit('GET_SPECIFIC_POOLS_FAILURE', e);
     }
   },
   getUserPoolShares: async ({ commit, rootState }) => {
