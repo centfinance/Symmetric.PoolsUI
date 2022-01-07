@@ -1,8 +1,10 @@
 export const BAL_TOKEN = {
   1: '0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345',
-  42: '0xfB66054D9C7b357b3134Dc47eD54EddAcc012f44',
-  100: '0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84',
-  42220: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a'
+  42: '0xfB66054D9C7b357b3134Dc47eD54EddAcc012f44', // kovan
+  100: '0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84', // xdai
+  42220: '0x7c64ad5f9804458b8c9f93f7300c15d55956ac2a', // celo
+  77: '', // sokol reward token
+  44787: '' // alfajores reward token
 };
 
 export const SYMM_TOKENS = {
@@ -39,6 +41,8 @@ export const uncappedTokens = {
     '0xB7c91068aC96051573465E43603600C0684a7002', // WETH
     '0xc655c6D80ac92d75fBF4F40e95280aEb855B1E87', // WSPOA
     '0x705581f5830Cfd11715020543f5309ADEBdbd074' // WXDAI
+    // '0x408eC1Bb883dA0EA0fb3C955ea6BEfcd05Aa7C3A' // STAKE
+    // '0x58fC59fa03ed9e24bF9e2243736b69301f521D43' // LINK
   ],
   100: [
     '0x6a023ccd1ff6f2045c3309768ead9e68f978f6e1', // WETH
