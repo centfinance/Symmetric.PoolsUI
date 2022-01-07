@@ -5,7 +5,7 @@ import config from '@/config';
 const ENDPOINT = 'https://api.coingecko.com/api/v3';
 
 const state = {
-  values: {}
+  values: {} // Token prices from coingecko
 };
 
 const mutations = {

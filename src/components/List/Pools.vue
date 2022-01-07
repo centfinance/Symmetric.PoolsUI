@@ -333,10 +333,8 @@ export default {
     ...mapActions([
       'getPools',
       'getNetworkLiquidity',
+      'getTokens',
       'getSYMMprice',
-      'getCELOprice',
-      'getPOOFprice',
-      'getMOOprice',
       'getSTAKEprice',
       'getGNOprice'
     ]),
@@ -348,10 +346,8 @@ export default {
       let query = this.query || {};
       query = { ...query, page };
       await this.getNetworkLiquidity();
+      await this.getTokens();
       await this.getSYMMprice();
-      await this.getCELOprice();
-      await this.getPOOFprice();
-      await this.getMOOprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
       if (config.network == 'celo') await this.loadPool();

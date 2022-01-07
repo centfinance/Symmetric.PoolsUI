@@ -131,10 +131,8 @@ export default {
       'loadTokenMetadata',
       'loadPricesByAddress',
       'getNetworkLiquidity',
+      'getTokens',
       'getSYMMprice',
-      'getCELOprice',
-      'getPOOFprice',
-      'getMOOprice',
       'getSTAKEprice',
       'getGNOprice'
     ]),
@@ -178,10 +176,8 @@ export default {
     },
     async loadPool() {
       await this.getNetworkLiquidity();
+      await this.getTokens();
       await this.getSYMMprice();
-      await this.getCELOprice();
-      await this.getPOOFprice();
-      await this.getMOOprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
       if (config.network == 'celo') await this.loadSpecificPools();
