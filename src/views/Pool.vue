@@ -74,6 +74,8 @@ import { mapActions } from 'vuex';
 import { getAddress } from '@ethersproject/address';
 import Pool from '@/_balancer/pool';
 import { bnum, scale } from '@/helpers/utils';
+import store from '@/store';
+import config from '@/config';
 
 export default {
   data() {
@@ -127,7 +129,12 @@ export default {
       'getAllowances',
       'getPoolBalances',
       'loadTokenMetadata',
-      'loadPricesByAddress'
+      'loadPricesByAddress',
+      'getNetworkLiquidity',
+      'getTokens',
+      'getSYMMprice',
+      'getSTAKEprice',
+      'getGNOprice'
     ]),
     openAddLiquidityModal() {
       this.modalAddLiquidityOpen = true;
@@ -135,7 +142,45 @@ export default {
     openRemoveLiquidityModal() {
       this.modalRemoveLiquidityOpen = true;
     },
+    async loadSpecificPools() {
+      const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
+      const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
+      const symmV1cEUR = '0x13da4034a56f0293b8a78bc13524656e0136455c';
+      const symmV2cEUR = '0x2fdcd64ad761485537cfeaa598c8980efd806532';
+      const symmV1CELO = '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221';
+      const symmV2CELO = '0x7ee06450f4ff97990c6288237964bf4f545f221f';
+      const bPool1 = new Pool(symmV1cUSD);
+      const bPool2 = new Pool(symmV2cUSD);
+      const bPool3 = new Pool(symmV1cEUR);
+      const bPool4 = new Pool(symmV2cEUR);
+      const bPool5 = new Pool(symmV1CELO);
+      const bPool6 = new Pool(symmV2CELO);
+      let pool1, pool2, pool3, pool4, pool5, pool6;
+      try {
+        pool1 = await bPool1.getMetadata();
+        pool2 = await bPool2.getMetadata();
+        pool3 = await bPool3.getMetadata();
+        pool4 = await bPool4.getMetadata();
+        pool5 = await bPool5.getMetadata();
+        pool6 = await bPool6.getMetadata();
+      } catch (e) {
+        console.log(e);
+      }
+
+      store.commit('GET_SYMMV1_CUSD_LIQUIDITY', pool1.liquidity);
+      store.commit('GET_SYMMV2_CUSD_LIQUIDITY', pool2.liquidity);
+      store.commit('GET_SYMMV1_CEUR_LIQUIDITY', pool3.liquidity);
+      store.commit('GET_SYMMV2_CEUR_LIQUIDITY', pool4.liquidity);
+      store.commit('GET_SYMMV1_CELO_LIQUIDITY', pool5.liquidity);
+      store.commit('GET_SYMMV2_CELO_LIQUIDITY', pool6.liquidity);
+    },
     async loadPool() {
+      await this.getNetworkLiquidity();
+      await this.getTokens();
+      await this.getSYMMprice();
+      await this.getSTAKEprice();
+      await this.getGNOprice();
+      if (config.network == 'celo') await this.loadSpecificPools();
       const bPool = new Pool(this.id);
       try {
         this.pool = await bPool.getMetadata();
@@ -193,7 +238,7 @@ export default {
 </script>
 <style scoped>
 .mivafarm button {
-  background-image: linear-gradient(270deg,#443ad2,#8349d1);
+  background-image: linear-gradient(270deg, #443ad2, #8349d1);
   border: none;
 }
 .mivafarm button:hover {

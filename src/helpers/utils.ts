@@ -428,7 +428,7 @@ export async function formatPool(pool) {
   // 238.09 USD per day -> 36.6 Celo per day ( old calculation )
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
-      const CELOprice = store.getters['getCELOprice'];
+      const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
       const symmV1cUSDLiquidity = Number(
         store.getters['getSymmV1cUSDLiquidity']
       );
@@ -506,7 +506,7 @@ export async function formatPool(pool) {
   // POOF APR and rewards
   if (crPool.id === '0x095562ec6395e84fb22eb74edb67d7638e8d2f57') {
     // POOF/cUSD
-    const POOFprice = store.getters['getPOOFprice'];
+    const POOFprice = store.getters.getTokenPriceFromSymbol('POOF');
 
     const krDailyCoinReward = new BigNumber(57.14); // 400 POOF a week
     crPool.tokenRewardPoof = krDailyCoinReward;
@@ -519,9 +519,8 @@ export async function formatPool(pool) {
   // MOO APR and rewards
   if (crPool.id === '0x461f83dd5c84680a3c29662a9d90177c77f39d93') {
     // MOO/mCUSD
-    const MOOprice = store.getters['getMOOprice'];
+    const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
 
-    console.log(MOOprice)
     const mooDailyCoinReward = new BigNumber(1428.57); // 10K MOO a week
     crPool.tokenRewardMoo = mooDailyCoinReward;
     crPool.rewardApyMoo = crPool.tokenRewardMoo
@@ -596,8 +595,8 @@ export async function getNetworkLiquidity() {
         thispool.tokens,
         thispool.tokensList,
         thispool.totalWeight,
-        networks[i],
-        thispool.id
+        networks[i]
+        // thispool.id
       );
 
       const thisCombinedAdjustmentFactor = new BigNumber(

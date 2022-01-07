@@ -18,7 +18,8 @@ const state = {
   balancer: {},
   poolShares: {},
   myPools: [],
-  tokens: {},
+  tokens: {}, // all tokens from the subgraph
+  tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
   SYMMprice: {},
   CELOprice: {},
@@ -100,7 +101,8 @@ const mutations = {
     console.debug('GET_TOKEN_PRICES_REQUEST');
   },
   GET_TOKENS_SUCCESS(_state, payload) {
-    Vue.set(_state, 'tokens', payload);
+    Vue.set(_state, 'tokens', payload.tokens);
+    Vue.set(_state, 'tokenPrices', payload.tokenPrices);
     console.debug('GET_TOKEN_PRICES_SUCCESS');
   },
   GET_TOKENS_FAILURE(_state, payload) {
@@ -383,16 +385,18 @@ const actions = {
   getTokens: async ({ commit }) => {
     commit('GET_TOKENS_REQUEST');
     try {
-      let { tokenPrices } = await request('getTokenPrices');
-      tokenPrices = Object.fromEntries(
-        tokenPrices
+      const { tokenPrices: tokens } = await request('getTokenPrices'); // all tokens
+
+      // get token prices only from "tokens"
+      const tokenPrices = Object.fromEntries(
+        tokens
           .sort((a, b) => b.poolLiquidity - a.poolLiquidity)
           .map(tokenPrice => [
             getAddress(tokenPrice.id),
             parseFloat(tokenPrice.price)
           ])
       );
-      commit('GET_TOKENS_SUCCESS', tokenPrices);
+      commit('GET_TOKENS_SUCCESS', { tokenPrices, tokens });
     } catch (e) {
       commit('GET_TOKENS_FAILURE', e);
     }
@@ -400,6 +404,15 @@ const actions = {
 };
 
 const getters = {
+  getTokens(state) {
+    return state.tokens;
+  },
+  getTokenPriceFromSymbol: state => symbol => {
+    const filteredToken = state.tokens.filter(token => token.symbol === symbol);
+    if (filteredToken.length > 0) {
+      return filteredToken[0].price;
+    } else return 0;
+  },
   getNetworkLiquidity(state) {
     return state.liquidity;
   },

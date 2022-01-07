@@ -286,9 +286,7 @@ export default {
     };
   },
   mounted() {
-    console.log(`showCard: ${this.showCard} - ${this.$cookie.get('cardView')}`);
     this.showCard = this.$cookie.get('cardView') === 'true' ? true : false;
-    console.log(`showCard: ${this.showCard} - ${this.$cookie.get('cardView')}`);
   },
   watch: {
     query() {
@@ -313,7 +311,6 @@ export default {
       this.$cookie.delete('cardView');
       this.$cookie.set('cardView', val.value, 5);
       this.showCard = val.value;
-      console.log(val.value);
     },
     // getLiquidity(pool) {
     //   return getPoolLiquidity(pool, this.price.values);
@@ -336,10 +333,8 @@ export default {
     ...mapActions([
       'getPools',
       'getNetworkLiquidity',
+      'getTokens',
       'getSYMMprice',
-      'getCELOprice',
-      'getPOOFprice',
-      'getMOOprice',
       'getSTAKEprice',
       'getGNOprice'
     ]),
@@ -351,15 +346,15 @@ export default {
       let query = this.query || {};
       query = { ...query, page };
       await this.getNetworkLiquidity();
+      await this.getTokens();
       await this.getSYMMprice();
-      await this.getCELOprice();
-      await this.getPOOFprice();
-      await this.getMOOprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
       if (config.network == 'celo') await this.loadPool();
       const pools = await this.getPools(query);
-      this.pools = this.pools.concat(pools);
+      if (pools && pools.length > 0) {
+        this.pools = this.pools.concat(pools);
+      }
       this.loading = false;
       if (this.$cookie.get('cardView') === null) {
         this.switchView({ value: true });

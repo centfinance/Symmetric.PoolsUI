@@ -21,11 +21,12 @@ export function getStakingBoostOfPair(
   token1: string,
   weight1: BigNumber,
   token2: string,
-  weight2: BigNumber,
-  poolId: string
+  weight2: BigNumber
+  // poolId: string
 ) {
   if (
-    (token1 == BAL_TOKEN[chainId].toLowerCase() || token1 == "0x8427bD503dd3169cCC9aFF7326c15258Bc305478".toLowerCase()) &&
+    (token1 == BAL_TOKEN[chainId].toLowerCase() ||
+      token1 == '0x8427bD503dd3169cCC9aFF7326c15258Bc305478'.toLowerCase()) &&
     uncappedTokens[chainId].includes(token2)
   ) {
     return balMultiplier
@@ -33,7 +34,8 @@ export function getStakingBoostOfPair(
       .plus(weight2)
       .div(weight1.plus(weight2));
   } else if (
-    (token2 == BAL_TOKEN[chainId].toLowerCase() || token2 == "0x8427bD503dd3169cCC9aFF7326c15258Bc305478".toLowerCase()) &&
+    (token2 == BAL_TOKEN[chainId].toLowerCase() ||
+      token2 == '0x8427bD503dd3169cCC9aFF7326c15258Bc305478'.toLowerCase()) &&
     uncappedTokens[chainId].includes(token1)
   ) {
     return weight1
@@ -48,8 +50,8 @@ export function computeRatioFactor(
   tokens,
   weights,
   chainId,
-  balMultiplier = bnum(2),
-  poolId
+  balMultiplier = bnum(2)
+  // poolId
 ) {
   let brfSum = bnum(0);
   let pairWeightSum = bnum(0);
@@ -68,8 +70,8 @@ export function computeRatioFactor(
         tokens[j].toLowerCase(),
         weights[j],
         tokens[k].toLowerCase(),
-        weights[k],
-        poolId
+        weights[k]
+        // poolId
       );
 
       // stretches factor for equal weighted pairs to 1
@@ -146,23 +148,19 @@ export function getFactors(
   tokens,
   tokensList,
   totalWeight,
-  chainId,
-  poolId = ''
+  chainId
+  // poolId = ''
 ) {
   const totalWeightAsFloat = parseFloat(totalWeight);
   const weights = tokens.map(token =>
     bnum(parseFloat(token.denormWeight) / totalWeightAsFloat)
   );
 
+  const ratioFactor = computeRatioFactor(tokensList, weights, chainId, bnum(2));
+
   return {
     feeFactor: getFeeFactor(swapFee),
-    ratioFactor: computeRatioFactor(
-      tokensList,
-      weights,
-      chainId,
-      bnum(2),
-      poolId
-    ),
+    ratioFactor,
     wrapFactor: computeWrapFactor(tokensList, weights, chainId)
   };
 }
