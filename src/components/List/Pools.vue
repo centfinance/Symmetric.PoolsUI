@@ -334,9 +334,7 @@ export default {
       'getNetworkLiquidity',
       'getSpecificPools',
       'getTokens',
-      'getSYMMprice',
-      'getSTAKEprice',
-      'getGNOprice'
+      'getSYMMprice'
     ]),
     async loadMore() {
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
@@ -348,8 +346,6 @@ export default {
       await this.getNetworkLiquidity();
       await this.getTokens();
       await this.getSYMMprice();
-      await this.getSTAKEprice();
-      await this.getGNOprice();
       if (config.network == 'celo') {
         await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
       }

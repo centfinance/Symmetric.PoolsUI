@@ -176,11 +176,11 @@
 import {
   formatFilters,
   getSYMMPriceXDAI,
-  getSYMMPriceCELO,
-  getSYMMPriceAVALANCHE,
-  getSYMMPriceFANTOM,
-  getSYMMPriceOPTIMISM,
-  getSYMMPricePOLYGON
+  getSYMMPriceCELO
+  // getSYMMPriceAVALANCHE,
+  // getSYMMPriceFANTOM,
+  // getSYMMPriceOPTIMISM,
+  // getSYMMPricePOLYGON
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 
@@ -238,7 +238,6 @@ export default {
     async fetchTVL() {
       const response = await fetch('https://api.llama.fi/tvl/symmetric');
       const data = await response.json();
-      console.log(data);
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();

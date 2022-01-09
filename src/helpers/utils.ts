@@ -545,7 +545,7 @@ export async function formatPool(pool) {
   }
 
   if (gnoPoolIndex !== gnoPool.None) {
-    const GNOprice = store.getters['getGNOprice'];
+    const GNOprice = store.getters.getTokenPriceFromSymbol('GNO');
     const gnoDailyCoinReward = [
       new BigNumber((595.21 * 0.3) / Number(GNOprice)),
       new BigNumber((595.21 * 0.5) / Number(GNOprice)),
@@ -649,30 +649,6 @@ export async function getSYMMprice() {
   }
 
   return SYMMprice;
-}
-
-export async function getCELOprice() {
-  return await getTokenPriceCELO('CELO');
-}
-
-export async function getKNXprice() {
-  return await getTokenPriceCELO('KNX');
-}
-
-export async function getPOOFprice() {
-  return await getTokenPriceCELO('POOF');
-}
-
-export async function getMOOprice() {
-  return await getTokenPriceCELO('MOO');
-}
-
-export async function getSTAKEprice() {
-  return await getTokenPriceXDAI('STAKE');
-}
-
-export async function getGNOprice() {
-  return await getTokenPriceXDAI('GNO');
 }
 
 export async function formatPools(pools) {

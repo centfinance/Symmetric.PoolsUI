@@ -5,13 +5,7 @@ import {
   formatPool,
   ITEMS_PER_PAGE,
   getNetworkLiquidity,
-  getSYMMprice,
-  getCELOprice,
-  getKNXprice,
-  getPOOFprice,
-  getMOOprice,
-  getSTAKEprice,
-  getGNOprice
+  getSYMMprice
 } from '@/helpers/utils';
 import { cloneDeep } from 'lodash';
 
@@ -23,13 +17,7 @@ const state = {
   tokens: {}, // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
-  SYMMprice: {},
-  CELOprice: {},
-  KNXprice: {},
-  POOFprice: {},
-  MOOprice: {},
-  STAKEprice: {},
-  GNOprice: {}
+  SYMMprice: {}
 };
 
 const mutations = {
@@ -121,30 +109,6 @@ const mutations = {
   GET_SYMM_PRICE(_state, payload) {
     Vue.set(_state, 'SYMMprice', payload);
     console.debug('GET_SYMM_PRICE', payload);
-  },
-  GET_CELO_PRICE(_state, payload) {
-    Vue.set(_state, 'CELOprice', payload);
-    console.debug('GET_CELO_PRICE', payload);
-  },
-  GET_KNX_PRICE(_state, payload) {
-    Vue.set(_state, 'KNXprice', payload);
-    console.debug('GET_KNX_PRICE', payload);
-  },
-  GET_POOF_PRICE(_state, payload) {
-    Vue.set(_state, 'POOFprice', payload);
-    console.debug('GET_POOF_PRICE', payload);
-  },
-  GET_MOO_PRICE(_state, payload) {
-    Vue.set(_state, 'MOOprice', payload);
-    console.debug('GET_MOO_PRICE', payload);
-  },
-  GET_STAKE_PRICE(_state, payload) {
-    Vue.set(_state, 'STAKEprice', payload);
-    console.debug('GET_STAKE_PRICE', payload);
-  },
-  GET_GNO_PRICE(_state, payload) {
-    Vue.set(_state, 'GNOprice', payload);
-    console.debug('GET_GNO_PRICE', payload);
   }
 };
 
@@ -159,30 +123,6 @@ const actions = {
   getSYMMprice: async ({ commit }) => {
     const price = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
-  },
-  getCELOprice: async ({ commit }) => {
-    const price = await getCELOprice();
-    commit('GET_CELO_PRICE', price);
-  },
-  getKNXprice: async ({ commit }) => {
-    const price = await getKNXprice();
-    commit('GET_KNX_PRICE', price);
-  },
-  getPOOFprice: async ({ commit }) => {
-    const price = await getPOOFprice();
-    commit('GET_POOF_PRICE', price);
-  },
-  getMOOprice: async ({ commit }) => {
-    const price = await getMOOprice();
-    commit('GET_MOO_PRICE', price);
-  },
-  getSTAKEprice: async ({ commit }) => {
-    const price = await getSTAKEprice();
-    commit('GET_STAKE_PRICE', price);
-  },
-  getGNOprice: async ({ commit }) => {
-    const price = await getGNOprice();
-    commit('GET_GNO_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {
     const {
@@ -438,24 +378,6 @@ const getters = {
   },
   getSYMMprice(state) {
     return state.SYMMprice;
-  },
-  getCELOprice(state) {
-    return state.CELOprice;
-  },
-  getKNXprice(state) {
-    return state.KNXprice;
-  },
-  getPOOFprice(state) {
-    return state.POOFprice;
-  },
-  getMOOprice(state) {
-    return state.MOOprice;
-  },
-  getSTAKEprice(state) {
-    return state.STAKEprice;
-  },
-  getGNOprice(state) {
-    return state.GNOprice;
   },
   getPoolLiquidityFromId: state => poolId => {
     const filteredPool = state.specificPools.filter(
