@@ -15,6 +15,7 @@ import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import { getPoolLiquidity } from '@/helpers/price';
+import { specificPools, crPoolIds } from '@/helpers/constants';
 
 // import { default as data } from '../../rewards.json';
 
@@ -393,15 +394,6 @@ export async function formatPool(pool) {
     combinedAdjustmentFactor
   );
 
-  const crPoolIds = [
-    '0x13da4034a56f0293b8a78bc13524656e0136455c', // SYMMv1/cEUR
-    '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
-    '0x22324f68ff401a4379da39421140bcc58102338f', // SYMMv1/cUSD
-    '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
-    '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221', // SYMMv1/CELO
-    '0x7ee06450f4ff97990c6288237964bf4f545f221f' // SYMMv2/CELO
-  ];
-
   const totalAdjustedLiquidity = store.getters['getNetworkLiquidity'];
 
   // As per the Excel spreadsheet, calcultate the adjusted pool liquidity percent, the number of tokens paid out and then the value
@@ -430,22 +422,27 @@ export async function formatPool(pool) {
     if (poolId === pool.id) {
       const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
       const symmV1cUSDLiquidity = Number(
-        store.getters['getSymmV1cUSDLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV1cUSD)
       );
+
       const symmV2cUSDLiquidity = Number(
-        store.getters['getSymmV2cUSDLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV2cUSD)
       );
+
       const symmV1cEURLiquidity = Number(
-        store.getters['getSymmV1cEURLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV1cEUR)
       );
+
       const symmV2cEURLiquidity = Number(
-        store.getters['getSymmV2cEURLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV2cEUR)
       );
+
       const symmV1CELOLiquidity = Number(
-        store.getters['getSymmV1CELOLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV1CELO)
       );
+
       const symmV2CELOLiquidity = Number(
-        store.getters['getSymmV2CELOLiquidity']
+        store.getters.getPoolLiquidityFromId(specificPools.symmV2CELO)
       );
 
       const liquidities = [

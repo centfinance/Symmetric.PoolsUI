@@ -268,8 +268,7 @@ import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 // import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
-import Pool from '@/_balancer/pool';
-import store from '@/store';
+import { crPoolIds } from '@/helpers/constants';
 
 export default {
   props: ['query', 'title'],
@@ -333,6 +332,7 @@ export default {
     ...mapActions([
       'getPools',
       'getNetworkLiquidity',
+      'getSpecificPools',
       'getTokens',
       'getSYMMprice',
       'getSTAKEprice',
@@ -350,7 +350,9 @@ export default {
       await this.getSYMMprice();
       await this.getSTAKEprice();
       await this.getGNOprice();
-      if (config.network == 'celo') await this.loadPool();
+      if (config.network == 'celo') {
+        await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
+      }
       const pools = await this.getPools(query);
       if (pools && pools.length > 0) {
         this.pools = this.pools.concat(pools);
@@ -360,38 +362,6 @@ export default {
         this.switchView({ value: true });
         this.showCard = true;
       }
-    },
-    async loadPool() {
-      const symmV1cUSD = '0x22324f68ff401a4379da39421140bcc58102338f';
-      const symmV2cUSD = '0x8b44535e5137595aebebe5942c024863ee5c0db6';
-      const symmV1cEUR = '0x13da4034a56f0293b8a78bc13524656e0136455c';
-      const symmV2cEUR = '0x2fdcd64ad761485537cfeaa598c8980efd806532';
-      const symmV1CELO = '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221';
-      const symmV2CELO = '0x7ee06450f4ff97990c6288237964bf4f545f221f';
-      const bPool1 = new Pool(symmV1cUSD);
-      const bPool2 = new Pool(symmV2cUSD);
-      const bPool3 = new Pool(symmV1cEUR);
-      const bPool4 = new Pool(symmV2cEUR);
-      const bPool5 = new Pool(symmV1CELO);
-      const bPool6 = new Pool(symmV2CELO);
-      let pool1, pool2, pool3, pool4, pool5, pool6;
-      try {
-        pool1 = await bPool1.getMetadata();
-        pool2 = await bPool2.getMetadata();
-        pool3 = await bPool3.getMetadata();
-        pool4 = await bPool4.getMetadata();
-        pool5 = await bPool5.getMetadata();
-        pool6 = await bPool6.getMetadata();
-      } catch (e) {
-        console.log(e);
-      }
-
-      store.commit('GET_SYMMV1_CUSD_LIQUIDITY', pool1.liquidity);
-      store.commit('GET_SYMMV2_CUSD_LIQUIDITY', pool2.liquidity);
-      store.commit('GET_SYMMV1_CEUR_LIQUIDITY', pool3.liquidity);
-      store.commit('GET_SYMMV2_CEUR_LIQUIDITY', pool4.liquidity);
-      store.commit('GET_SYMMV1_CELO_LIQUIDITY', pool5.liquidity);
-      store.commit('GET_SYMMV2_CELO_LIQUIDITY', pool6.liquidity);
     }
   }
 };

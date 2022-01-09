@@ -13,10 +13,12 @@ import {
   getSTAKEprice,
   getGNOprice
 } from '@/helpers/utils';
+import { cloneDeep } from 'lodash';
 
 const state = {
   balancer: {},
   poolShares: {},
+  specificPools: [],
   myPools: [],
   tokens: {}, // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
@@ -27,13 +29,7 @@ const state = {
   POOFprice: {},
   MOOprice: {},
   STAKEprice: {},
-  GNOprice: {},
-  symmV1cUSDLiquidity: 0,
-  symmV2cUSDLiquidity: 0,
-  symmV1cEURLiquidity: 0,
-  symmV2cEURLiquidity: 0,
-  symmV1CELOLiquidity: 0,
-  symmV2CELOLiquidity: 0
+  GNOprice: {}
 };
 
 const mutations = {
@@ -54,7 +50,8 @@ const mutations = {
   GET_SPECIFIC_POOLS_REQUEST() {
     console.debug('GET_SPECIFIC_POOLS_REQUEST');
   },
-  GET_SPECIFIC_POOLS_SUCCESS() {
+  GET_SPECIFIC_POOLS_SUCCESS(_state, payload) {
+    Vue.set(_state, 'specificPools', payload);
     console.debug('GET_SPECIFIC_POOLS_SUCCESS');
   },
   GET_SPECIFIC_POOLS_FAILURE(_state, payload) {
@@ -148,24 +145,6 @@ const mutations = {
   GET_GNO_PRICE(_state, payload) {
     Vue.set(_state, 'GNOprice', payload);
     console.debug('GET_GNO_PRICE', payload);
-  },
-  GET_SYMMV1_CUSD_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1cUSDLiquidity', payload);
-  },
-  GET_SYMMV2_CUSD_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2cUSDLiquidity', payload);
-  },
-  GET_SYMMV1_CEUR_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1cEURLiquidity', payload);
-  },
-  GET_SYMMV2_CEUR_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2cEURLiquidity', payload);
-  },
-  GET_SYMMV1_CELO_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1CELOLiquidity', payload);
-  },
-  GET_SYMMV2_CELO_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2CELOLiquidity', payload);
   }
 };
 
@@ -250,18 +229,18 @@ const actions = {
     }
   },
   getSpecificPools: async ({ commit }, payload) => {
-    const { first = 20, where = {} } = payload;
+    const { where = {} } = cloneDeep(payload.query);
+    const { id_in } = payload; // array of pool ids
     const ts = Math.round(new Date().getTime() / 1000);
     const tsYesterday = ts - 24 * 3600;
-    where.filter = {
-      id: ['0x1', '0x2', '0x3', '0x4']
-    };
+
+    where.id_in = id_in;
 
     const query = {
       pools: {
         __args: {
           where,
-          first
+          first: id_in.length
         },
         swaps: {
           __args: {
@@ -274,13 +253,8 @@ const actions = {
     };
     commit('GET_SPECIFIC_POOLS_REQUEST');
     try {
-      let { pools } = await request('getPools', query);
-      // pools = await Promise.all(
-      //   pools.map(async (pool): Promise<object> => {
-      //     return await formatPool(pool);
-      //   })
-      // );
-      commit('GET_SPECIFIC_POOLS_SUCCESS');
+      const { pools } = await request('getPools', query);
+      commit('GET_SPECIFIC_POOLS_SUCCESS', pools);
       return pools;
     } catch (e) {
       commit('GET_SPECIFIC_POOLS_FAILURE', e);
@@ -483,23 +457,13 @@ const getters = {
   getGNOprice(state) {
     return state.GNOprice;
   },
-  getSymmV1cUSDLiquidity(state) {
-    return state.symmV1cUSDLiquidity;
-  },
-  getSymmV2cUSDLiquidity(state) {
-    return state.symmV2cUSDLiquidity;
-  },
-  getSymmV1cEURLiquidity(state) {
-    return state.symmV1cEURLiquidity;
-  },
-  getSymmV2cEURLiquidity(state) {
-    return state.symmV2cEURLiquidity;
-  },
-  getSymmV1CELOLiquidity(state) {
-    return state.symmV1CELOLiquidity;
-  },
-  getSymmV2CELOLiquidity(state) {
-    return state.symmV2CELOLiquidity;
+  getPoolLiquidityFromId: state => poolId => {
+    const filteredPool = state.specificPools.filter(
+      pool => pool.id.toLowerCase() === poolId.toLowerCase()
+    );
+    if (filteredPool.length > 0) {
+      return filteredPool[0].liquidity;
+    } else return 0;
   }
 };
 
