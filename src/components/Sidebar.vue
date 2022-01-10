@@ -56,7 +56,7 @@
           </li>
           <li>
             <a href="https://xdai-pools.symmetric.exchange">
-              xDai
+              Gnosis
               <Icon name="external-link" class="ml-1" />
             </a>
           </li>
@@ -92,7 +92,10 @@
       </div>
       <div class="d-block m-4">
         <span
-          >Network: <span class="network-name">{{ config.network }}</span>
+          >Network:
+          <span class="network-name">{{
+            config.network === 'xdai' ? 'gnosis' : config.network
+          }}</span>
         </span>
         <br />
         <span

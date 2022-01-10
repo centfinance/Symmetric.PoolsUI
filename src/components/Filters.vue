@@ -42,7 +42,7 @@
             </span>
             &nbsp;
             <span>
-              <span class="span-text-key">TVL xDai: </span>
+              <span class="span-text-key">TVL Gnosis: </span>
               <span
                 class="row span-text-value"
                 v-text="_num(xDaiTVL, 'usd-long')"
@@ -94,7 +94,7 @@
             </span>
             &nbsp;
             <span>
-              <span class="span-text-key">xDai: *</span>
+              <span class="span-text-key">Gnosis: *</span>
               <span
                 class="row span-text-value"
                 v-text="_num(SYMMPricexDAI, 'usd-long')"

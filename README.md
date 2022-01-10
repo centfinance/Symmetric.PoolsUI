@@ -28,8 +28,9 @@ npm run lint
 ### Supported Networks
 ```
 Ethereum main network
+CELO
+GNOSIS
 Kovan
-XDAI
 POA
 Catalyst (coming soon)
 ```
