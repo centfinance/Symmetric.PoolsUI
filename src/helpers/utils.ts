@@ -531,7 +531,7 @@ export async function formatPool(pool) {
   const enum gnoPool {
     GNO_WXDAI,
     SYMM_WXDAI,
-    STAKE_AGVE,
+    GNO_AGVE,
     None
   }
   let gnoPoolIndex = gnoPool.None;
@@ -540,8 +540,8 @@ export async function formatPool(pool) {
     gnoPoolIndex = gnoPool.GNO_WXDAI;
   } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
     gnoPoolIndex = gnoPool.SYMM_WXDAI;
-  } else if (findPoolFromTokens(crPool, 'STAKE', 'AGVE', 60, 40)) {
-    gnoPoolIndex = gnoPool.STAKE_AGVE;
+  } else if (findPoolFromTokens(crPool, 'GNO', 'AGVE', 60, 40)) {
+    gnoPoolIndex = gnoPool.GNO_AGVE;
   }
 
   if (gnoPoolIndex !== gnoPool.None) {
