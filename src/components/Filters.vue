@@ -81,12 +81,10 @@
           &nbsp; -->
           <div>
             <span>
-              <span class="span-text-key">( Symbol: </span>
-              <span class="row span-text-value">SYMM</span>
+              <span class="span-text-key">( </span>
             </span>
-            &nbsp;
             <span>
-              <span class="span-text-key">Celo: *</span>
+              <span class="span-text-key">SYMM price on Celo: *</span>
               <span
                 class="row span-text-value"
                 v-text="_num(SYMMPriceCelo, 'usd-long')"
@@ -94,7 +92,7 @@
             </span>
             &nbsp;
             <span>
-              <span class="span-text-key">Gnosis: *</span>
+              <span class="span-text-key">SYMM price on Gnosis: *</span>
               <span
                 class="row span-text-value"
                 v-text="_num(SYMMPricexDAI, 'usd-long')"
