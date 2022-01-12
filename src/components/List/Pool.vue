@@ -35,6 +35,10 @@
         <UiNum :value="pool.rewardApyMoo" format="percent" class="w-60" />
         <div class="w-40 ml-1 text-right">MOO</div>
       </div>
+      <div class="d-flex" v-if="pool.rewardApyAri">
+        <UiNum :value="pool.rewardApyAri" format="percent" class="w-60" />
+        <div class="w-40 ml-1 text-right">ARI</div>
+      </div>
       <div class="d-flex" v-if="pool.rewardApyGno">
         <UiNum :value="pool.rewardApyGno" format="percent" class="w-60" />
         <div class="w-40 ml-1 text-right">GNO</div>
@@ -73,6 +77,14 @@
           class="w-60"
         />
         <div class="w-40 ml-1 text-right">MOO</div>
+      </div>
+      <div class="d-flex" v-if="pool.tokenRewardAri">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardAri)"
+          format="long"
+          class="w-60"
+        />
+        <div class="w-40 ml-1 text-right">ARI</div>
       </div>
       <div class="d-flex" v-if="pool.tokenRewardGno">
         <UiNum
