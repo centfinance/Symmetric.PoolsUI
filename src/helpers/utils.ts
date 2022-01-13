@@ -403,7 +403,6 @@ export async function formatPool(pool) {
 
   const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM;
 
-  // console.log(`SYMMPRICE: ${SYMMprice}`);
   const dailyCoinReward = new BigNumber(395.6);
 
   pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
@@ -522,6 +521,18 @@ export async function formatPool(pool) {
     crPool.tokenRewardMoo = mooDailyCoinReward;
     crPool.rewardApyMoo = crPool.tokenRewardMoo
       .times(MOOprice)
+      .div(crPool.liquidity)
+      .times(365);
+  }
+
+  // ARI rewards
+  if (findPoolFromTokens(crPool, 'ARI', 'CUSD', 95, 5)) {
+    const ARIprice = store.getters.getTokenPriceFromSymbol('ARI');
+
+    const ariDailyCoinReward = new BigNumber(1000); // 7K ARI a week
+    crPool.tokenRewardAri = ariDailyCoinReward;
+    crPool.rewardApyAri = crPool.tokenRewardAri
+      .times(ARIprice)
       .div(crPool.liquidity)
       .times(365);
   }
