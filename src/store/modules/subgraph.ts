@@ -5,35 +5,19 @@ import {
   formatPool,
   ITEMS_PER_PAGE,
   getNetworkLiquidity,
-  getSYMMprice,
-  getCELOprice,
-  getKNXprice,
-  getPOOFprice,
-  getMOOprice,
-  getSTAKEprice,
-  getGNOprice
+  getSYMMprice
 } from '@/helpers/utils';
+import { cloneDeep } from 'lodash';
 
 const state = {
   balancer: {},
   poolShares: {},
+  specificPools: [],
   myPools: [],
   tokens: {}, // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
-  SYMMprice: {},
-  CELOprice: {},
-  KNXprice: {},
-  POOFprice: {},
-  MOOprice: {},
-  STAKEprice: {},
-  GNOprice: {},
-  symmV1cUSDLiquidity: 0,
-  symmV2cUSDLiquidity: 0,
-  symmV1cEURLiquidity: 0,
-  symmV2cEURLiquidity: 0,
-  symmV1CELOLiquidity: 0,
-  symmV2CELOLiquidity: 0
+  SYMMprice: {}
 };
 
 const mutations = {
@@ -50,6 +34,16 @@ const mutations = {
   },
   GET_POOLS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_FAILURE', payload);
+  },
+  GET_SPECIFIC_POOLS_REQUEST() {
+    console.debug('GET_SPECIFIC_POOLS_REQUEST');
+  },
+  GET_SPECIFIC_POOLS_SUCCESS(_state, payload) {
+    Vue.set(_state, 'specificPools', payload);
+    console.debug('GET_SPECIFIC_POOLS_SUCCESS');
+  },
+  GET_SPECIFIC_POOLS_FAILURE(_state, payload) {
+    console.debug('GET_SPECIFIC_POOLS_FAILURE', payload);
   },
   GET_MY_POOLS_SHARES_REQUEST() {
     console.debug('GET_MY_POOLS_SHARES_REQUEST');
@@ -115,48 +109,6 @@ const mutations = {
   GET_SYMM_PRICE(_state, payload) {
     Vue.set(_state, 'SYMMprice', payload);
     console.debug('GET_SYMM_PRICE', payload);
-  },
-  GET_CELO_PRICE(_state, payload) {
-    Vue.set(_state, 'CELOprice', payload);
-    console.debug('GET_CELO_PRICE', payload);
-  },
-  GET_KNX_PRICE(_state, payload) {
-    Vue.set(_state, 'KNXprice', payload);
-    console.debug('GET_KNX_PRICE', payload);
-  },
-  GET_POOF_PRICE(_state, payload) {
-    Vue.set(_state, 'POOFprice', payload);
-    console.debug('GET_POOF_PRICE', payload);
-  },
-  GET_MOO_PRICE(_state, payload) {
-    Vue.set(_state, 'MOOprice', payload);
-    console.debug('GET_MOO_PRICE', payload);
-  },
-  GET_STAKE_PRICE(_state, payload) {
-    Vue.set(_state, 'STAKEprice', payload);
-    console.debug('GET_STAKE_PRICE', payload);
-  },
-  GET_GNO_PRICE(_state, payload) {
-    Vue.set(_state, 'GNOprice', payload);
-    console.debug('GET_GNO_PRICE', payload);
-  },
-  GET_SYMMV1_CUSD_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1cUSDLiquidity', payload);
-  },
-  GET_SYMMV2_CUSD_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2cUSDLiquidity', payload);
-  },
-  GET_SYMMV1_CEUR_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1cEURLiquidity', payload);
-  },
-  GET_SYMMV2_CEUR_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2cEURLiquidity', payload);
-  },
-  GET_SYMMV1_CELO_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV1CELOLiquidity', payload);
-  },
-  GET_SYMMV2_CELO_LIQUIDITY(_state, payload) {
-    Vue.set(_state, 'symmV2CELOLiquidity', payload);
   }
 };
 
@@ -171,30 +123,6 @@ const actions = {
   getSYMMprice: async ({ commit }) => {
     const price = await getSYMMprice();
     commit('GET_SYMM_PRICE', price);
-  },
-  getCELOprice: async ({ commit }) => {
-    const price = await getCELOprice();
-    commit('GET_CELO_PRICE', price);
-  },
-  getKNXprice: async ({ commit }) => {
-    const price = await getKNXprice();
-    commit('GET_KNX_PRICE', price);
-  },
-  getPOOFprice: async ({ commit }) => {
-    const price = await getPOOFprice();
-    commit('GET_POOF_PRICE', price);
-  },
-  getMOOprice: async ({ commit }) => {
-    const price = await getMOOprice();
-    commit('GET_MOO_PRICE', price);
-  },
-  getSTAKEprice: async ({ commit }) => {
-    const price = await getSTAKEprice();
-    commit('GET_STAKE_PRICE', price);
-  },
-  getGNOprice: async ({ commit }) => {
-    const price = await getGNOprice();
-    commit('GET_GNO_PRICE', price);
   },
   getPools: async ({ commit }, payload) => {
     const {
@@ -238,6 +166,38 @@ const actions = {
       return pools;
     } catch (e) {
       commit('GET_POOLS_FAILURE', e);
+    }
+  },
+  getSpecificPools: async ({ commit }, payload) => {
+    const { where = {} } = cloneDeep(payload.query);
+    const { id_in } = payload; // array of pool ids
+    const ts = Math.round(new Date().getTime() / 1000);
+    const tsYesterday = ts - 24 * 3600;
+
+    where.id_in = id_in;
+
+    const query = {
+      pools: {
+        __args: {
+          where,
+          first: id_in.length
+        },
+        swaps: {
+          __args: {
+            where: {
+              timestamp_lt: tsYesterday
+            }
+          }
+        }
+      }
+    };
+    commit('GET_SPECIFIC_POOLS_REQUEST');
+    try {
+      const { pools } = await request('getPools', query);
+      commit('GET_SPECIFIC_POOLS_SUCCESS', pools);
+      return pools;
+    } catch (e) {
+      commit('GET_SPECIFIC_POOLS_FAILURE', e);
     }
   },
   getUserPoolShares: async ({ commit, rootState }) => {
@@ -419,41 +379,13 @@ const getters = {
   getSYMMprice(state) {
     return state.SYMMprice;
   },
-  getCELOprice(state) {
-    return state.CELOprice;
-  },
-  getKNXprice(state) {
-    return state.KNXprice;
-  },
-  getPOOFprice(state) {
-    return state.POOFprice;
-  },
-  getMOOprice(state) {
-    return state.MOOprice;
-  },
-  getSTAKEprice(state) {
-    return state.STAKEprice;
-  },
-  getGNOprice(state) {
-    return state.GNOprice;
-  },
-  getSymmV1cUSDLiquidity(state) {
-    return state.symmV1cUSDLiquidity;
-  },
-  getSymmV2cUSDLiquidity(state) {
-    return state.symmV2cUSDLiquidity;
-  },
-  getSymmV1cEURLiquidity(state) {
-    return state.symmV1cEURLiquidity;
-  },
-  getSymmV2cEURLiquidity(state) {
-    return state.symmV2cEURLiquidity;
-  },
-  getSymmV1CELOLiquidity(state) {
-    return state.symmV1CELOLiquidity;
-  },
-  getSymmV2CELOLiquidity(state) {
-    return state.symmV2CELOLiquidity;
+  getPoolLiquidityFromId: state => poolId => {
+    const filteredPool = state.specificPools.filter(
+      pool => pool.id.toLowerCase() === poolId.toLowerCase()
+    );
+    if (filteredPool.length > 0) {
+      return filteredPool[0].liquidity;
+    } else return 0;
   }
 };
 

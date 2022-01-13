@@ -8,9 +8,9 @@
             <div class="wpb_wrapper">
               <span
                 ><span
-                  >As Symmetric is running on xDai and if you have your
+                  >As Symmetric is running on Gnosis and if you have your
                   coins/tokens visible on Ethereum then you need to bring them
-                  over to xDai network. <br /><br />
+                  over to Gnosis network. <br /><br />
                   <p>
                     Bringing your ETH tokens is a very simple process, you can
                     follow the instructions at:
@@ -21,7 +21,7 @@
                       >Omnibridge <Icon name="external-link" class="ml-1" /></a
                     ><br /><br />
                     Or any other bridge that can transfer your coins from other
-                    network to xDai network.
+                    network to Gnosis network.
                   </p></span
                 ></span
               ><br />
