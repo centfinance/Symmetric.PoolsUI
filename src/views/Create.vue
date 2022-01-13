@@ -171,6 +171,10 @@
         @close="confirmModalOpen = false"
         @create="create"
       />
+      <ModalInvestWarning
+        :open="investWarningModalOpen"
+        @close="investWarningModalOpen = false"
+      />
     </portal>
   </Page>
 </template>
@@ -242,7 +246,8 @@ export default {
       tokenModalOpen: false,
       confirmModalOpen: false,
       padlock: true,
-      checkboxAccept: false
+      checkboxAccept: false,
+      investWarningModalOpen: true
     };
   },
   created() {

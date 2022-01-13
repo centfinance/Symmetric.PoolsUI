@@ -17,6 +17,19 @@ import '@/auth';
 import '@/style.scss';
 import '@/helpers/fathom';
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import {
+  faTwitter,
+  faGithub,
+  faDiscord,
+  faTelegram,
+  faMedium
+} from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+
+library.add(faTwitter, faGithub, faDiscord, faTelegram, faMedium);
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+
 Vue.use(infiniteScroll);
 Vue.use(ToggleButton);
 Vue.use(VueCookie);

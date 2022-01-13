@@ -77,6 +77,15 @@ a {
     max-width: 810px;
   }
 
+  .modal-header {
+    padding: 40px 40px 10px;
+
+    .modal-title {
+      font-size: 18px;
+      color: var(--text-primary-color);
+    }
+  }
+
   .modal-body {
     flex: auto;
     overflow-y: auto;

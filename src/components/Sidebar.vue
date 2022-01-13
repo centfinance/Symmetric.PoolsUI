@@ -112,6 +112,34 @@
           <Icon name="external-link" class="ml-1" />
         </a>
       </div>
+
+      <div class="social-links">
+        <div class="social-item">
+          <a href="https://twitter.com/0xsymmetric" target="_black"
+            ><font-awesome-icon :icon="['fab', 'twitter']"
+          /></a>
+        </div>
+        <div class="social-item">
+          <a href="https://github.com/centfinance" target="_black"
+            ><font-awesome-icon :icon="['fab', 'github']"
+          /></a>
+        </div>
+        <div class="social-item">
+          <a href="https://discord.gg/rJd7azWx4V" target="_black"
+            ><font-awesome-icon :icon="['fab', 'discord']"
+          /></a>
+        </div>
+        <div class="social-item">
+          <a href="https://t.me/SymmetricFinanceAnnouncements" target="_black"
+            ><font-awesome-icon :icon="['fab', 'telegram']"
+          /></a>
+        </div>
+        <div class="social-item">
+          <a href="https://medium.com/@Symmetric.Finance" target="_black"
+            ><font-awesome-icon :icon="['fab', 'medium']"
+          /></a>
+        </div>
+      </div>
     </nav>
     <portal to="modal">
       <ModalAbout :open="modalOpen" @close="modalOpen = false" />
@@ -180,6 +208,19 @@ export default {
 
   .network-name {
     color: var(--text-primary-color);
+  }
+
+  .social-links {
+    display: flex;
+    padding: 0px 24px 24px;
+
+    .social-item {
+      margin-right: 4px;
+
+      a {
+        font-size: 18px;
+      }
+    }
   }
 }
 
