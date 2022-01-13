@@ -58,6 +58,11 @@
                       <UiNum :value="item.rewardApyMoo" format="percent" />
                       MOO
                     </span>
+                    <span v-if="item.rewardApyAri">
+                      /
+                      <UiNum :value="item.rewardApyAri" format="percent" />
+                      ARI
+                    </span>
                     <span v-if="item.rewardApyGno">
                       /
                       <UiNum :value="item.rewardApyGno" format="percent" />
@@ -127,6 +132,23 @@
                         class=""
                       />
                       MOO
+                    </span>
+                    <span v-if="item.tokenRewardAri">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardAri,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      ARI
                     </span>
                     <span v-if="item.tokenRewardGno">
                       /
