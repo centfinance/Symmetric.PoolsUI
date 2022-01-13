@@ -169,11 +169,12 @@ const actions = {
     }
   },
   getSpecificPools: async ({ commit }, payload) => {
-    const { where = {} } = cloneDeep(payload.query);
+    // const { where = {} } = cloneDeep(payload.query);
     const { id_in } = payload; // array of pool ids
     const ts = Math.round(new Date().getTime() / 1000);
     const tsYesterday = ts - 24 * 3600;
 
+    let where = { finalized: true, id_in: [] };
     where.id_in = id_in;
 
     const query = {
