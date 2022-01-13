@@ -526,7 +526,7 @@ export async function formatPool(pool) {
   }
 
   // ARI rewards
-  if (findPoolFromTokens(crPool, 'ARI', 'CUSD', 95, 5)) {
+  if (findPoolFromTokens(crPool, 'ARI', 'cUSD', 95, 5)) {
     const ARIprice = store.getters.getTokenPriceFromSymbol('ARI');
 
     const ariDailyCoinReward = new BigNumber(1000); // 7K ARI a week
