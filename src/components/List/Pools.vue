@@ -291,6 +291,7 @@ import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
 import { crPoolIds } from '@/helpers/constants';
+import BigNumber from '@/helpers/bignumber';
 
 export default {
   props: ['query', 'title'],
@@ -303,7 +304,8 @@ export default {
       page: 0,
       pools: [],
       filters: formatFilters(this.$route.query),
-      symmPoolsLoading: false
+      symmPoolsLoading: false,
+      totalPoolValues: []
     };
   },
   mounted() {
@@ -375,11 +377,31 @@ export default {
       if (pools && pools.length > 0) {
         this.pools = this.pools.concat(pools);
       }
+
+      this.getTotalPoolValues();
+
       this.loading = false;
       if (this.$cookie.get('cardView') === null) {
         this.switchView({ value: true });
         this.showCard = true;
       }
+    },
+
+    getTotalPoolValues() {
+      const totalValues = {
+        totalLiquidity: 0,
+        totalRewardApy: new BigNumber(0),
+        totalVolume: 0
+      };
+
+      this.pools.forEach(pool => {
+        totalValues.totalLiquidity += parseFloat(pool.liquidity);
+        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(pool.tokenReward);
+        totalValues.totalVolume += pool.lastSwapVolume;
+        return pool;
+      });
+
+      console.log(totalValues);
     }
   }
 };
