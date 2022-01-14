@@ -29,6 +29,35 @@
         </UiButton>
       </div>
     </div>
+
+    <!-- Total values -->
+    <div class="cards flex-end">
+      <div
+        class="cardInfo rounded-1 totalpool highlight-card anim-fade-in rounded-1"
+      >
+        <div id="contact-details">
+          <span class="text-white-normal">Total TVL: </span>
+          <span
+            v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
+            class="table-column"
+          />
+          <br />
+          <span class="text-white-normal">Total Daily Reward:</span>
+          <span
+            v-text="_num(totalPoolValues.totalRewardApy, 'usd-long')"
+            class="table-column"
+          />
+          <br />
+          <span class="text-white-normal">Total Volume</span>
+          <span
+            v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
+            format="currency"
+            class="table-column hide-sm"
+          />
+        </div>
+      </div>
+    </div>
+
     <div class="cards">
       <div class="cardInfo rounded-1">
         <div class="highlight-card anim-fade-in rounded-1 d-flex">
@@ -171,6 +200,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import {
   formatFilters,
   getSYMMPriceXDAI,
@@ -181,6 +211,10 @@ import {
   // getSYMMPricePOLYGON
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
+import BigNumber from '@/helpers/bignumber';
+import config from '@/config';
+import { crPoolIds } from '@/helpers/constants';
+
 
 export default {
   // components: { LineChart },
@@ -210,7 +244,8 @@ export default {
         smart: 'Smart',
         private: 'Private'
       },
-      modalOpen: false
+      modalOpen: false,
+      totalPoolValues: {}
     };
   },
   async mounted() {
@@ -218,6 +253,7 @@ export default {
     setTimeout(this.fetchTVL(), 600);
     this.loaded = false;
     try {
+      this.getTotalValues();
       const response = await fetch('https://api.llama.fi/protocol/symmetric');
       const data = await response.json();
       this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
@@ -233,6 +269,39 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['getPools', 'getNetworkLiquidity']),
+    async getTotalValues() {
+      await this.getNetworkLiquidity();
+      const query = { first: 100 };
+      const pools = await this.getPools(query);
+      this.totalPoolValues = this.calculateTotalValues(pools);
+    },
+    calculateTotalValues(pools) {
+      const totalValues = {
+        totalLiquidity: 0,
+        totalRewardApy: new BigNumber(0),
+        totalVolume: 0
+      };
+
+      pools.forEach(pool => {
+        totalValues.totalLiquidity += parseFloat(pool.liquidity);
+        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(
+          this.getSpecificMyDailyRewards(pool.tokenReward, pool)
+        );
+        totalValues.totalVolume += pool.lastSwapVolume;
+        return pool;
+      });
+
+      return totalValues;
+    },
+    myLiquidity(pool) {
+      const poolShares = this.subgraph.poolShares[pool.id];
+      if (!pool.finalized || !poolShares) return 0;
+      return (pool.liquidity / pool.totalShares) * poolShares;
+    },
+    getSpecificMyDailyRewards(tokenReward, pool) {
+      return (tokenReward * this.myLiquidity(pool)) / pool.liquidity;
+    },
     async fetchTVL() {
       const response = await fetch('https://api.llama.fi/tvl/symmetric');
       const data = await response.json();
@@ -398,6 +467,17 @@ export default {
     height: 28px;
     width: 28px;
   }
+}
+.text-white-normal {
+  width: 130px;
+  display: inline-block;
+}
+.totalpool {
+  width: 270px;
+}
+.flex-end {
+  display: flex;
+  justify-content: end;
 }
 @media (max-width: 767px) {
   .cards {

@@ -283,7 +283,7 @@
       <UiTableTh>
         <div class="table-column-assets flex-auto text-left">Total Values</div>
         <div
-          v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
+          v-text="_num(currentTotalPoolValues.totalLiquidity, 'usd-long')"
           class="table-column"
         />
         <div class="table-column hide-sm"></div>
@@ -291,13 +291,13 @@
         <div class="table-column hide-sm hide-md hide-lg"></div>
         <div class="table-column hide-sm hide-md hide-lg">
           <UiNum
-            :value="totalPoolValues.totalRewardApy"
+            :value="currentTotalPoolValues.totalRewardApy"
             format="long"
             class="w-60"
           />
         </div>
         <div
-          v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
+          v-text="_num(currentTotalPoolValues.totalVolume, 'usd-long')"
           format="currency"
           class="table-column hide-sm"
         />
@@ -327,7 +327,8 @@ export default {
       pools: [],
       filters: formatFilters(this.$route.query),
       symmPoolsLoading: false,
-      totalPoolValues: {}
+      currentTotalPoolValues: {},
+      // totalPoolValues: {},
     };
   },
   mounted() {
@@ -387,6 +388,7 @@ export default {
       this.loading = true;
       this.page++;
       const page = this.page;
+      console.log(this.query)
       let query = this.query || {};
       query = { ...query, page };
       await this.getNetworkLiquidity();
@@ -400,7 +402,7 @@ export default {
         this.pools = this.pools.concat(pools);
       }
 
-      this.getTotalPoolValues();
+      this.currentTotalPoolValues = this.calculateTotalValues(this.pools);
 
       this.loading = false;
       if (this.$cookie.get('cardView') === null) {
@@ -409,14 +411,29 @@ export default {
       }
     },
 
-    getTotalPoolValues() {
+    // async getTotalValues() {
+    //   const page = 10;
+    //   let query = this.query || {};
+    //   query = { ...query, page };
+    //   // await this.getNetworkLiquidity();
+    //   // await this.getTokens();
+    //   // await this.getSYMMprice();
+    //   // if (config.network == 'celo') {
+    //   //   await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
+    //   // }
+    //   const pools = await this.getPools(query);
+
+    //   this.totalPoolValues = this.calculateTotalValues(pools);
+    // },
+
+    calculateTotalValues(pools) {
       const totalValues = {
         totalLiquidity: 0,
         totalRewardApy: new BigNumber(0),
         totalVolume: 0
       };
 
-      this.pools.forEach(pool => {
+      pools.forEach(pool => {
         totalValues.totalLiquidity += parseFloat(pool.liquidity);
         totalValues.totalRewardApy = totalValues.totalRewardApy.plus(
           this.getSpecificMyDailyRewards(pool.tokenReward, pool)
@@ -425,7 +442,7 @@ export default {
         return pool;
       });
 
-      this.totalPoolValues = totalValues;
+      return totalValues;
     }
   }
 };
