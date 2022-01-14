@@ -280,6 +280,28 @@
           :height="29"
         />
       </div>
+      <UiTableTh>
+        <div class="table-column-assets flex-auto text-left">Total Values</div>
+        <div
+          v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
+          class="table-column"
+        />
+        <div class="table-column hide-sm"></div>
+        <div class="table-column hide-sm hide-md"></div>
+        <div class="table-column hide-sm hide-md hide-lg"></div>
+        <div class="table-column hide-sm hide-md hide-lg">
+          <UiNum
+            :value="totalPoolValues.totalRewardApy"
+            format="long"
+            class="w-60"
+          />
+        </div>
+        <div
+          v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
+          format="currency"
+          class="table-column hide-sm"
+        />
+      </UiTableTh>
     </UiTable>
   </div>
 </template>
@@ -305,7 +327,7 @@ export default {
       pools: [],
       filters: formatFilters(this.$route.query),
       symmPoolsLoading: false,
-      totalPoolValues: []
+      totalPoolValues: {}
     };
   },
   mounted() {
@@ -396,12 +418,14 @@ export default {
 
       this.pools.forEach(pool => {
         totalValues.totalLiquidity += parseFloat(pool.liquidity);
-        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(pool.tokenReward);
+        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(
+          this.getSpecificMyDailyRewards(pool.tokenReward, pool)
+        );
         totalValues.totalVolume += pool.lastSwapVolume;
         return pool;
       });
 
-      console.log(totalValues);
+      this.totalPoolValues = totalValues;
     }
   }
 };
