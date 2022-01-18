@@ -46,6 +46,23 @@
       "poolTokenId": true
     }
   },
+  "getSYMM2PriceCELO": {
+    "tokenPrices": {
+      "__args": {
+        "first": 1,
+        "where": {
+          "id": "0x8427bd503dd3169ccc9aff7326c15258bc305478"
+        }
+      },
+      "id": true,
+      "symbol": true,
+      "name": true,
+      "decimals": true,
+      "price": true,
+      "poolLiquidity": true,
+      "poolTokenId": true
+    }
+  },
   "getCELOPrice": {
     "tokenPrices": {
       "__args": {

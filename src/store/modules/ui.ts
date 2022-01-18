@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import config from '@/config';
 
+const ETHERSCAN_ENDPOINT =
+  'https://api.etherscan.io/api?module=stats&action=tokensupply&contractaddress=0x57db3ffca78dbbe0efa0ec745d55f62aa0cbd345&apikey=IQQUGPR4WF27TZ4FNWNEJ8GPWAVWM6ICDU';
+
 const state = {
   init: false,
   loading: false,
@@ -10,7 +13,8 @@ const state = {
   pools: [],
   proxy: '',
   sidebarIsOpen: false,
-  modalOpen: false
+  modalOpen: false,
+  totalCirculatingSupply: ''
 };
 
 const mutations = {
@@ -34,6 +38,21 @@ const actions = {
     const connector = await Vue.prototype.$auth.getConnector();
     if (connector) dispatch('login', connector);
     commit('SET', { loading: false, init: true });
+
+    // get symm circulating supply from etherscan
+    let data;
+    try {
+      const url = `${ETHERSCAN_ENDPOINT}`;
+      const response = await fetch(url);
+      data = await response.json();
+    } catch (e) {
+      console.error(e);
+    }
+    if (data?.result) {
+      commit('SET', {
+        totalCirculatingSupply: (data.result / 10e17).toFixed(2)
+      });
+    }
   },
   loading: ({ commit }, payload) => {
     commit('SET', { loading: payload });

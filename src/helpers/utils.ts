@@ -145,7 +145,7 @@ export async function getSYMMPriceCELO() {
   try {
     const response = await subgraphRequest(
       config.subgraphUrlCELO,
-      queries['getSYMMPrice']
+      queries['getSYMM2PriceCELO']
     );
     return response.tokenPrices[0].price;
   } catch (e) {

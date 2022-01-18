@@ -78,6 +78,14 @@
               />
             </span>
             &nbsp;
+            <span>
+              <span class="span-text-key">Circulating supply: </span>
+              <span
+                class="row span-text-value"
+                v-text="_num(circulatingSupply, 'long')"
+              />
+            </span>
+            &nbsp;
           </div>
           <!--
           <span>
@@ -214,7 +222,7 @@ import {
 import BigNumber from '@/helpers/bignumber';
 import config from '@/config';
 import { crPoolIds } from '@/helpers/constants';
-
+import { mapState } from 'vuex';
 
 export default {
   // components: { LineChart },
@@ -336,6 +344,9 @@ export default {
       });
     }
   },
+  computed: mapState({
+    circulatingSupply: state => state.ui.totalCirculatingSupply
+  }),
   created() {
     const filters = formatFilters(this.value);
     this.tokens = filters.token;
