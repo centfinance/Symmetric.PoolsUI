@@ -7,7 +7,7 @@ import {
   getNetworkLiquidity,
   getSYMMprice
 } from '@/helpers/utils';
-import { cloneDeep } from 'lodash';
+// import { cloneDeep } from 'lodash';
 
 const state = {
   balancer: {},
@@ -174,7 +174,7 @@ const actions = {
     const ts = Math.round(new Date().getTime() / 1000);
     const tsYesterday = ts - 24 * 3600;
 
-    let where = { finalized: true, id_in: [] };
+    const where = { finalized: true, id_in: [] };
     where.id_in = id_in;
 
     const query = {

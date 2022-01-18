@@ -661,6 +661,7 @@ export default {
 }
 .pool-input {
   width: 100px;
+  border: solid 1px var(--input-box-border);
 
   &.text-white {
     color: var(--text-primary-color) !important;
