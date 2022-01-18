@@ -280,6 +280,28 @@
           :height="29"
         />
       </div>
+      <UiTableTh>
+        <div class="table-column-assets flex-auto text-left">Total Values</div>
+        <div
+          v-text="_num(currentTotalPoolValues.totalLiquidity, 'usd-long')"
+          class="table-column"
+        />
+        <div class="table-column hide-sm"></div>
+        <div class="table-column hide-sm hide-md"></div>
+        <div class="table-column hide-sm hide-md hide-lg"></div>
+        <div class="table-column hide-sm hide-md hide-lg">
+          <UiNum
+            :value="currentTotalPoolValues.totalRewardApy"
+            format="long"
+            class="w-60"
+          />
+        </div>
+        <div
+          v-text="_num(currentTotalPoolValues.totalVolume, 'usd-long')"
+          format="currency"
+          class="table-column hide-sm"
+        />
+      </UiTableTh>
     </UiTable>
   </div>
 </template>
@@ -291,6 +313,7 @@ import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
 import { crPoolIds } from '@/helpers/constants';
+import BigNumber from '@/helpers/bignumber';
 
 export default {
   props: ['query', 'title'],
@@ -303,7 +326,9 @@ export default {
       page: 0,
       pools: [],
       filters: formatFilters(this.$route.query),
-      symmPoolsLoading: false
+      symmPoolsLoading: false,
+      currentTotalPoolValues: {},
+      // totalPoolValues: {},
     };
   },
   mounted() {
@@ -363,6 +388,7 @@ export default {
       this.loading = true;
       this.page++;
       const page = this.page;
+      console.log(this.query)
       let query = this.query || {};
       query = { ...query, page };
       await this.getNetworkLiquidity();
@@ -375,11 +401,48 @@ export default {
       if (pools && pools.length > 0) {
         this.pools = this.pools.concat(pools);
       }
+
+      this.currentTotalPoolValues = this.calculateTotalValues(this.pools);
+
       this.loading = false;
       if (this.$cookie.get('cardView') === null) {
         this.switchView({ value: true });
         this.showCard = true;
       }
+    },
+
+    // async getTotalValues() {
+    //   const page = 10;
+    //   let query = this.query || {};
+    //   query = { ...query, page };
+    //   // await this.getNetworkLiquidity();
+    //   // await this.getTokens();
+    //   // await this.getSYMMprice();
+    //   // if (config.network == 'celo') {
+    //   //   await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
+    //   // }
+    //   const pools = await this.getPools(query);
+
+    //   this.totalPoolValues = this.calculateTotalValues(pools);
+    // },
+
+    calculateTotalValues(pools) {
+      const totalValues = {
+        totalLiquidity: 0,
+        totalRewardApy: new BigNumber(0),
+        totalVolume: 0
+      };
+
+      pools.forEach(pool => {
+        totalValues.totalLiquidity += parseFloat(pool.liquidity);
+        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(
+          this.getSpecificMyDailyRewards(pool.tokenReward, pool)
+        );
+        totalValues.totalVolume += pool.lastSwapVolume;
+        return pool;
+      });
+
+      return totalValues;
     }
   }
 };
