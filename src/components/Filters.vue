@@ -10,14 +10,14 @@
           class="mb-4"
         />
       </div>
-      <div class="explore-buttons-buttons">
+      <div class="explore-buttons-grid">
         <UiButton style="background-color: #5b8470" class="button-primary mx-2">
           <a :href="config.exchangeUrl" class="text-white" target="_blank">
             {{ $t('swap') }}
             <Icon name="external-link" class="ml-1" />
           </a>
         </UiButton>
-        <UiButton class="button-primary">
+        <UiButton class="button-primary mx-1">
           <a
             href="https://defillama.com/protocol/symmetric"
             class="text-white"
@@ -27,34 +27,23 @@
             <span v-text="_num(tvl, 'usd-long')" />
           </a>
         </UiButton>
-      </div>
-    </div>
-
-    <!-- Total values -->
-    <div class="cards flex-end">
-      <div
-        class="cardInfo rounded-1 totalpool highlight-card anim-fade-in rounded-1"
-      >
-        <div id="contact-details">
-          <span class="text-white-normal">Total TVL: </span>
-          <span
-            v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
-            class="table-column"
+        <UiButton class="button-primary mx-1 my-1">
+          Volume on {{ getNetworkName() }} :
+          <span v-text="_num(totalPoolValues.totalVolume, 'usd-long')" />
+        </UiButton>
+        <UiButton
+          v-if="$auth.isAuthenticated && !wrongNetwork"
+          style="background-color: #5b8470"
+          class="button-primary mx-2 my-1"
+        >
+          Total Daily Reward
+          <UiNum
+            :value="totalPoolValues.totalRewardApy"
+            format="long"
+            class="w-60"
           />
-          <br />
-          <span class="text-white-normal">Total Daily Reward:</span>
-          <span
-            v-text="_num(totalPoolValues.totalRewardApy, 'usd-long')"
-            class="table-column"
-          />
-          <br />
-          <span class="text-white-normal">Total Volume</span>
-          <span
-            v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
-            format="currency"
-            class="table-column hide-sm"
-          />
-        </div>
+          SYMM
+        </UiButton>
       </div>
     </div>
 
@@ -220,8 +209,6 @@ import {
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
-import config from '@/config';
-import { crPoolIds } from '@/helpers/constants';
 import { mapState } from 'vuex';
 
 export default {
@@ -284,6 +271,12 @@ export default {
       const pools = await this.getPools(query);
       this.totalPoolValues = this.calculateTotalValues(pools);
     },
+    getNetworkName() {
+      return this.config.network === 'xdai'
+        ? 'Gnosis'
+        : this.config.network.charAt(0).toUpperCase() +
+            this.config.network.slice(1);
+    },
     calculateTotalValues(pools) {
       const totalValues = {
         totalLiquidity: 0,
@@ -344,9 +337,19 @@ export default {
       });
     }
   },
-  computed: mapState({
-    circulatingSupply: state => state.ui.totalCirculatingSupply
-  }),
+  // computed: mapState({
+  //   circulatingSupply: state => state.ui.totalCirculatingSupply,
+  // }),
+  computed: {
+    circulatingSupply: mapState => mapState.ui.totalCirculatingSupply,
+    wrongNetwork() {
+      return (
+        this.config.chainId !== this.web3.injectedChainId &&
+        !this.ui.authLoading &&
+        !this.loading
+      );
+    }
+  },
   created() {
     const filters = formatFilters(this.value);
     this.tokens = filters.token;
@@ -513,8 +516,8 @@ export default {
       }
     }
 
-    &-buttons {
-      display: flex;
+    &-grid {
+      display: grid;
       justify-content: center;
     }
   }

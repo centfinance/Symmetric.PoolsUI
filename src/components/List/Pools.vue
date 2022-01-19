@@ -27,6 +27,52 @@
     >
       <div v-if="pools.length > 0">
         <div class="cards">
+          <!-- Total values -->
+          <div class="card">
+            <div class="highlight-card anim-fade-in rounded-1">
+              <div class="myForm">
+                <div></div>
+                <div>
+                  <div class="grouptext margin-top20">
+                    <span class="text-white-normal">Total TVL: </span>
+                    <span
+                      v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
+                      class="table-column"
+                    />
+                  </div>
+
+                  <div class="grouptext margin-top20">
+                    <span class="text-white-normal">Total Daily Reward:</span>
+                    <span
+                      v-text="
+                        _num(totalPoolValues.totalDailyRewards, 'usd-long')
+                      "
+                      class="table-column"
+                    />
+                  </div>
+
+                  <div class="grouptext margin-top20">
+                    <span class="text-white-normal">Total Volume</span>
+                    <span
+                      v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
+                      format="currency"
+                      class="table-column hide-sm"
+                    />
+                  </div>
+                </div>
+                <div></div>
+                <div class="grouptext margin-top10">
+                  <span class="text-white-normal">Total Liquidity</span>
+                  <span
+                    v-text="_num(totalPoolValues.totalMyLiquidity, 'usd-long')"
+                    format="currency"
+                    class="table-column hide-sm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="card" v-for="item in pools" :key="item.id">
             <div class="highlight-card anim-fade-in rounded-1">
               <a :href="'#/pool/' + item.id" class="myForm">
@@ -288,13 +334,20 @@
         />
         <div class="table-column hide-sm"></div>
         <div class="table-column hide-sm hide-md"></div>
-        <div class="table-column hide-sm hide-md hide-lg"></div>
+        <div
+          v-text="_num(currentTotalPoolValues.totalMyLiquidity, 'usd-long')"
+          format="currency"
+          class="table-column hide-sm hide-md hide-lg"
+        />
         <div class="table-column hide-sm hide-md hide-lg">
-          <UiNum
-            :value="currentTotalPoolValues.totalRewardApy"
-            format="long"
-            class="w-60"
-          />
+          <div class="d-flex">
+            <UiNum
+              :value="currentTotalPoolValues.totalDailyRewards"
+              format="long"
+              class="w-60"
+            />
+            <div class="w-40 ml-1 text-right">SYMM</div>
+          </div>
         </div>
         <div
           v-text="_num(currentTotalPoolValues.totalVolume, 'usd-long')"
@@ -328,11 +381,12 @@ export default {
       filters: formatFilters(this.$route.query),
       symmPoolsLoading: false,
       currentTotalPoolValues: {},
-      // totalPoolValues: {},
+      totalPoolValues: {},
     };
   },
   mounted() {
     this.showCard = this.$cookie.get('cardView') === 'true' ? true : false;
+    this.getTotalValues();
   },
   watch: {
     query() {
@@ -411,37 +465,31 @@ export default {
       }
     },
 
-    // async getTotalValues() {
-    //   const page = 10;
-    //   let query = this.query || {};
-    //   query = { ...query, page };
-    //   // await this.getNetworkLiquidity();
-    //   // await this.getTokens();
-    //   // await this.getSYMMprice();
-    //   // if (config.network == 'celo') {
-    //   //   await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
-    //   // }
-    //   const pools = await this.getPools(query);
+    async getTotalValues() {
+      await this.getNetworkLiquidity();
 
-    //   this.totalPoolValues = this.calculateTotalValues(pools);
-    // },
+      const query = { first: 100 };
+      const pools = await this.getPools(query);
+      this.totalPoolValues = this.calculateTotalValues(pools);
+    },
 
     calculateTotalValues(pools) {
       const totalValues = {
         totalLiquidity: 0,
-        totalRewardApy: new BigNumber(0),
-        totalVolume: 0
+        totalDailyRewards: new BigNumber(0),
+        totalVolume: 0,
+        totalMyLiquidity: 0
       };
 
       pools.forEach(pool => {
         totalValues.totalLiquidity += parseFloat(pool.liquidity);
-        totalValues.totalRewardApy = totalValues.totalRewardApy.plus(
+        totalValues.totalDailyRewards = totalValues.totalDailyRewards.plus(
           this.getSpecificMyDailyRewards(pool.tokenReward, pool)
         );
         totalValues.totalVolume += pool.lastSwapVolume;
+        totalValues.totalMyLiquidity += this.myLiquidity(pool);
         return pool;
       });
-
       return totalValues;
     }
   }
@@ -478,6 +526,9 @@ export default {
 }
 .margin-top10 {
   margin-top: 2px;
+}
+.margin-top20 {
+  margin-top: 6px;
 }
 .myForm {
   display: grid;
