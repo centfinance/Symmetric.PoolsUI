@@ -209,7 +209,7 @@ import {
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 export default {
   // components: { LineChart },
