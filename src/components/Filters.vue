@@ -251,7 +251,7 @@ export default {
       this.getTotalValues();
       const response = await fetch('https://api.llama.fi/protocol/symmetric');
       const data = await response.json();
-      this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
+      this.xDaiTVL = data.chainTvls.Gnosis.tvl.at(-1).totalLiquidityUSD;
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
       // TNA TODO
       //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
