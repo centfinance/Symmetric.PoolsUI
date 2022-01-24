@@ -450,9 +450,9 @@ export default {
           );
         } else {
           this.pools.sort((a, b) =>
-            a[sortKey] > b[sortKey]
+            Number(a[sortKey]) > Number(b[sortKey])
               ? sortReturns[this.sortDirection][0]
-              : b[sortKey] > a[sortKey]
+              : Number(b[sortKey]) > Number(a[sortKey])
               ? sortReturns[this.sortDirection][1]
               : 0
           );
