@@ -381,7 +381,7 @@ export default {
       filters: formatFilters(this.$route.query),
       symmPoolsLoading: false,
       currentTotalPoolValues: {},
-      totalPoolValues: {},
+      totalPoolValues: {}
     };
   },
   mounted() {
@@ -442,7 +442,7 @@ export default {
       this.loading = true;
       this.page++;
       const page = this.page;
-      console.log(this.query)
+
       let query = this.query || {};
       query = { ...query, page };
       await this.getNetworkLiquidity();

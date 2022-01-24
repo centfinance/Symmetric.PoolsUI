@@ -244,7 +244,7 @@ const actions = {
           commit('HANDLE_DISCONNECT');
           if (state.active) await dispatch('loadWeb3');
         });
-        auth.provider.on('networkChanged', async () => {
+        auth.provider.on('chainChanged', async () => {
           commit('HANDLE_NETWORK_CHANGED');
           dispatch('loadProvider');
           if (state.active) {

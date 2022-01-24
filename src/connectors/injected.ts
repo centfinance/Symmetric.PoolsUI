@@ -3,10 +3,11 @@ import LockConnector from '../connector';
 export default class Connector extends LockConnector {
   async connect() {
     let provider;
-    if (window['ethereum']) {
-      provider = window['ethereum'];
+
+    if (window.ethereum) {
+      provider = window.ethereum;
       try {
-        await window['ethereum'].enable();
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
       } catch (e) {
         console.error(e);
       }
@@ -17,9 +18,9 @@ export default class Connector extends LockConnector {
   }
 
   async isLoggedIn() {
-    if (!window['ethereum']) return false;
-    if (window['ethereum'].selectedAddress) return true;
+    if (!window.ethereum) return false;
+    if (window.ethereum.selectedAddress) return true;
     await new Promise(r => setTimeout(r, 400));
-    return !!window['ethereum'].selectedAddress;
+    return !!window.ethereum.selectedAddress;
   }
 }
