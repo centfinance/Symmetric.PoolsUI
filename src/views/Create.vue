@@ -151,7 +151,8 @@
       :loading="loading"
       :disabled="validationError || !checkboxAccept"
       @submit="confirmModalOpen = true"
-      class="button-primary mt-4"
+      class="button-primary mt-4 tooltipped tooltipped-n"
+      :aria-label="$t('proxyEducationMessage')"
     >
       {{ $t('create') }}
     </Button>
