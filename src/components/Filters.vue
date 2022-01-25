@@ -209,7 +209,7 @@ import {
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
-import { mapState } from 'vuex';
+// import { mapState } from 'vuex';
 
 export default {
   // components: { LineChart },
@@ -221,16 +221,16 @@ export default {
       chartdata: null,
       xDaiTVL: null,
       celoTVL: null,
-      avalancheTVL: null,
-      fantomTVL: null,
-      optimismTVL: null,
-      polygonTVL: null,
+      // avalancheTVL: null,
+      // fantomTVL: null,
+      // optimismTVL: null,
+      // polygonTVL: null,
       SYMMPricexDAI: null,
       SYMMPriceCelo: null,
-      SYMMPriceAvalanche: null,
-      SYMMPriceFantom: null,
-      SYMMPriceOptimism: null,
-      SYMMPricePolygon: null,
+      // SYMMPriceAvalanche: null,
+      // SYMMPriceFantom: null,
+      // SYMMPriceOptimism: null,
+      // SYMMPricePolygon: null,
       tvl: '',
       tokens: [],
       type: 'shared',
@@ -244,8 +244,8 @@ export default {
     };
   },
   async mounted() {
-    // https://api.llama.fi/tvl/symmetric
-    setTimeout(this.fetchTVL(), 600);
+    // setTimeout(this.fetchTVL(), 600);
+    await this.fetchTVL();
     this.loaded = false;
     try {
       this.getTotalValues();
@@ -254,10 +254,10 @@ export default {
       this.xDaiTVL = data.chainTvls.Gnosis.tvl.at(-1).totalLiquidityUSD;
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
       // TNA TODO
-      //  this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
-      //  this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
+      // this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
+      // this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
       // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
-      //  this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
+      // this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -309,10 +309,10 @@ export default {
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();
-      //   this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
-      //   this.SYMMPriceFantom = await getSYMMPriceFANTOM();
-      //   this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
-      //   this.SYMMPricePolygon = await getSYMMPricePOLYGON();
+      // this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
+      // this.SYMMPriceFantom = await getSYMMPriceFANTOM();
+      // this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
+      // this.SYMMPricePolygon = await getSYMMPricePOLYGON();
     },
     addToken(token) {
       this.tokens.push(token);

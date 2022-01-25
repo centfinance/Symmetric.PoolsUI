@@ -57,8 +57,10 @@ export default {
       commitSha
     };
   },
-  currentTopic() {
-    return this.topic;
+  computed: {
+    currentTopic() {
+      return this.topic;
+    }
   }
 };
 </script>
