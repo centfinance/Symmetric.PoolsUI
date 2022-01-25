@@ -287,24 +287,42 @@
     </div>
     <!-- infinite scroll ends -->
     <!-- Table View -->
-    <UiTable class="anim-fade-in" v-if="!showCard">
+    <UiTable class="anim-fade-in table-view" v-if="!showCard">
       <UiTableTh>
         <div
           v-text="$t('assets')"
           class="table-column-assets flex-auto text-left"
         />
-        <div v-text="$t('marketCap')" class="table-column" />
-        <div v-text="$t('apy')" class="table-column hide-sm" />
-        <div v-text="$t('rewardApy')" class="table-column hide-sm hide-md" />
+        <div
+          v-text="$t('marketCap')"
+          class="table-column table-sort"
+          @click="handleSort('liquidity')"
+        />
+        <div
+          v-text="$t('apy')"
+          class="table-column hide-sm table-sort"
+          @click="handleSort('apy')"
+        />
+        <div
+          v-text="$t('rewardApy')"
+          class="table-column hide-sm hide-md table-sort"
+          @click="handleSort('rewardApy')"
+        />
         <div
           v-text="$t('myLiquidity')"
-          class="table-column hide-sm hide-md hide-lg"
+          class="table-column hide-sm hide-md hide-lg table-sort"
+          @click="handleSort('myLiquidity')"
         />
         <div
           v-text="$t('myApr')"
-          class="table-column hide-sm hide-md hide-lg"
+          class="table-column hide-sm hide-md hide-lg table-sort"
+          @click="handleSort('myDailyRewards')"
         />
-        <div v-text="$t('volume24')" class="table-column hide-sm" />
+        <div
+          v-text="$t('volume24')"
+          class="table-column hide-sm table-sort"
+          @click="handleSort('lastSwapVolume')"
+        />
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
@@ -381,7 +399,8 @@ export default {
       filters: formatFilters(this.$route.query),
       symmPoolsLoading: false,
       currentTotalPoolValues: {},
-      totalPoolValues: {}
+      totalPoolValues: {},
+      sortDirection: 'ASC'
     };
   },
   mounted() {
@@ -407,6 +426,44 @@ export default {
     }
   },
   methods: {
+    handleSort(sortKey) {
+      const sortReturns = {
+        ASC: [1, -1],
+        DESC: [-1, 1]
+      };
+      if (this.pools.length > 0) {
+        if (sortKey === 'myLiquidity') {
+          this.pools.sort((a, b) =>
+            this.myLiquidity(a) > this.myLiquidity(b)
+              ? sortReturns[this.sortDirection][0]
+              : this.myLiquidity(b) > this.myLiquidity(a)
+              ? sortReturns[this.sortDirection][1]
+              : 0
+          );
+        } else if (sortKey === 'myDailyRewards') {
+          this.pools.sort((a, b) =>
+            this.myDailyRewards(a) > this.myDailyRewards(b)
+              ? sortReturns[this.sortDirection][0]
+              : this.myDailyRewards(b) > this.myDailyRewards(a)
+              ? sortReturns[this.sortDirection][1]
+              : 0
+          );
+        } else {
+          this.pools.sort((a, b) =>
+            Number(a[sortKey]) > Number(b[sortKey])
+              ? sortReturns[this.sortDirection][0]
+              : Number(b[sortKey]) > Number(a[sortKey])
+              ? sortReturns[this.sortDirection][1]
+              : 0
+          );
+        }
+      }
+      if (this.sortDirection === 'ASC') {
+        this.sortDirection = 'DESC';
+      } else if (this.sortDirection === 'DESC') {
+        this.sortDirection = 'ASC';
+      }
+    },
     switchView(val) {
       this.$cookie.delete('cardView');
       this.$cookie.set('cardView', val.value, 5);
@@ -419,6 +476,9 @@ export default {
       const poolShares = this.subgraph.poolShares[pool.id];
       if (!pool.finalized || !poolShares) return 0;
       return (pool.liquidity / pool.totalShares) * poolShares;
+    },
+    myDailyRewards(pool) {
+      return (pool.tokenReward * this.myLiquidity(pool)) / pool.liquidity;
     },
     filterTokenSymbol(symbol, address) {
       if (address === SYMM_TOKENS.v1) {
@@ -500,6 +560,13 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+}
+.table-view {
+  .table-sort {
+    &:hover {
+      cursor: pointer;
+    }
+  }
 }
 .cards {
   margin: 0 auto;

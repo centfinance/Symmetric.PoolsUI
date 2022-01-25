@@ -6,7 +6,7 @@
   >
     <nav class="nav d-flex flex-column height-full">
       <div class="flex-auto">
-        <ul class="sidebar-border-bottom py-3">
+        <ul class="sidebar-top-section py-3">
           <li v-if="$auth.isAuthenticated">
             <router-link
               :to="{ name: 'home' }"
@@ -29,62 +29,57 @@
             />
           </li>
         </ul>
-        <ul class="py-3">
+        <ul class="sidebar-bottom-section py-3">
           <li>
-            <a :href="config.exchangeUrl" target="_blank">
+            <a
+              :href="config.exchangeUrl"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               {{ $t('exchange') }}
-              <Icon name="external-link" class="ml-1" />
+              <Icon name="external-link" class="ml-3" />
             </a>
           </li>
           <li>
-            <a href="https://symmetric.finance" target="_blank">
+            <a
+              href="https://symmetric.finance"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Home
-              <Icon name="external-link" class="ml-1" />
+              <Icon name="external-link" class="ml-3" />
             </a>
           </li>
           <li>
-            <a href="https://docs.symmetric.exchange" target="_blank">
+            <a
+              href="https://docs.symmetric.exchange"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Docs
-              <Icon name="external-link" class="ml-1" />
+              <Icon name="external-link" class="ml-3" />
             </a>
           </li>
-          <li>
-            <a href="https://celo-pools.symmetric.exchange">
-              Celo
-              <Icon name="external-link" class="ml-1" />
+          <li v-if="currentNetwork != 'celo'">
+            <a
+              href="https://celo-pools.symmetric.exchange"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Celo Pools
+              <Icon name="external-link" class="ml-3" />
             </a>
           </li>
-          <li>
-            <a href="https://xdai-pools.symmetric.exchange">
-              Gnosis
-              <Icon name="external-link" class="ml-1" />
+          <li v-if="currentNetwork != 'xdai'">
+            <a
+              href="https://xdai-pools.symmetric.exchange"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Gnosis Pools
+              <Icon name="external-link" class="ml-3" />
             </a>
           </li>
-          <!--
-          <li>
-            <a href="https://avalanche-pools.symmetric.exchange">
-              Avalanche
-              <Icon name="external-link" class="ml-1" />
-            </a>
-          </li>
-          <li>
-            <a href="https://fantom-pools.symmetric.exchange">
-              Fantom
-              <Icon name="external-link" class="ml-1" />
-            </a>
-          </li>
-          <li>
-            <a href="https://optimism-pools.symmetric.exchange">
-              Optimism
-              <Icon name="external-link" class="ml-1" />
-            </a>
-          </li>
-          <li>
-            <a href="https://polygon-pools.symmetric.exchange">
-              Polygon
-              <Icon name="external-link" class="ml-1" />
-            </a>
-          </li>-->
           <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
@@ -109,33 +104,48 @@
           target="_blank"
         >
           Build {{ pkg.version }}#{{ commitSha.slice(0, 7) }}
-          <Icon name="external-link" class="ml-1" />
+          <Icon name="external-link" class="ml-3" />
         </a>
       </div>
 
       <div class="social-links">
         <div class="social-item">
-          <a href="https://twitter.com/0xsymmetric" target="_black"
+          <a
+            href="https://twitter.com/0xsymmetric"
+            target="_black"
+            rel="noopener noreferrer"
             ><font-awesome-icon :icon="['fab', 'twitter']"
           /></a>
         </div>
         <div class="social-item">
-          <a href="https://github.com/centfinance" target="_black"
+          <a
+            href="https://github.com/centfinance"
+            target="_black"
+            rel="noopener noreferrer"
             ><font-awesome-icon :icon="['fab', 'github']"
           /></a>
         </div>
         <div class="social-item">
-          <a href="https://discord.gg/rJd7azWx4V" target="_black"
+          <a
+            href="https://discord.gg/rJd7azWx4V"
+            target="_black"
+            rel="noopener noreferrer"
             ><font-awesome-icon :icon="['fab', 'discord']"
           /></a>
         </div>
         <div class="social-item">
-          <a href="https://t.me/SymmetricFinanceAnnouncements" target="_black"
+          <a
+            href="https://t.me/SymmetricFinanceAnnouncements"
+            target="_black"
+            rel="noopener noreferrer"
             ><font-awesome-icon :icon="['fab', 'telegram']"
           /></a>
         </div>
         <div class="social-item">
-          <a href="https://medium.com/@Symmetric.Finance" target="_black"
+          <a
+            href="https://medium.com/@Symmetric.Finance"
+            target="_black"
+            rel="noopener noreferrer"
             ><font-awesome-icon :icon="['fab', 'medium']"
           /></a>
         </div>
@@ -149,6 +159,7 @@
 
 <script>
 import pkg from '@/../package.json';
+import config from '@/config';
 
 const commitSha = process.env.VUE_APP_COMMIT_SHA;
 
@@ -163,6 +174,9 @@ export default {
   computed: {
     buildNumber() {
       return process.env.VUE_APP_BUILD_NUMBER;
+    },
+    currentNetwork() {
+      return config.network;
     }
   }
 };
@@ -177,16 +191,28 @@ export default {
   position: fixed;
   background-color: $panel-background;
   margin-top: 79px;
-  width: 164px;
-  left: -164px;
+  width: 180px;
+  left: -180px;
   transition: left 0.2s;
 
   @media (min-width: $width-xl) {
     left: 0;
   }
 
-  .sidebar-border-bottom {
+  .sidebar-top-section {
     border-bottom: $border-secondary;
+  }
+
+  .sidebar-bottom-section {
+    li a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      i {
+        padding-top: 2px;
+      }
+    }
   }
 
   ul > li > a {
@@ -213,6 +239,7 @@ export default {
   .social-links {
     display: flex;
     padding: 0px 24px 24px;
+    justify-content: space-between;
 
     .social-item {
       margin-right: 4px;
