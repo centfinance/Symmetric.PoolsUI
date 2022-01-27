@@ -44,15 +44,13 @@
                   <div class="grouptext margin-top20">
                     <span class="text-white-normal">Total Daily Reward:</span>
                     <span
-                      v-text="
-                        _num(totalPoolValues.totalDailyRewards, 'usd-long')
-                      "
+                      v-text="_num(totalPoolValues.totalDailyRewards, 'long')"
                       class="table-column"
-                    />
+                    />SYMM
                   </div>
 
                   <div class="grouptext margin-top20">
-                    <span class="text-white-normal">Total Volume</span>
+                    <span class="text-white-normal">Total Volume:</span>
                     <span
                       v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
                       format="currency"
@@ -62,7 +60,7 @@
                 </div>
                 <div></div>
                 <div class="grouptext margin-top10">
-                  <span class="text-white-normal">Total Liquidity</span>
+                  <span class="text-white-normal">Total Liquidity:</span>
                   <span
                     v-text="_num(totalPoolValues.totalMyLiquidity, 'usd-long')"
                     format="currency"

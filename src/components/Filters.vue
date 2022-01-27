@@ -1,50 +1,51 @@
 <template>
   <div class="overflow-hidden">
-    <div class="d-flex explore-buttons">
+    <div class="d-flex explore-buttons mb-4">
       <div class="explore-buttons-toggle">
         <Toggle
           :value="type"
           :options="poolTypes"
           @select="selectType"
           style="background-color: #3c525f"
-          class="mb-4"
+          class="mr-1 mb-1"
         />
       </div>
-      <div class="explore-buttons-grid">
-        <UiButton style="background-color: #5b8470" class="button-primary mx-2">
-          <a :href="config.exchangeUrl" class="text-white" target="_blank">
-            {{ $t('swap') }}
-            <Icon name="external-link" class="ml-1" />
-          </a>
-        </UiButton>
-        <UiButton class="button-primary mx-1">
-          <a
-            href="https://defillama.com/protocol/symmetric"
-            class="text-white"
-            target="_blank"
-          >
-            TVL :
-            <span v-text="_num(tvl, 'usd-long')" />
-          </a>
-        </UiButton>
-        <UiButton class="button-primary mx-1 my-1">
-          Volume on {{ getNetworkName() }} :
-          <span v-text="_num(totalPoolValues.totalVolume, 'usd-long')" />
-        </UiButton>
-        <UiButton
-          v-if="$auth.isAuthenticated && !wrongNetwork"
-          style="background-color: #5b8470"
-          class="button-primary mx-2 my-1"
+      <UiButton
+        style="background-color: #5b8470"
+        class="button-primary mx-1 mb-1"
+      >
+        <a :href="config.exchangeUrl" class="text-white" target="_blank">
+          {{ $t('swap') }}
+          <Icon name="external-link" class="ml-1" />
+        </a>
+      </UiButton>
+      <UiButton class="button-primary mx-1 mb-1">
+        <a
+          href="https://defillama.com/protocol/symmetric"
+          class="text-white"
+          target="_blank"
         >
-          Total Daily Reward
-          <UiNum
-            :value="totalPoolValues.totalRewardApy"
-            format="long"
-            class="w-60"
-          />
-          SYMM
-        </UiButton>
-      </div>
+          TVL :
+          <span v-text="_num(tvl, 'usd-long')" />
+        </a>
+      </UiButton>
+      <UiButton class="button-primary mx-1 mb-1">
+        Volume on {{ getNetworkName() }} :
+        <span v-text="_num(totalPoolValues.totalVolume, 'usd-long')" />
+      </UiButton>
+      <UiButton
+        v-if="$auth.isAuthenticated && !wrongNetwork"
+        style="background-color: #5b8470"
+        class="button-primary mx-1 mb-1"
+      >
+        Total Daily Reward :
+        <UiNum
+          :value="totalPoolValues.totalRewardApy"
+          format="long"
+          class="w-60"
+        />
+        SYMM
+      </UiButton>
     </div>
 
     <div class="cards">
@@ -486,17 +487,11 @@ export default {
     width: 28px;
   }
 }
-.text-white-normal {
-  width: 130px;
-  display: inline-block;
+
+.explore-buttons {
+  flex-wrap: wrap;
 }
-.totalpool {
-  width: 270px;
-}
-.flex-end {
-  display: flex;
-  justify-content: end;
-}
+
 @media (max-width: 767px) {
   .cards {
     margin-top: 8px;
@@ -518,11 +513,6 @@ export default {
       span {
         margin-bottom: 16px !important;
       }
-    }
-
-    &-grid {
-      display: grid;
-      justify-content: center;
     }
   }
 }

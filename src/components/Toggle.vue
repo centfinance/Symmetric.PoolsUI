@@ -21,7 +21,7 @@ export default {
 @import '../vars';
 
 .toggle {
-  display: inline-block;
+  display: flex;
   background-color: $secondary-button-background;
   border-radius: 22px;
 
