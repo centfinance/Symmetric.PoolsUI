@@ -248,10 +248,10 @@ const actions = {
           commit('HANDLE_NETWORK_CHANGED');
           dispatch('loadProvider');
           if (state.active) {
-            // TODO: store connector to the state and send the connector when dispatch login
-            // await dispatch('clearUser');
-            // await dispatch('logout');
-            // await dispatch('login');
+            // TODO: store connector to the state and send the connector when dispatch login, this is for valora wallet support
+            await dispatch('clearUser');
+            await dispatch('logout');
+            await dispatch('login');
           }
         });
       }
