@@ -420,36 +420,36 @@ export async function formatPool(pool) {
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
       const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
-      const symmV1cUSDLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV1cUSD)
-      );
+      // const symmV1cUSDLiquidity = Number(
+      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1cUSD)
+      // );
 
       const symmV2cUSDLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2cUSD)
       );
 
-      const symmV1cEURLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV1cEUR)
-      );
+      // const symmV1cEURLiquidity = Number(
+      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1cEUR)
+      // );
 
       const symmV2cEURLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2cEUR)
       );
 
-      const symmV1CELOLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV1CELO)
-      );
+      // const symmV1CELOLiquidity = Number(
+      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1CELO)
+      // );
 
       const symmV2CELOLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2CELO)
       );
 
       const liquidities = [
-        symmV1cEURLiquidity,
+        // symmV1cEURLiquidity,
         symmV2cEURLiquidity,
-        symmV1cUSDLiquidity,
+        // symmV1cUSDLiquidity,
         symmV2cUSDLiquidity,
-        symmV1CELOLiquidity,
+        // symmV1CELOLiquidity,
         symmV2CELOLiquidity
       ];
 
@@ -460,34 +460,34 @@ export async function formatPool(pool) {
       const dailyCelo = totalQuantity / numberOfDays;
 
       // (TVL for symm v1 cusd pool)/(tvl for symm v1 cusd pool + tvl for symm v2 cusd pool)
-      const symmv1Rate =
-        symmV1cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
-      const symmv2Rate =
-        symmV2cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
+      // const symmv1Rate =
+      //   symmV1cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
+      // const symmv2Rate =
+      //   symmV2cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
 
-      const v1cEUR =
-        symmV1cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
-      const v2cEUR =
-        symmV2cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
-      const v1CELO =
-        symmV1CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
-      const v2CELO =
-        symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
+      // const v1cEUR =
+      //   symmV1cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
+      // const v2cEUR =
+      //   symmV2cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
+      // const v1CELO =
+      //   symmV1CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
+      // const v2CELO =
+      //   symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
 
       // Daily celo qty * price => value per day
-      const dailyV1Celo = dailyCelo * symmv1Rate;
-      const dailyV2Celo = dailyCelo * symmv2Rate;
-      const dailyV1CelocEUR = dailyCelo * v1cEUR;
-      const dailyV2CelocEUR = dailyCelo * v2cEUR;
-      const dailyV1CeloCELO = dailyCelo * v1CELO;
-      const dailyV2CeloCELO = dailyCelo * v2CELO;
+      // const dailyV1Celo = dailyCelo * symmv1Rate;
+      const dailyV2Celo = dailyCelo;
+      // const dailyV1CelocEUR = dailyCelo * v1cEUR;
+      const dailyV2CelocEUR = dailyCelo;
+      // const dailyV1CeloCELO = dailyCelo * v1CELO;
+      const dailyV2CeloCELO = dailyCelo;
 
       const crDailyCoinReward = [
-        new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
+        // new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
         new BigNumber(2 * dailyV2CelocEUR), // symmv2 / cEUR
-        new BigNumber(2 * dailyV1Celo), // symmv1 / cUSD
+        // new BigNumber(2 * dailyV1Celo), // symmv1 / cUSD
         new BigNumber(2 * dailyV2Celo), // symmv2 / cUSD
-        new BigNumber(dailyV1CeloCELO), // symmv1 / celo
+        // new BigNumber(dailyV1CeloCELO), // symmv1 / celo
         new BigNumber(dailyV2CeloCELO) // symmv2 / celo
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
