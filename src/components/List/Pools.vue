@@ -44,15 +44,13 @@
                   <div class="grouptext margin-top20">
                     <span class="text-white-normal">Total Daily Reward:</span>
                     <span
-                      v-text="
-                        _num(totalPoolValues.totalDailyRewards, 'usd-long')
-                      "
+                      v-text="_num(totalPoolValues.totalDailyRewards, 'long')"
                       class="table-column"
-                    />
+                    />SYMM
                   </div>
 
                   <div class="grouptext margin-top20">
-                    <span class="text-white-normal">Total Volume</span>
+                    <span class="text-white-normal">Total Volume:</span>
                     <span
                       v-text="_num(totalPoolValues.totalVolume, 'usd-long')"
                       format="currency"
@@ -62,7 +60,7 @@
                 </div>
                 <div></div>
                 <div class="grouptext margin-top10">
-                  <span class="text-white-normal">Total Liquidity</span>
+                  <span class="text-white-normal">Total Liquidity:</span>
                   <span
                     v-text="_num(totalPoolValues.totalMyLiquidity, 'usd-long')"
                     format="currency"
@@ -289,40 +287,99 @@
     <!-- Table View -->
     <UiTable class="anim-fade-in table-view" v-if="!showCard">
       <UiTableTh>
+        <div class="table- column-assets flex-auto text-left">
+          {{ $t('assets') }}
+        </div>
+        <div class="table-column table-sort" @click="handleSort('liquidity')">
+          {{ $t('marketCap') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'liquidity'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'liquidity'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
+        <div class="table-column hide-sm table-sort" @click="handleSort('apy')">
+          {{ $t('apy') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'apy'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'apy'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
         <div
-          v-text="$t('assets')"
-          class="table-column-assets flex-auto text-left"
-        />
-        <div
-          v-text="$t('marketCap')"
-          class="table-column table-sort"
-          @click="handleSort('liquidity')"
-        />
-        <div
-          v-text="$t('apy')"
-          class="table-column hide-sm table-sort"
-          @click="handleSort('apy')"
-        />
-        <div
-          v-text="$t('rewardApy')"
           class="table-column hide-sm hide-md table-sort"
           @click="handleSort('rewardApy')"
-        />
+        >
+          {{ $t('rewardApy') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'rewardApy'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'rewardApy'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
         <div
-          v-text="$t('myLiquidity')"
           class="table-column hide-sm hide-md hide-lg table-sort"
           @click="handleSort('myLiquidity')"
-        />
+        >
+          {{ $t('myLiquidity') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'myLiquidity'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'myLiquidity'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
         <div
-          v-text="$t('myApr')"
           class="table-column hide-sm hide-md hide-lg table-sort"
           @click="handleSort('myDailyRewards')"
-        />
+        >
+          {{ $t('myApr') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'myDailyRewards'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'myDailyRewards'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
         <div
-          v-text="$t('volume24')"
           class="table-column hide-sm table-sort"
           @click="handleSort('lastSwapVolume')"
-        />
+        >
+          {{ $t('volume24') }}
+          <img
+            v-if="sortDirection === 'DESC' && sortField === 'lastSwapVolume'"
+            src="@/assets/arrow-up.svg"
+            alt="up"
+          />
+          <img
+            v-if="sortDirection === 'ASC' && sortField === 'lastSwapVolume'"
+            src="@/assets/arrow-down.svg"
+            alt="down"
+          />
+        </div>
       </UiTableTh>
       <div v-infinite-scroll="loadMore" infinite-scroll-distance="10">
         <div v-if="pools.length > 0">
@@ -400,7 +457,8 @@ export default {
       symmPoolsLoading: false,
       currentTotalPoolValues: {},
       totalPoolValues: {},
-      sortDirection: 'ASC'
+      sortDirection: 'DESC',
+      sortField: ''
     };
   },
   mounted() {
@@ -427,9 +485,11 @@ export default {
   },
   methods: {
     handleSort(sortKey) {
+      this.sortField = sortKey;
       const sortReturns = {
         ASC: [1, -1],
-        DESC: [-1, 1]
+        DESC: [-1, 1],
+        NONE: [0, 0]
       };
       if (this.pools.length > 0) {
         if (sortKey === 'myLiquidity') {
@@ -462,6 +522,8 @@ export default {
         this.sortDirection = 'DESC';
       } else if (this.sortDirection === 'DESC') {
         this.sortDirection = 'ASC';
+      } else {
+        this.sortDirection = 'NONE';
       }
     },
     switchView(val) {
