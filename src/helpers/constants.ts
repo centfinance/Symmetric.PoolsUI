@@ -15,3 +15,6 @@ export const specificPools = {
   symmV1CELO: '0xf3ce35b10d3c9e74b0e6084ce08fd576fd9ec221',
   symmV2CELO: '0x7ee06450f4ff97990c6288237964bf4f545f221f'
 };
+
+export const APR_FORMULA =
+  'APR Formula: [(current token price) * (Daily reward token quantity) / (Total Value Locked)] * 365 days * 100';

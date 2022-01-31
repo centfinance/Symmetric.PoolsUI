@@ -84,8 +84,11 @@
                     <span v-text="$t('apy')" class="text-white-normal" />:
                     <UiNum :value="item.apy" format="percent" class="column" />
                   </div>
-                  <div class="grouptext margin-top10">
-                    <span v-text="$t('rewardApy')" class="text-white-normal" />:
+                  <div
+                    class="grouptext margin-top10 tooltipped tooltipped-n"
+                    :aria-label="APR_FORMULA"
+                  >
+                    <span v-text="$t('rewardApy')" class="text-white-normal" />
                     <UiNum :value="item.rewardApy" format="percent" /> SYMM
                     <span v-if="item.rewardApyCelo">
                       /
@@ -317,8 +320,9 @@
           />
         </div>
         <div
-          class="table-column hide-sm hide-md table-sort"
+          class="table-column hide-sm hide-md table-sort tooltipped tooltipped-n"
           @click="handleSort('rewardApy')"
+          :aria-label="APR_FORMULA"
         >
           {{ $t('rewardApy') }}
           <img
@@ -440,7 +444,7 @@ import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 // import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
-import { crPoolIds } from '@/helpers/constants';
+import { crPoolIds, APR_FORMULA } from '@/helpers/constants';
 import BigNumber from '@/helpers/bignumber';
 
 export default {
@@ -458,7 +462,8 @@ export default {
       currentTotalPoolValues: {},
       totalPoolValues: {},
       sortDirection: 'DESC',
-      sortField: ''
+      sortField: '',
+      APR_FORMULA
     };
   },
   mounted() {
@@ -645,7 +650,7 @@ export default {
     .highlight-card {
       height: 100%;
       border: solid 1px var(--card-border-color);
-      overflow: hidden;
+
 
       &:hover {
         background-color: var(--card-hover-background);

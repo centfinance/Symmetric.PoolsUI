@@ -52,7 +52,7 @@
       <div class="cardInfo rounded-1">
         <div
           class="highlight-card anim-fade-in rounded-1 d-flex tooltipped tooltipped-n tooltippedBottom"
-          aria-label="[(current token price) * (Daily reward token quantity) / (Total Value Locked)] * 365 days * 100"
+          :aria-label="APR_FORMULA"
         >
           <div>
             <span>
@@ -213,6 +213,7 @@ import {
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
+import { APR_FORMULA } from '@/helpers/constants';
 // import { mapState } from 'vuex';
 
 export default {
@@ -244,7 +245,8 @@ export default {
         private: 'Private'
       },
       modalOpen: false,
-      totalPoolValues: {}
+      totalPoolValues: {},
+      APR_FORMULA
     };
   },
   async mounted() {
