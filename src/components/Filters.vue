@@ -50,7 +50,10 @@
 
     <div class="cards">
       <div class="cardInfo rounded-1">
-        <div class="highlight-card anim-fade-in rounded-1 d-flex">
+        <div
+          class="highlight-card anim-fade-in rounded-1 d-flex tooltipped tooltipped-n tooltippedBottom"
+          aria-label="[(current token price) * (Daily reward token quantity) / (Total Value Locked)] * 365 days * 100"
+        >
           <div>
             <span>
               <span class="span-text-key">TVL Celo: </span>
