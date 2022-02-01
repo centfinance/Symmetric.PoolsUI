@@ -85,7 +85,13 @@
                     <UiNum :value="item.apy" format="percent" class="column" />
                   </div>
                   <div class="grouptext margin-top10">
-                    <span v-text="$t('rewardApy')" class="text-white-normal" />:
+                    <span v-text="$t('rewardApy')" class="text-white-normal" />
+                    <span
+                      class="tooltipped tooltipped-e m-1 tooltipped-multiline"
+                      :aria-label="APR_FORMULA"
+                    >
+                      <Icon name="info" size="16" />
+                    </span>
                     <UiNum :value="item.rewardApy" format="percent" /> SYMM
                     <span v-if="item.rewardApyCelo">
                       /
@@ -321,6 +327,12 @@
           @click="handleSort('rewardApy')"
         >
           {{ $t('rewardApy') }}
+          <span
+            class="tooltipped tooltipped-e m-2 tooltipped-multiline"
+            :aria-label="APR_FORMULA"
+          >
+            <Icon name="info" size="16" />
+          </span>
           <img
             v-if="sortDirection === 'DESC' && sortField === 'rewardApy'"
             src="@/assets/arrow-up.svg"
@@ -440,7 +452,7 @@ import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 // import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
-import { crPoolIds } from '@/helpers/constants';
+import { crPoolIds, APR_FORMULA } from '@/helpers/constants';
 import BigNumber from '@/helpers/bignumber';
 
 export default {
@@ -458,7 +470,8 @@ export default {
       currentTotalPoolValues: {},
       totalPoolValues: {},
       sortDirection: 'DESC',
-      sortField: ''
+      sortField: '',
+      APR_FORMULA
     };
   },
   mounted() {
@@ -645,7 +658,7 @@ export default {
     .highlight-card {
       height: 100%;
       border: solid 1px var(--card-border-color);
-      overflow: hidden;
+
 
       &:hover {
         background-color: var(--card-hover-background);

@@ -159,6 +159,12 @@
           </span> -->
             &nbsp;
             <span class="span-text-value">*Last trade price )</span>
+            <span
+              class="tooltipped tooltipped-e m-2 tooltipped-multiline"
+              :aria-label="APR_FORMULA"
+            >
+              <Icon name="info" size="16" />
+            </span>
           </div>
         </div>
       </div>
@@ -210,6 +216,7 @@ import {
 } from '@/helpers/utils';
 // import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
+import { APR_FORMULA } from '@/helpers/constants';
 // import { mapState } from 'vuex';
 
 export default {
@@ -241,7 +248,8 @@ export default {
         private: 'Private'
       },
       modalOpen: false,
-      totalPoolValues: {}
+      totalPoolValues: {},
+      APR_FORMULA
     };
   },
   async mounted() {
@@ -515,6 +523,9 @@ export default {
       }
     }
   }
+}
+.tooltipped {
+  cursor: pointer;
 }
 @media (max-width: 543px) {
   .filter-by-asset {
