@@ -84,11 +84,14 @@
                     <span v-text="$t('apy')" class="text-white-normal" />:
                     <UiNum :value="item.apy" format="percent" class="column" />
                   </div>
-                  <div
-                    class="grouptext margin-top10 tooltipped tooltipped-n"
-                    :aria-label="APR_FORMULA"
-                  >
+                  <div class="grouptext margin-top10">
                     <span v-text="$t('rewardApy')" class="text-white-normal" />
+                    <span
+                      class="tooltipped tooltipped-e m-1 tooltipped-multiline"
+                      :aria-label="APR_FORMULA"
+                    >
+                      <Icon name="info" size="16" />
+                    </span>
                     <UiNum :value="item.rewardApy" format="percent" /> SYMM
                     <span v-if="item.rewardApyCelo">
                       /
@@ -320,11 +323,16 @@
           />
         </div>
         <div
-          class="table-column hide-sm hide-md table-sort tooltipped tooltipped-n"
+          class="table-column hide-sm hide-md table-sort"
           @click="handleSort('rewardApy')"
-          :aria-label="APR_FORMULA"
         >
           {{ $t('rewardApy') }}
+          <span
+            class="tooltipped tooltipped-e m-2 tooltipped-multiline"
+            :aria-label="APR_FORMULA"
+          >
+            <Icon name="info" size="16" />
+          </span>
           <img
             v-if="sortDirection === 'DESC' && sortField === 'rewardApy'"
             src="@/assets/arrow-up.svg"

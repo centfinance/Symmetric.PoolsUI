@@ -50,10 +50,7 @@
 
     <div class="cards">
       <div class="cardInfo rounded-1">
-        <div
-          class="highlight-card anim-fade-in rounded-1 d-flex tooltipped tooltipped-n tooltippedBottom"
-          :aria-label="APR_FORMULA"
-        >
+        <div class="highlight-card anim-fade-in rounded-1 d-flex">
           <div>
             <span>
               <span class="span-text-key">TVL Celo: </span>
@@ -162,6 +159,12 @@
           </span> -->
             &nbsp;
             <span class="span-text-value">*Last trade price )</span>
+            <span
+              class="tooltipped tooltipped-e m-2 tooltipped-multiline"
+              :aria-label="APR_FORMULA"
+            >
+              <Icon name="info" size="16" />
+            </span>
           </div>
         </div>
       </div>
@@ -520,6 +523,9 @@ export default {
       }
     }
   }
+}
+.tooltipped {
+  cursor: pointer;
 }
 @media (max-width: 543px) {
   .filter-by-asset {
