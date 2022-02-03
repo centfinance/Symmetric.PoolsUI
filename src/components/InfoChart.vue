@@ -80,11 +80,11 @@ function normalizeMetrics(rawMetrics) {
     if (rawMetrics[keys[i]].length) {
       for (let j = 0; j < rawMetrics[keys[i]].length; j++) {
         const swaps = rawMetrics[keys[i]][j].swaps;
+        let poolLiquidity = 0,
+          poolTotalSwapFee = 0,
+          poolTotalSwapVolume = 0;
         if (swaps.length) {
           for (let k = 0; k < swaps.length; k++) {
-            let poolLiquidity = 0,
-              poolTotalSwapFee = 0,
-              poolTotalSwapVolume = 0;
             poolLiquidity += +swaps[k].poolLiquidity;
             poolTotalSwapFee += +swaps[k].poolTotalSwapFee;
             poolTotalSwapVolume += +swaps[k].poolTotalSwapVolume;
@@ -278,7 +278,7 @@ export default {
     const metrics = await this.getAllPoolsMetrics();
     console.log('metrics = ', metrics);
     this.metrics = normalizeMetrics(metrics);
-    console.log('formatted metrics = ', metrics);
+    console.log('formatted metrics = ', this.metrics);
 
     // if (this.displayPriceHistory) {
     //   let page = 1;
