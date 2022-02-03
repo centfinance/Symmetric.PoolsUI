@@ -10,6 +10,7 @@ import {
 // import { cloneDeep } from 'lodash';
 
 const state = {
+  pools: [],
   balancer: {},
   poolShares: {},
   specificPools: [],
@@ -29,8 +30,9 @@ const mutations = {
   GET_POOLS_REQUEST() {
     console.debug('GET_POOLS_REQUEST');
   },
-  GET_POOLS_SUCCESS() {
-    console.debug('GET_POOLS_SUCCESS');
+  GET_POOLS_SUCCESS(_state, payload) {
+    Vue.set(_state, 'pools', payload);
+    console.debug('GET_POOLS_SUCCESS', payload);
   },
   GET_POOLS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_FAILURE', payload);
@@ -90,6 +92,15 @@ const mutations = {
   },
   GET_POOLS_METRICS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_METRICS_FAILURE', payload);
+  },
+  GET_ALL_POOLS_METRICS_REQUEST() {
+    console.debug('GET_ALL_POOLS_METRICS_REQUEST');
+  },
+  GET_ALL_POOLS_METRICS_SUCCESS() {
+    console.debug('GET_ALL_POOLS_METRICS_SUCCESS');
+  },
+  GET_ALL_POOLS_METRICS_FAILURE(_state, payload) {
+    console.debug('GET_ALL_POOLS_METRICS_FAILURE', payload);
   },
   GET_TOKENS_REQUEST() {
     console.debug('GET_TOKEN_PRICES_REQUEST');
@@ -162,7 +173,7 @@ const actions = {
           return await formatPool(pool);
         })
       );
-      commit('GET_POOLS_SUCCESS');
+      commit('GET_POOLS_SUCCESS', pools);
       return pools;
     } catch (e) {
       commit('GET_POOLS_FAILURE', e);
@@ -341,6 +352,40 @@ const actions = {
       return poolMetrics;
     } catch (e) {
       commit('GET_POOLS_METRICS_FAILURE', e);
+    }
+  },
+  getAllPoolsMetrics: async ({ commit }) => {
+    commit('GET_ALL_POOLS_METRICS_REQUEST');
+    try {
+      const day = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      const today = now - (now % day);
+      const query = {};
+      for (let i = 0; i < 31; i++) {
+        const timestamp = today - i * day;
+        query[`metrics_${timestamp}`] = {
+          __aliasFor: 'pools',
+          __args: {
+            first: 100
+          },
+          swaps: {
+            __args: {
+              where: {
+                timestamp_gt: timestamp / 1000,
+                timestamp_lt: (timestamp + day) / 1000
+              }
+            },
+            poolTotalSwapVolume: true,
+            poolTotalSwapFee: true,
+            poolLiquidity: true
+          }
+        };
+      }
+      const poolsMetrics = await request('getAllPoolsMetrics', query);
+      commit('GET_ALL_POOLS_METRICS_SUCCESS');
+      return poolsMetrics;
+    } catch (e) {
+      commit('GET_ALL_POOLS_METRICS_FAILURE', e);
     }
   },
   getTokens: async ({ commit }) => {

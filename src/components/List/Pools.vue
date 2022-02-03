@@ -659,7 +659,6 @@ export default {
       height: 100%;
       border: solid 1px var(--card-border-color);
 
-
       &:hover {
         background-color: var(--card-hover-background);
       }

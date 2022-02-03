@@ -81,6 +81,13 @@
             </a>
           </li>
           <li>
+            <router-link
+              :to="{ name: 'chart' }"
+              :class="{ active: $router.currentRoute.name === 'chart' }"
+              v-text="$t('chart')"
+            />
+          </li>
+          <li>
             <a @click="modalOpen = true" v-text="$t('about')" />
           </li>
         </ul>

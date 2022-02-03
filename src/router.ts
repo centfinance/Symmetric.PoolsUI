@@ -11,6 +11,7 @@ import PoolShares from '@/views/Pool/Shares.vue';
 import PoolAbout from '@/views/Pool/About.vue';
 import PoolSettings from '@/views/Pool/Settings.vue';
 import PoolActions from '@/views/Pool/Actions.vue';
+import Info from '@/views/Info.vue';
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,7 @@ const routes: Array<RouteConfig> = [
   { path: '/explore', name: 'explore', component: Explore },
   { path: '/wallet', name: 'wallet', component: Wallet },
   { path: '/pool/new', name: 'create', component: Create },
+  { path: '/chart', name: 'chart', component: Info },
   {
     path: '/pool/:id',
     component: Pool,
