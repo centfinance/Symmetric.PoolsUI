@@ -18,7 +18,8 @@ const state = {
   tokens: {}, // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
-  SYMMprice: {}
+  SYMMprice: {},
+  poolsTotals: {}
 };
 
 const mutations = {
@@ -120,6 +121,10 @@ const mutations = {
   GET_SYMM_PRICE(_state, payload) {
     Vue.set(_state, 'SYMMprice', payload);
     console.debug('GET_SYMM_PRICE', payload);
+  },
+  GET_POOLS_TOTALS(_state, payload) {
+    Vue.set(_state, 'poolsTotals', payload);
+    console.debug('GET_POOLS_TOTALS', payload);
   }
 };
 
@@ -407,6 +412,9 @@ const actions = {
     } catch (e) {
       commit('GET_TOKENS_FAILURE', e);
     }
+  },
+  getPoolsTotals: async ({ commit }, payload) => {
+    commit('GET_POOLS_TOTALS', payload);
   }
 };
 
@@ -433,6 +441,9 @@ const getters = {
     if (filteredPool.length > 0) {
       return filteredPool[0].liquidity;
     } else return 0;
+  },
+  getPoolsTotals(state) {
+    return state.poolsTotals;
   }
 };
 

@@ -86,10 +86,10 @@ function normalizeMetrics(rawMetrics) {
     }
   }
 
-  metrics[keysByDate[keysByDate.length - 1]] =
-    metrics[keysByDate[keysByDate.length - 2]];
+  // metrics[keysByDate[keysByDate.length - 1]] =
+  //   metrics[keysByDate[keysByDate.length - 2]];
 
-  return metrics;
+  return { metrics, lastMetric: metrics[keysByDate[keysByDate.length - 1]] };
 }
 
 export default {
@@ -164,7 +164,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['getAllPoolsMetrics']),
+    ...mapActions(['getAllPoolsMetrics', 'getPoolsTotals']),
     handleChangeTab(tabId) {
       this.activeTab = tabId;
       this.loadChart();
@@ -243,9 +243,9 @@ export default {
   async mounted() {
     this.loading = true;
     const metrics = await this.getAllPoolsMetrics();
-    console.log('metrics = ', metrics);
-    this.metrics = normalizeMetrics(metrics);
-    console.log('formatted metrics = ', this.metrics);
+    const { metrics: normalized, lastMetric } = normalizeMetrics(metrics);
+    this.metrics = normalized;
+    this.getPoolsTotals(lastMetric);
 
     this.loading = false;
     await this.loadChart();
