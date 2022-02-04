@@ -370,14 +370,15 @@ const actions = {
           },
           swaps: {
             __args: {
+              first: 1,
               where: {
                 timestamp_gt: timestamp / 1000,
                 timestamp_lt: (timestamp + day) / 1000
               }
             },
+            poolLiquidity: true,
             poolTotalSwapVolume: true,
-            poolTotalSwapFee: true,
-            poolLiquidity: true
+            poolTotalSwapFee: true
           }
         };
       }

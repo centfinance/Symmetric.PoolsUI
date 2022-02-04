@@ -250,7 +250,6 @@ export default {
     this.loading = true;
     const metrics = await this.getPoolMetrics(this.pool.id);
     this.metrics = normalizeMetrics(metrics);
-    // console.log('normalized', this.metrics);
 
     if (this.displayPriceHistory) {
       let page = 1;

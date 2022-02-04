@@ -13,7 +13,6 @@ export async function request(key: string | null, jsonQuery: any = {}) {
     typeof jsonQuery === 'string'
       ? jsonQuery
       : jsonToGraphQLQuery({ query: jsonQuery });
-  // console.log({ query });
   const res = await fetch(config.subgraphUrl, {
     method: 'POST',
     headers: {
