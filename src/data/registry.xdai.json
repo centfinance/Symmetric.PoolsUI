@@ -1,0 +1,165 @@
+{
+    "tokens": {
+        "0x3a97704a1b25F08aa230ae53B352e2e72ef52843": {
+            "address": "0x3a97704a1b25F08aa230ae53B352e2e72ef52843",
+            "id": "agave-token",
+            "name": "Agave Token",
+            "symbol": "AGVE",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#433455",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/xdai/assets/0x3a97704a1b25f08aa230ae53b352e2e72ef52843/logo.png",
+            "ethAddress": "0x3a97704a1b25f08aa230ae53b352e2e72ef52843"
+        },
+        "0x44fA8E6f47987339850636F88629646662444217": {
+            "address": "0x44fA8E6f47987339850636F88629646662444217",
+            "id": "dai",
+            "name": "Dai Stablecoin on xDai",
+            "symbol": "DAI",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#9d9f7f",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
+            "ethAddress": "0x6b175474e89094c44da98b954eedeac495271d0f"
+        },
+        "0x2bF2ba13735160624a0fEaE98f6aC8F70885eA61": {
+			"address": "0x2bF2ba13735160624a0fEaE98f6aC8F70885eA61",
+            "id": "fraction",
+			"name": "Own a fraction (FRACTION)",
+			"symbol": "FRACTION",
+			"decimals": 18,
+			"precision": 6,
+            "color": "#be955c",
+			"hasIcon": true,
+			"logoUrl": "https://fraction.fyi/i/FRACTION-TokenIcon.svg",
+            "ethAddress": "0x2bf2ba13735160624a0feae98f6ac8f70885ea61"
+		},
+        "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb": {
+			"address": "0x9C58BAcC331c9aa871AFD802DB6379a98e80CEdb",
+            "id": "gnosis",
+			"name": "Gnosis Token on xDai",
+			"symbol": "GNO",
+			"decimals": 18,
+			"precision": 3,
+            "color": "#6f6776",
+			"hasIcon": true,
+			"logoUrl": "https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png?1609402668",
+            "ethAddress": "0x6810e776880c02933d47db1b9fc05908e5386b96"
+		},
+        "0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9": {
+            "address": "0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9",
+            "id": "honey",
+            "name": "Honey",
+            "symbol": "HNY",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#5d6872",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/xdai/assets/0x71850b7E9Ee3f13Ab46d67167341E4bDc905Eef9/logo.png",
+            "ethAddress": "0xc3589F56B6869824804A5EA29F2c9886Af1B0FcE"
+        },
+        "0xE2e73A1c69ecF83F464EFCE6A5be353a37cA09b2": {
+            "address": "0xE2e73A1c69ecF83F464EFCE6A5be353a37cA09b2",
+            "id": "chainlink",
+            "name": "ChainLink Token on xDai",
+            "symbol": "LINK",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#416aa3",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x514910771AF9Ca656af840dff83E8264EcF986CA/logo.png",
+            "ethAddress": "0x514910771af9ca656af840dff83e8264ecf986ca"
+        },
+        "0x63e62989D9EB2d37dfDB1F93A22f063635b07d51": {
+			"address": "0x63e62989D9EB2d37dfDB1F93A22f063635b07d51",
+            "id": "minerva-wallet",
+			"name": "Minerva Wallet SuperToken",
+			"symbol": "MIVA",
+			"decimals": 18,
+			"precision": 3,
+            "color": "#557064",
+			"hasIcon": true,
+			"logoUrl": "https://minerva.digital/i/MIVA-Token.svg",
+            "ethAddress": "0x63e62989d9eb2d37dfdb1f93a22f063635b07d51"
+		},
+        "0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e": {
+            "address": "0xb7D311E2Eb55F2f68a9440da38e7989210b9A05e",
+            "id": "xdai-stake",
+            "name": "Stake on xDai",
+            "symbol": "STAKE",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#c28d75",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x0Ae055097C6d159879521C384F1D2123D1f195e6/logo.png",
+            "ethAddress": "0x0ae055097c6d159879521c384f1d2123d1f195e6"
+        },
+        "0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84": {
+            "address": "0xC45b3C1c24d5F54E7a2cF288ac668c74Dd507a84",
+            "id": "symmetric",
+            "name": "Symmetric",
+            "symbol": "SYMM",
+            "decimals": 18,
+            "precision": 3,
+            "color": "#fafafa",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345/logo.png",
+            "ethAddress": "0x57dB3FfCa78dBbE0eFa0EC745D55f62aa0Cbd345"
+        },
+        "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83": {
+            "address": "0xDDAfbb505ad214D7b80b1f830fcCc89B60fb7A83",
+            "id": "usd-coin",
+            "name": "USD//C on xDai",
+            "symbol": "USDC",
+            "decimals": 6,
+            "precision": 2,
+            "color": "#387080",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+            "ethAddress": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48"
+        },
+        "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252": {
+            "address": "0x8e5bBbb09Ed1ebdE8674Cda39A0c169401db4252",
+            "id": "wrapped-bitcoin",
+            "name": "Wrapped BTC on xDai",
+            "symbol": "WBTC",
+            "decimals": 8,
+            "precision": 6,
+            "color": "#68aca9",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599/logo.png",
+            "ethAddress": "0x2260fac5e5542a773aa44fbcfedf7c193bc2c599"
+        },
+        "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1": {
+            "address": "0x6A023CCd1ff6F2045C3309768eAd9E68F978f6e1",
+            "id": "ethereum",
+            "name": "Wrapped Ether on xDai",
+            "symbol": "WETH",
+            "decimals": 18,
+            "precision": 5,
+            "color": "#8d6268",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+            "ethAddress": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2"
+        },
+        "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d": {
+            "address": "0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d",
+            "id": "wrapped-xdai",
+            "name": "Wrapped XDAI",
+            "symbol": "WXDAI",
+            "decimals": 18,
+            "precision": 5,
+            "color": "#c7bdf4",
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/xdai/assets/0xe91D153E0b41518A2Ce8Dd3D7944Fa863463a97d/logo.png",
+            "ethAddress": "0x0Ae055097C6d159879521C384F1D2123D1f195e6"
+        }
+    },
+    "untrusted": [
+        "0xbef02f140BFb37a75Ed6510e8D85C9E9e7e0ff1e",
+        "0xe7d8E7742ca6906a14F7e46770Fdfe6B7014e62D",
+        "0xEC4b4fFfb58B6c85D41025b07d93167B8192062E"
+    ]
+}
