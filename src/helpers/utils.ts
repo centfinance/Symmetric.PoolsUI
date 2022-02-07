@@ -551,9 +551,6 @@ export async function formatPool(pool) {
       .times(MOOprice)
       .div(crPool.liquidity)
       .times(365);
-
-      console.error("WWWWW");
-      console.error(crPool.rewardApyMOO.toString());
   }
 
   // GNO(Gnosis) APR and rewards
