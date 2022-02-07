@@ -540,11 +540,6 @@ export async function formatPool(pool) {
   // ARI rewards
   if (findPoolFromTokens(crPool, 'mCREAL', 'mCUSD', 50, 50)) {
     const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
-
-    console.error("MOO PRICE");
-      console.error(MOOprice);
-
-
     const MOODailyCoinReward = new BigNumber(1142.857142857); // 8K MOO a week
     crPool.tokenRewardMOO = MOODailyCoinReward;
     crPool.rewardApyMOO = crPool.tokenRewardMOO
