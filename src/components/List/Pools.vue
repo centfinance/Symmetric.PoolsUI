@@ -118,10 +118,10 @@
                       <UiNum :value="item.rewardApyGno" format="percent" />
                       GNO
                     </span>
-                    <span v-if="item.rewardApycReal">
+                    <span v-if="item.rewardApyMOO">
                       /
-                      <UiNum :value="item.rewardApycReal" format="percent" />
-                      mCREAL
+                      <UiNum :value="item.rewardApyMOO" format="percent" />
+                      MOO
                     </span>
                   </div>
                   <div class="grouptext margin-top10">

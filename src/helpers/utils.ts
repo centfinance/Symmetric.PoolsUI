@@ -539,12 +539,12 @@ export async function formatPool(pool) {
 
   // ARI rewards
   if (findPoolFromTokens(crPool, 'mCREAL', 'mCUSD', 50, 50)) {
-    const MCREALprice = store.getters.getTokenPriceFromSymbol('cREAL');
+    const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
 
-    const mcrealDailyCoinReward = new BigNumber(1000); // 7K ARI a week
-    crPool.tokenRewardmCREAL = mcrealDailyCoinReward;
-    crPool.rewardApycReal = crPool.tokenRewardmCREAL
-      .times(MCREALprice)
+    const MOODailyCoinReward = new BigNumber(8000); // 7K ARI a week
+    crPool.tokenRewardMOO = MOODailyCoinReward;
+    crPool.rewardApyMOO = crPool.tokenRewardMOO
+      .times(MOOprice)
       .div(crPool.liquidity)
       .times(365);
   }
