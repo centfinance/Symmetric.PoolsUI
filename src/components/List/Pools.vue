@@ -118,6 +118,11 @@
                       <UiNum :value="item.rewardApyGno" format="percent" />
                       GNO
                     </span>
+                    <span v-if="item.rewardApycReal">
+                      /
+                      <UiNum :value="item.rewardApycReal" format="percent" />
+                      mCREAL
+                    </span>
                   </div>
                   <div class="grouptext margin-top10">
                     <span v-text="$t('myApr')" class="text-white-normal" />:
