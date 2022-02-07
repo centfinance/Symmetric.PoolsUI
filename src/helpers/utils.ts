@@ -541,12 +541,19 @@ export async function formatPool(pool) {
   if (findPoolFromTokens(crPool, 'mCREAL', 'mCUSD', 50, 50)) {
     const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
 
-    const MOODailyCoinReward = new BigNumber(8000); // 7K ARI a week
+    console.error("MOO PRICE");
+      console.error(MOOprice);
+
+
+    const MOODailyCoinReward = new BigNumber(1142.857142857); // 8K MOO a week
     crPool.tokenRewardMOO = MOODailyCoinReward;
     crPool.rewardApyMOO = crPool.tokenRewardMOO
       .times(MOOprice)
       .div(crPool.liquidity)
       .times(365);
+
+      console.error("WWWWW");
+      console.error(crPool.rewardApyMOO.toString());
   }
 
   // GNO(Gnosis) APR and rewards
