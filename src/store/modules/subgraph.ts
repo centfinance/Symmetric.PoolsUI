@@ -19,7 +19,8 @@ const state = {
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
   SYMMprice: {},
-  poolsTotals: {}
+  poolsTotals: {},
+  transactions: []
 };
 
 const mutations = {
@@ -125,6 +126,16 @@ const mutations = {
   GET_POOLS_TOTALS(_state, payload) {
     Vue.set(_state, 'poolsTotals', payload);
     console.debug('GET_POOLS_TOTALS', payload);
+  },
+  GET_INFO_TRANSACTIONS_REQUEST() {
+    console.debug('GET_INFO_TRANSACTIONS_REQUEST');
+  },
+  GET_INFO_TRANSACTIONS(_state, payload) {
+    Vue.set(_state, 'transactions', payload);
+    console.debug('GET_INFO_TRANSACTIONS', payload);
+  },
+  GET_INFO_TRANSACTIONS_FAILURE(_state, payload) {
+    console.debug('GET_INFO_TRANSACTIONS_FAILURE', payload);
   }
 };
 
@@ -415,6 +426,35 @@ const actions = {
   },
   getPoolsTotals: async ({ commit }, payload) => {
     commit('GET_POOLS_TOTALS', payload);
+  },
+  getAllSwaps: async ({ commit }, payload) => {
+    commit('GET_INFO_TRANSACTIONS_REQUEST');
+    try {
+      const {
+        first = ITEMS_PER_PAGE,
+        page = 1,
+        orderBy = 'timestamp',
+        orderDirection = 'desc',
+        where = {}
+      } = payload;
+      const skip = (page - 1) * first;
+      const query = {
+        swaps: {
+          __args: {
+            where,
+            first,
+            skip,
+            orderBy,
+            orderDirection
+          }
+        }
+      };
+      const { swaps } = await request('getAllSwaps', query);
+      commit('GET_INFO_TRANSACTIONS', swaps);
+      return swaps;
+    } catch (e) {
+      commit('GET_INFO_TRANSACTIONS_FAILURE', e);
+    }
   }
 };
 
