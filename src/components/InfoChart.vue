@@ -32,7 +32,8 @@ const options = {
     barSpacing: 40,
     drawTicks: false,
     borderVisible: false,
-    fixRightEdge: true
+    fixRightEdge: true,
+    fixLeftEdge: true
   },
   grid: {
     horzLines: {
@@ -72,9 +73,9 @@ function normalizeMetrics(rawMetrics) {
         const swaps = rawMetrics[keysByDate[i]][j].swaps;
         if (swaps.length) {
           // for (let k = 0; k < swaps.length; k++) {
-          poolLiquidity += +swaps[0].poolLiquidity;
-          poolTotalSwapFee += +swaps[0].poolTotalSwapFee;
-          poolTotalSwapVolume += +swaps[0].poolTotalSwapVolume;
+          poolLiquidity += Number(swaps[0].poolLiquidity);
+          poolTotalSwapFee += Number(swaps[0].poolTotalSwapFee);
+          poolTotalSwapVolume += Number(swaps[0].poolTotalSwapVolume);
           metrics[keysByDate[i]] = {
             poolLiquidity,
             poolTotalSwapFee,
@@ -92,8 +93,19 @@ function normalizeMetrics(rawMetrics) {
   return { metrics, lastMetric: metrics[keysByDate[keysByDate.length - 1]] };
 }
 
+function formatDate(date) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 export default {
-  props: ['pool'],
   data() {
     return {
       loading: false,
@@ -119,7 +131,6 @@ export default {
           id: 'FEE_RETURNS'
         }
       ];
-
       return tabList;
     },
     chartData() {
@@ -155,11 +166,13 @@ export default {
         }
 
         data.push({
-          time: date.toISOString(),
+          time: formatDate(date), //.toISOString(),
           value
         });
       }
-
+      data.sort((a, b) => {
+        return new Date(a.time) - new Date(b.time);
+      });
       return data;
     }
   },
@@ -238,6 +251,7 @@ export default {
         });
       }
       this.series.setData(this.chartData);
+      this.chart.timeScale().fitContent();
     }
   },
   async mounted() {

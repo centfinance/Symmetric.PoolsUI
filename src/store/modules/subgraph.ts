@@ -377,7 +377,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < 31; i++) {
+      for (let i = 0; i < 60; i++) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'pools',

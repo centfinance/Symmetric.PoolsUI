@@ -1,9 +1,7 @@
 <template>
   <UiTable class="anim-fade-in table-view">
     <UiTableTh>
-      <div class="table-column-number text-left">
-        {{ $t('#') }}
-      </div>
+      <div class="table-column-number text-left">#</div>
       <div class="table-column-assets flex-auto text-left">
         {{ $t('pool') }}
       </div>

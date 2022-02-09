@@ -166,6 +166,9 @@ export default {
           });
         }
       }
+      data.sort((a, b) => {
+        return new Date(a.time) - new Date(b.time);
+      });
       return data;
     }
   },

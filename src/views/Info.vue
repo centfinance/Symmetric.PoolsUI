@@ -1,9 +1,11 @@
 <template>
   <Page>
-    <InfoBoxes />
+    <!-- <InfoBoxes /> -->
     <InfoChart />
+
     <h3 class="mt-5 mb-2">Top Pools</h3>
     <InfoPools />
+
     <h3 class="mt-5 mb-2">Transactions</h3>
     <InfoSwaps />
   </Page>
