@@ -43,6 +43,10 @@
         <UiNum :value="pool.rewardApyGno" format="percent" class="w-60" />
         <div class="w-40 ml-1 text-right">GNO</div>
       </div>
+      <div class="d-flex" v-if="pool.rewardApyMOO">
+        <UiNum :value="pool.rewardApyMOO" format="percent" class="w-60" />
+        <div class="w-40 ml-1 text-right">MOO</div>
+      </div>
     </div>
     <div
       v-text="_num(myLiquidity, 'usd-long')"

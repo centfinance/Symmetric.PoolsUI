@@ -24,7 +24,7 @@
     ]
   },
   "dependencies": {
-    "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#master",
+    "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#generated",
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/address": "^5.4.0",
     "@ethersproject/constants": "^5.4.0",
@@ -69,6 +69,7 @@
     "vue-jazzicon": "^0.1.3",
     "vue-js-toggle-button": "^1.3.3",
     "vue-router": "^3.2.0",
+    "vue-simple-accordion": "^0.1.0",
     "vuex": "^3.4.0",
     "walletlink": "^2.0.2"
   },

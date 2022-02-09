@@ -537,6 +537,17 @@ export async function formatPool(pool) {
       .times(365);
   }
 
+  // ARI rewards
+  if (findPoolFromTokens(crPool, 'mCREAL', 'mCUSD', 50, 50)) {
+    const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
+    const MOODailyCoinReward = new BigNumber(1142.857142857); // 8K MOO a week
+    crPool.tokenRewardMOO = MOODailyCoinReward;
+    crPool.rewardApyMOO = crPool.tokenRewardMOO
+      .times(MOOprice)
+      .div(crPool.liquidity)
+      .times(365);
+  }
+
   // GNO(Gnosis) APR and rewards
   // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
   const enum gnoPool {

@@ -47,7 +47,6 @@
         SYMM
       </UiButton>
     </div>
-
     <div class="cards">
       <div class="cardInfo rounded-1">
         <div class="highlight-card anim-fade-in rounded-1 d-flex">
@@ -169,6 +168,7 @@
         </div>
       </div>
     </div>
+    <Announcements :msgs="annoucements" />
     <div
       class="d-flex flex-items-center mb-4 pt-2 float-none float-sm-right filter-by-asset"
     >
@@ -229,6 +229,7 @@ export default {
       chartdata: null,
       xDaiTVL: null,
       celoTVL: null,
+      annoucements: null,
       // avalancheTVL: null,
       // fantomTVL: null,
       // optimismTVL: null,
@@ -255,6 +256,7 @@ export default {
   async mounted() {
     // setTimeout(this.fetchTVL(), 600);
     await this.fetchTVL();
+    await this.fetchAnnoucements();
     this.loaded = false;
     try {
       this.getTotalValues();
@@ -326,6 +328,13 @@ export default {
       // this.SYMMPriceFantom = await getSYMMPriceFANTOM();
       // this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
       // this.SYMMPricePolygon = await getSYMMPricePOLYGON();
+    },
+    async fetchAnnoucements() {
+      const response = await fetch(
+        'https://raw.githubusercontent.com/centfinance/Symmetric.Assets/master/data/announcements.json'
+      );
+      const data = await response.json();
+      this.annoucements = data;
     },
     addToken(token) {
       this.tokens.push(token);
