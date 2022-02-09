@@ -8,6 +8,7 @@ import {
   getSYMMprice
 } from '@/helpers/utils';
 // import { cloneDeep } from 'lodash';
+import config from '@/config';
 
 const state = {
   pools: [],
@@ -377,7 +378,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < 60; i++) {
+      for (let i = 0; i < (config.network === 'xdai' ? 60 : 16); i++) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'pools',
