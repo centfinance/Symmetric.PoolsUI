@@ -1,5 +1,5 @@
 <template>
-  <UiTable>
+  <UiTable class="info-swaps">
     <UiTableTh>
       <div v-text="$t('tradeIn')" class="column-xl text-left" />
       <div v-text="$t('tradeOut')" class="column-xl text-left" />
@@ -113,3 +113,9 @@ export default {
   }
 };
 </script>
+<style scoped lang="scss">
+.info-swaps {
+  height: 610px;
+  overflow: scroll;
+}
+</style>

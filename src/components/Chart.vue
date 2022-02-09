@@ -33,7 +33,8 @@ const options = {
     barSpacing: 40,
     drawTicks: false,
     borderVisible: false,
-    fixRightEdge: true
+    fixRightEdge: true,
+    fixLeftEdge: true
   },
   grid: {
     horzLines: {
@@ -149,7 +150,7 @@ export default {
             const previousTotalVolume = parseFloat(
               previousValues.poolTotalSwapVolume
             );
-            value = totalVolume - previousTotalVolume;
+            value = Math.abs(totalVolume - previousTotalVolume);
           } else if (this.activeTab === 'FEE_RETURNS') {
             const totalFee = parseFloat(values.poolTotalSwapFee);
             const previousTotalFee = parseFloat(
@@ -157,7 +158,7 @@ export default {
             );
             const dailyFee = totalFee - previousTotalFee;
             const liquidity = parseFloat(values.poolLiquidity);
-            value = (dailyFee / liquidity) * 365;
+            value = Math.abs((dailyFee / liquidity) * 365);
           }
 
           data.push({
@@ -247,6 +248,7 @@ export default {
         });
       }
       this.series.setData(this.chartData);
+      this.chart.timeScale().fitContent();
     }
   },
   async mounted() {
