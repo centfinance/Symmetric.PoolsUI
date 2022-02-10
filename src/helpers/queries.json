@@ -288,6 +288,22 @@
       "feeValue": true
     }
   },
+  "getAllSwaps": {
+    "swaps": {
+      "id": true,
+      "tokenIn": true,
+      "tokenInSym": true,
+      "tokenAmountIn": true,
+      "tokenOut": true,
+      "tokenOutSym": true,
+      "tokenAmountOut": true,
+      "poolTotalSwapVolume": true,
+      "timestamp": true,
+      "value": true,
+      "feeValue": true,
+      "userAddress": { "id": true }
+    }
+  },
   "getPoolShares": {
     "poolShares": {
       "__args": {

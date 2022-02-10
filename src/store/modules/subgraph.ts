@@ -8,8 +8,10 @@ import {
   getSYMMprice
 } from '@/helpers/utils';
 // import { cloneDeep } from 'lodash';
+import config from '@/config';
 
 const state = {
+  pools: [],
   balancer: {},
   poolShares: {},
   specificPools: [],
@@ -17,7 +19,9 @@ const state = {
   tokens: {}, // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
-  SYMMprice: {}
+  SYMMprice: {},
+  poolsTotals: {},
+  transactions: []
 };
 
 const mutations = {
@@ -29,8 +33,9 @@ const mutations = {
   GET_POOLS_REQUEST() {
     console.debug('GET_POOLS_REQUEST');
   },
-  GET_POOLS_SUCCESS() {
-    console.debug('GET_POOLS_SUCCESS');
+  GET_POOLS_SUCCESS(_state, payload) {
+    Vue.set(_state, 'pools', payload);
+    console.debug('GET_POOLS_SUCCESS', payload);
   },
   GET_POOLS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_FAILURE', payload);
@@ -91,6 +96,15 @@ const mutations = {
   GET_POOLS_METRICS_FAILURE(_state, payload) {
     console.debug('GET_POOLS_METRICS_FAILURE', payload);
   },
+  GET_ALL_POOLS_METRICS_REQUEST() {
+    console.debug('GET_ALL_POOLS_METRICS_REQUEST');
+  },
+  GET_ALL_POOLS_METRICS_SUCCESS() {
+    console.debug('GET_ALL_POOLS_METRICS_SUCCESS');
+  },
+  GET_ALL_POOLS_METRICS_FAILURE(_state, payload) {
+    console.debug('GET_ALL_POOLS_METRICS_FAILURE', payload);
+  },
   GET_TOKENS_REQUEST() {
     console.debug('GET_TOKEN_PRICES_REQUEST');
   },
@@ -109,6 +123,20 @@ const mutations = {
   GET_SYMM_PRICE(_state, payload) {
     Vue.set(_state, 'SYMMprice', payload);
     console.debug('GET_SYMM_PRICE', payload);
+  },
+  GET_POOLS_TOTALS(_state, payload) {
+    Vue.set(_state, 'poolsTotals', payload);
+    console.debug('GET_POOLS_TOTALS', payload);
+  },
+  GET_INFO_TRANSACTIONS_REQUEST() {
+    console.debug('GET_INFO_TRANSACTIONS_REQUEST');
+  },
+  GET_INFO_TRANSACTIONS(_state, payload) {
+    Vue.set(_state, 'transactions', payload);
+    console.debug('GET_INFO_TRANSACTIONS', payload);
+  },
+  GET_INFO_TRANSACTIONS_FAILURE(_state, payload) {
+    console.debug('GET_INFO_TRANSACTIONS_FAILURE', payload);
   }
 };
 
@@ -162,7 +190,7 @@ const actions = {
           return await formatPool(pool);
         })
       );
-      commit('GET_POOLS_SUCCESS');
+      commit('GET_POOLS_SUCCESS', pools);
       return pools;
     } catch (e) {
       commit('GET_POOLS_FAILURE', e);
@@ -343,6 +371,41 @@ const actions = {
       commit('GET_POOLS_METRICS_FAILURE', e);
     }
   },
+  getAllPoolsMetrics: async ({ commit }) => {
+    commit('GET_ALL_POOLS_METRICS_REQUEST');
+    try {
+      const day = 24 * 60 * 60 * 1000;
+      const now = Date.now();
+      const today = now - (now % day);
+      const query = {};
+      for (let i = 0; i < (config.network === 'xdai' ? 60 : 16); i++) {
+        const timestamp = today - i * day;
+        query[`metrics_${timestamp}`] = {
+          __aliasFor: 'pools',
+          __args: {
+            first: 100
+          },
+          swaps: {
+            __args: {
+              first: 1,
+              where: {
+                timestamp_gt: timestamp / 1000,
+                timestamp_lt: (timestamp + day) / 1000
+              }
+            },
+            poolLiquidity: true,
+            poolTotalSwapVolume: true,
+            poolTotalSwapFee: true
+          }
+        };
+      }
+      const poolsMetrics = await request('getAllPoolsMetrics', query);
+      commit('GET_ALL_POOLS_METRICS_SUCCESS');
+      return poolsMetrics;
+    } catch (e) {
+      commit('GET_ALL_POOLS_METRICS_FAILURE', e);
+    }
+  },
   getTokens: async ({ commit }) => {
     commit('GET_TOKENS_REQUEST');
     try {
@@ -360,6 +423,38 @@ const actions = {
       commit('GET_TOKENS_SUCCESS', { tokenPrices, tokens });
     } catch (e) {
       commit('GET_TOKENS_FAILURE', e);
+    }
+  },
+  getPoolsTotals: async ({ commit }, payload) => {
+    commit('GET_POOLS_TOTALS', payload);
+  },
+  getAllSwaps: async ({ commit }, payload) => {
+    commit('GET_INFO_TRANSACTIONS_REQUEST');
+    try {
+      const {
+        first = ITEMS_PER_PAGE,
+        page = 1,
+        orderBy = 'timestamp',
+        orderDirection = 'desc',
+        where = {}
+      } = payload;
+      const skip = (page - 1) * first;
+      const query = {
+        swaps: {
+          __args: {
+            where,
+            first,
+            skip,
+            orderBy,
+            orderDirection
+          }
+        }
+      };
+      const { swaps } = await request('getAllSwaps', query);
+      commit('GET_INFO_TRANSACTIONS', swaps);
+      return swaps;
+    } catch (e) {
+      commit('GET_INFO_TRANSACTIONS_FAILURE', e);
     }
   }
 };
@@ -387,6 +482,9 @@ const getters = {
     if (filteredPool.length > 0) {
       return filteredPool[0].liquidity;
     } else return 0;
+  },
+  getPoolsTotals(state) {
+    return state.poolsTotals;
   }
 };
 
