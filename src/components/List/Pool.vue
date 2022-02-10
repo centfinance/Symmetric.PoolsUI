@@ -20,7 +20,12 @@
     <UiNum :value="pool.apy" format="percent" class="table-column hide-sm" />
     <div class="table-column hide-sm hide-md">
       <div class="d-flex">
-        <UiNum :value="pool.rewardApy" format="percent" class="w-60" />
+        <UiNum
+          :value="pool.rewardApy"
+          format="percent"
+          class="w-60"
+          :class="!pool.rewardApy && 'no-reward'"
+        />
         <div class="w-40 ml-1 text-right">SYMM</div>
       </div>
       <div class="d-flex" v-if="pool.rewardApyCelo">
@@ -140,3 +145,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.no-reward {
+  color: var(--primary);
+}
+</style>
