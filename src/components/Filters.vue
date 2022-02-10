@@ -10,11 +10,8 @@
           class="mr-1 mb-1"
         />
       </div>
-      <UiButton
-        style="background-color: #5b8470"
-        class="button-primary mx-1 mb-1"
-      >
-        <a :href="config.exchangeUrl" class="text-white" target="_blank">
+      <UiButton class="button-primary mx-1 mb-1">
+        <a :href="config.exchangeUrl" class="btn-text-white" target="_blank">
           {{ $t('swap') }}
           <Icon name="external-link" class="ml-1" />
         </a>
@@ -22,7 +19,7 @@
       <UiButton class="button-primary mx-1 mb-1">
         <a
           href="https://defillama.com/protocol/symmetric"
-          class="text-white"
+          class="btn-text-white"
           target="_blank"
         >
           TVL :
@@ -35,7 +32,6 @@
       </UiButton>
       <UiButton
         v-if="$auth.isAuthenticated && !wrongNetwork"
-        style="background-color: #5b8470"
         class="button-primary mx-1 mb-1"
       >
         Total Daily Reward :
@@ -380,7 +376,9 @@ export default {
 
 <style scoped lang="scss">
 @import '../vars';
-
+.btn-text-white {
+  color: white;
+}
 .card {
   // background-color: #272727;
   /* color: blue; */
