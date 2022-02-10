@@ -15,7 +15,7 @@ import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import { getPoolLiquidity } from '@/helpers/price';
-import { specificPools, crPoolIds } from '@/helpers/constants';
+import { specificPools, crPoolIds, symmv1Pools } from '@/helpers/constants';
 
 // import { default as data } from '../../rewards.json';
 
@@ -407,10 +407,12 @@ export async function formatPool(pool) {
 
   pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
 
-  pool.rewardApy = pool.tokenReward
-    .times(SYMMprice)
-    .div(pool.liquidity)
-    .times(365);
+  if (!symmv1Pools.includes(pool.id)) {
+    pool.rewardApy = pool.tokenReward
+      .times(SYMMprice)
+      .div(pool.liquidity)
+      .times(365);
+  }
 
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);
@@ -420,36 +422,22 @@ export async function formatPool(pool) {
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
       const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
-      // const symmV1cUSDLiquidity = Number(
-      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1cUSD)
-      // );
 
       const symmV2cUSDLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2cUSD)
       );
 
-      // const symmV1cEURLiquidity = Number(
-      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1cEUR)
-      // );
-
       const symmV2cEURLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2cEUR)
       );
-
-      // const symmV1CELOLiquidity = Number(
-      //   store.getters.getPoolLiquidityFromId(specificPools.symmV1CELO)
-      // );
 
       const symmV2CELOLiquidity = Number(
         store.getters.getPoolLiquidityFromId(specificPools.symmV2CELO)
       );
 
       const liquidities = [
-        // symmV1cEURLiquidity,
         symmV2cEURLiquidity,
-        // symmV1cUSDLiquidity,
         symmV2cUSDLiquidity,
-        // symmV1CELOLiquidity,
         symmV2CELOLiquidity
       ];
 
@@ -459,35 +447,14 @@ export async function formatPool(pool) {
       const numberOfDays = 84;
       const dailyCelo = totalQuantity / numberOfDays;
 
-      // (TVL for symm v1 cusd pool)/(tvl for symm v1 cusd pool + tvl for symm v2 cusd pool)
-      // const symmv1Rate =
-      //   symmV1cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
-      // const symmv2Rate =
-      //   symmV2cUSDLiquidity / (symmV1cUSDLiquidity + symmV2cUSDLiquidity);
-
-      // const v1cEUR =
-      //   symmV1cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
-      // const v2cEUR =
-      //   symmV2cEURLiquidity / (symmV1cEURLiquidity + symmV2cEURLiquidity);
-      // const v1CELO =
-      //   symmV1CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
-      // const v2CELO =
-      //   symmV2CELOLiquidity / (symmV1CELOLiquidity + symmV2CELOLiquidity);
-
       // Daily celo qty * price => value per day
-      // const dailyV1Celo = dailyCelo * symmv1Rate;
       const dailyV2Celo = dailyCelo;
-      // const dailyV1CelocEUR = dailyCelo * v1cEUR;
       const dailyV2CelocEUR = dailyCelo;
-      // const dailyV1CeloCELO = dailyCelo * v1CELO;
       const dailyV2CeloCELO = dailyCelo;
 
       const crDailyCoinReward = [
-        // new BigNumber(2 * dailyV1CelocEUR), // symmv1 / cEUR
         new BigNumber(2 * dailyV2CelocEUR), // symmv2 / cEUR
-        // new BigNumber(2 * dailyV1Celo), // symmv1 / cUSD
         new BigNumber(2 * dailyV2Celo), // symmv2 / cUSD
-        // new BigNumber(dailyV1CeloCELO), // symmv1 / celo
         new BigNumber(dailyV2CeloCELO) // symmv2 / celo
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
@@ -529,7 +496,7 @@ export async function formatPool(pool) {
   if (findPoolFromTokens(crPool, 'ARI', 'cUSD', 95, 5)) {
     const ARIprice = store.getters.getTokenPriceFromSymbol('ARI');
 
-    const ariDailyCoinReward = new BigNumber(1000); // 7K ARI a week
+    const ariDailyCoinReward = new BigNumber(1428); // 7K ARI a week + 3K
     crPool.tokenRewardAri = ariDailyCoinReward;
     crPool.rewardApyAri = crPool.tokenRewardAri
       .times(ARIprice)
@@ -537,10 +504,10 @@ export async function formatPool(pool) {
       .times(365);
   }
 
-  // ARI rewards
+  // mCREAL rewards
   if (findPoolFromTokens(crPool, 'mCREAL', 'mCUSD', 50, 50)) {
     const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
-    const MOODailyCoinReward = new BigNumber(1142.857142857); // 8K MOO a week
+    const MOODailyCoinReward = new BigNumber(1142.857142857); // 8K mCREAL a week
     crPool.tokenRewardMOO = MOODailyCoinReward;
     crPool.rewardApyMOO = crPool.tokenRewardMOO
       .times(MOOprice)

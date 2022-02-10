@@ -60,7 +60,6 @@ export default {
 .vsa-item__trigger__content {
   font-weight: 900 !important;
   font-size: 0.8rem !important;
-  color: #f0c539;
 }
 .vsa-list {
   --vsa-max-width: 100%;
