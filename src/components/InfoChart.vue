@@ -60,6 +60,18 @@ const options = {
   }
 };
 
+function formatDate(date) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 function normalizeMetrics(rawMetrics) {
   const keysByDate = Object.keys(rawMetrics);
   const metrics = {};
@@ -115,18 +127,6 @@ function normalizeMetrics(rawMetrics) {
   };
 }
 
-function formatDate(date) {
-  const d = new Date(date);
-  let month = '' + (d.getMonth() + 1);
-  let day = '' + d.getDate();
-  const year = d.getFullYear();
-
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
-}
-
 export default {
   data() {
     return {
@@ -166,7 +166,7 @@ export default {
         const previousValues = this.metrics[rowKeys[i - 1]];
         if (!values || !previousValues) {
           data.push({
-            time: date.toISOString()
+            time: rowKeys[i] //date.toISOString()
           });
           continue;
         }

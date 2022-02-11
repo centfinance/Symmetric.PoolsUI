@@ -84,7 +84,7 @@
             <router-link
               :to="{ name: 'chart' }"
               :class="{ active: $router.currentRoute.name === 'chart' }"
-              v-text="$t('chart')"
+              v-text="'Charts (in beta)'"
             />
           </li>
           <li>

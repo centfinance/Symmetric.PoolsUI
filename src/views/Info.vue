@@ -1,5 +1,6 @@
 <template>
   <Page>
+     <h3 class="mt-5 mb-4">Charts (in beta)</h3>
     <!-- <InfoBoxes /> -->
     <InfoChart />
 
