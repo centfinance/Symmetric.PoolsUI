@@ -20,7 +20,11 @@ const state = {
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
   SYMMprice: {},
-  poolsTotals: {},
+  poolsTotals: {
+    poolLiquidity: 0,
+    poolTotalSwapVolume: 0,
+    poolTotalSwapFee: 0
+  },
   transactions: []
 };
 
@@ -378,7 +382,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < (config.network === 'xdai' ? 60 : 16); i++) {
+      for (let i = 0; i < (config.network === 'xdai' ? 40 : 16); i++) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'pools',
