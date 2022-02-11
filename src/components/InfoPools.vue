@@ -5,6 +5,7 @@
       <div class="table-column-assets flex-auto text-left">
         {{ $t('pool') }}
       </div>
+      <div class="table-column">Address</div>
       <div class="table-column table-sort" @click="handleSort('liquidity')">
         {{ $t('marketCap') }}
         <img

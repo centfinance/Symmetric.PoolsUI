@@ -16,7 +16,7 @@ const state = {
   poolShares: {},
   specificPools: [],
   myPools: [],
-  tokens: {}, // all tokens from the subgraph
+  tokens: [], // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
   SYMMprice: {},

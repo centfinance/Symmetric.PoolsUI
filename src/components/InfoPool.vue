@@ -19,6 +19,16 @@
         </div>
       </div>
     </div>
+    <div class="table-column" style="z-index: 999">
+      <a
+        :href="`${_etherscanLink(pool.id, 'address')}`"
+        target="_blank"
+        class="text-white"
+      >
+        {{ _shortenAddress(pool.id) }}
+        <!-- <Icon name="external-link" size="16" class="ml-1" /> -->
+      </a>
+    </div>
     <div v-text="_num(pool.liquidity, 'usd-long')" class="table-column" />
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
