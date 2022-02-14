@@ -36,7 +36,7 @@
     />
     <div
       v-text="_num(pool.liquidity, 'usd-long')"
-      class="column-xl text-right flex-auto"
+      class="column-xl text-right hide-sm hide-md flex-auto"
     />
   </UiTableTr>
 </template>

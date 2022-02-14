@@ -23,7 +23,7 @@
         />
       </div>
       <div
-        class="column-xl text-right flex-auto table-sort"
+        class="column-xl text-right hide-sm hide-md flex-auto table-sort"
         @click="handleSort('liquidity')"
       >
         {{ $t('marketCap') }}
@@ -57,8 +57,8 @@
           'table-column-number text-left',
           'table-column-assets text-left',
           'column-xl text-left',
-          'column-xl text-left',
-          'column-xl text-right flex-auto'
+          'column-xl text-left hide-sm',
+          'column-xl text-right hide-sm hide-md flex-auto'
         ]"
         :height="29"
       />
