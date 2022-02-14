@@ -3,7 +3,7 @@
     <div class="text-left table-column-number">
       {{ number + 1 }}
     </div>
-    <div class="flex-auto text-left table-column-assets">
+    <div class="text-left table-column-assets">
       <div class="d-flex flex-wrap">
         <div
           v-for="token in pool.tokens"
@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="table-column" style="z-index: 999">
+    <div class="column-xl text-left" style="z-index: 999">
       <a
         :href="`${_etherscanLink(pool.id, 'address')}`"
         target="_blank"
@@ -29,11 +29,14 @@
         <!-- <Icon name="external-link" size="16" class="ml-1" /> -->
       </a>
     </div>
-    <div v-text="_num(pool.liquidity, 'usd-long')" class="table-column" />
     <div
       v-text="_num(pool.lastSwapVolume, 'usd-long')"
       format="currency"
-      class="table-column hide-sm"
+      class="column-xl text-left hide-sm"
+    />
+    <div
+      v-text="_num(pool.liquidity, 'usd-long')"
+      class="column-xl text-right flex-auto"
     />
   </UiTableTr>
 </template>

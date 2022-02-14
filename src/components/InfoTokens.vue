@@ -2,10 +2,10 @@
   <UiTable class="info-tokens">
     <UiTableTh>
       <div class="table-column-number text-left">#</div>
-      <div class="table-column-assets flex-auto text-left">Name</div>
-      <div class="table-column">Price</div>
-      <div class="table-column">Address</div>
-      <div class="table-column">TVL</div>
+      <div class="table-column-assets text-left">Name</div>
+      <div class="column-xl text-left">Address</div>
+      <div class="column-xl text-left">Price</div>
+      <div class="column-xl text-right flex-auto">TVL</div>
     </UiTableTh>
     <div class="overflow-hidden">
       <div v-if="tokens && tokens.length > 0">
@@ -13,13 +13,10 @@
           <div class="text-left table-column-number">
             {{ i + 1 }}
           </div>
-          <div class="flex-auto text-left table-column-assets">
+          <div class="text-left table-column-assets">
             {{ token.name }} ({{ token.symbol }})
           </div>
-          <div class="table-column">
-            {{ _num(token.price, 'usd-long') }}
-          </div>
-          <div class="table-column">
+          <div class="column-xl text-left">
             <a
               :href="`${_etherscanLink(token.id, 'address')}`"
               target="_blank"
@@ -29,7 +26,10 @@
               <Icon name="external-link" size="16" class="ml-1" />
             </a>
           </div>
-          <div class="table-column">
+          <div class="column-xl text-left">
+            {{ _num(token.price, 'usd-long') }}
+          </div>
+          <div class="column-xl text-right flex-auto">
             {{ _num(token.poolLiquidity, 'usd-long') }}
           </div>
         </UiTableTr>
@@ -38,10 +38,10 @@
         v-if="loading"
         :classes="[
           'table-column-number text-left',
-          'table-column-assets flex-auto text-left',
-          'table-column',
-          'table-column',
-          'table-column'
+          'table-column-assets text-left',
+          'column-xl text-left',
+          'column-xl text-left',
+          'column-xl text-right flex-auto'
         ]"
       />
     </div>

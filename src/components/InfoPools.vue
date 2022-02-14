@@ -2,25 +2,12 @@
   <UiTable class="anim-fade-in table-view">
     <UiTableTh>
       <div class="table-column-number text-left">#</div>
-      <div class="table-column-assets flex-auto text-left">
+      <div class="table-column-assets text-left">
         {{ $t('pool') }}
       </div>
-      <div class="table-column">Address</div>
-      <div class="table-column table-sort" @click="handleSort('liquidity')">
-        {{ $t('marketCap') }}
-        <img
-          v-if="sortDirection === 'DESC' && sortField === 'liquidity'"
-          src="@/assets/arrow-up.svg"
-          alt="up"
-        />
-        <img
-          v-if="sortDirection === 'ASC' && sortField === 'liquidity'"
-          src="@/assets/arrow-down.svg"
-          alt="down"
-        />
-      </div>
+      <div class="column-xl text-left">Address</div>
       <div
-        class="table-column hide-sm table-sort"
+        class="column-xl text-left hide-sm table-sort"
         @click="handleSort('lastSwapVolume')"
       >
         {{ $t('volume24') }}
@@ -31,6 +18,22 @@
         />
         <img
           v-if="sortDirection === 'ASC' && sortField === 'lastSwapVolume'"
+          src="@/assets/arrow-down.svg"
+          alt="down"
+        />
+      </div>
+      <div
+        class="column-xl text-right flex-auto table-sort"
+        @click="handleSort('liquidity')"
+      >
+        {{ $t('marketCap') }}
+        <img
+          v-if="sortDirection === 'DESC' && sortField === 'liquidity'"
+          src="@/assets/arrow-up.svg"
+          alt="up"
+        />
+        <img
+          v-if="sortDirection === 'ASC' && sortField === 'liquidity'"
           src="@/assets/arrow-down.svg"
           alt="down"
         />
@@ -51,10 +54,11 @@
       <ListLoading
         v-if="loading"
         :classes="[
-          'column-sm text-left hide-sm hide-md hide-lg',
-          'flex-auto text-left',
-          'table-column hide-sm hide-md hide-lg',
-          'table-column hide-sm hide-md hide-lg'
+          'table-column-number text-left',
+          'table-column-assets text-left',
+          'column-xl text-left',
+          'column-xl text-left',
+          'column-xl text-right flex-auto'
         ]"
         :height="29"
       />
