@@ -30,7 +30,7 @@
             {{ _num(token.price, 'usd-long') }}
           </div>
           <div class="column-xl text-right hide-sm hide-md flex-auto">
-            {{ _num(token.poolLiquidity, 'usd-long') }}
+            {{ _num(getTvlFromSymbol(token.symbol), 'usd-long') }}
           </div>
         </UiTableTr>
       </div>
@@ -59,21 +59,48 @@ import { mapActions } from 'vuex';
 export default {
   data() {
     return {
-      loading: false
+      loading: false,
+      tokens: [],
+      pools: []
     };
   },
   methods: {
-    ...mapActions(['getTokens'])
-  },
-  computed: {
-    tokens() {
-      return this.$store.state.subgraph.tokens;
+    ...mapActions(['getTokens', 'getPools']),
+    getTvlFromSymbol(symbol) {
+      if (this.pools.length) {
+        const filtered = this.pools.filter(p => {
+          const tokenFiltered = p.tokens.filter(t => t.symbol === symbol);
+          // p.tokens[0].symbol === symbol || p.tokens[1].symbol === symbol;
+          if (tokenFiltered.length) return true;
+          else return false;
+        });
+        let tvl = 0;
+        if (filtered.length) {
+          filtered.forEach(e => {
+            tvl += Number(e.liquidity);
+          });
+        }
+        return tvl;
+      }
+      return 0;
     }
   },
+  // computed: {
+  //   tokens() {
+  //     return this.$store.state.subgraph.tokens;
+  //   }
+  // },
   async mounted() {
     if (!this.tokens || !this.tokens.length) {
       this.loading = true;
+      const query = { first: 100 };
+      this.pools = await this.getPools(query);
       await this.getTokens();
+      this.tokens = this.$store.state.subgraph.tokens;
+      this.tokens = this.tokens.map(token => {
+        return { ...token, liquidity: this.getTvlFromSymbol(token.symbol) };
+      });
+      this.tokens.sort((a, b) => b.liquidity - a.liquidity);
       this.loading = false;
     }
   }

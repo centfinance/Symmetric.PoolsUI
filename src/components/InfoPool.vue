@@ -19,7 +19,7 @@
         </div>
       </div>
     </div>
-    <div class="column-xl text-left" style="z-index: 999">
+    <div class="column-xl text-left">
       <a
         :href="`${_etherscanLink(pool.id, 'address')}`"
         target="_blank"
