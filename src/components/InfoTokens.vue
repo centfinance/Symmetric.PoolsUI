@@ -4,8 +4,10 @@
       <div class="table-column-number text-left">#</div>
       <div class="table-column-assets text-left">Name</div>
       <div class="column-xl text-left">Address</div>
-      <div class="column-xl hide-sm hide-md hide-lg text-left">Price</div>
-      <div class="column-xl text-right hide-sm hide-md flex-auto">TVL</div>
+      <div class="column-xl hide-sm hide-md hide-lg text-right flex-auto">
+        Price
+      </div>
+      <!-- <div class="column-xl text-right hide-sm hide-md flex-auto">TVL</div> -->
     </UiTableTh>
     <div class="overflow-hidden">
       <div v-if="tokens && tokens.length > 0">
@@ -26,12 +28,14 @@
               <Icon name="external-link" size="16" class="ml-1" />
             </a>
           </div>
-          <div class="column-xl text-left hide-sm hide-md hide-lg">
+          <div
+            class="column-xl hide-sm hide-md hide-lg text-right flex-auto"
+          >
             {{ _num(token.price, 'usd-long') }}
           </div>
-          <div class="column-xl text-right hide-sm hide-md flex-auto">
-            {{ _num(getTvlFromSymbol(token.symbol), 'usd-long') }}
-          </div>
+          <!-- <div class="column-xl text-right hide-sm hide-md flex-auto">
+            {{ _num(token.liquidity, 'usd-long') }}
+          </div> -->
         </UiTableTr>
       </div>
       <ListLoading
@@ -40,8 +44,8 @@
           'table-column-number text-left',
           'table-column-assets text-left',
           'column-xl text-left',
-          'column-xl text-left hide-sm hide-md hide-lg',
-          'column-xl text-right hide-sm hide-md flex-auto'
+          'column-xl hide-sm hide-md hide-lg text-right flex-auto'
+          // 'column-xl text-right hide-sm hide-md flex-auto'
         ]"
       />
     </div>

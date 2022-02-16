@@ -382,7 +382,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < (config.network === 'xdai' ? 40 : 16); i++) {
+      for (let i = 0; i < 16; i++) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'pools',

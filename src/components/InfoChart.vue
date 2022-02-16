@@ -159,6 +159,9 @@ export default {
       const data = [];
 
       const rowKeys = Object.keys(this.metrics);
+      rowKeys.sort((a, b) => {
+        return new Date(a) - new Date(b);
+      });
       for (let i = 1; i < rowKeys.length; i++) {
         // const timestamp = parseFloat(rowKeys[i].split('_')[1]);
         // const date = new Date(timestamp);
@@ -182,9 +185,9 @@ export default {
         } else if (this.activeTab === 'FEE_RETURNS') {
           const totalFee = parseFloat(values.poolTotalSwapFee);
           const previousTotalFee = parseFloat(previousValues.poolTotalSwapFee);
-          const dailyFee = totalFee - previousTotalFee;
+          const dailyFee = Math.abs(totalFee - previousTotalFee);
           const liquidity = parseFloat(values.poolLiquidity);
-          value = Math.abs((dailyFee / liquidity) * 365);
+          value = (dailyFee / liquidity) * 365;
         }
 
         data.push({
@@ -192,9 +195,9 @@ export default {
           value
         });
       }
-      data.sort((a, b) => {
-        return new Date(a.time) - new Date(b.time);
-      });
+      // data.sort((a, b) => {
+      //   return new Date(a.time) - new Date(b.time);
+      // });
       return data;
     }
   },
@@ -282,6 +285,8 @@ export default {
     const { metrics: normalized, lastMetric } = normalizeMetrics(metrics);
     this.metrics = normalized;
     this.getPoolsTotals(lastMetric);
+
+    console.log(normalized);
 
     this.loading = false;
     await this.loadChart();
