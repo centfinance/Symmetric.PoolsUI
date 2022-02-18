@@ -16,11 +16,15 @@ const state = {
   poolShares: {},
   specificPools: [],
   myPools: [],
-  tokens: {}, // all tokens from the subgraph
+  tokens: [], // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
   liquidity: {},
   SYMMprice: {},
-  poolsTotals: {},
+  poolsTotals: {
+    poolLiquidity: 0,
+    poolTotalSwapVolume: 0,
+    poolTotalSwapFee: 0
+  },
   transactions: []
 };
 
@@ -345,7 +349,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < 31; i++) {
+      for (let i = 30; i >= 0; i--) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'swaps',
@@ -378,7 +382,7 @@ const actions = {
       const now = Date.now();
       const today = now - (now % day);
       const query = {};
-      for (let i = 0; i < (config.network === 'xdai' ? 60 : 16); i++) {
+      for (let i = 16; i >= 0; i--) {
         const timestamp = today - i * day;
         query[`metrics_${timestamp}`] = {
           __aliasFor: 'pools',

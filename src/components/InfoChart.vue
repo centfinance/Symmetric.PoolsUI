@@ -60,10 +60,25 @@ const options = {
   }
 };
 
+function formatDate(date) {
+  const d = new Date(date);
+  let month = '' + (d.getMonth() + 1);
+  let day = '' + d.getDate();
+  const year = d.getFullYear();
+
+  if (month.length < 2) month = '0' + month;
+  if (day.length < 2) day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 function normalizeMetrics(rawMetrics) {
   const keysByDate = Object.keys(rawMetrics);
   const metrics = {};
+
   for (let i = 0; i < keysByDate.length; i++) {
+    const timestamp = parseFloat(keysByDate[i].split('_')[1]);
+    const date = new Date(timestamp);
     const dataLengthByDate = rawMetrics[keysByDate[i]].length; // number of total pools
     if (dataLengthByDate) {
       let poolLiquidity = 0,
@@ -76,7 +91,7 @@ function normalizeMetrics(rawMetrics) {
           poolLiquidity += Number(swaps[0].poolLiquidity);
           poolTotalSwapFee += Number(swaps[0].poolTotalSwapFee);
           poolTotalSwapVolume += Number(swaps[0].poolTotalSwapVolume);
-          metrics[keysByDate[i]] = {
+          metrics[formatDate(date)] = {
             poolLiquidity,
             poolTotalSwapFee,
             poolTotalSwapVolume
@@ -87,22 +102,29 @@ function normalizeMetrics(rawMetrics) {
     }
   }
 
-  // metrics[keysByDate[keysByDate.length - 1]] =
-  //   metrics[keysByDate[keysByDate.length - 2]];
+  // calculate for last totals
+  const newMetricsKeysByDate = Object.keys(metrics);
+  const lastValues = metrics[newMetricsKeysByDate[0]];
+  const previousValues = metrics[newMetricsKeysByDate[1]];
 
-  return { metrics, lastMetric: metrics[keysByDate[keysByDate.length - 1]] };
-}
+  const totalVolume = parseFloat(lastValues.poolTotalSwapVolume);
+  const previousTotalVolume = parseFloat(previousValues.poolTotalSwapVolume);
+  const lastVolume = Math.abs(totalVolume - previousTotalVolume);
 
-function formatDate(date) {
-  const d = new Date(date);
-  let month = '' + (d.getMonth() + 1);
-  let day = '' + d.getDate();
-  const year = d.getFullYear();
+  const totalFee = parseFloat(lastValues.poolTotalSwapFee);
+  const previousTotalFee = parseFloat(previousValues.poolTotalSwapFee);
+  const dailyFee = totalFee - previousTotalFee;
+  const lastLiquidity = parseFloat(lastValues.poolLiquidity);
+  const lastFee = Math.abs((dailyFee / lastLiquidity) * 365);
 
-  if (month.length < 2) month = '0' + month;
-  if (day.length < 2) day = '0' + day;
-
-  return [year, month, day].join('-');
+  return {
+    metrics,
+    lastMetric: {
+      poolLiquidity: lastLiquidity,
+      poolTotalSwapVolume: lastVolume,
+      poolTotalSwapFee: lastFee
+    }
+  };
 }
 
 export default {
@@ -137,14 +159,17 @@ export default {
       const data = [];
 
       const rowKeys = Object.keys(this.metrics);
+      rowKeys.sort((a, b) => {
+        return new Date(a) - new Date(b);
+      });
       for (let i = 1; i < rowKeys.length; i++) {
-        const timestamp = parseFloat(rowKeys[i].split('_')[1]);
-        const date = new Date(timestamp);
+        // const timestamp = parseFloat(rowKeys[i].split('_')[1]);
+        // const date = new Date(timestamp);
         const values = this.metrics[rowKeys[i]];
         const previousValues = this.metrics[rowKeys[i - 1]];
         if (!values || !previousValues) {
           data.push({
-            time: date.toISOString()
+            time: rowKeys[i] //date.toISOString()
           });
           continue;
         }
@@ -160,19 +185,19 @@ export default {
         } else if (this.activeTab === 'FEE_RETURNS') {
           const totalFee = parseFloat(values.poolTotalSwapFee);
           const previousTotalFee = parseFloat(previousValues.poolTotalSwapFee);
-          const dailyFee = totalFee - previousTotalFee;
+          const dailyFee = Math.abs(totalFee - previousTotalFee);
           const liquidity = parseFloat(values.poolLiquidity);
-          value = Math.abs((dailyFee / liquidity) * 365);
+          value = (dailyFee / liquidity) * 365;
         }
 
         data.push({
-          time: formatDate(date), //.toISOString(),
+          time: rowKeys[i], //.toISOString(),
           value
         });
       }
-      data.sort((a, b) => {
-        return new Date(a.time) - new Date(b.time);
-      });
+      // data.sort((a, b) => {
+      //   return new Date(a.time) - new Date(b.time);
+      // });
       return data;
     }
   },

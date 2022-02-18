@@ -20,7 +20,7 @@
       <div
         class="border rounded-0 rounded-md-1 panel-background py-4 mx-0 mx-md-2"
       >
-        <h3 v-text="_num(getSwapFee, 'usd')" />
+        <h3 v-text="_num(getSwapFee, 'percent')" />
         <p v-text="$t('swapFee')" class="mb-0" />
       </div>
     </div>
@@ -32,7 +32,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['getNetworkLiquidity', 'getPoolsTotals']),
+    ...mapGetters(['getPoolsTotals']),
     getTvl() {
       return this.getPoolsTotals.poolLiquidity;
     },

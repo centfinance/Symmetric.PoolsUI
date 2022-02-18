@@ -150,7 +150,7 @@ export default {
             const previousTotalVolume = parseFloat(
               previousValues.poolTotalSwapVolume
             );
-            value = Math.abs(totalVolume - previousTotalVolume);
+            value = totalVolume - previousTotalVolume;
           } else if (this.activeTab === 'FEE_RETURNS') {
             const totalFee = parseFloat(values.poolTotalSwapFee);
             const previousTotalFee = parseFloat(
@@ -158,7 +158,7 @@ export default {
             );
             const dailyFee = totalFee - previousTotalFee;
             const liquidity = parseFloat(values.poolLiquidity);
-            value = Math.abs((dailyFee / liquidity) * 365);
+            value = (dailyFee / liquidity) * 365;
           }
 
           data.push({
