@@ -286,8 +286,6 @@ export default {
     this.metrics = normalized;
     this.getPoolsTotals(lastMetric);
 
-    console.log(normalized);
-
     this.loading = false;
     await this.loadChart();
   }
