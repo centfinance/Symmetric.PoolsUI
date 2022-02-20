@@ -10,14 +10,13 @@
               <vsa-heading> {{ value.title }} </vsa-heading>
               <vsa-content>
                 {{ value.description }}
-                <br />
                 <a
                   v-if="value.link != ''"
                   :href="value.link"
-                  class="text-white"
+                  class="swap-link"
                   target="_blank"
                 >
-                  More
+                  here
                   <Icon name="external-link" class="ml-1" />
                 </a>
               </vsa-content>
@@ -40,6 +39,9 @@ export default {
 };
 </script>
 <style>
+.swap-link {
+  color: var(--primary);
+}
 .vsa-item__trigger {
   margin: 0;
   padding: 0;
@@ -71,7 +73,7 @@ export default {
   --vsa-border-width: 1px;
   --vsa-border-style: solid;
   --vsa-heading-padding: 0.1rem 0.41rem;
-  --vsa-content-padding: 0.1rem 0.91rem;
+  --vsa-content-padding: 1rem 0.91rem;
   --vsa-default-icon-size: 0.21;
 }
 </style>
