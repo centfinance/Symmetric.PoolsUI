@@ -18,11 +18,11 @@
         <Theme-Switcher class="theme-switcher" />
         <SelectNetwork
           ><div class="option">
-            <a class="link" href="https://xdai.symmetric.exchange/"> Gnosis </a>
+            <a class="link" href="https://xdai-pools.symmetric.exchange/"> Gnosis </a>
           </div>
 
           <div class="option">
-            <a class="link" href="https://celo.symmetric.exchange/"> Celo </a>
+            <a class="link" href="https://celo-pools.symmetric.exchange/"> Celo </a>
           </div>
         </SelectNetwork>
         <UiButton
