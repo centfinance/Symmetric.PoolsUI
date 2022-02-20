@@ -5,12 +5,6 @@
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
           <Icon name="menu" size="28" class="mr-3" />
         </a>
-        <!-- <router-link class="brand" :to="'/'">
-          <img class="logo" src="@/assets/symmetricIcon.svg">
-          <div class="title">Symmetric</div>
-          <br />
-        </router-link>
-        <span class="network"> xDai</span> -->
         <router-link
           :to="{ name: 'home' }"
           class="d-flex"
@@ -18,18 +12,19 @@
         >
           <img class="logo" src="@/assets/symmetricIcon.svg" />
           <span class="title">SYMMETRIC</span>
-          <!-- <span
-            style="letter-spacing: 1px; font-size: 24px; font-weight: 600; color: #FB6706;"
-            v-text="'Symmetric '"
-          /> -->
-          <!-- <span
-            style="letter-spacing: 1px; font-size: 14px; font-weight: 600; color: #ffffff;"
-            v-text="' on ' + config.network "
-          /> -->
         </router-link>
       </div>
       <div :key="web3.account" class="account">
         <Theme-Switcher class="theme-switcher" />
+        <SelectNetwork
+          ><div class="option">
+            <a class="link" href="https://xdai.symmetric.exchange/"> Gnosis </a>
+          </div>
+
+          <div class="option">
+            <a class="link" href="https://celo.symmetric.exchange/"> Celo </a>
+          </div>
+        </SelectNetwork>
         <UiButton
           v-if="$auth.isAuthenticated && !wrongNetwork"
           @click="modalOpen.account = true"
@@ -85,7 +80,6 @@
         </UiButton>
       </div>
     </div>
-    <!-- <Theme-Switcher class="theme-switcher-mobile" /> -->
     <portal to="modal">
       <ModalAccount
         :open="modalOpen.account"
@@ -362,24 +356,28 @@ export default {
 .theme-switcher {
   margin-right: 8px;
 }
-// .theme-switcher-mobile {
-//   display: none;
-// }
 .top-bar-container {
   height: 80px;
   padding-left: 2px !important;
 }
+
+.option {
+    padding: 16px;
+}
+
+.option:hover {
+    background: var(--text-primary-color);
+}
+
+.option:hover a {
+    color: black;
+}
+
 @media (max-width: 543px) {
   .top-bar-container {
     flex-direction: column;
     height: auto;
     padding: 0px !important;
   }
-  // .theme-switcher {
-  //   display: none;
-  // }
-  // .theme-switcher-mobile {
-  //   display: flex;
-  // }
 }
 </style>
