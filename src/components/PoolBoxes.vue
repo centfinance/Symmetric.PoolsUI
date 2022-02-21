@@ -75,6 +75,14 @@
             />
             <div class="column-s hide-sm hide-md">MOO</div>
           </div>
+          <div class="d-flex" v-if="pool.tokenRewardMOO">
+            <UiNum
+              :value="pool.tokenRewardMOO"
+              format="long"
+              class="column-md hide-sm hide-md"
+            />
+            <div class="column-s hide-sm hide-md">MOO</div>
+          </div>
           <div class="d-flex" v-if="pool.tokenRewardAri">
             <UiNum
               :value="pool.tokenRewardAri"

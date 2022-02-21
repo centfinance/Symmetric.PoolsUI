@@ -87,6 +87,14 @@
         />
         <div class="w-40 ml-1 text-right">MOO</div>
       </div>
+      <div class="d-flex" v-if="pool.tokenRewardMOO">
+        <UiNum
+          :value="getSpecificMyDailyRewards(pool.tokenRewardMOO)"
+          format="long"
+          class="w-60"
+        />
+        <div class="w-40 ml-1 text-right">MOO</div>
+      </div>
       <div class="d-flex" v-if="pool.tokenRewardAri">
         <UiNum
           :value="getSpecificMyDailyRewards(pool.tokenRewardAri)"
