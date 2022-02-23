@@ -18,11 +18,15 @@
         <Theme-Switcher class="theme-switcher" />
         <SelectNetwork
           ><div class="option">
-            <a class="link" href="https://xdai-pools.symmetric.exchange/"> Gnosis </a>
+            <a class="link" href="https://xdai-pools.symmetric.exchange/">
+              Gnosis
+            </a>
           </div>
 
           <div class="option">
-            <a class="link" href="https://celo-pools.symmetric.exchange/"> Celo </a>
+            <a class="link" href="https://celo-pools.symmetric.exchange/">
+              Celo
+            </a>
           </div>
         </SelectNetwork>
         <UiButton
@@ -362,15 +366,15 @@ export default {
 }
 
 .option {
-    padding: 16px;
+  padding: 16px;
 }
 
 .option:hover {
-    background: var(--text-primary-color);
+  background: var(--text-primary-color);
 }
 
 .option:hover a {
-    color: black;
+  color: black;
 }
 
 @media (max-width: 543px) {

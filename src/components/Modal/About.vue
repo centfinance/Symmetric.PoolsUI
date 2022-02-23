@@ -55,7 +55,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.about-title, .value {
+.about-title,
+.value {
   color: var(--text-primary-color);
 }
 </style>

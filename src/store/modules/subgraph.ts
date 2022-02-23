@@ -7,8 +7,6 @@ import {
   getNetworkLiquidity,
   getSYMMprice
 } from '@/helpers/utils';
-// import { cloneDeep } from 'lodash';
-import config from '@/config';
 
 const state = {
   pools: [],
