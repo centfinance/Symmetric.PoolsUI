@@ -1,7 +1,7 @@
 <template>
   <Page>
     <h3 class="mt-5 mb-4">Charts (in beta)</h3>
-    <!-- <InfoBoxes /> -->
+    <InfoBoxes />
     <InfoChart />
 
     <h3 class="mt-5 mb-2">Top Tokens</h3>

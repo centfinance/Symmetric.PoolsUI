@@ -115,7 +115,7 @@ export default {
     };
   },
   computed: {
-    ...mapGetters(['myPendingTransactions']),
+    ...mapGetters(['myPendingTransactions', 'getSymmetricData']),
     wrongNetwork() {
       return (
         this.config.chainId !== this.web3.injectedChainId &&
@@ -125,8 +125,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['toggleSidebar']),
-    ...mapActions(['login']),
+    ...mapActions(['toggleSidebar', 'login', 'getSymmetricDataRequest']),
     async handleLogin(connector) {
       this.modalOpen.account = false;
       this.loading = true;
@@ -319,6 +318,11 @@ export default {
           );
           break;
       }
+    }
+  },
+  async mounted() {
+    if (!this.getSymmetricData || !this.getSymmetricData.totalLiquidity) {
+      await this.getSymmetricDataRequest();
     }
   }
 };

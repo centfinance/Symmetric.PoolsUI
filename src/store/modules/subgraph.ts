@@ -143,7 +143,7 @@ const mutations = {
   GET_SYMMETRIC_DATA_REQUEST() {
     console.debug('GET_SYMMETRIC_DATA_REQUEST');
   },
-  GET_SYMMETRIC_DATA(_state, payload) {
+  GET_SYMMETRIC_DATA_SUCCESS(_state, payload) {
     Vue.set(_state, 'symmetricData', payload);
     console.debug('GET_SYMMETRIC_DATA_SUCCESS', payload);
   },
@@ -472,9 +472,9 @@ const actions = {
   getSymmetricDataRequest: async ({ commit }) => {
     commit('GET_SYMMETRIC_DATA_REQUEST');
     try {
-      const symmetricData = await request('getSymmetric');
-      commit('GET_SYMMETRIC_DATA_SUCCESS', symmetricData);
-      return symmetricData;
+      const { symmetric } = await request('getSymmetric');
+      commit('GET_SYMMETRIC_DATA_SUCCESS', symmetric);
+      return symmetric;
     } catch (e) {
       commit('GET_SYMMETRIC_DATA_FAILURE', e);
     }

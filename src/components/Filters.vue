@@ -133,13 +133,14 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import {
   formatFilters,
   getSYMMPriceXDAI,
   getSYMMPriceCELO
 } from '@/helpers/utils';
 import BigNumber from '@/helpers/bignumber';
+import config from '@/config';
 
 export default {
   props: ['value'],
@@ -167,7 +168,7 @@ export default {
   async mounted() {
     await this.fetchTVL();
     await this.fetchAnnoucements();
-    this.loaded = false;
+
     try {
       this.getTotalValues();
       const response = await fetch('https://api.llama.fi/protocol/symmetric');
@@ -178,6 +179,15 @@ export default {
         this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
       }
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
+
+      if (this.getSymmetricData && config.network === 'celo') {
+        this.celoTVL = this.getSymmetricData.totalLiquidity;
+      }
+
+      if (this.getSymmetricData && config.network === 'xdai') {
+        this.xDaiTVL = this.getSymmetricData.totalLiquidity;
+      }
+
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -261,6 +271,7 @@ export default {
     }
   },
   computed: {
+    ...mapGetters(['getSymmetricData']),
     circulatingSupply: mapState => mapState.ui.totalCirculatingSupply,
     wrongNetwork() {
       return (

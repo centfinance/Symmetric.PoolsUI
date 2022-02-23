@@ -192,7 +192,7 @@ export default {
       await this.getNetworkLiquidity();
       await this.getTokens();
       await this.getSYMMprice();
-      if (config.network == 'celo') {
+      if (config.network === 'celo') {
         await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
       }
       const pools = await this.getPools(query);
