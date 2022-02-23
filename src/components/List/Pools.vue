@@ -60,7 +60,7 @@
                 </div>
                 <div></div>
                 <div class="grouptext margin-top10">
-                  <span class="text-white-normal">Total Liquidity:</span>
+                  <span class="text-white-normal">Total My Liquidity:</span>
                   <span
                     v-text="_num(totalPoolValues.totalMyLiquidity, 'usd-long')"
                     format="currency"

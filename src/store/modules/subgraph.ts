@@ -10,13 +10,13 @@ import {
 
 const state = {
   pools: [],
-  balancer: {},
+  symmetricData: {},
   poolShares: {},
   specificPools: [],
   myPools: [],
   tokens: [], // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
-  liquidity: {},
+  liquidity: {}, // celo + gnosis
   SYMMprice: {},
   poolsTotals: {
     poolLiquidity: 0,
@@ -139,6 +139,16 @@ const mutations = {
   },
   GET_INFO_TRANSACTIONS_FAILURE(_state, payload) {
     console.debug('GET_INFO_TRANSACTIONS_FAILURE', payload);
+  },
+  GET_SYMMETRIC_DATA_REQUEST() {
+    console.debug('GET_SYMMETRIC_DATA_REQUEST');
+  },
+  GET_SYMMETRIC_DATA(_state, payload) {
+    Vue.set(_state, 'symmetricData', payload);
+    console.debug('GET_SYMMETRIC_DATA_SUCCESS', payload);
+  },
+  GET_SYMMETRIC_DATA_FAILURE(_state, payload) {
+    console.debug('GET_SYMMETRIC_DATA_FAILURE', payload);
   }
 };
 
@@ -458,6 +468,16 @@ const actions = {
     } catch (e) {
       commit('GET_INFO_TRANSACTIONS_FAILURE', e);
     }
+  },
+  getSymmetricDataRequest: async ({ commit }) => {
+    commit('GET_SYMMETRIC_DATA_REQUEST');
+    try {
+      const symmetricData = await request('getSymmetric');
+      commit('GET_SYMMETRIC_DATA_SUCCESS', symmetricData);
+      return symmetricData;
+    } catch (e) {
+      commit('GET_SYMMETRIC_DATA_FAILURE', e);
+    }
   }
 };
 
@@ -487,6 +507,9 @@ const getters = {
   },
   getPoolsTotals(state) {
     return state.poolsTotals;
+  },
+  getSymmetricData(state) {
+    return state.symmetricData;
   }
 };
 
