@@ -17,13 +17,13 @@
       <div :key="web3.account" class="account">
         <Theme-Switcher class="theme-switcher" />
         <SelectNetwork
-          ><div class="option">
+          ><div class="option" :class="config.network === 'xdai' && 'active'">
             <a class="link" href="https://xdai-pools.symmetric.exchange/">
               Gnosis
             </a>
           </div>
 
-          <div class="option">
+          <div class="option" :class="config.network === 'celo' && 'active'">
             <a class="link" href="https://celo-pools.symmetric.exchange/">
               Celo
             </a>
@@ -373,12 +373,20 @@ export default {
   padding: 16px;
 }
 
+.option a {
+  color: var(--text-primary-color);
+}
+
+.option.active {
+  background: var(--button-secondary-background);
+}
+
 .option:hover {
   background: var(--text-primary-color);
 }
 
 .option:hover a {
-  color: black;
+  color: var(--text-primary-revert-color);
 }
 
 @media (max-width: 543px) {

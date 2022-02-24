@@ -202,16 +202,17 @@ export default {
 }
 .dropDownMenuWrapper .dropdownMenu {
   position: absolute;
-  top: 100%;
+  top: 70%;
   width: 100%;
   min-width: 160px;
   min-height: 10px;
-  border-radius: 5px;
+  border-radius: 12px;
   border: 1px solid #eee;
   box-shadow: 10px 10px 0 0 rgba(0, 0, 0, 0.03);
   background: white;
   padding: 0px;
   animation: menu 0.3s ease forwards;
+  overflow: hidden;
 }
 .dropDownMenuWrapper .dropdownMenu .menuArrow {
   width: 20px;
@@ -231,17 +232,16 @@ export default {
 } */
 .dropDownMenuWrapper .dropdownMenu .option {
   width: 100%;
-  border-bottom: 1px solid #eee;
+  /* border-bottom: 1px solid #eee; */
   /* padding: 20px 0; */
   cursor: pointer;
   position: relative;
   z-index: 2;
 }
 .dropDownMenuWrapper .dropdownMenu .option:last-child {
-  border-bottom: 0;
+  /* border-bottom: 0; */
 }
 .dropDownMenuWrapper .dropdownMenu .option * {
-  color: inherit;
   text-decoration: none;
   background: none;
   border: 0;
@@ -262,7 +262,7 @@ export default {
   border: none;
 }
 .dropDownMenuWrapper .dropdownMenu--dark .option {
-  border-bottom: 1px solid #888;
+  /* border-bottom: 1px solid #888; */
 }
 .dropDownMenuWrapper .dropdownMenu--dark * {
   /* color: #eee; */
