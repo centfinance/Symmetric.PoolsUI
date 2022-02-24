@@ -16,18 +16,22 @@
       </div>
       <div :key="web3.account" class="account">
         <Theme-Switcher class="theme-switcher" />
-        <SelectNetwork
-          ><div class="option" :class="config.network === 'xdai' && 'active'">
-            <a class="link" href="https://xdai-pools.symmetric.exchange/">
-              Gnosis
-            </a>
-          </div>
+        <SelectNetwork>
+          <a
+            href="https://xdai-pools.symmetric.exchange/"
+            class="option"
+            :class="config.network === 'xdai' && 'active'"
+          >
+            Gnosis
+          </a>
 
-          <div class="option" :class="config.network === 'celo' && 'active'">
-            <a class="link" href="https://celo-pools.symmetric.exchange/">
-              Celo
-            </a>
-          </div>
+          <a
+            href="https://celo-pools.symmetric.exchange/"
+            class="option"
+            :class="config.network === 'celo' && 'active'"
+          >
+            Celo
+          </a>
         </SelectNetwork>
         <UiButton
           v-if="$auth.isAuthenticated && !wrongNetwork"
@@ -369,11 +373,8 @@ export default {
   padding-left: 2px !important;
 }
 
-.option {
+a.option {
   padding: 16px;
-}
-
-.option a {
   color: var(--text-primary-color);
 }
 
@@ -381,12 +382,9 @@ export default {
   background: var(--button-secondary-background);
 }
 
-.option:hover {
-  background: var(--text-primary-color);
-}
-
-.option:hover a {
+a.option:hover {
   color: var(--text-primary-revert-color);
+  background: var(--text-primary-color);
 }
 
 @media (max-width: 543px) {

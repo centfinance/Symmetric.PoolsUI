@@ -213,6 +213,8 @@ export default {
   padding: 0px;
   animation: menu 0.3s ease forwards;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 .dropDownMenuWrapper .dropdownMenu .menuArrow {
   width: 20px;
