@@ -35,7 +35,7 @@ export default {
   }
 
   .active {
-    background-color: $panel-border !important;
+    background-color: var(--button-primary-background) !important;
   }
 }
 </style>

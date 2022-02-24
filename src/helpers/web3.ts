@@ -1,7 +1,7 @@
 import { Contract } from '@ethersproject/contracts';
 import { getAddress } from '@ethersproject/address';
 import abi from '@/helpers/abi';
-import { GAS_LIMIT_BUFFER, isTxRejected, logRevertedTx } from '@/helpers/utils';
+import { isTxRejected, logRevertedTx } from '@/helpers/utils';
 import provider from '@/helpers/provider';
 import { Interface } from '@ethersproject/abi';
 
@@ -18,10 +18,10 @@ export async function sendTransaction(
   const contractWithSigner = contract.connect(signer);
   try {
     // Gas estimation
-    const gasLimitNumber = await contractWithSigner.estimateGas[action](
-      ...params,
-      overrides
-    );
+    // const gasLimitNumber = await contractWithSigner.estimateGas[action](
+    //   ...params,
+    //   overrides
+    // );
     // const gasLimit = gasLimitNumber.toNumber();
     // overrides.gasLimit = Math.floor(gasLimit * (1 + GAS_LIMIT_BUFFER));
     // overrides.gasLimit = gasLimit;

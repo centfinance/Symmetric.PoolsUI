@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import * as TV from 'lightweight-charts';
 
 const options = {
@@ -104,8 +104,10 @@ function normalizeMetrics(rawMetrics) {
 
   // calculate for last totals
   const newMetricsKeysByDate = Object.keys(metrics);
-  const lastValues = metrics[newMetricsKeysByDate[0]];
-  const previousValues = metrics[newMetricsKeysByDate[1]];
+  const lastValues =
+    metrics[newMetricsKeysByDate[newMetricsKeysByDate.length - 1]];
+  const previousValues =
+    metrics[newMetricsKeysByDate[newMetricsKeysByDate.length - 2]];
 
   const totalVolume = parseFloat(lastValues.poolTotalSwapVolume);
   const previousTotalVolume = parseFloat(previousValues.poolTotalSwapVolume);
@@ -138,6 +140,7 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['getSymmetricData']),
     items() {
       const tabList = [
         {
@@ -176,6 +179,9 @@ export default {
         let value;
         if (this.activeTab === 'LIQUIDITY') {
           value = parseFloat(values.poolLiquidity);
+          if (i === rowKeys.length - 1 && this.getSymmetricData) {
+            value = this.getSymmetricData.totalLiquidity;
+          }
         } else if (this.activeTab === 'VOLUME') {
           const totalVolume = parseFloat(values.poolTotalSwapVolume);
           const previousTotalVolume = parseFloat(

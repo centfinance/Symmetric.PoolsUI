@@ -7,18 +7,16 @@ import {
   getNetworkLiquidity,
   getSYMMprice
 } from '@/helpers/utils';
-// import { cloneDeep } from 'lodash';
-import config from '@/config';
 
 const state = {
   pools: [],
-  balancer: {},
+  symmetricData: {},
   poolShares: {},
   specificPools: [],
   myPools: [],
   tokens: [], // all tokens from the subgraph
   tokenPrices: {}, // token prices from tokens {address: value}
-  liquidity: {},
+  liquidity: {}, // celo + gnosis
   SYMMprice: {},
   poolsTotals: {
     poolLiquidity: 0,
@@ -141,6 +139,16 @@ const mutations = {
   },
   GET_INFO_TRANSACTIONS_FAILURE(_state, payload) {
     console.debug('GET_INFO_TRANSACTIONS_FAILURE', payload);
+  },
+  GET_SYMMETRIC_DATA_REQUEST() {
+    console.debug('GET_SYMMETRIC_DATA_REQUEST');
+  },
+  GET_SYMMETRIC_DATA_SUCCESS(_state, payload) {
+    Vue.set(_state, 'symmetricData', payload);
+    console.debug('GET_SYMMETRIC_DATA_SUCCESS', payload);
+  },
+  GET_SYMMETRIC_DATA_FAILURE(_state, payload) {
+    console.debug('GET_SYMMETRIC_DATA_FAILURE', payload);
   }
 };
 
@@ -460,12 +468,25 @@ const actions = {
     } catch (e) {
       commit('GET_INFO_TRANSACTIONS_FAILURE', e);
     }
+  },
+  getSymmetricDataRequest: async ({ commit }) => {
+    commit('GET_SYMMETRIC_DATA_REQUEST');
+    try {
+      const { symmetric } = await request('getSymmetric');
+      commit('GET_SYMMETRIC_DATA_SUCCESS', symmetric);
+      return symmetric;
+    } catch (e) {
+      commit('GET_SYMMETRIC_DATA_FAILURE', e);
+    }
   }
 };
 
 const getters = {
   getTokens(state) {
     return state.tokens;
+  },
+  getTokenPricesFromSubgraph(state) {
+    return state.tokenPrices;
   },
   getTokenPriceFromSymbol: state => symbol => {
     const filteredToken = state.tokens.filter(token => token.symbol === symbol);
@@ -489,6 +510,9 @@ const getters = {
   },
   getPoolsTotals(state) {
     return state.poolsTotals;
+  },
+  getSymmetricData(state) {
+    return state.symmetricData;
   }
 };
 

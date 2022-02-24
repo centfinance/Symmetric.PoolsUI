@@ -36,7 +36,7 @@
                   <div class="grouptext margin-top20">
                     <span class="text-white-normal">Total TVL: </span>
                     <span
-                      v-text="_num(totalPoolValues.totalLiquidity, 'usd-long')"
+                      v-text="_num(getCurrentNetworkTVL, 'usd-long')"
                       class="table-column"
                     />
                   </div>
@@ -60,7 +60,7 @@
                 </div>
                 <div></div>
                 <div class="grouptext margin-top10">
-                  <span class="text-white-normal">Total Liquidity:</span>
+                  <span class="text-white-normal">Total My Liquidity:</span>
                   <span
                     v-text="_num(totalPoolValues.totalMyLiquidity, 'usd-long')"
                     format="currency"
@@ -97,11 +97,6 @@
                       /
                       <UiNum :value="item.rewardApyCelo" format="percent" />
                       CELO
-                    </span>
-                    <span v-if="item.rewardApyPoof">
-                      /
-                      <UiNum :value="item.rewardApyPoof" format="percent" />
-                      POOF
                     </span>
                     <span v-if="item.rewardApyMoo">
                       /
@@ -154,13 +149,13 @@
                       />
                       CELO
                     </span>
-                    <span v-if="item.tokenRewardPoof">
+                    <span v-if="item.tokenRewardMoo">
                       /
                       <span
                         v-text="
                           _num(
                             getSpecificMyDailyRewards(
-                              item.tokenRewardPoof,
+                              item.tokenRewardMoo,
                               item
                             ),
                             'long'
@@ -169,15 +164,15 @@
                         format="long"
                         class=""
                       />
-                      POOF
+                      MOO
                     </span>
-                    <span v-if="item.tokenRewardMoo">
+                    <span v-if="item.tokenRewardMOO">
                       /
                       <span
                         v-text="
                           _num(
                             getSpecificMyDailyRewards(
-                              item.tokenRewardMoo,
+                              item.tokenRewardMOO,
                               item
                             ),
                             'long'
@@ -421,7 +416,7 @@
       <UiTableTh>
         <div class="table-column-assets flex-auto text-left">Total Values</div>
         <div
-          v-text="_num(currentTotalPoolValues.totalLiquidity, 'usd-long')"
+          v-text="_num(getCurrentNetworkTVL, 'usd-long')"
           class="table-column"
         />
         <div class="table-column hide-sm"></div>
@@ -452,7 +447,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
 // import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
@@ -462,7 +457,12 @@ import BigNumber from '@/helpers/bignumber';
 
 export default {
   props: ['query', 'title'],
-  computed: {},
+  computed: {
+    ...mapGetters(['getSymmetricData']),
+    getCurrentNetworkTVL() {
+      return this.getSymmetricData ? this.getSymmetricData.totalLiquidity : 0;
+    }
+  },
   data() {
     return {
       loading: false,
@@ -575,7 +575,8 @@ export default {
       'getNetworkLiquidity',
       'getSpecificPools',
       'getTokens',
-      'getSYMMprice'
+      'getSYMMprice',
+      'getSymmetricDataRequest'
     ]),
     async loadMore() {
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;

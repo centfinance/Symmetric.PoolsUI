@@ -32,9 +32,9 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters(['getPoolsTotals']),
+    ...mapGetters(['getPoolsTotals', 'getSymmetricData']),
     getTvl() {
-      return this.getPoolsTotals.poolLiquidity;
+      return this.getSymmetricData.totalLiquidity;
     },
     getSwapFee() {
       return this.getPoolsTotals.poolTotalSwapFee;

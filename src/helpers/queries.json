@@ -1,7 +1,7 @@
 {
   "custom": {},
-  "getBalancer": {
-    "balancer": {
+  "getSymmetric": {
+    "symmetric": {
       "__args": {
         "id": 1
       },
@@ -9,7 +9,10 @@
       "poolCount": true,
       "finalizedPoolCount": true,
       "crpCount": true,
-      "txCount": true
+      "txCount": true,
+      "totalLiquidity": true,
+      "totalSwapVolume": true,
+      "totalSwapFee": true
     }
   },
   "getTokenPrices": {

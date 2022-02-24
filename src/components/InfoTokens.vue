@@ -28,9 +28,7 @@
               <Icon name="external-link" size="16" class="ml-1" />
             </a>
           </div>
-          <div
-            class="column-xl hide-sm hide-md hide-lg text-right flex-auto"
-          >
+          <div class="column-xl hide-sm hide-md hide-lg text-right flex-auto">
             {{ _num(token.price, 'usd-long') }}
           </div>
           <!-- <div class="column-xl text-right hide-sm hide-md flex-auto">

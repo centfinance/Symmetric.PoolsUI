@@ -27,7 +27,7 @@
         </a>
       </UiButton>
       <UiButton class="button-primary mx-1 mb-1">
-        Volume on {{ getNetworkName() }} :
+        Volume on {{ getNetworkName() }} (24h) :
         <span v-text="_num(totalPoolValues.totalVolume, 'usd-long')" />
       </UiButton>
       <UiButton
@@ -72,35 +72,6 @@
             </span>
             &nbsp;
           </div>
-          <!--
-          <span>
-            <span>TVL Avalanche: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(avalancheTVL, 'usd-long')"
-            /> </span>
-          &nbsp;
-          <span>
-            <span>TVL Fantom: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(fantomTVL, 'usd-long')"
-            /> </span>
-          &nbsp;
-          <span>
-            <span>TVL Optimism: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(optimismTVL, 'usd-long')"
-            /> </span>
-          &nbsp;
-          <span>
-            <span>TVL Polygon: </span>
-            <span
-              class="row span-text-value"
-              v-text="_num(polygonTVL, 'usd-long')"
-            /> </span> 
-          &nbsp; -->
           <div>
             <span>
               <span class="span-text-key">( </span>
@@ -118,48 +89,10 @@
               <span
                 class="row span-text-value"
                 v-text="_num(SYMMPricexDAI, 'usd-long')"
-              /> </span
-            ><!--
-          &nbsp;
-          <span>
-            <span>Avalanche: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPriceAvalanche, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span>Fantom: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPriceFantom, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span>Optimism: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPriceOptimism, 'usd-long')"
-            />
-          </span>
-          &nbsp;
-          <span>
-            <span>Polygon: *</span>
-            <span
-              class="row span-text-value"
-              v-text="_num(SYMMPricePolygon, 'usd-long')"
-            />
-          </span> -->
+              />
+            </span>
             &nbsp;
             <span class="span-text-value">*Last trade price )</span>
-            <!-- <span
-              class="tooltipped tooltipped-e m-2 tooltipped-multiline"
-              :aria-label="APR_FORMULA"
-            >
-              <Icon name="info" size="16" />
-            </span> -->
           </div>
         </div>
       </div>
@@ -200,41 +133,26 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import {
   formatFilters,
   getSYMMPriceXDAI,
   getSYMMPriceCELO
-  // getSYMMPriceAVALANCHE,
-  // getSYMMPriceFANTOM,
-  // getSYMMPriceOPTIMISM,
-  // getSYMMPricePOLYGON
 } from '@/helpers/utils';
-// import LineChart from './LineChart';
 import BigNumber from '@/helpers/bignumber';
-// import { mapState } from 'vuex';
+import config from '@/config';
 
 export default {
-  // components: { LineChart },
   props: ['value'],
   data() {
     return {
       input: {},
       loaded: false,
-      chartdata: null,
       xDaiTVL: null,
       celoTVL: null,
       annoucements: null,
-      // avalancheTVL: null,
-      // fantomTVL: null,
-      // optimismTVL: null,
-      // polygonTVL: null,
       SYMMPricexDAI: null,
       SYMMPriceCelo: null,
-      // SYMMPriceAvalanche: null,
-      // SYMMPriceFantom: null,
-      // SYMMPriceOptimism: null,
-      // SYMMPricePolygon: null,
       tvl: '',
       tokens: [],
       type: 'shared',
@@ -248,10 +166,9 @@ export default {
     };
   },
   async mounted() {
-    // setTimeout(this.fetchTVL(), 600);
     await this.fetchTVL();
     await this.fetchAnnoucements();
-    this.loaded = false;
+
     try {
       this.getTotalValues();
       const response = await fetch('https://api.llama.fi/protocol/symmetric');
@@ -262,11 +179,15 @@ export default {
         this.xDaiTVL = data.chainTvls.xDai.tvl.at(-1).totalLiquidityUSD;
       }
       this.celoTVL = data.chainTvls.Celo.tvl.at(-1).totalLiquidityUSD;
-      // TNA TODO
-      // this.avalancheTVL = data.chainTvls.Avalanche.tvl.at(-1).totalLiquidityUSD;
-      // this.fantomTVL = data.chainTvls.Fantom.tvl.at(-1).totalLiquidityUSD;
-      // this.optimismTVL = data.chainTvls.Optimism.tvl.at(-1).totalLiquidityUSD;
-      // this.polygonTVL = data.chainTvls.Polygon.tvl.at(-1).totalLiquidityUSD;
+
+      if (this.getSymmetricData && config.network === 'celo') {
+        this.celoTVL = this.getSymmetricData.totalLiquidity;
+      }
+
+      if (this.getSymmetricData && config.network === 'xdai') {
+        this.xDaiTVL = this.getSymmetricData.totalLiquidity;
+      }
+
       this.loaded = true;
     } catch (e) {
       console.error(e);
@@ -318,10 +239,6 @@ export default {
       this.tvl = data;
       this.SYMMPricexDAI = await getSYMMPriceXDAI();
       this.SYMMPriceCelo = await getSYMMPriceCELO();
-      // this.SYMMPriceAvalanche = await getSYMMPriceAVALANCHE();
-      // this.SYMMPriceFantom = await getSYMMPriceFANTOM();
-      // this.SYMMPriceOptimism = await getSYMMPriceOPTIMISM();
-      // this.SYMMPricePolygon = await getSYMMPricePOLYGON();
     },
     async fetchAnnoucements() {
       const response = await fetch(
@@ -353,10 +270,8 @@ export default {
       });
     }
   },
-  // computed: mapState({
-  //   circulatingSupply: state => state.ui.totalCirculatingSupply,
-  // }),
   computed: {
+    ...mapGetters(['getSymmetricData']),
     circulatingSupply: mapState => mapState.ui.totalCirculatingSupply,
     wrongNetwork() {
       return (
@@ -380,18 +295,11 @@ export default {
   color: white;
 }
 .card {
-  // background-color: #272727;
-  /* color: blue; */
   padding: 0px;
   height: 13rem;
   margin: 5px;
 }
 .cards {
-  // background: linear-gradient(
-  //   178deg,
-  //   rgb(10 30 42 / 4%) 23.98%,
-  //   #0a1e2a83 100%
-  // );
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;

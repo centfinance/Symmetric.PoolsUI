@@ -17,7 +17,7 @@ import '@/auth';
 import '@/style.scss';
 import '@/helpers/fathom';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
+import { library, IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import {
   faTwitter,
   faGithub,
@@ -27,7 +27,13 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-library.add(faTwitter, faGithub, faDiscord, faTelegram, faMedium);
+library.add(
+  faTwitter as IconDefinition,
+  faGithub as IconDefinition,
+  faDiscord as IconDefinition,
+  faTelegram as IconDefinition,
+  faMedium as IconDefinition
+);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(infiniteScroll);
