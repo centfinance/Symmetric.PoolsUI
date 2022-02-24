@@ -485,6 +485,9 @@ const getters = {
   getTokens(state) {
     return state.tokens;
   },
+  getTokenPricesFromSubgraph(state) {
+    return state.tokenPrices;
+  },
   getTokenPriceFromSymbol: state => symbol => {
     const filteredToken = state.tokens.filter(token => token.symbol === symbol);
     if (filteredToken.length > 0) {

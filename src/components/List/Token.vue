@@ -32,12 +32,14 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 import { getAddress } from '@ethersproject/address';
 import { normalizeBalance } from '@/helpers/utils';
 
 export default {
   props: ['pool', 'bPool', 'token'],
   computed: {
+    ...mapGetters(['getTokenPricesFromSubgraph']),
     poolTokenBalance() {
       const bptAddress = this.bPool.getBptAddress();
       const balance = this.web3.balances[getAddress(bptAddress)];
@@ -56,7 +58,10 @@ export default {
       return this._precision(balance, this.token.checksum);
     },
     myShareValue() {
-      const price = this.price.values[this.token.checksum];
+      let price = this.price.values[this.token.checksum];
+      if (!price) {
+        price = this.getTokenPricesFromSubgraph[this.token.checksum];
+      }
       return price * this.myPoolBalance;
     },
     tokenBalance() {
