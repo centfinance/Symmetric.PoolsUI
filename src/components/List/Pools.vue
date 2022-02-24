@@ -188,6 +188,23 @@
                       />
                       MOO
                     </span>
+                    <span v-if="item.tokenRewardMOO">
+                      /
+                      <span
+                        v-text="
+                          _num(
+                            getSpecificMyDailyRewards(
+                              item.tokenRewardMOO,
+                              item
+                            ),
+                            'long'
+                          )
+                        "
+                        format="long"
+                        class=""
+                      />
+                      MOO
+                    </span>
                     <span v-if="item.tokenRewardAri">
                       /
                       <span
