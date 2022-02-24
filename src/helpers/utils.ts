@@ -9,15 +9,12 @@ import store from '@/store';
 import config from '@/config';
 import i18n from '@/i18n';
 import { getFactors } from '@/helpers/miningFactors';
-// import { request } from '@/helpers/subgraph';
 import merge from 'lodash/merge';
 import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import { getPoolLiquidity } from '@/helpers/price';
 import { specificPools, crPoolIds, symmv1Pools } from '@/helpers/constants';
-
-// import { default as data } from '../../rewards.json';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -465,19 +462,6 @@ export async function formatPool(pool) {
         .times(365);
     }
   });
-
-  // POOF APR and rewards
-  if (crPool.id === '0x095562ec6395e84fb22eb74edb67d7638e8d2f57') {
-    // POOF/cUSD
-    const POOFprice = store.getters.getTokenPriceFromSymbol('POOF');
-
-    const krDailyCoinReward = new BigNumber(57.14); // 400 POOF a week
-    crPool.tokenRewardPoof = krDailyCoinReward;
-    crPool.rewardApyPoof = crPool.tokenRewardPoof
-      .times(POOFprice)
-      .div(crPool.liquidity)
-      .times(365);
-  }
 
   // MOO APR and rewards
   if (crPool.id === '0x461f83dd5c84680a3c29662a9d90177c77f39d93') {

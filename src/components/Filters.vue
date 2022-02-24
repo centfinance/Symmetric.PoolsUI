@@ -27,7 +27,7 @@
         </a>
       </UiButton>
       <UiButton class="button-primary mx-1 mb-1">
-        Volume on {{ getNetworkName() }} :
+        Volume on {{ getNetworkName() }} (24h) :
         <span v-text="_num(totalPoolValues.totalVolume, 'usd-long')" />
       </UiButton>
       <UiButton

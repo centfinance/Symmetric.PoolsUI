@@ -98,11 +98,6 @@
                       <UiNum :value="item.rewardApyCelo" format="percent" />
                       CELO
                     </span>
-                    <span v-if="item.rewardApyPoof">
-                      /
-                      <UiNum :value="item.rewardApyPoof" format="percent" />
-                      POOF
-                    </span>
                     <span v-if="item.rewardApyMoo">
                       /
                       <UiNum :value="item.rewardApyMoo" format="percent" />
@@ -153,23 +148,6 @@
                         class=""
                       />
                       CELO
-                    </span>
-                    <span v-if="item.tokenRewardPoof">
-                      /
-                      <span
-                        v-text="
-                          _num(
-                            getSpecificMyDailyRewards(
-                              item.tokenRewardPoof,
-                              item
-                            ),
-                            'long'
-                          )
-                        "
-                        format="long"
-                        class=""
-                      />
-                      POOF
                     </span>
                     <span v-if="item.tokenRewardMoo">
                       /
