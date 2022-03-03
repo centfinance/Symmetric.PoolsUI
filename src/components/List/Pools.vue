@@ -413,7 +413,7 @@
           :height="29"
         />
       </div>
-      <UiTableTh>
+      <UiTableTh v-if="filters.type === 'shared'">
         <div class="table-column-assets flex-auto text-left">Total Values</div>
         <div
           v-text="_num(getCurrentNetworkTVL, 'usd-long')"
