@@ -457,12 +457,14 @@ import BigNumber from '@/helpers/bignumber';
 
 export default {
   props: ['query', 'title'],
+  
   computed: {
     ...mapGetters(['getSymmetricData']),
     getCurrentNetworkTVL() {
       return this.getSymmetricData ? this.getSymmetricData.totalLiquidity : 0;
     }
   },
+
   data() {
     return {
       loading: false,
@@ -479,10 +481,12 @@ export default {
       APR_FORMULA
     };
   },
+
   mounted() {
     this.showCard = this.$cookie.get('cardView') === 'true' ? true : false;
     this.getTotalValues();
   },
+  
   watch: {
     query() {
       this.page = 0;
@@ -501,6 +505,7 @@ export default {
       this.loadMore();
     }
   },
+
   methods: {
     handleSort(sortKey) {
       this.sortField = sortKey;
@@ -544,6 +549,7 @@ export default {
         this.sortDirection = 'NONE';
       }
     },
+
     switchView(val) {
       this.$cookie.delete('cardView');
       this.$cookie.set('cardView', val.value, 5);
@@ -552,14 +558,17 @@ export default {
     // getLiquidity(pool) {
     //   return getPoolLiquidity(pool, this.price.values);
     // },
+
     myLiquidity(pool) {
       const poolShares = this.subgraph.poolShares[pool.id];
       if (!pool.finalized || !poolShares) return 0;
       return (pool.liquidity / pool.totalShares) * poolShares;
     },
+
     myDailyRewards(pool) {
       return (pool.tokenReward * this.myLiquidity(pool)) / pool.liquidity;
     },
+
     filterTokenSymbol(symbol, address) {
       if (address === SYMM_TOKENS.v1) {
         return 'SYMMv1';
@@ -567,9 +576,11 @@ export default {
         return this._shorten(symbol, 4);
       }
     },
+
     getSpecificMyDailyRewards(tokenReward, pool) {
       return (tokenReward * this.myLiquidity(pool)) / pool.liquidity;
     },
+
     ...mapActions([
       'getPools',
       'getNetworkLiquidity',
@@ -578,6 +589,7 @@ export default {
       'getSYMMprice',
       'getSymmetricDataRequest'
     ]),
+
     async loadMore() {
       if (this.pools.length < this.page * ITEMS_PER_PAGE) return;
       this.loading = true;
@@ -589,9 +601,11 @@ export default {
       await this.getNetworkLiquidity();
       await this.getTokens();
       await this.getSYMMprice();
+      
       if (config.network == 'celo') {
         await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
       }
+
       const pools = await this.getPools(query);
       if (pools && pools.length > 0) {
         this.pools = this.pools.concat(pools);
@@ -633,7 +647,9 @@ export default {
       });
       return totalValues;
     }
+
   }
+
 };
 </script>
 <style scoped lang="scss">

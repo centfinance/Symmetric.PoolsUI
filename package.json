@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@centfinance/cent.dex_assets": "github:centfinance/symmetric.assets#generated",
+    "@ensdomains/ensjs": "^2.1.0",
     "@ethersproject/abi": "^5.4.0",
     "@ethersproject/address": "^5.4.0",
     "@ethersproject/constants": "^5.4.0",
@@ -49,7 +50,9 @@
     "bootstrap": "^5.1.0",
     "core-js": "^3.6.5",
     "eslint": "^6.7.2",
+    "eth-ens-namehash": "^2.0.8",
     "eth-json-rpc-middleware": "^8.0.0",
+    "ethers": "^5.5.4",
     "fortmatic": "^2.0.6",
     "javascript-time-ago": "^2.3.11",
     "json-to-graphql-query": "^2.0.0",
