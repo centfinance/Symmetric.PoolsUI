@@ -463,19 +463,6 @@ export async function formatPool(pool) {
     }
   });
 
-  // MOO APR and rewards
-  if (crPool.id === '0x461f83dd5c84680a3c29662a9d90177c77f39d93') {
-    // MOO/mCUSD
-    const MOOprice = store.getters.getTokenPriceFromSymbol('MOO');
-
-    const mooDailyCoinReward = new BigNumber(714.2857); // 5K MOO a week
-    crPool.tokenRewardMoo = mooDailyCoinReward;
-    crPool.rewardApyMoo = crPool.tokenRewardMoo
-      .times(MOOprice)
-      .div(crPool.liquidity)
-      .times(365);
-  }
-
   // ARI rewards
   if (findPoolFromTokens(crPool, 'ARI', 'cUSD', 95, 5)) {
     const ARIprice = store.getters.getTokenPriceFromSymbol('ARI');
