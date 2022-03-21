@@ -10,6 +10,7 @@ import config from '@/config';
 import provider from '@/helpers/provider';
 import wsProvider from '@/helpers/wsProvider';
 import { multicall } from '@/_balancer/utils';
+import { getName } from '@/helpers/nomspace';
 
 let auth;
 
@@ -260,8 +261,9 @@ const actions = {
         auth.web3.getNetwork(),
         auth.web3.listAccounts()
       ]);
-      const account = accounts.length > 0 ? accounts[0] : null;
-      let name = '';
+      const account = accounts.length > 0 ? accounts[0] : null;    
+      let name = await getName(account);
+
       if (config.chainId === 1) {
         const address = await provider.lookupAddress(account);
         if (address) name = address;

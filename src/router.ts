@@ -33,7 +33,7 @@ const routes: Array<RouteConfig> = [
       { path: 'actions', name: 'pool-actions', component: PoolActions }
     ]
   },
-  { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') }
+  { path: '/*', name: 'error-404', beforeEnter: (to, from, next) => next('/') },
 ];
 
 const router = new VueRouter({

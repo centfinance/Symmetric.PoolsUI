@@ -22,6 +22,7 @@ export default {
       filters: formatFilters(this.$route.query)
     };
   },
+
   watch: {
     filters() {
       const query = formatFilters(this.filters);
@@ -30,6 +31,7 @@ export default {
       this.$router.push({ query });
     }
   },
+
   computed: {
     query() {
       let query = clone(this.querySharedPools);
@@ -76,5 +78,6 @@ export default {
       };
     }
   }
+  
 };
 </script>
