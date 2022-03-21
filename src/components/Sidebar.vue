@@ -185,7 +185,7 @@ export default {
     currentNetwork() {
       return config.network;
     }
-  }
+  },
 };
 </script>
 
