@@ -12,6 +12,18 @@
             "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/xdai/assets/0x3a97704a1b25f08aa230ae53b352e2e72ef52843/logo.png",
             "ethAddress": "0x3a97704a1b25f08aa230ae53b352e2e72ef52843"
         },
+        "0x177127622c4A00F3d409B75571e12cB3c8973d3c": {
+			"address": "0x177127622c4A00F3d409B75571e12cB3c8973d3c",
+			"name": "CoW Protocol Token from Mainnet",
+            "id": "cow-protocol",
+			"symbol": "COW",
+			"decimals": 18,
+			"precision": 3,
+            "color": "#433455",
+			"hasIcon": true,
+			"logoUrl": "https://assets.coingecko.com/coins/images/24384/small/COW-token-1024x1024.png",
+			"ethAddress": "0xDEf1CA1fb7FBcDC777520aa7f396b4E015F497aB"
+		},
         "0x44fA8E6f47987339850636F88629646662444217": {
             "address": "0x44fA8E6f47987339850636F88629646662444217",
             "id": "dai",
@@ -24,6 +36,18 @@
             "logoUrl": "https://raw.githubusercontent.com/centfinance/assets/master/blockchains/ethereum/assets/0x6B175474E89094C44Da98b954EedeAC495271d0F/logo.png",
             "ethAddress": "0x6b175474e89094c44da98b954eedeac495271d0f"
         },
+        "0xb0C5f3100A4d9d9532a4CfD68c55F1AE8da987Eb": {
+			"address": "0xb0C5f3100A4d9d9532a4CfD68c55F1AE8da987Eb",
+            "id": "daohaus",
+			"name": "DAOhaus Token from Ethereum",
+			"symbol": "HAUS",
+			"decimals": 18,
+			"precision": 3,
+            "color": "#be955c",
+			"hasIcon": true,
+			"logoUrl": "https://assets.coingecko.com/coins/images/14551/small/jN3kkqke_400x400.png",
+			"ethAddress": "0xDEf1CA1fb7FBcDC777520aa7f396b4E015F497aB"
+		},
         "0x2bF2ba13735160624a0fEaE98f6aC8F70885eA61": {
 			"address": "0x2bF2ba13735160624a0fEaE98f6aC8F70885eA61",
             "id": "fraction",

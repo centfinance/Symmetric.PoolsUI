@@ -108,6 +108,18 @@
             "hasIcon": true,
             "logoUrl": "https://raw.githubusercontent.com/centfinance/Symmetric.Assets/master/assets/asset_KNX.png"
         },
+        "0x266C13DeD5A1d636E502fd56B3F76d38c3107EC2": {
+            "address": "0x266C13DeD5A1d636E502fd56B3F76d38c3107EC2",
+            "id": "kusd",
+            "color": "#8d6268",
+            "ethAddress": "",
+            "name": "kUSD",
+            "symbol": "KUSD",
+            "decimals": 18,
+            "precision": 4,
+            "hasIcon": true,
+            "logoUrl": "https://raw.githubusercontent.com/centfinance/Symmetric.Assets/master/assets/asset_kusd.png"
+        },
         "0x9802d866fdE4563d088a6619F7CeF82C0B991A55": {
             "address": "0x9802d866fdE4563d088a6619F7CeF82C0B991A55",
             "id": "mcreal",
