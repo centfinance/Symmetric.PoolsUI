@@ -261,7 +261,7 @@ const actions = {
         auth.web3.getNetwork(),
         auth.web3.listAccounts()
       ]);
-      const account = accounts.length > 0 ? accounts[0] : null;    
+      const account = accounts.length > 0 ? accounts[0] : null;
       let name = await getName(account);
 
       if (config.chainId === 1) {

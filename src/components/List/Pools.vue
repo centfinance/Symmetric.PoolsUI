@@ -457,7 +457,7 @@ import BigNumber from '@/helpers/bignumber';
 
 export default {
   props: ['query', 'title'],
-  
+
   computed: {
     ...mapGetters(['getSymmetricData']),
     getCurrentNetworkTVL() {
@@ -486,7 +486,7 @@ export default {
     this.showCard = this.$cookie.get('cardView') === 'true' ? true : false;
     this.getTotalValues();
   },
-  
+
   watch: {
     query() {
       this.page = 0;
@@ -601,7 +601,7 @@ export default {
       await this.getNetworkLiquidity();
       await this.getTokens();
       await this.getSYMMprice();
-      
+
       if (config.network == 'celo') {
         await this.getSpecificPools({ query: this.query, id_in: crPoolIds });
       }
@@ -647,9 +647,7 @@ export default {
       });
       return totalValues;
     }
-
   }
-
 };
 </script>
 <style scoped lang="scss">
