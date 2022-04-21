@@ -1,13 +1,11 @@
 export const crPoolIds = [
-  '0x2fdcd64ad761485537cfeaa598c8980efd806532', // SYMMv2/cEUR
   '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
-  '0x7ee06450f4ff97990c6288237964bf4f545f221f' // SYMMv2/CELO
+  '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807' // cEUR/cUSD
 ];
 
 export const specificPools = {
   symmV2cUSD: '0x8b44535e5137595aebebe5942c024863ee5c0db6',
-  symmV2cEUR: '0x2fdcd64ad761485537cfeaa598c8980efd806532',
-  symmV2CELO: '0x7ee06450f4ff97990c6288237964bf4f545f221f'
+  cUSDcEUR: '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807'
 };
 
 export const symmv1Pools = [

@@ -414,8 +414,7 @@ export async function formatPool(pool) {
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);
 
-  // For SYMM/CELO, it's 20k USD for 84 days, others 40k USD for 84 days
-  // 238.09 USD per day -> 36.6 Celo per day ( old calculation )
+  // 100K usd for 84 days in total for celo rewards
   crPoolIds.forEach(async (poolId: string, index: number) => {
     if (poolId === pool.id) {
       const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
@@ -424,35 +423,21 @@ export async function formatPool(pool) {
         store.getters.getPoolLiquidityFromId(specificPools.symmV2cUSD)
       );
 
-      const symmV2cEURLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV2cEUR)
+      const cUSDcEURLiquidity = Number(
+        store.getters.getPoolLiquidityFromId(specificPools.cUSDcEUR)
       );
 
-      const symmV2CELOLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV2CELO)
-      );
+      const liquidities = [symmV2cUSDLiquidity, cUSDcEURLiquidity];
 
-      const liquidities = [
-        symmV2cEURLiquidity,
-        symmV2cUSDLiquidity,
-        symmV2CELOLiquidity
-      ];
-
-      // 20000 USD / Price of Celo = Total quantity for 84 days
-      const totalQuantity = 20000 / Number(CELOprice);
+      // 100000 USD / Price of Celo = Total quantity for 84 days
+      const totalQuantity = 100000 / Number(CELOprice);
       // Qty of celo/number of days = daily celo for the pool
       const numberOfDays = 84;
-      const dailyCelo = totalQuantity / numberOfDays;
-
-      // Daily celo qty * price => value per day
-      const dailyV2Celo = dailyCelo;
-      const dailyV2CelocEUR = dailyCelo;
-      const dailyV2CeloCELO = dailyCelo;
+      const dailyCelo = totalQuantity / numberOfDays / 10;
 
       const crDailyCoinReward = [
-        new BigNumber(2 * dailyV2CelocEUR), // symmv2 / cEUR
-        new BigNumber(2 * dailyV2Celo), // symmv2 / cUSD
-        new BigNumber(dailyV2CeloCELO) // symmv2 / celo
+        new BigNumber(8 * dailyCelo), // symmv2 / cUSD
+        new BigNumber(2 * dailyCelo) // cEUR / cUSD
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
