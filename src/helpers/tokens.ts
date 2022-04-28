@@ -60,7 +60,8 @@ export const uncappedTokens = {
     '0xb7d311e2eb55f2f68a9440da38e7989210b9a05e', // STAKE
     '0xd51e1ddd116fff9a71c1b8feeb58113afa2b4d93', // AMIS
     '0xd87fcb23da48d4d9b70c6f39b46debb5d993ad19', // HBTC
-    '0x22bd2a732b39dace37ae7e8f50a186f3d9702e87' // yDAI+yUSDC+yUSDT+yTUSD
+    '0x22bd2a732b39dace37ae7e8f50a186f3d9702e87', // yDAI+yUSDC+yUSDT+yTUSD
+    '0x9c58bacc331c9aa871afd802db6379a98e80cedb' // GNO
   ],
   137: [
     '0x3BA4c387f786bFEE076A58914F5Bd38d668B42c3', // BNB
