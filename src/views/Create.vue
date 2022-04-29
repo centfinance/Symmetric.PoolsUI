@@ -196,8 +196,7 @@ import {
 import { validateNumberInput, formatError } from '@/helpers/validation';
 
 // The contract defaults are 90,000 for the weight change duration, and 500 for the add token timelock
-// Since broadcast currently calls the createPool overload that passes in the block time parameters, we
-//   are overriding those defaults with these
+// Since broadcast currently calls the createPool overload that passes in the block time parameters, we are overriding those defaults with these
 const DEFAULT_WEIGHT_CHANGE_DURATION = '10';
 const DEFAULT_ADD_TOKEN_TIMELOCK = '10';
 const DEFAULT_INITIAL_SUPPLY = '100';

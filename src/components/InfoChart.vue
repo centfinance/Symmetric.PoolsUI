@@ -87,7 +87,6 @@ function normalizeMetrics(rawMetrics) {
       for (let j = 0; j < dataLengthByDate; j++) {
         const swaps = rawMetrics[keysByDate[i]][j].swaps;
         if (swaps.length) {
-          // for (let k = 0; k < swaps.length; k++) {
           poolLiquidity += Number(swaps[0].poolLiquidity);
           poolTotalSwapFee += Number(swaps[0].poolTotalSwapFee);
           poolTotalSwapVolume += Number(swaps[0].poolTotalSwapVolume);
@@ -96,7 +95,6 @@ function normalizeMetrics(rawMetrics) {
             poolTotalSwapFee,
             poolTotalSwapVolume
           };
-          // }
         }
       }
     }
@@ -166,13 +164,11 @@ export default {
         return new Date(a) - new Date(b);
       });
       for (let i = 1; i < rowKeys.length; i++) {
-        // const timestamp = parseFloat(rowKeys[i].split('_')[1]);
-        // const date = new Date(timestamp);
         const values = this.metrics[rowKeys[i]];
         const previousValues = this.metrics[rowKeys[i - 1]];
         if (!values || !previousValues) {
           data.push({
-            time: rowKeys[i] //date.toISOString()
+            time: rowKeys[i]
           });
           continue;
         }
@@ -197,13 +193,10 @@ export default {
         }
 
         data.push({
-          time: rowKeys[i], //.toISOString(),
+          time: rowKeys[i],
           value
         });
       }
-      // data.sort((a, b) => {
-      //   return new Date(a.time) - new Date(b.time);
-      // });
       return data;
     }
   },

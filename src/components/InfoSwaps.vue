@@ -40,7 +40,6 @@
               target="_blank"
               class="text-white"
             >
-              <!-- <Avatar :address="swap.userAddress.id" class="mr-2" /> -->
               {{ _shortenAddress(swap.userAddress.id) }}
               <Icon name="external-link" size="16" class="ml-1" />
             </a>

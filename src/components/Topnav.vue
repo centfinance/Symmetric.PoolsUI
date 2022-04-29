@@ -1,7 +1,7 @@
 <template>
   <nav id="topnav" class="position-fixed width-full">
     <div class="d-flex flex-items-center px-5 top-bar-container">
-      <div class="flex-auto d-flex flex-items-center">
+      <div class="flex-auto d-flex flex-items-center topnav-logo">
         <a class="d-block d-xl-none text-white" @click="toggleSidebar">
           <Icon name="menu" size="28" class="mr-3" />
         </a>
@@ -14,7 +14,7 @@
           <span class="title">SYMMETRIC</span>
         </router-link>
       </div>
-      <div :key="web3.account" class="account">
+      <div :key="web3.account" class="account topnav-logo">
         <Theme-Switcher class="theme-switcher" />
         <SelectNetwork>
           <a
@@ -187,94 +187,6 @@ export default {
             console.log
           );
           break;
-        case 'avalanche':
-          window.ethereum.request(
-            {
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '43114',
-                  chainName: 'Avalanche',
-                  rpcUrls: ['https://api.avax.network/ext/bc/C/rpc'],
-                  nativeCurrency: {
-                    name: 'Avax',
-                    symbol: 'AVAX',
-                    decimals: 18
-                  },
-                  blockExplorerUrls: ['https://snowtrace.io/']
-                }
-              ],
-              id: 1
-            },
-            console.log
-          );
-          break;
-        case 'fantom':
-          window.ethereum.request(
-            {
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '250',
-                  chainName: 'Fantom',
-                  rpcUrls: ['https://rpc.ftm.tools/'],
-                  nativeCurrency: {
-                    name: 'Ftm',
-                    symbol: 'FTM',
-                    decimals: 18
-                  },
-                  blockExplorerUrls: ['https://ftmscan.com/']
-                }
-              ],
-              id: 1
-            },
-            console.log
-          );
-          break;
-        case 'optimism':
-          window.ethereum.request(
-            {
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '10',
-                  chainName: 'Optimism',
-                  rpcUrls: ['https://mainnet.optimism.io'],
-                  nativeCurrency: {
-                    name: 'Ether',
-                    symbol: 'ETH',
-                    decimals: 18
-                  },
-                  blockExplorerUrls: ['https://optimistic.etherscan.io']
-                }
-              ],
-              id: 1
-            },
-            console.log
-          );
-          break;
-        case 'polygon':
-          window.ethereum.request(
-            {
-              method: 'wallet_addEthereumChain',
-              params: [
-                {
-                  chainId: '137',
-                  chainName: 'Polygon',
-                  rpcUrls: ['https://polygon-rpc.com/'],
-                  nativeCurrency: {
-                    name: 'Matic',
-                    symbol: 'MATIC',
-                    decimals: 18
-                  },
-                  blockExplorerUrls: ['https://polygonscan.com/']
-                }
-              ],
-              id: 1
-            },
-            console.log
-          );
-          break;
         case 'alfajores':
           window.ethereum.request(
             {
@@ -392,6 +304,12 @@ a.option:hover {
     flex-direction: column;
     height: auto;
     padding: 0px !important;
+  }
+
+  .topnav-logo {
+    // justify-content: flex-start !important;
+    // width: 100%;
+    // margin-left: 28px;
   }
 }
 </style>

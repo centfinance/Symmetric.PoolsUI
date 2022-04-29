@@ -449,7 +449,6 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { formatFilters, ITEMS_PER_PAGE } from '@/helpers/utils';
-// import { getPoolLiquidity } from '@/helpers/price';
 import { SYMM_TOKENS } from '@/helpers/tokens';
 import config from '@/config';
 import { crPoolIds, APR_FORMULA } from '@/helpers/constants';
@@ -555,9 +554,6 @@ export default {
       this.$cookie.set('cardView', val.value, 5);
       this.showCard = val.value;
     },
-    // getLiquidity(pool) {
-    //   return getPoolLiquidity(pool, this.price.values);
-    // },
 
     myLiquidity(pool) {
       const poolShares = this.subgraph.poolShares[pool.id];
