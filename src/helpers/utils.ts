@@ -345,6 +345,15 @@ function findPoolFromTokens(
 }
 
 export async function formatPool(pool) {
+  console.log(findPoolFromTokens(pool, 'SYMM', 'CUSD', 60, 40));
+  console.log(findPoolFromTokens(pool, 'CUSD', 'CEUR', 50, 50));
+  console.log(findPoolFromTokens(pool, 'SUSHI', 'CUSD', 50, 50));
+  console.log(findPoolFromTokens(pool, 'CELO', 'CUSD', 80, 20));
+  console.log(findPoolFromTokens(pool, 'PACT', 'CELO', 80, 20));
+  console.log(findPoolFromTokens(pool, 'ARI', 'CUSD', 95, 5));
+  console.log(findPoolFromTokens(pool, 'mcREAL', 'mcREAL', 50, 50));
+  console.log(findPoolFromTokens(pool, 'KNOX', 'KUSD', 50, 50));
+
   let colorIndex = 0;
   pool.tokens = pool.tokens.map(token => {
     token.checksum = getAddress(token.address);
