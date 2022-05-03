@@ -14,7 +14,12 @@ import queries from '@/helpers/queries.json';
 import { subgraphRequest } from '@/_balancer/utils';
 import cloneDeep from 'lodash/cloneDeep';
 import { getPoolLiquidity } from '@/helpers/price';
-import { specificPools, crPoolIds, symmv1Pools } from '@/helpers/constants';
+import {
+  celoRewardPools,
+  specificPools,
+  crPoolIds,
+  symmv1Pools
+} from '@/helpers/constants';
 
 export const ITEMS_PER_PAGE = 20;
 export const MAX_GAS = new BigNumber('0xffffffff');
@@ -333,8 +338,10 @@ function findPoolFromTokens(
   }
 
   if (
-    (tokens[0].symbol !== token1 && tokens[0].symbol !== token2) ||
-    (tokens[1].symbol !== token1 && tokens[1].symbol !== token2) ||
+    (tokens[0].symbol.toLowerCase() !== token1.toLowerCase() &&
+      tokens[0].symbol.toLowerCase() !== token2.toLowerCase()) ||
+    (tokens[1].symbol.toLowerCase() !== token1.toLowerCase() &&
+      tokens[1].symbol.toLowerCase() !== token2.toLowerCase()) ||
     tokens[0].weightPercent !== weight1 ||
     tokens[1].weightPercent !== weight2
   ) {
@@ -345,15 +352,6 @@ function findPoolFromTokens(
 }
 
 export async function formatPool(pool) {
-  console.log(findPoolFromTokens(pool, 'SYMM', 'CUSD', 60, 40));
-  console.log(findPoolFromTokens(pool, 'CUSD', 'CEUR', 50, 50));
-  console.log(findPoolFromTokens(pool, 'SUSHI', 'CUSD', 50, 50));
-  console.log(findPoolFromTokens(pool, 'CELO', 'CUSD', 80, 20));
-  console.log(findPoolFromTokens(pool, 'PACT', 'CELO', 80, 20));
-  console.log(findPoolFromTokens(pool, 'ARI', 'CUSD', 95, 5));
-  console.log(findPoolFromTokens(pool, 'mcREAL', 'mcREAL', 50, 50));
-  console.log(findPoolFromTokens(pool, 'KNOX', 'KUSD', 50, 50));
-
   let colorIndex = 0;
   pool.tokens = pool.tokens.map(token => {
     token.checksum = getAddress(token.address);
@@ -367,6 +365,14 @@ export async function formatPool(pool) {
     }
     return token;
   });
+
+  // const filteredPoolsArr = celoRewardPools.filter(
+  //   ({ symbol1, symbol2, weight1, weight2 }) =>
+  //     findPoolFromTokens(pool, symbol1, symbol2, weight1, weight2)
+  // );
+
+  // if (!filteredPoolsArr.length) return pool;
+
   if (pool.shares) pool.holders = pool.shares.length;
   pool.tokensList = pool.tokensList.map(token => getAddress(token));
   pool.lastSwapVolume = 0;
@@ -419,6 +425,13 @@ export async function formatPool(pool) {
       .div(pool.liquidity)
       .times(365);
   }
+
+  const filteredPools = celoRewardPools.filter(
+    ({ symbol1, symbol2, weight1, weight2 }) =>
+      findPoolFromTokens(pool, symbol1, symbol2, weight1, weight2)
+  );
+
+  if (!filteredPools.length) pool.rewardApy = 0;
 
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);

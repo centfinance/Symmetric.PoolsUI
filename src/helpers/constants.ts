@@ -1,5 +1,72 @@
+export const celoRewardPools = [
+  {
+    name: 'SYMM/cUSD',
+    symbol1: 'SYMM',
+    symbol2: 'cUSD',
+    weight1: 60,
+    weight2: 40,
+    reward: 50
+  },
+  {
+    name: 'cUSD/cEUR',
+    symbol1: 'cUSD',
+    symbol2: 'cEUR',
+    weight1: 50,
+    weight2: 50,
+    reward: 20
+  },
+  {
+    name: 'SUSHI/cUSD',
+    symbol1: 'SUSHI',
+    symbol2: 'cUSD',
+    weight1: 50,
+    weight2: 50,
+    reward: 0.5
+  },
+  {
+    name: 'CELO/cUSD',
+    symbol1: 'CELO',
+    symbol2: 'cUSD',
+    weight1: 80,
+    weight2: 20,
+    reward: 20
+  },
+  {
+    name: 'PACT/CELO',
+    symbol1: 'PACT',
+    symbol2: 'CELO',
+    weight1: 80,
+    weight2: 20,
+    reward: 0.5
+  },
+  {
+    name: 'ARI/cUSD',
+    symbol1: 'ARI',
+    symbol2: 'cUSD',
+    weight1: 95,
+    weight2: 5,
+    reward: 2
+  },
+  {
+    name: 'mcREAL/mCUSD',
+    symbol1: 'mcREAL',
+    symbol2: 'mCUSD',
+    weight1: 50,
+    weight2: 50,
+    reward: 5
+  },
+  {
+    name: 'KNOX/KUSD',
+    symbol1: 'KNOX',
+    symbol2: 'KUSD',
+    weight1: 50,
+    weight2: 50,
+    reward: 2
+  }
+];
+
 export const crPoolIds = [
-  '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMMv2/cUSD
+  '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMM/cUSD
   '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807' // cEUR/cUSD
 ];
 
