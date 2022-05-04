@@ -16,6 +16,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { getPoolLiquidity } from '@/helpers/price';
 import {
   celoRewardPools,
+  gnosisRewardPools,
   specificPools,
   crPoolIds,
   symmv1Pools
@@ -415,23 +416,50 @@ export async function formatPool(pool) {
 
   const SYMMprice = store.getters['getSYMMprice']; // fetch Price for SYMM;
 
-  const dailyCoinReward = new BigNumber(395.6);
+  let dailyCoinReward = new BigNumber(0);
+  if (process.env.VUE_APP_NETWORK === 'celo') {
+    dailyCoinReward = new BigNumber(388 / 7);
+  } else if (process.env.VUE_APP_NETWORK === 'xdai') {
+    dailyCoinReward = new BigNumber(2381 / 7);
+  }
 
   pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
 
   if (!symmv1Pools.includes(pool.id)) {
-    pool.rewardApy = pool.tokenReward
-      .times(SYMMprice)
-      .div(pool.liquidity)
-      .times(365);
+    const filteredPools = celoRewardPools.filter(
+      ({ symbol1, symbol2, weight1, weight2 }) =>
+        findPoolFromTokens(pool, symbol1, symbol2, weight1, weight2)
+    );
+
+    if (filteredPools && filteredPools.length) {
+      pool.rewardApy = pool.tokenReward
+        .times(SYMMprice)
+        .div(pool.liquidity)
+        .times(365)
+        .times(filteredPools[0].reward)
+        .div(100);
+    } else {
+      pool.rewardApy = 0;
+    }
+  } else {
+    pool.rewardApy = 0;
   }
 
-  const filteredPools = celoRewardPools.filter(
-    ({ symbol1, symbol2, weight1, weight2 }) =>
-      findPoolFromTokens(pool, symbol1, symbol2, weight1, weight2)
-  );
+  if (process.env.VUE_APP_NETWORK === 'xdai') {
+    const filteredPools = gnosisRewardPools.filter(
+      ({ symbol1, symbol2, weight1, weight2 }) =>
+        findPoolFromTokens(pool, symbol1, symbol2, weight1, weight2)
+    );
 
-  if (!filteredPools.length) pool.rewardApy = 0;
+    if (filteredPools && filteredPools.length) {
+      pool.rewardApy = pool.tokenReward
+        .times(SYMMprice)
+        .div(pool.liquidity)
+        .times(365)
+        .times(filteredPools[0].reward)
+        .div(100);
+    }
+  }
 
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);

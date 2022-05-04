@@ -65,6 +65,65 @@ export const celoRewardPools = [
   }
 ];
 
+export const gnosisRewardPools = [
+  {
+    name: 'GNO/wXDAI',
+    symbol1: 'GNO',
+    symbol2: 'wXDAI',
+    weight1: 60,
+    weight2: 40,
+    reward: 15
+  },
+  {
+    name: 'Symm/wXDAI',
+    symbol1: 'Symm',
+    symbol2: 'wXDAI',
+    weight1: 60,
+    weight2: 40,
+    reward: 50
+  },
+  {
+    name: 'GNO/WETH',
+    symbol1: 'GNO',
+    symbol2: 'WETH',
+    weight1: 50,
+    weight2: 50,
+    reward: 15
+  },
+  {
+    name: 'SYMM/GNO',
+    symbol1: 'SYMM',
+    symbol2: 'GNO',
+    weight1: 50,
+    weight2: 50,
+    reward: 10
+  },
+  {
+    name: 'Symm/MIVA',
+    symbol1: 'Symm',
+    symbol2: 'MIVA',
+    weight1: 50,
+    weight2: 50,
+    reward: 5
+  },
+  {
+    name: 'Miva/Fraction',
+    symbol1: 'Miva',
+    symbol2: 'Fraction',
+    weight1: 50,
+    weight2: 50,
+    reward: 0.5
+  },
+  {
+    name: 'Gno/Agve',
+    symbol1: 'Gno',
+    symbol2: 'Agve',
+    weight1: 60,
+    weight2: 40,
+    reward: 5
+  }
+];
+
 export const crPoolIds = [
   '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMM/cUSD
   '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807' // cEUR/cUSD
