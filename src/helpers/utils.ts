@@ -423,7 +423,7 @@ export async function formatPool(pool) {
     dailyCoinReward = new BigNumber(2381 / 7);
   }
 
-  pool.tokenReward = dailyCoinReward.times(adjustedPoolLiquidityPercent);
+  pool.tokenReward = dailyCoinReward;
 
   if (!symmv1Pools.includes(pool.id)) {
     const filteredPools = celoRewardPools.filter(
