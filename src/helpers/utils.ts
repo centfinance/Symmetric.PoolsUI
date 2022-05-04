@@ -445,6 +445,10 @@ export async function formatPool(pool) {
     pool.rewardApy = 0;
   }
 
+  if (pool.id === '0xcf63a9716d1c0f7e52cd5d5d58a5cdada7bee844') {
+    pool.rewardApy = 0;
+  }
+
   if (process.env.VUE_APP_NETWORK === 'xdai') {
     const filteredPools = gnosisRewardPools.filter(
       ({ symbol1, symbol2, weight1, weight2 }) =>
@@ -477,7 +481,15 @@ export async function formatPool(pool) {
         store.getters.getPoolLiquidityFromId(specificPools.cUSDcEUR)
       );
 
-      const liquidities = [symmV2cUSDLiquidity, cUSDcEURLiquidity];
+      const celoCUSDLiquidity = Number(
+        store.getters.getPoolLiquidityFromId(specificPools.celoCUSD)
+      );
+
+      const liquidities = [
+        symmV2cUSDLiquidity,
+        cUSDcEURLiquidity,
+        celoCUSDLiquidity
+      ];
 
       // 100000 USD / Price of Celo = Total quantity for 84 days
       const totalQuantity = 100000 / Number(CELOprice);
@@ -486,8 +498,9 @@ export async function formatPool(pool) {
       const dailyCelo = totalQuantity / numberOfDays / 10;
 
       const crDailyCoinReward = [
-        new BigNumber(8 * dailyCelo), // symmv2 / cUSD
-        new BigNumber(2 * dailyCelo) // cEUR / cUSD
+        new BigNumber(7 * dailyCelo), // symmv2 / cUSD
+        new BigNumber(1 * dailyCelo), // cEUR / cUSD
+        new BigNumber(1.5 * dailyCelo) // CELO / cUSD
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
