@@ -540,6 +540,7 @@ export async function formatPool(pool) {
     GNO_WXDAI,
     SYMM_WXDAI,
     GNO_AGVE,
+    GNO_WETH,
     None
   }
   let gnoPoolIndex = gnoPool.None;
@@ -550,14 +551,17 @@ export async function formatPool(pool) {
     gnoPoolIndex = gnoPool.SYMM_WXDAI;
   } else if (findPoolFromTokens(crPool, 'GNO', 'AGVE', 60, 40)) {
     gnoPoolIndex = gnoPool.GNO_AGVE;
+  } else if (findPoolFromTokens(crPool, 'GNO', 'WETH', 50, 50)) {
+    gnoPoolIndex = gnoPool.GNO_WETH;
   }
 
   if (gnoPoolIndex !== gnoPool.None) {
     const GNOprice = store.getters.getTokenPriceFromSymbol('GNO');
     const gnoDailyCoinReward = [
       new BigNumber((595.21 * 0.3) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.5) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.2) / Number(GNOprice))
+      new BigNumber((595.21 * 0.25) / Number(GNOprice)),
+      new BigNumber((595.21 * 0.15) / Number(GNOprice)),
+      new BigNumber((595.21 * 0.3) / Number(GNOprice))
     ];
     crPool.tokenRewardGno = gnoDailyCoinReward[gnoPoolIndex];
 
