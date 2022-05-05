@@ -432,12 +432,13 @@ export async function formatPool(pool) {
     );
 
     if (filteredPools && filteredPools.length) {
+      pool.tokenReward = dailyCoinReward
+        .times(filteredPools[0].reward)
+        .div(100);
       pool.rewardApy = pool.tokenReward
         .times(SYMMprice)
         .div(pool.liquidity)
-        .times(365)
-        .times(filteredPools[0].reward)
-        .div(100);
+        .times(365);
     } else {
       pool.rewardApy = 0;
     }
@@ -456,12 +457,13 @@ export async function formatPool(pool) {
     );
 
     if (filteredPools && filteredPools.length) {
+      pool.tokenReward = dailyCoinReward
+        .times(filteredPools[0].reward)
+        .div(100);
       pool.rewardApy = pool.tokenReward
         .times(SYMMprice)
         .div(pool.liquidity)
-        .times(365)
-        .times(filteredPools[0].reward)
-        .div(100);
+        .times(365);
     }
   }
 
