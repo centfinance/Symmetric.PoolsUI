@@ -560,6 +560,9 @@ export default {
     // },
 
     myLiquidity(pool) {
+      if (!pool.rewardApy) {
+        return 0;
+      }
       const poolShares = this.subgraph.poolShares[pool.id];
       if (!pool.finalized || !poolShares) return 0;
       return (pool.liquidity / pool.totalShares) * poolShares;
