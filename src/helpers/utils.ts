@@ -487,10 +487,15 @@ export async function formatPool(pool) {
         store.getters.getPoolLiquidityFromId(specificPools.celoCUSD)
       );
 
+      const mcrealCUSDLiquidity = Number(
+        store.getters.getPoolLiquidityFromId(specificPools.mcrealCUSD)
+      );
+
       const liquidities = [
         symmV2cUSDLiquidity,
         cUSDcEURLiquidity,
-        celoCUSDLiquidity
+        celoCUSDLiquidity,
+        mcrealCUSDLiquidity
       ];
 
       // 100000 USD / Price of Celo = Total quantity for 84 days
@@ -502,7 +507,8 @@ export async function formatPool(pool) {
       const crDailyCoinReward = [
         new BigNumber(7 * dailyCelo), // symmv2 / cUSD
         new BigNumber(1 * dailyCelo), // cEUR / cUSD
-        new BigNumber(1.5 * dailyCelo) // CELO / cUSD
+        new BigNumber(1.5 * dailyCelo), // CELO / cUSD
+        new BigNumber(0.5 * dailyCelo) // mCREAL / mCUSD
       ];
       crPool.tokenRewardCelo = crDailyCoinReward[index];
 
