@@ -127,13 +127,15 @@ export const gnosisRewardPools = [
 export const crPoolIds = [
   '0x8b44535e5137595aebebe5942c024863ee5c0db6', // SYMM/cUSD
   '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807', // cEUR/cUSD
-  '0x8831bf269b0fd4241b043739d7c33a80dbfe474b' // CELO/cUSD
+  '0x8831bf269b0fd4241b043739d7c33a80dbfe474b', // CELO/cUSD
+  '0xfd26c200f6eed5ab14e1114121cfa216c24075d7' // mCREAL/mCUSD
 ];
 
 export const specificPools = {
   symmV2cUSD: '0x8b44535e5137595aebebe5942c024863ee5c0db6',
   cUSDcEUR: '0x5fa00d2ba520f95f548ff0813f9f74facdf1b807',
-  celoCUSD: '0x8831bf269b0fd4241b043739d7c33a80dbfe474b'
+  celoCUSD: '0x8831bf269b0fd4241b043739d7c33a80dbfe474b',
+  mcrealCUSD: '0xfd26c200f6eed5ab14e1114121cfa216c24075d7'
 };
 
 export const symmv1Pools = [
