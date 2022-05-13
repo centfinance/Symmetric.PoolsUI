@@ -499,9 +499,12 @@ export async function formatPool(pool) {
       ];
 
       // 100000 USD / Price of Celo = Total quantity for 84 days
-      const totalQuantity = 100000 / Number(CELOprice);
-      // Qty of celo/number of days = daily celo for the pool
-      const numberOfDays = 84;
+      // const totalQuantity = 100000 / Number(CELOprice);
+      // // Qty of celo/number of days = daily celo for the pool
+      // const numberOfDays = 84;
+
+      const totalQuantity = 3333; // 3333 CELO per week
+      const numberOfDays = 7; // 7 days a week
       const dailyCelo = totalQuantity / numberOfDays / 10;
 
       const crDailyCoinReward = [
@@ -544,6 +547,9 @@ export async function formatPool(pool) {
 
   // GNO(Gnosis) APR and rewards
   // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
+
+  // 15GNO per week
+  const dailyGNO = 15 / 7;
   const enum gnoPool {
     GNO_WXDAI,
     SYMM_WXDAI,
@@ -566,10 +572,10 @@ export async function formatPool(pool) {
   if (gnoPoolIndex !== gnoPool.None) {
     const GNOprice = store.getters.getTokenPriceFromSymbol('GNO');
     const gnoDailyCoinReward = [
-      new BigNumber((595.21 * 0.3) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.25) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.15) / Number(GNOprice)),
-      new BigNumber((595.21 * 0.3) / Number(GNOprice))
+      new BigNumber(dailyGNO * 0.3),
+      new BigNumber(dailyGNO * 0.25),
+      new BigNumber(dailyGNO * 0.15),
+      new BigNumber(dailyGNO * 0.3)
     ];
     crPool.tokenRewardGno = gnoDailyCoinReward[gnoPoolIndex];
 
