@@ -389,6 +389,10 @@ export async function formatPool(pool) {
   }
   pool.apy = (100 / pool.liquidity) * ((pool.feesCollected * 365) / 100);
 
+  if (pool.id === '0x8b44535e5137595aebebe5942c024863ee5c0db6') {
+    console.log('pooooool', pool, poolTotalSwapVolume);
+  }
+
   // Get factors
   const factors = getFactors(
     pool.swapFee,
@@ -467,6 +471,7 @@ export async function formatPool(pool) {
     }
   }
 
+  /*
   // CELO APR and rewards,  cr is just prefix for Celo Rewards
   const crPool = cloneDeep(pool);
 
@@ -507,6 +512,8 @@ export async function formatPool(pool) {
       const numberOfDays = 7; // 7 days a week
       const dailyCelo = totalQuantity / numberOfDays / 10;
 
+      console.log('CELOprice', CELOprice);
+
       const crDailyCoinReward = [
         new BigNumber(7 * dailyCelo), // symmv2 / cUSD
         new BigNumber(1 * dailyCelo), // cEUR / cUSD
@@ -521,6 +528,9 @@ export async function formatPool(pool) {
         .times(365);
     }
   });
+  */
+
+  const crPool = cloneDeep(pool);
 
   // ARI rewards
   if (findPoolFromTokens(crPool, 'ARI', 'cUSD', 95, 5)) {
