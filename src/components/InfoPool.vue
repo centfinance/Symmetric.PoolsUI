@@ -12,8 +12,6 @@
           :aria-label="token.symbol"
           class="d-flex flex-items-center mr-2 asset"
         >
-          <!-- <Icon name="bullet" size="16" :style="`color: ${token.color}`" /> -->
-          <!-- {{ _num(token.weightPercent / 100, 'percent-short') }} -->
           {{ filterTokenSymbol(token.symbol, token.address) }}
           <div class="divider">&nbsp;/</div>
         </div>
@@ -26,7 +24,6 @@
         class="text-white"
       >
         {{ _shortenAddress(pool.id) }}
-        <!-- <Icon name="external-link" size="16" class="ml-1" /> -->
       </a>
     </div>
     <div

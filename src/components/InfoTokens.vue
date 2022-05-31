@@ -7,7 +7,6 @@
       <div class="column-xl hide-sm hide-md hide-lg text-right flex-auto">
         Price
       </div>
-      <!-- <div class="column-xl text-right hide-sm hide-md flex-auto">TVL</div> -->
     </UiTableTh>
     <div class="overflow-hidden">
       <div v-if="tokens && tokens.length > 0">
@@ -31,9 +30,6 @@
           <div class="column-xl hide-sm hide-md hide-lg text-right flex-auto">
             {{ _num(token.price, 'usd-long') }}
           </div>
-          <!-- <div class="column-xl text-right hide-sm hide-md flex-auto">
-            {{ _num(token.liquidity, 'usd-long') }}
-          </div> -->
         </UiTableTr>
       </div>
       <ListLoading
@@ -43,7 +39,6 @@
           'table-column-assets text-left',
           'column-xl text-left',
           'column-xl hide-sm hide-md hide-lg text-right flex-auto'
-          // 'column-xl text-right hide-sm hide-md flex-auto'
         ]"
       />
     </div>
@@ -72,7 +67,7 @@ export default {
       if (this.pools.length) {
         const filtered = this.pools.filter(p => {
           const tokenFiltered = p.tokens.filter(t => t.symbol === symbol);
-          // p.tokens[0].symbol === symbol || p.tokens[1].symbol === symbol;
+
           if (tokenFiltered.length) return true;
           else return false;
         });
@@ -87,11 +82,6 @@ export default {
       return 0;
     }
   },
-  // computed: {
-  //   tokens() {
-  //     return this.$store.state.subgraph.tokens;
-  //   }
-  // },
   async mounted() {
     if (!this.tokens || !this.tokens.length) {
       this.loading = true;
