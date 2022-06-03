@@ -471,65 +471,6 @@ export async function formatPool(pool) {
     }
   }
 
-  /*
-  // CELO APR and rewards,  cr is just prefix for Celo Rewards
-  const crPool = cloneDeep(pool);
-
-  // 100K usd for 84 days in total for celo rewards
-  crPoolIds.forEach(async (poolId: string, index: number) => {
-    if (poolId === pool.id) {
-      const CELOprice = store.getters.getTokenPriceFromSymbol('CELO');
-
-      const symmV2cUSDLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.symmV2cUSD)
-      );
-
-      const cUSDcEURLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.cUSDcEUR)
-      );
-
-      const celoCUSDLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.celoCUSD)
-      );
-
-      const mcrealCUSDLiquidity = Number(
-        store.getters.getPoolLiquidityFromId(specificPools.mcrealCUSD)
-      );
-
-      const liquidities = [
-        symmV2cUSDLiquidity,
-        cUSDcEURLiquidity,
-        celoCUSDLiquidity,
-        mcrealCUSDLiquidity
-      ];
-
-      // 100000 USD / Price of Celo = Total quantity for 84 days
-      // const totalQuantity = 100000 / Number(CELOprice);
-      // // Qty of celo/number of days = daily celo for the pool
-      // const numberOfDays = 84;
-
-      const totalQuantity = 3333; // 3333 CELO per week
-      const numberOfDays = 7; // 7 days a week
-      const dailyCelo = totalQuantity / numberOfDays / 10;
-
-      console.log('CELOprice', CELOprice);
-
-      const crDailyCoinReward = [
-        new BigNumber(7 * dailyCelo), // symmv2 / cUSD
-        new BigNumber(1 * dailyCelo), // cEUR / cUSD
-        new BigNumber(1.5 * dailyCelo), // CELO / cUSD
-        new BigNumber(0.5 * dailyCelo) // mCREAL / mCUSD
-      ];
-      crPool.tokenRewardCelo = crDailyCoinReward[index];
-
-      crPool.rewardApyCelo = crPool.tokenRewardCelo
-        .div(liquidities[index])
-        .times(CELOprice)
-        .times(365);
-    }
-  });
-  */
-
   const crPool = cloneDeep(pool);
 
   // ARI rewards
@@ -551,46 +492,6 @@ export async function formatPool(pool) {
     crPool.tokenRewardMOO = MOODailyCoinReward;
     crPool.rewardApyMOO = crPool.tokenRewardMOO
       .times(MOOprice)
-      .div(crPool.liquidity)
-      .times(365);
-  }
-
-  // GNO(Gnosis) APR and rewards
-  // $100k for 168 days = $16666 per month (28 days) = $595.21 per day
-
-  // 15GNO per week
-  const dailyGNO = 15 / 7;
-  const enum gnoPool {
-    GNO_WXDAI,
-    SYMM_WXDAI,
-    GNO_AGVE,
-    GNO_WETH,
-    None
-  }
-  let gnoPoolIndex = gnoPool.None;
-
-  if (findPoolFromTokens(crPool, 'GNO', 'WXDAI', 60, 40)) {
-    gnoPoolIndex = gnoPool.GNO_WXDAI;
-  } else if (findPoolFromTokens(crPool, 'SYMM', 'WXDAI', 60, 40)) {
-    gnoPoolIndex = gnoPool.SYMM_WXDAI;
-  } else if (findPoolFromTokens(crPool, 'GNO', 'AGVE', 60, 40)) {
-    gnoPoolIndex = gnoPool.GNO_AGVE;
-  } else if (findPoolFromTokens(crPool, 'GNO', 'WETH', 50, 50)) {
-    gnoPoolIndex = gnoPool.GNO_WETH;
-  }
-
-  if (gnoPoolIndex !== gnoPool.None) {
-    const GNOprice = store.getters.getTokenPriceFromSymbol('GNO');
-    const gnoDailyCoinReward = [
-      new BigNumber(dailyGNO * 0.3),
-      new BigNumber(dailyGNO * 0.25),
-      new BigNumber(dailyGNO * 0.15),
-      new BigNumber(dailyGNO * 0.3)
-    ];
-    crPool.tokenRewardGno = gnoDailyCoinReward[gnoPoolIndex];
-
-    crPool.rewardApyGno = crPool.tokenRewardGno
-      .times(GNOprice)
       .div(crPool.liquidity)
       .times(365);
   }
