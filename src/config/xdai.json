@@ -2,8 +2,8 @@
   "network": "xdai",
   "chainId": 100,
   "defaultPrecision": 2,
-  "rpcUrl": "https://rpc.xdaichain.com/",
-  "wsUrl": "wss://rpc.xdaichain.com/wss",
+  "rpcUrl": "https://rpc.gnosischain.com/",
+  "wsUrl": "wss://rpc.gnosischain.com/wss",
   "subgraphUrl": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-xdai",
   "subgraphUrlAVALANCHE": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-avalanche",
   "subgraphUrlFUJI": "https://api.thegraph.com/subgraphs/name/centfinance/symmetric-fuji",
@@ -38,7 +38,7 @@
       "name": "WalletConnect",
       "options": {
         "rpc": {
-          "100": "https://rpc.xdaichain.com/"
+          "100": "https://rpc.gnosischain.com/"
         },
         "chainId": 100,
         "bridge": "https://walletconnect-relay.minerva.digital"
