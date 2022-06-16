@@ -401,7 +401,7 @@ export async function formatPool(pool) {
     pool.totalWeight,
     config.chainId
   );
-
+/*
   const combinedAdjustmentFactor = new BigNumber(factors.feeFactor)
     .times(factors.ratioFactor)
     .times(factors.wrapFactor);
@@ -495,7 +495,8 @@ export async function formatPool(pool) {
       .div(crPool.liquidity)
       .times(365);
   }
-  return crPool;
+  */
+  return pool;
 }
 
 export async function getNetworkLiquidity() {
