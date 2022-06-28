@@ -151,7 +151,7 @@ export default {
                 {
                   chainId: '0x64',
                   chainName: 'xDai',
-                  rpcUrls: ['https://rpc.xdaichain.com'],
+                  rpcUrls: ['https://rpc.gnosischain.com'],
                   nativeCurrency: {
                     name: 'xDai Chain xDai',
                     symbol: 'xDai',
